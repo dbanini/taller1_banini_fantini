@@ -12,6 +12,10 @@ public class Cursada {
     private ArrayList<Alumno> alumnos;
     
     public Cursada(String id, String asignatura, String periodo, String dia, String hora) {
-        
+        this.id=id;
+        this.asignatura=asignatura;
+        this.periodo=periodo;
+        this.dia=dia;
+        this.hora=hora;
     }
 }

@@ -8,6 +8,7 @@ public class Asignatura {
     private ArrayList<Asignatura> correlativas;
     
     public Asignatura(String id, String nombre) {
-        
+        this.id=id;
+        this.nombre=nombre;
     }
 }

@@ -10,7 +10,10 @@ public class Alumno {
     private ArrayList<Asignatura> aprobadas;
     
     public Alumno(String legajo, String nombre, String domicilio, String mail) {
-        
+        this.legajo=legajo;
+        this.nombre=nombre;
+        this.domicilio=domicilio;
+        this.mail=mail;
     }
     
     

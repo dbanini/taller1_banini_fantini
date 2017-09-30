@@ -9,7 +9,10 @@ public class Profesor {
     private String mail;
     private ArrayList<Asignatura> participar;
     
-    public Profesor(String legajo, String domicilio, String telefono) {
-        
+    public Profesor(String legajo, String domicilio, String telefono, String mail) {
+        this.legajo=legajo;
+        this.domicilio=domicilio;
+        this.telefono=telefono;
+        this.mail=mail;
     }
 }
