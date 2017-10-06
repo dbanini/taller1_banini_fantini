@@ -1,6 +1,7 @@
 package pga_modelo;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Representa un profesor junto con sus datos. <br>
@@ -9,14 +10,14 @@ import java.util.ArrayList;
  * El atributo telefono debe ser alfanumerico distinto de nulo y vacio. <br>
  * El ArrayList participar solo puede contener asignaturas validas y no se deben repetir. <br>
  */
-public class Profesor extends Persona{
+public class Profesor extends Persona implements Comparable<Profesor>{
     
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
     
     private String telefono;
-    private ArrayList<Asignatura> participar;
+    private TreeSet<Asignatura> participar;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -34,7 +35,7 @@ public class Profesor extends Persona{
     public Profesor(String legajo, String domicilio, String telefono, String mail) {
         super(legajo,domicilio,mail);
         this.telefono=telefono;
-        participar=new ArrayList<Asignatura>();
+        participar=new TreeSet<Asignatura>();
         verificarInvariante();
     }
 
@@ -51,12 +52,12 @@ public class Profesor extends Persona{
         return telefono;
     }
 
-    public void setParticipar(ArrayList<Asignatura> participar) {
+    public void setParticipar(TreeSet<Asignatura> participar) {
         this.participar = participar;
         verificarInvariante();
     }
 
-    public ArrayList<Asignatura> getParticipar() {
+    public TreeSet<Asignatura> getParticipar() {
         return participar;
     }
 
@@ -84,6 +85,35 @@ public class Profesor extends Persona{
     public void removeParticipacion (Asignatura asignatura){
         participar.remove(asignatura);
         verificarInvariante();
+    }
+    
+    /**
+     * Sobreescribe el metodo toString para el objeto. <br>
+     * @return Retorna la clase escrita en un string.
+     */
+    public String toString(){
+        String string="";
+        Iterator it;
+        Asignatura asignatura;
+        
+        string="Telefono: "+telefono+" "+super.toString()+ " Participables:";
+        it=participar.iterator();
+        while (it.hasNext()){
+            asignatura=(Asignatura)it.next();
+            string+=" "+asignatura.toString();
+        }
+        string+="/n";
+        return string;
+    }
+    
+    /**
+     * Compara este profesor con otro profesor. <br>
+     * @param o Es el otro profesor a comparar.
+     * @return Si this<o retorna negativo. Si this==o retorna 0. Si this>o retorna positivo.
+     */
+    @Override
+    public int compareTo(Profesor o) {
+
     }
     
     // -----------------------------------------------------------------

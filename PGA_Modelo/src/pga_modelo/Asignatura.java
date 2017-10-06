@@ -1,6 +1,7 @@
 package pga_modelo;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Representa una asignatura junto con sus datos. <br>
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * El nombre debe ser alfanumerico diferente de null y vacio.
  * La lista de correlativas solo puede contener asignaturas validas.
  */
-public class Asignatura {
+public class Asignatura implements Comparable<Asignatura>{
     
     // -----------------------------------------------------------------
     // Atributos
@@ -16,7 +17,7 @@ public class Asignatura {
     
     private String id;
     private String nombre;
-    private ArrayList<Asignatura> correlativas;
+    private TreeSet<Asignatura> correlativas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -32,7 +33,7 @@ public class Asignatura {
     public Asignatura(String id, String nombre) {
         this.id=id;
         this.nombre=nombre;
-        correlativas= new ArrayList<Asignatura>();
+        correlativas= new TreeSet<Asignatura>();
         verificarInvariante();
     }
 
@@ -58,12 +59,12 @@ public class Asignatura {
         return nombre;
     }
 
-    public void setCorrelativas(ArrayList<Asignatura> correlativas) {
+    public void setCorrelativas(TreeSet<Asignatura> correlativas) {
         this.correlativas = correlativas;
         verificarInvariante();
     }
 
-    public ArrayList<Asignatura> getCorrelativas() {
+    public TreeSet<Asignatura> getCorrelativas() {
         return correlativas;
     }
     
@@ -92,6 +93,35 @@ public class Asignatura {
     public void removeCorrelativa(Asignatura asignatura){
         correlativas.remove(asignatura);
         verificarInvariante();
+    }
+    
+    /**
+     * Sobreescribe el metodo toString para el objeto. <br>
+     * @return Retorna la clase escrita en un string.
+     */
+    public String toString(){
+        String string="";
+        Iterator it;
+        Asignatura asignatura;
+        
+        string+="Identificacion: "+id+" Nombre: "+nombre+" Correlativas:";
+        it=correlativas.iterator();
+        while (it.hasNext()){
+            asignatura=(Asignatura)it.next();
+            string+=" "+asignatura.toString();
+        }
+        string+="/n";
+        return string;
+    }
+    
+    /**
+     * Compara esta asignatura con otra asignatura.
+     * @param o Es la otra asignatura a comparar.
+     * @return Si this<o retorna negativo. Si this==o retorna 0. Si this>o retorna positivo.
+     */
+    @Override
+    public int compareTo(Asignatura o) {
+        return nombre.compareTo(o.getNombre());
     }
     
     // -----------------------------------------------------------------

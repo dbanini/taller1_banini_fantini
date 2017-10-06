@@ -1,6 +1,7 @@
 package pga_modelo;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Representa una cursada junto con sus datos. <br>
@@ -12,19 +13,19 @@ import java.util.ArrayList;
  * La lista de profesores no tiene profesores repetidos y son validos. <br>
  * La lista de alumnos no tiene alumnos repetidos y son validos.
  */
-public class Cursada {
+public class Cursada implements Comparable<Cursada>{
     
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
     
     private String id;
-    private String asignatura;
+    private Asignatura asignatura;
     private String periodo;
     private String dia;
     private String hora;
-    private ArrayList<Profesor> profesores;
-    private ArrayList<Alumno> alumnos;
+    private TreeSet<Profesor> profesores;
+    private TreeSet<Alumno> alumnos;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -38,14 +39,14 @@ public class Cursada {
      * @param dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
      * @param hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9))
      */
-    public Cursada(String id, String asignatura, String periodo, String dia, String hora) {
+    public Cursada(String id, Asignatura asignatura, String periodo, String dia, String hora) {
         this.id=id;
         this.asignatura=asignatura;
         this.periodo=periodo;
         this.dia=dia;
         this.hora=hora;
-        profesores= new ArrayList<Profesor>();
-        alumnos= new ArrayList<Alumno>();
+        profesores= new TreeSet<Profesor>();
+        alumnos= new TreeSet<Alumno>();
         verificarInvariante();
     }
 
@@ -62,12 +63,12 @@ public class Cursada {
         return id;
     }
 
-    public void setAsignatura(String asignatura) {
+    public void setAsignatura(Asignatura asignatura) {
         this.asignatura = asignatura;
         verificarInvariante();
     }
 
-    public String getAsignatura() {
+    public Asignatura getAsignatura() {
         return asignatura;
     }
 
@@ -98,21 +99,21 @@ public class Cursada {
         return hora;
     }
 
-    public void setProfesores(ArrayList<Profesor> profesores) {
+    public void setProfesores(TreeSet<Profesor> profesores) {
         this.profesores = profesores;
         verificarInvariante();
     }
 
-    public ArrayList<Profesor> getProfesores() {
+    public TreeSet<Profesor> getProfesores() {
         return profesores;
     }
 
-    public void setAlumnos(ArrayList<Alumno> alumnos) {
+    public void setAlumnos(TreeSet<Alumno> alumnos) {
         this.alumnos = alumnos;
         verificarInvariante();
     }
 
-    public ArrayList<Alumno> getAlumnos() {
+    public TreeSet<Alumno> getAlumnos() {
         return alumnos;
     }
 
@@ -162,6 +163,43 @@ public class Cursada {
     public void removeAlumno(Alumno alumno){
         alumnos.remove(alumno);
         verificarInvariante();
+    }
+    
+    /**
+     * Sobreescribe el metodo toString para el objeto. <br>
+     * @return Retorna la clase escrita en un string.
+     */
+    public String toString(){
+        String string="";
+        Iterator it;
+        Profesor profesor;
+        Alumno alumno;
+        
+        string="Identificacion: "+id+" Periodo: "+periodo+" Dia: "+dia+" Hora: "+hora+" "+asignatura.toString();
+        it=profesores.iterator();
+        while (it.hasNext()){
+            profesor=(Profesor)it.next();
+            string+=" "+profesor.toString();
+        }
+        string+="/n";
+        it=alumnos.iterator();
+        while (it.hasNext()){
+            alumno=(Alumno)it.next();
+            string+=" "+alumno.toString();
+        }
+        string+="/n";
+        return string;
+        
+    }
+    
+    /**
+     * Compara esta cursada con otra cursada. <br>
+     * @param o Es la otra cursada a comparar.
+     * @return Si this<o retorna negativo. Si this==o retorna 0. Si this>o retorna positivo.
+     */
+    @Override
+    public int compareTo(Cursada o) {
+        return asignatura.getNombre().compareToIgnoreCase(o.getAsignatura().getNombre());
     }
     
     // -----------------------------------------------------------------

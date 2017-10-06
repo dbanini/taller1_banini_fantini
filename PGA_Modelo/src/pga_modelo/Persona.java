@@ -62,6 +62,13 @@ public abstract class Persona {
     // Metodos
     // -----------------------------------------------------------------
     
+    public String toString(){
+        String string;
+        
+        string="Legajo: "+legajo+" Domicilio: "+domicilio+" Mail: "+mail;
+        return string;
+    }
+    
     // -----------------------------------------------------------------
     // Invariante
     // -----------------------------------------------------------------

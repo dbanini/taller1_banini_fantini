@@ -1,6 +1,8 @@
 package pga_modelo;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
+
 /**
  * Representa un Alumno junto con sus datos. <br>
  * <b>inv: </b> <br>
@@ -8,14 +10,14 @@ import java.util.ArrayList;
  * El nombre debe ser alfanumerico distinto de null y vacio. <br>
  * La lista de aprobadas solo puede contener asignaturas validas.
  */
-public class Alumno extends Persona{
+public class Alumno extends Persona implements Comparable<Alumno>{
     
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
     
     private String nombre;
-    private ArrayList<Asignatura> aprobadas;
+    private TreeSet<Asignatura> aprobadas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -33,7 +35,7 @@ public class Alumno extends Persona{
     public Alumno(String legajo, String nombre, String domicilio, String mail) {
         super(legajo,domicilio,mail);
         this.nombre=nombre;
-        aprobadas= new ArrayList<Asignatura>();
+        aprobadas= new TreeSet<Asignatura>();
         verificarInvariante();
     }
     
@@ -49,12 +51,12 @@ public class Alumno extends Persona{
         return nombre;
     }
 
-    public void setAprobadas(ArrayList<Asignatura> aprobadas) {
+    public void setAprobadas(TreeSet<Asignatura> aprobadas) {
         this.aprobadas = aprobadas;
         verificarInvariante();
     }
 
-    public ArrayList<Asignatura> getAprobadas() {
+    public TreeSet<Asignatura> getAprobadas() {
         return aprobadas;
     }
 
@@ -83,6 +85,54 @@ public class Alumno extends Persona{
     public void removeAprobada(Asignatura asignatura){
         aprobadas.remove(asignatura);
         verificarInvariante();
+    }
+    
+    /**
+     * Sobreescribe el metodo toString para el objeto. <br>
+     * @return Retorna la clase escrita en un string.
+     */
+    public String toString(){
+        String string="";
+        Iterator it;
+        Asignatura asignatura;
+        
+        string="Nombre: "+nombre+" "+super.toString()+ " Aprobadas:";
+        it=aprobadas.iterator();
+        while (it.hasNext()){
+            asignatura=(Asignatura)it.next();
+            string+=" "+asignatura.toString();
+        }
+        string+="/n";
+        return string;
+    }
+    
+    /**
+     * Compara este alumno con otro alumno. <br>
+     * @param o Es el otro alumno a comparar.
+     * @return Si this<o retorna negativo. Si this==o retorna 0. Si this>o retorna positivo.
+     */
+    @Override
+    public int compareTo(Alumno o) {
+        return nombre.compareTo(o.getNombre());
+    }
+    
+    /**
+     * Metodo para averiguar si dos alumnos son iguales. <br>
+     * @param o 
+     * @return true si sus nombres son iguales, false en otro caso.
+     */
+    @Override
+    public boolean equals (Object o){
+        Alumno auxAlum;
+        
+        if (getClass()!=o.getClass())
+            return false;
+        else {
+            auxAlum=(Alumno) o;
+            if (nombre.equalsIgnoreCase(auxAlum.getNombre()))
+                return true;
+        }
+        return false;
     }
     
     // -----------------------------------------------------------------

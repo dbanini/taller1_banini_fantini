@@ -1,8 +1,7 @@
 package pga_modelo;
 
-import java.util.ArrayList;
-//TreeMap Sorted by Key, Map Key to Value.
-//TreeSet Sorted, Unique Entries.
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Contiene a las colecciones de las entidades. <br>
@@ -17,10 +16,10 @@ public class Entidades {
     // Atributos
     // -----------------------------------------------------------------
     
-    private ArrayList<Profesor> profesores;
-    private ArrayList<Alumno> alumnos;
-    private ArrayList<Asignatura> asignaturas;
-    private ArrayList<Cursada> cursadas;
+    private TreeSet<Profesor> profesores;
+    private TreeSet<Alumno> alumnos;
+    private TreeSet<Asignatura> asignaturas;
+    private TreeSet<Cursada> cursadas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -31,10 +30,10 @@ public class Entidades {
      * <b>post: </b> Se crean las entidades.
      */
     public Entidades(){        
-        profesores= new ArrayList<Profesor>();
-        alumnos= new  ArrayList<Alumno>();
-        asignaturas= new ArrayList<Asignatura>();
-        cursadas= new ArrayList<Cursada>();
+        profesores= new TreeSet<Profesor>();
+        alumnos= new  TreeSet<Alumno>();
+        asignaturas= new TreeSet<Asignatura>();
+        cursadas= new TreeSet<Cursada>();
         verificarInvariante();
     }
 
@@ -42,39 +41,39 @@ public class Entidades {
     // Getters y setters
     // -----------------------------------------------------------------
 
-    public void setProfesores(ArrayList<Profesor> profesores) {
+    public void setProfesores(TreeSet<Profesor> profesores) {
         this.profesores = profesores;
         verificarInvariante();
     }
 
-    public ArrayList<Profesor> getProfesores() {
+    public TreeSet<Profesor> getProfesores() {
         return profesores;
     }
 
-    public void setAlumnos(ArrayList<Alumno> alumnos) {
+    public void setAlumnos(TreeSet<Alumno> alumnos) {
         this.alumnos = alumnos;
         verificarInvariante();
     }
 
-    public ArrayList<Alumno> getAlumnos() {
+    public TreeSet<Alumno> getAlumnos() {
         return alumnos;
     }
 
-    public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
+    public void setAsignaturas(TreeSet<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;
         verificarInvariante();
     }
 
-    public ArrayList<Asignatura> getAsignaturas() {
+    public TreeSet<Asignatura> getAsignaturas() {
         return asignaturas;
     }
 
-    public void setCursadas(ArrayList<Cursada> cursadas) {
+    public void setCursadas(TreeSet<Cursada> cursadas) {
         this.cursadas = cursadas;
         verificarInvariante();
     }
 
-    public ArrayList<Cursada> getCursadas() {
+    public TreeSet<Cursada> getCursadas() {
         return cursadas;
     }
 
@@ -168,6 +167,44 @@ public class Entidades {
     public void removeCursada(Cursada cursada){
         cursadas.remove(cursada);
         verificarInvariante();
+    }
+    
+    /**
+     * 
+     */
+    public String toString(){
+        Iterator it;
+        String string="";
+        Profesor profesor;
+        Alumno alumno;
+        Asignatura asignatura;
+        Cursada cursada;
+        
+        it=profesores.iterator();
+        while (it.hasNext()){
+            profesor=(Profesor)it.next();
+            string+=" "+profesor.toString();
+        }
+        string+="/n";
+        it=alumnos.iterator();
+        while (it.hasNext()){
+            alumno=(Alumno)it.next();
+            string+=" "+alumno.toString();
+        }
+        string+="/n";
+        it=asignaturas.iterator();
+        while (it.hasNext()){
+            asignatura=(Asignatura)it.next();
+            string+=" "+asignatura.toString();
+        }
+        string+="/n";
+        it=cursadas.iterator();
+        while (it.hasNext()){
+            cursada=(Cursada)it.next();
+            string+=" "+cursada.toString();
+        }
+        string+="/n";
+        return string;
     }
     
     // -----------------------------------------------------------------
