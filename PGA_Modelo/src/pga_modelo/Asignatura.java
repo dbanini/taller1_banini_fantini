@@ -2,6 +2,7 @@ package pga_modelo;
 
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 /**
  * Representa una asignatura junto con sus datos. <br>
@@ -75,7 +76,6 @@ public class Asignatura implements Comparable<Asignatura>{
     /** 
      * Agrega una correlativa a la asignatura. <br>
      * <b>pre: </b> La asignatura no existe en la lista de correlativas.
-     * <b>pre: </b> La asignatura a agregar no tiene de correlativa a esta instancia de asignatura.
      * <b>post: </b> Se agrega una asignatura correlativa a la lista de correlativas.
      * @param asignatura cumple que es valida.
      */
@@ -99,6 +99,7 @@ public class Asignatura implements Comparable<Asignatura>{
      * Sobreescribe el metodo toString para el objeto. <br>
      * @return Retorna la clase escrita en un string.
      */
+    @Override
     public String toString(){
         String string="";
         Iterator it;
@@ -139,16 +140,16 @@ public class Asignatura implements Comparable<Asignatura>{
         String auxLegajo;
         
         if (id!=null){
-            try{
-                if(id.startsWith("ASI")){
-                    auxLegajo=id;
-                    auxLegajo=auxLegajo.substring(3);
+            if(id.startsWith("ASI")){
+                auxLegajo=id;
+                auxLegajo=auxLegajo.substring(3);
+                try{
                     numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>0 && numeroLegajo<1000)
+                    if (numeroLegajo>0 && numeroLegajo<9999)
                         return true;
+                } catch (NumberFormatException e){
+                    return false;
                 }
-            }catch (NumberFormatException e){
-                return false;
             }
         }
         return false;
@@ -160,8 +161,10 @@ public class Asignatura implements Comparable<Asignatura>{
      * @return True si el nombre es valido, false en caso contrario. 
      */
     private boolean nombreEsValido() {
+        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        
         if (nombre!=null)
-            return true;
+            return !p.matcher(nombre).find();
         return false;
     }
 

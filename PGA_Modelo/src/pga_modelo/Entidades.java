@@ -83,7 +83,7 @@ public class Entidades {
     
     /**
      * Agrega un profesor a la lista de profesores. <br>
-     * <b>pre: </b> El profesor existe en la lista de cursadas.
+     * <b>pre: </b> El profesor no existe en la lista de cursadas.
      * <b>post: </b> Se agrega un profesor a la lista de profesores.
      *  @param profesor cumple que es valido.
      */
@@ -94,7 +94,7 @@ public class Entidades {
     
     /**
      * Elimina un profesor de la lista de profesores. <br>
-     * <b>pre: </b> El profesor no existe en la lista de cursadas.
+     * <b>pre: </b> El profesor existe en la lista de cursadas.
      * <b>post: </b> Se elimina un profesor de la lista de profesores.
      *  @param profesor cumple que es valido.
      */
@@ -105,7 +105,7 @@ public class Entidades {
     
     /**
      * Agrega un alumno a la lista de alumnos. <br>
-     * <b>pre: </b> El alumno existe en la lista de cursadas.
+     * <b>pre: </b> El alumno no existe en la lista de cursadas.
      * <b>post: </b> Se agrega un alumno a la lista de alumnos.
      *  @param alumnos cumple que es valido.
      */
@@ -116,7 +116,7 @@ public class Entidades {
     
     /**
      * Elimina una alumno de la lista de alumnos. <br>
-     * <b>pre: </b> El alumno no existe en la lista de cursadas.
+     * <b>pre: </b> El alumno existe en la lista de cursadas.
      * <b>post: </b> Se elimina un alumno de la lista de alumnos.
      *  @param alumnos cumple que es valido.
      */
@@ -127,7 +127,7 @@ public class Entidades {
     
     /**
      * Agrega una asignatura a la lista de asignaturas. <br>
-     * <b>pre: </b> La asignatura existe en la lista de cursadas.
+     * <b>pre: </b> La asignatura no existe en la lista de cursadas.
      * <b>post: </b> Se agrega una asignatura a la lista de aisgnaturas.
      *  @param asignatura cumple que es valida.
      */
@@ -138,7 +138,7 @@ public class Entidades {
     
     /**
      * Elimina una asignatura de la lista de aisgnaturas. <br>
-     * <b>pre: </b> La asignatura no existe en la lista de cursadas.
+     * <b>pre: </b> La asignatura existe en la lista de cursadas.
      * <b>post: </b> Se elimina una asignatura de la lista de asignaturas.
      * @param asignatura cumple que es valida.
      */
@@ -170,8 +170,10 @@ public class Entidades {
     }
     
     /**
-     * 
+     * Sobreescribe el metodo toString para el objeto. <br>
+     * @return Retorna la clase escrita en un string.
      */
+    @Override
     public String toString(){
         Iterator it;
         String string="";

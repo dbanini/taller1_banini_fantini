@@ -10,8 +10,8 @@ import java.util.TreeSet;
  * El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (Año)) <br>
  * El dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
  * La hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
- * La lista de profesores no tiene profesores repetidos y son validos. <br>
- * La lista de alumnos no tiene alumnos repetidos y son validos.
+ * La lista de profesores es distinta de null. <br>
+ * La lista de alumnos es distinta de null.
  */
 public class Cursada implements Comparable<Cursada>{
     
@@ -169,6 +169,7 @@ public class Cursada implements Comparable<Cursada>{
      * Sobreescribe el metodo toString para el objeto. <br>
      * @return Retorna la clase escrita en un string.
      */
+    @Override
     public String toString(){
         String string="";
         Iterator it;
@@ -208,7 +209,8 @@ public class Cursada implements Comparable<Cursada>{
     
     /**
      * Comprueba si el id es valido. <br>
-     * El id debe empezar con "CUR". <br>
+     * El id debe ser distinto de null. <br>
+     * El id debe empezar con "CUR" y luego contener 4 caracteres. <br>
      * El id debe terminar con un numero entre 0 y 9999. <br>
      * @return True si el id es valido, false en caso contrario. 
      */
@@ -217,16 +219,16 @@ public class Cursada implements Comparable<Cursada>{
         String auxLegajo;
         
         if (id!=null){
-            try{
-                if(id.startsWith("CUR")){
-                    auxLegajo=id;
-                    auxLegajo=auxLegajo.substring(3);
+            if(id.startsWith("CUR")){
+                auxLegajo=id;
+                auxLegajo=auxLegajo.substring(3);
+                try{
                     numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>0 && numeroLegajo<1000)
+                    if (numeroLegajo>0 && numeroLegajo<9999)
                         return true;
+                }catch (NumberFormatException e){
+                    return false;
                 }
-            }catch (NumberFormatException e){
-                return false;
             }
         }
         return false;
@@ -293,21 +295,21 @@ public class Cursada implements Comparable<Cursada>{
         String auxHora;
         int horas,minutos;
         
-        try{
-            if (hora.contains(":")){
-                auxHora=hora;
-                auxHora=auxHora.substring(3);
-                minutos=Integer.parseInt(auxHora);
-                auxHora=hora;
-                auxHora=auxHora.substring(0,1); 
+        if (hora.contains(":")){
+            auxHora=hora;
+            auxHora=auxHora.substring(3);
+            minutos=Integer.parseInt(auxHora);
+            auxHora=hora;
+            auxHora=auxHora.substring(0,1); 
+            try{
                 horas=Integer.parseInt(auxHora);
                 if (horas>0 && horas<24 && minutos>0 && minutos<60)
                     return true;
+            } catch(NumberFormatException e){
+                return false;
             }
-            return false;
-        } catch(NumberFormatException e){
-            return false;
         }
+        return false;
     }
     
     /**
