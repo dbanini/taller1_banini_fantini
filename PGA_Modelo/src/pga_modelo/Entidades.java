@@ -173,7 +173,7 @@ public class Entidades {
     /**
      * Busqueda de alumnos con determinado nombre.
      * @param string cumple que es valido.
-     * @return Retorna en un ArrayList los alumnos con determinado nombre.
+     * @return Retorna en un ArrayList los alumnos con determinado nombre pasado por parametro.
      */
     public ArrayList<Alumno> buscaAlumno (String nombre){
         Iterator it;
@@ -193,7 +193,7 @@ public class Entidades {
     /**
      * Busqueda de profesores con determinado nombre.
      * @param string cumple que es valido.
-     * @return Retorna en un ArrayList los profesores con determinado nombre.
+     * @return Retorna en un ArrayList los profesores con determinado nombre pasado por parametro.
      */
     public ArrayList<Profesor> buscaProfesor (String nombre){
         Iterator it;
@@ -211,9 +211,9 @@ public class Entidades {
     }
     
     /**
-     * Busqueda de alumnos con determinado nombre.
+     * Busqueda de asignaturas con determinado nombre.
      * @param string cumple que es valido.
-     * @return Retorna en un ArrayList los alumnos con determinado nombre.
+     * @return Retorna en un ArrayList las asignaturas con determinado nombre pasado por parametro.
      */
     public ArrayList<Asignatura> buscaAsignatura (String nombre){
         Iterator it;
@@ -231,9 +231,9 @@ public class Entidades {
     }
     
     /**
-     *
-     * @param string
-     * @return
+     * Busqueda de cursadas con determinado nombre de asignatura.
+     * @param string cumple que es valido.
+     * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
      */
     public ArrayList<Cursada> buscaCursada (String nombre){
         Iterator it;
