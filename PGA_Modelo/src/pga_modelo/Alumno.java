@@ -6,7 +6,7 @@ import java.util.TreeSet;
 /**
  * Representa un Alumno junto con sus datos. <br>
  * <b>inv: </b> <br>
- * El legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9)) y debe ser unico. <br>
+ * El legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9)) <br>
  * La lista de aprobadas debe ser distinta de null.
  */
 public class Alumno extends Persona{
@@ -26,7 +26,7 @@ public class Alumno extends Persona{
      * <b>pre: </b> El legajo es unico.
      * <b>post: </b> Se crea un Alumno con sus datos.
      * @param legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9))
-     * @param nombre es alfanumerico, distinto de null y de vacio. 
+     * @param nombre es alfanumerico, distinto de null y de vacio.
      * @param domicilio es alfanumerico, distinto de null y de vacio.
      * @param mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
      */

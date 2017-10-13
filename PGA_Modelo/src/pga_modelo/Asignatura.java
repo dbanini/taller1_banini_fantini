@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 /**
  * Representa una asignatura junto con sus datos. <br>
- * Debe cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9)) debe ser unica. <br>
- * El nombre debe ser alfanumerico diferente de null y vacio.
- * La lista de correlativas solo puede contener asignaturas validas.
+ * Debe ser distinta de null y cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9)) <br>
+ * El nombre debe ser alfanumerico, diferente de null y de vacio. <br>
+ * La lista de correlativas debe ser no nula.
  */
 public class Asignatura implements Comparable<Asignatura>{
     
@@ -122,7 +122,8 @@ public class Asignatura implements Comparable<Asignatura>{
      */
     @Override
     public int compareTo(Asignatura o) {
-        return nombre.compareTo(o.getNombre());
+        // TODO Implement this method
+        return 1;
     }
     
     // -----------------------------------------------------------------

@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -167,6 +168,86 @@ public class Entidades {
     public void removeCursada(Cursada cursada){
         cursadas.remove(cursada);
         verificarInvariante();
+    }
+
+    /**
+     * Busqueda de alumnos con determinado nombre.
+     * @param string cumple que es valido.
+     * @return Retorna en un ArrayList los alumnos con determinado nombre.
+     */
+    public ArrayList<Alumno> buscaAlumno (String nombre){
+        Iterator it;
+        Alumno alumnoAux;
+        ArrayList<Alumno> alumnosEncontrados = new ArrayList<Alumno>();
+        
+        it=alumnos.iterator();
+        while (it.hasNext()){
+            alumnoAux=(Alumno) it.next();
+            if (alumnoAux.getNombre().equalsIgnoreCase(nombre)){
+                alumnosEncontrados.add(alumnoAux);
+            }
+        }
+        return alumnosEncontrados;
+    }
+    
+    /**
+     * Busqueda de profesores con determinado nombre.
+     * @param string cumple que es valido.
+     * @return Retorna en un ArrayList los profesores con determinado nombre.
+     */
+    public ArrayList<Profesor> buscaProfesor (String nombre){
+        Iterator it;
+        Profesor profesoresAux;
+        ArrayList<Profesor> ProfesoresEncontrados = new ArrayList<Profesor>();
+        
+        it=alumnos.iterator();
+        while (it.hasNext()){
+            profesoresAux=(Profesor) it.next();
+            if (profesoresAux.getNombre().equalsIgnoreCase(nombre)){
+                ProfesoresEncontrados.add(profesoresAux);
+            }   
+        }
+        return ProfesoresEncontrados;
+    }
+    
+    /**
+     * Busqueda de alumnos con determinado nombre.
+     * @param string cumple que es valido.
+     * @return Retorna en un ArrayList los alumnos con determinado nombre.
+     */
+    public ArrayList<Asignatura> buscaAsignatura (String nombre){
+        Iterator it;
+        Asignatura asignaturaAux;
+        ArrayList<Asignatura> asignaturaEncontrados = new ArrayList<Asignatura>();
+        
+        it=alumnos.iterator();
+        while (it.hasNext()){
+            asignaturaAux=(Asignatura) it.next();
+            if (asignaturaAux.getNombre().equalsIgnoreCase(nombre)){
+                asignaturaEncontrados.add(asignaturaAux);
+            }
+        }
+        return asignaturaEncontrados;
+    }
+    
+    /**
+     *
+     * @param string
+     * @return
+     */
+    public ArrayList<Cursada> buscaCursada (String nombre){
+        Iterator it;
+        Cursada cursadaAux;
+        ArrayList<Cursada> cursadaEncontrados = new ArrayList<Cursada>();
+        
+        it=alumnos.iterator();
+        while (it.hasNext()){
+            cursadaAux=(Cursada) it.next();
+            if (cursadaAux.getAsignatura().getNombre().equalsIgnoreCase(nombre)){
+                cursadaEncontrados.add(cursadaAux);
+            }
+        }
+        return cursadaEncontrados;
     }
     
     /**

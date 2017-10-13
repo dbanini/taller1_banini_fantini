@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 /**
  * Representa una cursada junto con sus datos. <br>
- * El id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) y debe ser unica. <br>
+ * El id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) <br>
  * La asignatura debe ser valida. <br>
  * El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (Año)) <br>
  * El dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
@@ -200,7 +200,8 @@ public class Cursada implements Comparable<Cursada>{
      */
     @Override
     public int compareTo(Cursada o) {
-        return asignatura.getNombre().compareToIgnoreCase(o.getAsignatura().getNombre());
+        // TODO Implement this method
+        return 1;
     }
     
     // -----------------------------------------------------------------
