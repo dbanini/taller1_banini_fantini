@@ -137,7 +137,7 @@ public class Principal extends javax.swing.JFrame {
         cursadaHoraLabel = new javax.swing.JLabel();
         cursadaAlumLabel = new javax.swing.JLabel();
         cursadaAlumScroll = new javax.swing.JScrollPane();
-        cursadaAlumTabla = new javax.swing.JTable();
+        cursadaAlumnosTabla = new javax.swing.JTable();
         cursadaAlumBotonesPanel = new javax.swing.JPanel();
         cursadaAlumAgregarBoton = new javax.swing.JButton();
         cursadaAlumQuitarBoton = new javax.swing.JButton();
@@ -145,7 +145,7 @@ public class Principal extends javax.swing.JFrame {
         cursadaProfAgregarBoton = new javax.swing.JButton();
         cursadaProfQuitarBoton = new javax.swing.JButton();
         cursadaProfScroll = new javax.swing.JScrollPane();
-        cursadaProfTabla = new javax.swing.JTable();
+        cursadaProfesoresTabla = new javax.swing.JTable();
         cursadaProfLabel = new javax.swing.JLabel();
         cursadaIdText = new javax.swing.JFormattedTextField();
         cursadaSeleccionarBoton = new javax.swing.JButton();
@@ -223,6 +223,7 @@ public class Principal extends javax.swing.JFrame {
 
         alumnoDomicilioLabel.setText("Domicilio");
 
+        alumnoAsigTabla.setAutoCreateRowSorter(true);
         alumnoAsigTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -246,14 +247,16 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        alumnoAsigTabla.setColumnSelectionAllowed(true);
         alumnoAsigTabla.setEnabled(false);
+        alumnoAsigTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         alumnoAsigTabla.getTableHeader().setReorderingAllowed(false);
         alumnoAsigScroll.setViewportView(alumnoAsigTabla);
         alumnoAsigTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (alumnoAsigTabla.getColumnModel().getColumnCount() > 0) {
             alumnoAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
             alumnoAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            alumnoAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
+            alumnoAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
         alumnoAsigLabel.setText("Asignaturas aprobadas");
@@ -405,12 +408,27 @@ public class Principal extends javax.swing.JFrame {
 
         alumnoEditarBoton.setText("Editar");
         alumnoEditarBoton.setEnabled(false);
+        alumnoEditarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alumnoEditarBotonActionPerformed(evt);
+            }
+        });
 
         alumnoCancelarBoton.setText("Cancelar");
         alumnoCancelarBoton.setEnabled(false);
+        alumnoCancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alumnoCancelarBotonActionPerformed(evt);
+            }
+        });
 
         alumnoAceptarBoton.setText("Aceptar");
         alumnoAceptarBoton.setEnabled(false);
+        alumnoAceptarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alumnoAceptarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout alumnoBotonesPanelLayout = new javax.swing.GroupLayout(alumnoBotonesPanel);
         alumnoBotonesPanel.setLayout(alumnoBotonesPanelLayout);
@@ -545,12 +563,27 @@ public class Principal extends javax.swing.JFrame {
 
         profesorEditarBoton.setText("Editar");
         profesorEditarBoton.setEnabled(false);
+        profesorEditarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profesorEditarBotonActionPerformed(evt);
+            }
+        });
 
         profesorCancelarBoton.setText("Cancelar");
         profesorCancelarBoton.setEnabled(false);
+        profesorCancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profesorCancelarBotonActionPerformed(evt);
+            }
+        });
 
         profesorAceptarBoton.setText("Aceptar");
         profesorAceptarBoton.setEnabled(false);
+        profesorAceptarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profesorAceptarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout profesorBotonesPanelLayout = new javax.swing.GroupLayout(profesorBotonesPanel);
         profesorBotonesPanel.setLayout(profesorBotonesPanelLayout);
@@ -616,7 +649,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        profesorAsigTabla.setColumnSelectionAllowed(true);
         profesorAsigTabla.setEnabled(false);
         profesorAsigTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         profesorAsigTabla.getTableHeader().setReorderingAllowed(false);
@@ -625,6 +657,8 @@ public class Principal extends javax.swing.JFrame {
         if (profesorAsigTabla.getColumnModel().getColumnCount() > 0) {
             profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
             profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            profesorAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
+            profesorAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
         profesorAsigLabel.setText("Asignaturas habilitadas");
@@ -841,7 +875,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        asignaturaCorrTabla.setColumnSelectionAllowed(true);
         asignaturaCorrTabla.setEnabled(false);
         asignaturaCorrTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         asignaturaCorrTabla.getTableHeader().setReorderingAllowed(false);
@@ -850,6 +883,8 @@ public class Principal extends javax.swing.JFrame {
         if (asignaturaCorrTabla.getColumnModel().getColumnCount() > 0) {
             asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(80);
             asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
+            asignaturaCorrTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
         asignaturaCorrAgregarBoton.setText("Agregar...");
@@ -984,12 +1019,27 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturaEditarBoton.setText("Editar");
         asignaturaEditarBoton.setEnabled(false);
+        asignaturaEditarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturaEditarBotonActionPerformed(evt);
+            }
+        });
 
         asignaturaCancelarBoton.setText("Cancelar");
         asignaturaCancelarBoton.setEnabled(false);
+        asignaturaCancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturaCancelarBotonActionPerformed(evt);
+            }
+        });
 
         asignaturaAceptarBoton.setText("Aceptar");
         asignaturaAceptarBoton.setEnabled(false);
+        asignaturaAceptarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturaAceptarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout asignaturaBotonesPanelLayout = new javax.swing.GroupLayout(asignaturaBotonesPanel);
         asignaturaBotonesPanel.setLayout(asignaturaBotonesPanelLayout);
@@ -1149,8 +1199,8 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaAlumLabel.setText("Alumnos");
 
-        cursadaAlumTabla.setAutoCreateRowSorter(true);
-        cursadaAlumTabla.setModel(new javax.swing.table.DefaultTableModel(
+        cursadaAlumnosTabla.setAutoCreateRowSorter(true);
+        cursadaAlumnosTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1173,15 +1223,15 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaAlumTabla.setColumnSelectionAllowed(true);
-        cursadaAlumTabla.setEnabled(false);
-        cursadaAlumTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        cursadaAlumTabla.getTableHeader().setReorderingAllowed(false);
-        cursadaAlumScroll.setViewportView(cursadaAlumTabla);
-        cursadaAlumTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (cursadaAlumTabla.getColumnModel().getColumnCount() > 0) {
-            cursadaAlumTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            cursadaAlumTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+        cursadaAlumnosTabla.setColumnSelectionAllowed(true);
+        cursadaAlumnosTabla.setEnabled(false);
+        cursadaAlumnosTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        cursadaAlumnosTabla.getTableHeader().setReorderingAllowed(false);
+        cursadaAlumScroll.setViewportView(cursadaAlumnosTabla);
+        cursadaAlumnosTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (cursadaAlumnosTabla.getColumnModel().getColumnCount() > 0) {
+            cursadaAlumnosTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            cursadaAlumnosTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         cursadaAlumAgregarBoton.setText("Agregar...");
@@ -1256,8 +1306,8 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(cursadaProfQuitarBoton)))
         );
 
-        cursadaProfTabla.setAutoCreateRowSorter(true);
-        cursadaProfTabla.setModel(new javax.swing.table.DefaultTableModel(
+        cursadaProfesoresTabla.setAutoCreateRowSorter(true);
+        cursadaProfesoresTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1280,15 +1330,15 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaProfTabla.setColumnSelectionAllowed(true);
-        cursadaProfTabla.setEnabled(false);
-        cursadaProfTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        cursadaProfTabla.getTableHeader().setReorderingAllowed(false);
-        cursadaProfScroll.setViewportView(cursadaProfTabla);
-        cursadaProfTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (cursadaProfTabla.getColumnModel().getColumnCount() > 0) {
-            cursadaProfTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            cursadaProfTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+        cursadaProfesoresTabla.setColumnSelectionAllowed(true);
+        cursadaProfesoresTabla.setEnabled(false);
+        cursadaProfesoresTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        cursadaProfesoresTabla.getTableHeader().setReorderingAllowed(false);
+        cursadaProfScroll.setViewportView(cursadaProfesoresTabla);
+        cursadaProfesoresTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (cursadaProfesoresTabla.getColumnModel().getColumnCount() > 0) {
+            cursadaProfesoresTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            cursadaProfesoresTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         cursadaProfLabel.setText("Profesores");
@@ -1334,23 +1384,22 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cursadaIdText)
-                            .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
-                                    .addComponent(cursadaPeriodoACombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cursadaPeriodoBText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cursadaDiaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cursadaHoraInicioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cursadaHoraLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cursadaHoraFinText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
-                                    .addComponent(cursadaAsignaturaText)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cursadaSeleccionarBoton)))))
+                            .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
+                                .addComponent(cursadaPeriodoACombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cursadaPeriodoBText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cursadaDiaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cursadaHoraInicioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cursadaHoraLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cursadaHoraFinText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
+                                .addComponent(cursadaAsignaturaText)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cursadaSeleccionarBoton))))
                     .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
                         .addComponent(cursadaProfLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1425,12 +1474,27 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaEditarBoton.setText("Editar");
         cursadaEditarBoton.setEnabled(false);
+        cursadaEditarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadaEditarBotonActionPerformed(evt);
+            }
+        });
 
         cursadaCancelarBoton.setText("Cancelar");
         cursadaCancelarBoton.setEnabled(false);
+        cursadaCancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadaCancelarBotonActionPerformed(evt);
+            }
+        });
 
         cursadaAceptarBoton.setText("Aceptar");
         cursadaAceptarBoton.setEnabled(false);
+        cursadaAceptarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadaAceptarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout cursadaBotonesPanelLayout = new javax.swing.GroupLayout(cursadaBotonesPanel);
         cursadaBotonesPanel.setLayout(cursadaBotonesPanelLayout);
@@ -1746,6 +1810,164 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_profesoresBorrarBotonActionPerformed
 
+    private void alumnoEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoEditarBotonActionPerformed
+        setAlumnoEditable(true);
+    }//GEN-LAST:event_alumnoEditarBotonActionPerformed
+
+    private void alumnoCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoCancelarBotonActionPerformed
+        setupAlumno(alumnoActual);
+    }//GEN-LAST:event_alumnoCancelarBotonActionPerformed
+
+    private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
+        String oldLegajo = alumnoActual.getLegajo();
+        String oldNombre = alumnoActual.getNombre();
+        
+        // TODO Traducir tabla de asignaturas aprobadas a una lista.
+        
+        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Legajo deberia ser unico si es diferente del actual)
+        
+        alumnoActual.setLegajo(alumnoLegajoText.getText());
+        alumnoActual.setNombre(alumnoNombreText.getText());
+        alumnoActual.setDomicilio(alumnoDomicilioText.getText());
+        alumnoActual.setMail(alumnoMailText.getText());
+        
+        // TODO Actualizar nombre y legajo en tabla si cambiaron.
+        if (!alumnoActual.getLegajo().equals(oldLegajo) || !alumnoActual.getNombre().equals(oldNombre)) {
+            DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
+            int rowCount = modelo.getRowCount();
+            boolean encontrado = false;
+            for (int row = 0; (row < rowCount) && !encontrado; row++) {
+                String legajoCelda = (String) modelo.getValueAt(row, 0);
+                if (legajoCelda.equals(oldLegajo)) {
+                    modelo.setValueAt(alumnoActual.getLegajo(), row, 0);
+                    modelo.setValueAt(alumnoActual.getNombre(), row, 1);
+                    alumnosTabla.getRowSorter().allRowsChanged();
+                    encontrado = true;
+                }
+            }
+        }
+        
+        setAlumnoEditable(false);
+    }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
+
+    private void profesorEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorEditarBotonActionPerformed
+        setProfesorEditable(true);
+    }//GEN-LAST:event_profesorEditarBotonActionPerformed
+
+    private void profesorAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAceptarBotonActionPerformed
+        String oldLegajo = profesorActual.getLegajo();
+        String oldNombre = profesorActual.getNombre();
+        
+        // TODO Traducir tabla de asignaturas habilitadas a una lista.
+        
+        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Legajo deberia ser unico si es diferente del actual)
+        
+        profesorActual.setLegajo(profesorLegajoText.getText());
+        profesorActual.setNombre(profesorNombreText.getText());
+        profesorActual.setDomicilio(profesorDomicilioText.getText());
+        profesorActual.setMail(profesorMailText.getText());
+        profesorActual.setTelefono(profesorTelefonoText.getText());
+        
+        // TODO Actualizar nombre y legajo en tabla si cambiaron.
+        if (!profesorActual.getLegajo().equals(oldLegajo) || !profesorActual.getNombre().equals(oldNombre)) {
+            DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
+            int rowCount = modelo.getRowCount();
+            boolean encontrado = false;
+            for (int row = 0; (row < rowCount) && !encontrado; row++) {
+                String legajoCelda = (String) modelo.getValueAt(row, 0);
+                if (legajoCelda.equals(oldLegajo)) {
+                    modelo.setValueAt(profesorActual.getLegajo(), row, 0);
+                    modelo.setValueAt(profesorActual.getNombre(), row, 1);
+                    profesoresTabla.getRowSorter().allRowsChanged();
+                    encontrado = true;
+                }
+            }
+        }
+        
+        setProfesorEditable(false);
+    }//GEN-LAST:event_profesorAceptarBotonActionPerformed
+
+    private void profesorCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorCancelarBotonActionPerformed
+        setupProfesor(profesorActual);
+    }//GEN-LAST:event_profesorCancelarBotonActionPerformed
+
+    private void asignaturaEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaEditarBotonActionPerformed
+        setAsignaturaEditable(true);
+    }//GEN-LAST:event_asignaturaEditarBotonActionPerformed
+
+    private void asignaturaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaAceptarBotonActionPerformed
+        String oldId = asignaturaActual.getId();
+        String oldNombre = asignaturaActual.getNombre();
+        
+        // TODO Traducir tabla de asignaturas correlativas a una lista.
+        
+        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Id deberia ser unico si es diferente del actual)
+        
+        asignaturaActual.setId(asignaturaIdText.getText());
+        asignaturaActual.setNombre(asignaturaNombreText.getText());
+        
+        // TODO Actualizar nombre y id en tabla si cambiaron.
+        if (!asignaturaActual.getId().equals(oldId) || !asignaturaActual.getNombre().equals(oldNombre)) {
+            DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
+            int rowCount = modelo.getRowCount();
+            boolean encontrado = false;
+            for (int row = 0; (row < rowCount) && !encontrado; row++) {
+                String idCelda = (String) modelo.getValueAt(row, 0);
+                if (idCelda.equals(oldId)) {
+                    modelo.setValueAt(asignaturaActual.getId(), row, 0);
+                    modelo.setValueAt(asignaturaActual.getNombre(), row, 1);
+                    asignaturasTabla.getRowSorter().allRowsChanged();
+                    encontrado = true;
+                }
+            }
+        }
+        
+        setAsignaturaEditable(false);
+    }//GEN-LAST:event_asignaturaAceptarBotonActionPerformed
+
+    private void asignaturaCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaCancelarBotonActionPerformed
+        setupAsignatura(asignaturaActual);
+    }//GEN-LAST:event_asignaturaCancelarBotonActionPerformed
+
+    private void cursadaEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaEditarBotonActionPerformed
+        setCursadaEditable(true);
+    }//GEN-LAST:event_cursadaEditarBotonActionPerformed
+
+    private void cursadaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAceptarBotonActionPerformed
+        String oldId = cursadaActual.getId();
+        
+        // TODO Traducir tabla de alumnos y profesores a una lista.
+        
+        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Id deberia ser unico si es diferente del actual)
+        
+        // TODO Asignar el resto de los atributos.
+        cursadaActual.setId(cursadaIdText.getText());
+        
+        // TODO Actualizar nombre y id en tabla si cambiaron.
+        if (!asignaturaActual.getId().equals(oldId) /* o cambio el periodo o la asignatura */) {
+            DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
+            int rowCount = modelo.getRowCount();
+            boolean encontrado = false;
+            for (int row = 0; (row < rowCount) && !encontrado; row++) {
+                String idCelda = (String) modelo.getValueAt(row, 0);
+                if (idCelda.equals(oldId)) {
+                    /*
+                    modelo.setValueAt(asignaturaActual.getId(), row, 0);
+                    modelo.setValueAt(asignaturaActual.getNombre(), row, 1);
+                    */
+                    cursadasTabla.getRowSorter().allRowsChanged();
+                    encontrado = true;
+                }
+            }
+        }
+        
+        setCursadaEditable(false);
+    }//GEN-LAST:event_cursadaAceptarBotonActionPerformed
+
+    private void cursadaCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaCancelarBotonActionPerformed
+        setupCursada(cursadaActual);
+    }//GEN-LAST:event_cursadaCancelarBotonActionPerformed
+
     private void setupTablaFiltro(JTable tabla, JTextField field) {
         // Crear ordenador para la tabla.
         TableRowSorter sorter = new TableRowSorter(tabla.getModel());
@@ -1783,7 +2005,6 @@ public class Principal extends javax.swing.JFrame {
                 int selectedRow = lsm.getMinSelectionIndex();
                 boolean seleccionado = selectedRow >= 0;
                 alumnosBorrarBoton.setEnabled(seleccionado);
-                alumnoEditarBoton.setEnabled(seleccionado);
                 if (seleccionado) {
                     selectedRow = alumnosTabla.convertRowIndexToModel(selectedRow);
                     String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
@@ -1813,8 +2034,10 @@ public class Principal extends javax.swing.JFrame {
     }
     
     void setupAlumno(Alumno alumno) {
+        setAlumnoEditable(false);
         boolean alumnoValido = alumno != null;
         alumnoActual = alumno;
+        alumnoEditarBoton.setEnabled(alumnoValido);
         
         DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
         modelo.setRowCount(0);
@@ -1838,6 +2061,20 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    void setAlumnoEditable(boolean editable) {
+        alumnoEditarBoton.setEnabled(!editable);
+        alumnoAceptarBoton.setEnabled(editable);
+        alumnoCancelarBoton.setEnabled(editable);
+        alumnoLegajoText.setEnabled(editable);
+        alumnoNombreText.setEnabled(editable);
+        alumnoDomicilioText.setEnabled(editable);
+        alumnoMailText.setEnabled(editable);
+        alumnoAsigTabla.setEnabled(editable);
+        alumnoAgregarAsigBoton.setEnabled(editable);
+        if (editable == false)
+            alumnoQuitarAsigBoton.setEnabled(editable);
+    }
+    
     private void setupProfesoresTabla() {
         // Crear listener para la tabla de profesores.
         profesoresTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
@@ -1849,7 +2086,6 @@ public class Principal extends javax.swing.JFrame {
                 int selectedRow = lsm.getMinSelectionIndex();
                 boolean seleccionado = selectedRow >= 0;
                 profesoresBorrarBoton.setEnabled(seleccionado);
-                profesorEditarBoton.setEnabled(seleccionado);
                 if (seleccionado) {
                     selectedRow = profesoresTabla.convertRowIndexToModel(selectedRow);
                     String legajo = (String)profesoresTabla.getModel().getValueAt(selectedRow, 0);
@@ -1879,8 +2115,10 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void setupProfesor(Profesor profesor) {
+        setProfesorEditable(false);
         boolean profesorValido = profesor != null;
         profesorActual = profesor;
+        profesorEditarBoton.setEnabled(profesorValido);
         
         DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
         modelo.setRowCount(0);
@@ -1906,6 +2144,21 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    void setProfesorEditable(boolean editable) {
+        profesorEditarBoton.setEnabled(!editable);
+        profesorAceptarBoton.setEnabled(editable);
+        profesorCancelarBoton.setEnabled(editable);
+        profesorLegajoText.setEnabled(editable);
+        profesorNombreText.setEnabled(editable);
+        profesorDomicilioText.setEnabled(editable);
+        profesorMailText.setEnabled(editable);
+        profesorTelefonoText.setEnabled(editable);
+        profesorAsigTabla.setEnabled(editable);
+        profesorAgregarAsigBoton.setEnabled(editable);
+        if (editable == false)
+            profesorQuitarAsigBoton.setEnabled(editable);
+    }
+    
     private void setupAsignaturasTabla() {
         // Crear listener para la tabla de asignaturas.
         asignaturasTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
@@ -1917,7 +2170,6 @@ public class Principal extends javax.swing.JFrame {
                 int selectedRow = lsm.getMinSelectionIndex();
                 boolean seleccionado = selectedRow >= 0;
                 asignaturasBorrarBoton.setEnabled(seleccionado);
-                asignaturaEditarBoton.setEnabled(seleccionado);
                 if (seleccionado) {
                     selectedRow = asignaturasTabla.convertRowIndexToModel(selectedRow);
                     String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
@@ -1947,8 +2199,10 @@ public class Principal extends javax.swing.JFrame {
     }
     
     void setupAsignatura(Asignatura asignatura) {
+        setAsignaturaEditable(false);
         boolean asignaturaValida = asignatura != null;
         asignaturaActual = asignatura;
+        asignaturaEditarBoton.setEnabled(asignaturaValida);
         
         DefaultTableModel modelo = (DefaultTableModel) asignaturaCorrTabla.getModel();
         modelo.setRowCount(0);
@@ -1969,6 +2223,18 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    void setAsignaturaEditable(boolean editable) {
+        asignaturaEditarBoton.setEnabled(!editable);
+        asignaturaAceptarBoton.setEnabled(editable);
+        asignaturaCancelarBoton.setEnabled(editable);
+        asignaturaIdText.setEnabled(editable);
+        asignaturaNombreText.setEnabled(editable);
+        asignaturaCorrTabla.setEnabled(editable);
+        asignaturaCorrAgregarBoton.setEnabled(editable);
+        if (editable == false)
+            asignaturaCorrQuitarBoton.setEnabled(editable);
+    }
+    
     private void setupCursadasTabla() {
         // Crear listener para la tabla de asignaturas.
         cursadasTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
@@ -1980,7 +2246,6 @@ public class Principal extends javax.swing.JFrame {
                 int selectedRow = lsm.getMinSelectionIndex();
                 boolean seleccionado = selectedRow >= 0;
                 cursadasBorrarBoton.setEnabled(seleccionado);
-                cursadaEditarBoton.setEnabled(seleccionado);
                 if (seleccionado) {
                     selectedRow = cursadasTabla.convertRowIndexToModel(selectedRow);
                     String id = (String)cursadasTabla.getModel().getValueAt(selectedRow, 0);
@@ -2011,11 +2276,13 @@ public class Principal extends javax.swing.JFrame {
     }
     
     void setupCursada(Cursada cursada) {
+        setCursadaEditable(false);
         boolean cursadaValida = cursada != null;
         cursadaActual = cursada;
+        cursadaEditarBoton.setEnabled(cursadaValida);
         
-        DefaultTableModel modeloAlum = (DefaultTableModel) cursadaAlumTabla.getModel();
-        DefaultTableModel modeloProf = (DefaultTableModel) cursadaProfTabla.getModel();
+        DefaultTableModel modeloAlum = (DefaultTableModel) cursadaAlumnosTabla.getModel();
+        DefaultTableModel modeloProf = (DefaultTableModel) cursadaProfesoresTabla.getModel();
         modeloAlum.setRowCount(0);
         modeloProf.setRowCount(0);
         if (cursadaValida) {
@@ -2051,6 +2318,27 @@ public class Principal extends javax.swing.JFrame {
             cursadaHoraInicioText.setText("00:00");
             cursadaHoraFinText.setText("00:00");
             cursadaDiaCombo.setSelectedIndex(0);
+        }
+    }
+    
+    void setCursadaEditable(boolean editable) {
+        cursadaEditarBoton.setEnabled(!editable);
+        cursadaAceptarBoton.setEnabled(editable);
+        cursadaCancelarBoton.setEnabled(editable);
+        cursadaIdText.setEnabled(editable);
+        cursadaSeleccionarBoton.setEnabled(editable);
+        cursadaPeriodoACombo.setEnabled(editable);
+        cursadaPeriodoBText.setEnabled(editable);
+        cursadaDiaCombo.setEnabled(editable);
+        cursadaHoraInicioText.setEnabled(editable);
+        cursadaHoraFinText.setEnabled(editable);
+        cursadaAlumnosTabla.setEnabled(editable);
+        cursadaProfesoresTabla.setEnabled(editable);
+        cursadaAlumAgregarBoton.setEnabled(editable);
+        cursadaProfAgregarBoton.setEnabled(editable);
+        if (editable == false) {
+            cursadaAlumQuitarBoton.setEnabled(editable);
+            cursadaProfQuitarBoton.setEnabled(editable);
         }
     }
 
@@ -2178,7 +2466,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel cursadaAlumLabel;
     private javax.swing.JButton cursadaAlumQuitarBoton;
     private javax.swing.JScrollPane cursadaAlumScroll;
-    private javax.swing.JTable cursadaAlumTabla;
+    private javax.swing.JTable cursadaAlumnosTabla;
     private javax.swing.JLabel cursadaAsignaturaLabel;
     private javax.swing.JTextField cursadaAsignaturaText;
     private javax.swing.JPanel cursadaBotonesPanel;
@@ -2199,7 +2487,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel cursadaProfLabel;
     private javax.swing.JButton cursadaProfQuitarBoton;
     private javax.swing.JScrollPane cursadaProfScroll;
-    private javax.swing.JTable cursadaProfTabla;
+    private javax.swing.JTable cursadaProfesoresTabla;
     private javax.swing.JButton cursadaSeleccionarBoton;
     private javax.swing.JButton cursadasBorrarBoton;
     private javax.swing.JPanel cursadasBotonesPanel;
