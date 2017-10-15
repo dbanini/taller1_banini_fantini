@@ -1851,9 +1851,6 @@
                     <Property name="text" type="java.lang.String" value="Borrar"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cursadasBorrarBotonActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

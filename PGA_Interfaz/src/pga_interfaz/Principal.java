@@ -13,12 +13,18 @@ import pga_modelo.Asignatura;
 import pga_modelo.Cursada;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.SingleSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -1395,11 +1401,6 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasBorrarBoton.setText("Borrar");
         cursadasBorrarBoton.setEnabled(false);
-        cursadasBorrarBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cursadasBorrarBotonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout cursadasBotonesPanelLayout = new javax.swing.GroupLayout(cursadasBotonesPanel);
         cursadasBotonesPanel.setLayout(cursadasBotonesPanelLayout);
@@ -1745,19 +1746,31 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_profesoresBorrarBotonActionPerformed
 
-    private void cursadasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasBorrarBotonActionPerformed
-        ListSelectionModel lsm = cursadasTabla.getSelectionModel();
-        int selectedRow = lsm.getMinSelectionIndex();
-        if (selectedRow >= 0) {
-            selectedRow = cursadasTabla.convertRowIndexToModel(selectedRow);
-            String id = (String)cursadasTabla.getModel().getValueAt(selectedRow, 0);
-            Cursada cursada = entidades.buscaCursadaPorId(id);
-            assert cursada != null : "La tabla tiene un id que no existe en el modelo.";
-            entidades.removeCursada(cursada);
-            DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
-            modelo.removeRow(selectedRow);
-        } 
-    }//GEN-LAST:event_cursadasBorrarBotonActionPerformed
+    private void setupTablaFiltro(JTable tabla, JTextField field) {
+        // Crear ordenador para la tabla.
+        TableRowSorter sorter = new TableRowSorter(tabla.getModel());
+        tabla.setRowSorter(sorter);
+        
+        // Crear listener para el filtro, el cual usa el sorter creado.
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                actualizarFiltro();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                actualizarFiltro();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                actualizarFiltro();
+            }
+
+            public void actualizarFiltro() {
+                String filtro = field.getText();
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
+            }
+        });
+        
+        tabla.getRowSorter().toggleSortOrder(0);
+    }
 
     private void setupAlumnosTabla() {
         // Crear listener para la tabla de alumnos.
@@ -1783,10 +1796,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
-        alumnosTabla.getRowSorter().toggleSortOrder(0);
-        
-        Iterator<Alumno> it = entidades.getAlumnos().iterator();
+        setupTablaFiltro(alumnosTabla, alumnosFiltro);
 
+        // Crear los alumnos en la tabla.
+        Iterator<Alumno> it = entidades.getAlumnos().iterator();
         Alumno alumno;
         while (it.hasNext()) {
             alumno = it.next();
@@ -1849,10 +1862,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
-        profesoresTabla.getRowSorter().toggleSortOrder(0);
+        setupTablaFiltro(profesoresTabla, profesoresFiltro);
         
+        // Crear los profesores en la tabla.
         Iterator<Profesor> it = entidades.getProfesores().iterator();
-
         Profesor profesor;
         while (it.hasNext()) {
             profesor = it.next();
@@ -1917,7 +1930,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
-        asignaturasTabla.getRowSorter().toggleSortOrder(0);
+        setupTablaFiltro(asignaturasTabla, asignaturasFiltro);
         
         // Actualizar tabla de asignaturas.
         Iterator<Asignatura> it = entidades.getAsignaturas().iterator();
@@ -1980,7 +1993,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
-        cursadasTabla.getRowSorter().toggleSortOrder(0);
+        setupTablaFiltro(cursadasTabla, cursadasFiltro);
         
         // Agregar cursadas a la tabla.
         Iterator<Cursada> it = entidades.getCursadas().iterator();
