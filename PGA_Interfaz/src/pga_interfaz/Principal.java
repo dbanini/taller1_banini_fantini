@@ -14,6 +14,7 @@ import pga_modelo.Cursada;
 
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SingleSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -361,9 +362,19 @@ public class Principal extends javax.swing.JFrame {
         );
 
         alumnosNuevoBoton.setText("Nuevo");
+        alumnosNuevoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alumnosNuevoBotonActionPerformed(evt);
+            }
+        });
 
         alumnosBorrarBoton.setText("Borrar");
         alumnosBorrarBoton.setEnabled(false);
+        alumnosBorrarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alumnosBorrarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout alumnosBotonesPanelLayout = new javax.swing.GroupLayout(alumnosBotonesPanel);
         alumnosBotonesPanel.setLayout(alumnosBotonesPanelLayout);
@@ -491,9 +502,19 @@ public class Principal extends javax.swing.JFrame {
         }
 
         profesoresNuevoBoton.setText("Nuevo");
+        profesoresNuevoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profesoresNuevoBotonActionPerformed(evt);
+            }
+        });
 
         profesoresBorrarBoton.setText("Borrar");
         profesoresBorrarBoton.setEnabled(false);
+        profesoresBorrarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profesoresBorrarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout profesoresBotonesPanelLayout = new javax.swing.GroupLayout(profesoresBotonesPanel);
         profesoresBotonesPanel.setLayout(profesoresBotonesPanelLayout);
@@ -920,9 +941,19 @@ public class Principal extends javax.swing.JFrame {
         );
 
         asignaturasNuevoBoton.setText("Nuevo");
+        asignaturasNuevoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturasNuevoBotonActionPerformed(evt);
+            }
+        });
 
         asignaturasBorrarBoton.setText("Borrar");
         asignaturasBorrarBoton.setEnabled(false);
+        asignaturasBorrarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturasBorrarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout asignaturasBotonesPanelLayout = new javax.swing.GroupLayout(asignaturasBotonesPanel);
         asignaturasBotonesPanel.setLayout(asignaturasBotonesPanelLayout);
@@ -1356,9 +1387,19 @@ public class Principal extends javax.swing.JFrame {
         );
 
         cursadasNuevoBoton.setText("Nuevo");
+        cursadasNuevoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadasNuevoBotonActionPerformed(evt);
+            }
+        });
 
         cursadasBorrarBoton.setText("Borrar");
         cursadasBorrarBoton.setEnabled(false);
+        cursadasBorrarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadasBorrarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout cursadasBotonesPanelLayout = new javax.swing.GroupLayout(cursadasBotonesPanel);
         cursadasBotonesPanel.setLayout(cursadasBotonesPanelLayout);
@@ -1619,9 +1660,106 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cursadaSeleccionarBotonActionPerformed
 
+    private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
+        String nuevoLegajo = entidades.nuevoLegajoAlumno();
+        Alumno nuevoAlumno = new Alumno(nuevoLegajo, "Nombre", "Domicilio", "mail@vacio.com");
+        entidades.addAlumno(nuevoAlumno);
+        agregarAlumnoTabla(nuevoAlumno);
+        int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
+        alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+    }//GEN-LAST:event_alumnosNuevoBotonActionPerformed
+
+    private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
+        String nuevoLegajo = entidades.nuevoLegajoProfesor();
+        Profesor nuevoProfesor = new Profesor(nuevoLegajo, "Nombre", "Domicilio", "0000-000000", "mail@vacio.com");
+        entidades.addProfesor(nuevoProfesor);
+        agregarProfesorTabla(nuevoProfesor);
+        int lastIndex = profesoresTabla.convertRowIndexToView(profesoresTabla.getRowCount() - 1);
+        profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+    }//GEN-LAST:event_profesoresNuevoBotonActionPerformed
+
+    private void asignaturasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasNuevoBotonActionPerformed
+        String nuevoId = entidades.nuevoIdAsignatura();
+        Asignatura nuevaAsignatura = new Asignatura(nuevoId, "Nombre");
+        entidades.addAsignatura(nuevaAsignatura);
+        agregarAsignaturaTabla(nuevaAsignatura);
+        int lastIndex = asignaturasTabla.convertRowIndexToView(asignaturasTabla.getRowCount() - 1);
+        asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+    }//GEN-LAST:event_asignaturasNuevoBotonActionPerformed
+
+    private void cursadasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasNuevoBotonActionPerformed
+        TreeSet<Asignatura> asignaturas = entidades.getAsignaturas();
+        if (!asignaturas.isEmpty()) {
+            Asignatura primerAsignatura = asignaturas.first();
+            String nuevoId = entidades.nuevoIdCursada();
+            Cursada nuevaCursada = new Cursada(nuevoId, primerAsignatura, "01-2017", "Lun", "12:00");
+            entidades.addCursada(nuevaCursada);
+            agregarCursadaTabla(nuevaCursada);
+            int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
+            cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Debe existir al menos una asignatura para poder crear una cursada.");
+        }
+    }//GEN-LAST:event_cursadasNuevoBotonActionPerformed
+
+    private void asignaturasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasBorrarBotonActionPerformed
+        ListSelectionModel lsm = asignaturasTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            selectedRow = asignaturasTabla.convertRowIndexToModel(selectedRow);
+            String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
+            Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
+            assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
+            entidades.removeAsignatura(asignatura);
+            DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
+            modelo.removeRow(selectedRow);
+        }        
+    }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
+
+    private void alumnosBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosBorrarBotonActionPerformed
+        ListSelectionModel lsm = alumnosTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            selectedRow = alumnosTabla.convertRowIndexToModel(selectedRow);
+            String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
+            Alumno alumno = entidades.buscaAlumnoPorLegajo(legajo);
+            assert alumno != null : "La tabla tiene un legajo que no existe en el modelo.";
+            entidades.removeAlumno(alumno);
+            DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
+            modelo.removeRow(selectedRow);
+        }
+    }//GEN-LAST:event_alumnosBorrarBotonActionPerformed
+
+    private void profesoresBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresBorrarBotonActionPerformed
+        ListSelectionModel lsm = profesoresTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            selectedRow = profesoresTabla.convertRowIndexToModel(selectedRow);
+            String legajo = (String)profesoresTabla.getModel().getValueAt(selectedRow, 0);
+            Profesor profesor = entidades.buscaProfesorPorLegajo(legajo);
+            assert profesor != null : "La tabla tiene un legajo que no existe en el modelo.";
+            entidades.removeProfesor(profesor);
+            DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
+            modelo.removeRow(selectedRow);
+        }
+    }//GEN-LAST:event_profesoresBorrarBotonActionPerformed
+
+    private void cursadasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasBorrarBotonActionPerformed
+        ListSelectionModel lsm = cursadasTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            selectedRow = cursadasTabla.convertRowIndexToModel(selectedRow);
+            String id = (String)cursadasTabla.getModel().getValueAt(selectedRow, 0);
+            Cursada cursada = entidades.buscaCursadaPorId(id);
+            assert cursada != null : "La tabla tiene un id que no existe en el modelo.";
+            entidades.removeCursada(cursada);
+            DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
+            modelo.removeRow(selectedRow);
+        } 
+    }//GEN-LAST:event_cursadasBorrarBotonActionPerformed
+
     private void setupAlumnosTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
-        
         // Crear listener para la tabla de alumnos.
         alumnosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
           {
@@ -1645,13 +1783,20 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
+        alumnosTabla.getRowSorter().toggleSortOrder(0);
+        
         Iterator<Alumno> it = entidades.getAlumnos().iterator();
 
         Alumno alumno;
         while (it.hasNext()) {
             alumno = it.next();
-            modelo.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
+            agregarAlumnoTabla(alumno);
         }
+    }
+    
+    private void agregarAlumnoTabla(Alumno alumno) {
+        DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
+        modelo.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
     }
     
     void setupAlumno(Alumno alumno) {
@@ -1681,8 +1826,6 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void setupProfesoresTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
-        
         // Crear listener para la tabla de profesores.
         profesoresTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
           {
@@ -1706,13 +1849,20 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
+        profesoresTabla.getRowSorter().toggleSortOrder(0);
+        
         Iterator<Profesor> it = entidades.getProfesores().iterator();
 
         Profesor profesor;
         while (it.hasNext()) {
             profesor = it.next();
-            modelo.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
+            agregarProfesorTabla(profesor);
         }
+    }
+    
+    private void agregarProfesorTabla(Profesor profesor) {
+        DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
+        modelo.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
     }
     
     private void setupProfesor(Profesor profesor) {
@@ -1744,8 +1894,6 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void setupAsignaturasTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
-        
         // Crear listener para la tabla de asignaturas.
         asignaturasTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
           {
@@ -1769,13 +1917,20 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
+        asignaturasTabla.getRowSorter().toggleSortOrder(0);
+        
         // Actualizar tabla de asignaturas.
         Iterator<Asignatura> it = entidades.getAsignaturas().iterator();
         Asignatura asignatura;
         while (it.hasNext()) {
             asignatura = it.next();
-            modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            agregarAsignaturaTabla(asignatura);
         }
+    }
+    
+    private void agregarAsignaturaTabla(Asignatura asignatura) {
+        DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
+        modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
     }
     
     void setupAsignatura(Asignatura asignatura) {
@@ -1802,8 +1957,6 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void setupCursadasTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
-        
         // Crear listener para la tabla de asignaturas.
         cursadasTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
           {
@@ -1827,15 +1980,21 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
+        cursadasTabla.getRowSorter().toggleSortOrder(0);
+        
+        // Agregar cursadas a la tabla.
         Iterator<Cursada> it = entidades.getCursadas().iterator();
-
         Cursada cursada;
-        String cursadaNombre;
         while (it.hasNext()) {
             cursada = it.next();
-            cursadaNombre = cursada.getAsignatura().getId() + "-" + cursada.getAsignatura().getNombre() + " (" + cursada.getPeriodo() + ")";
-            modelo.addRow(new Object[] {cursada.getId(), cursadaNombre});
+            agregarCursadaTabla(cursada);
         }
+    }
+    
+    private void agregarCursadaTabla(Cursada cursada) {
+        DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
+        String cursadaNombre = cursada.getAsignatura().getId() + "-" + cursada.getAsignatura().getNombre() + " (" + cursada.getPeriodo() + ")";
+        modelo.addRow(new Object[] {cursada.getId(), cursadaNombre});
     }
     
     void setupCursada(Cursada cursada) {
