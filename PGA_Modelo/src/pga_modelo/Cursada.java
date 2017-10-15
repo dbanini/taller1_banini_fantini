@@ -200,8 +200,7 @@ public class Cursada implements Comparable<Cursada>{
      */
     @Override
     public int compareTo(Cursada o) {
-        // TODO Implement this method
-        return 1;
+        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------

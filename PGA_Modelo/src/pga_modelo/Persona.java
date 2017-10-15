@@ -94,8 +94,7 @@ public abstract class Persona implements Comparable<Persona>{
      */
     @Override
     public int compareTo(Persona o) {
-        // TODO Implement this method
-        return 0;
+        return legajo.compareTo(o.getLegajo());
     }
     
     // -----------------------------------------------------------------

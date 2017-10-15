@@ -80,11 +80,23 @@
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
          <list n="pattern-filters">
+            <string v="-pga_interfaz/Principal.java"/>
+            <string v="-pga_interfaz/ElegirEntidadDialogo.java"/>
             <string v="+**"/>
          </list>
          <list n="url-path">
             <url path="src/"/>
          </list>
+      </hash>
+   </hash>
+   <hash n="oracle.jdeveloper.runner.RunConfigurations">
+      <hash n="runConfigurationDefinitions">
+         <hash n="Default">
+            <value n="custom" v="false"/>
+            <value n="name" v="Default"/>
+            <value n="runActiveFile" v="true"/>
+            <value n="targetURL"/>
+         </hash>
       </hash>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectPaths">

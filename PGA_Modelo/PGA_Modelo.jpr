@@ -79,12 +79,54 @@
    </hash>
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
-         <list n="pattern-filters">
-            <string v="+**"/>
+         <list n="constituent-sets">
+            <hash>
+               <url n="content-folder-url" path="../PGA_Interfaz/src/pga_interfaz/"/>
+               <list n="pattern-filters">
+                  <string v="+pga_interfaz/Principal.java"/>
+                  <string v="+pga_interfaz/ElegirEntidadDialogo.java"/>
+               </list>
+               <list n="url-path">
+                  <url path="../PGA_Interfaz/src/"/>
+               </list>
+            </hash>
+            <hash>
+               <list n="pattern-filters">
+                  <string v="+**"/>
+               </list>
+               <list n="url-path">
+                  <url path="src/"/>
+               </list>
+            </hash>
+            <hash>
+               <url n="content-folder-url" path="../PGA_Interfaz/src/pga_aplicacion/"/>
+               <list n="pattern-filters">
+                  <string v="+pga_aplicacion/"/>
+               </list>
+               <list n="url-path">
+                  <url path="../PGA_Interfaz/src/"/>
+               </list>
+            </hash>
+            <hash>
+               <url n="content-folder-url" path="../PGA_Interfaz/src/"/>
+               <list n="pattern-filters">
+                  <string v="+Main.java"/>
+               </list>
+               <list n="url-path">
+                  <url path="../PGA_Interfaz/src/"/>
+               </list>
+            </hash>
          </list>
-         <list n="url-path">
-            <url path="src/"/>
-         </list>
+         <list n="url-path"/>
+      </hash>
+   </hash>
+   <hash n="oracle.jdeveloper.runner.RunConfigurations">
+      <hash n="runConfigurationDefinitions">
+         <hash n="Default">
+            <value n="custom" v="false"/>
+            <value n="name" v="Default"/>
+            <value n="targetURL"/>
+         </hash>
       </hash>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectPaths">

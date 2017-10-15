@@ -1,5 +1,23 @@
 
-package PGA_Interfaz;
+package pga_interfaz;
+
+import java.util.Iterator;
+import java.util.TreeSet;
+
+import javax.swing.ComboBoxModel;
+
+import pga_modelo.Entidades;
+import pga_modelo.Alumno;
+import pga_modelo.Profesor;
+import pga_modelo.Asignatura;
+import pga_modelo.Cursada;
+
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -73,6 +91,8 @@ public class Principal extends javax.swing.JFrame {
         profesorAgregarAsigBoton = new javax.swing.JButton();
         profesorQuitarAsigBoton = new javax.swing.JButton();
         profesorLegajoText = new javax.swing.JFormattedTextField();
+        profesorTelefonoText = new javax.swing.JTextField();
+        profesorTelefonoLabel = new javax.swing.JLabel();
         asignaturasTab = new javax.swing.JPanel();
         asignaturasScroll = new javax.swing.JScrollPane();
         asignaturasTabla = new javax.swing.JTable();
@@ -100,8 +120,7 @@ public class Principal extends javax.swing.JFrame {
         cursadasTabla = new javax.swing.JTable();
         cursadaDatosPanel = new javax.swing.JPanel();
         cursadaIdLabel = new javax.swing.JLabel();
-        cursadaNombreLabel = new javax.swing.JLabel();
-        cursadaNombreText = new javax.swing.JTextField();
+        cursadaAsignaturaLabel = new javax.swing.JLabel();
         cursadaPeriodoLabel = new javax.swing.JLabel();
         cursadaDiaCombo = new javax.swing.JComboBox<>();
         cursadaPeriodoACombo = new javax.swing.JComboBox<>();
@@ -122,6 +141,8 @@ public class Principal extends javax.swing.JFrame {
         cursadaProfTabla = new javax.swing.JTable();
         cursadaProfLabel = new javax.swing.JLabel();
         cursadaIdText = new javax.swing.JFormattedTextField();
+        cursadaSeleccionarBoton = new javax.swing.JButton();
+        cursadaAsignaturaText = new javax.swing.JTextField();
         cursadasBotonesPanel = new javax.swing.JPanel();
         cursadasNuevoBoton = new javax.swing.JButton();
         cursadasBorrarBoton = new javax.swing.JButton();
@@ -133,9 +154,15 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         panelTabs.setToolTipText("");
 
+        alumnosTabla.setAutoCreateRowSorter(true);
         alumnosTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -159,27 +186,29 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        alumnosTabla.setColumnSelectionAllowed(true);
+        alumnosTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         alumnosTabla.getTableHeader().setReorderingAllowed(false);
         alumnosScroll.setViewportView(alumnosTabla);
         alumnosTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (alumnosTabla.getColumnModel().getColumnCount() > 0) {
-            alumnosTabla.getColumnModel().getColumn(0).setResizable(false);
+            alumnosTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            alumnosTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             alumnosTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
-            alumnosTabla.getColumnModel().getColumn(1).setResizable(false);
             alumnosTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
         alumnoDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
-        alumnoNombreText.setText("Nombre de alumno");
+        alumnoNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        alumnoNombreText.setEnabled(false);
         alumnoNombreText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 alumnoNombreTextActionPerformed(evt);
             }
         });
 
-        alumnoDomicilioText.setText("Domicilio de alumno");
+        alumnoDomicilioText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        alumnoDomicilioText.setEnabled(false);
 
         alumnoLegajoLabel.setText("Legajo");
 
@@ -192,7 +221,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Identificador", "Nombre"
+                "Legajo", "Nombre"
             }
         ) {
             Class[] types = new Class [] {
@@ -210,23 +239,25 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        alumnoAsigTabla.setColumnSelectionAllowed(true);
+        alumnoAsigTabla.setEnabled(false);
         alumnoAsigTabla.getTableHeader().setReorderingAllowed(false);
         alumnoAsigScroll.setViewportView(alumnoAsigTabla);
         alumnoAsigTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (alumnoAsigTabla.getColumnModel().getColumnCount() > 0) {
-            alumnoAsigTabla.getColumnModel().getColumn(0).setResizable(false);
-            alumnoAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
-            alumnoAsigTabla.getColumnModel().getColumn(1).setResizable(false);
-            alumnoAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            alumnoAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            alumnoAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         alumnoAsigLabel.setText("Asignaturas aprobadas");
 
         alumnoMailLabel.setText("Mail");
 
-        alumnoMailText.setText("Mail de alumno");
+        alumnoMailText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        alumnoMailText.setEnabled(false);
 
         alumnoAgregarAsigBoton.setText("Agregar...");
+        alumnoAgregarAsigBoton.setEnabled(false);
         alumnoAgregarAsigBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 alumnoAgregarAsigBotonActionPerformed(evt);
@@ -267,6 +298,8 @@ public class Principal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         alumnoLegajoText.setText("ALU0000");
+        alumnoLegajoText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        alumnoLegajoText.setEnabled(false);
         alumnoLegajoText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 alumnoLegajoTextActionPerformed(evt);
@@ -422,6 +455,7 @@ public class Principal extends javax.swing.JFrame {
 
         panelTabs.addTab("Alumnos", alumnosTab);
 
+        profesoresTabla.setAutoCreateRowSorter(true);
         profesoresTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -445,13 +479,14 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        profesoresTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         profesoresTabla.getTableHeader().setReorderingAllowed(false);
         profesoresScroll.setViewportView(profesoresTabla);
         profesoresTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (profesoresTabla.getColumnModel().getColumnCount() > 0) {
-            profesoresTabla.getColumnModel().getColumn(0).setResizable(false);
+            profesoresTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            profesoresTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             profesoresTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
-            profesoresTabla.getColumnModel().getColumn(1).setResizable(false);
             profesoresTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
@@ -518,9 +553,11 @@ public class Principal extends javax.swing.JFrame {
 
         profesorDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
-        profesorNombreText.setText("Nombre de profesor");
+        profesorNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        profesorNombreText.setEnabled(false);
 
-        profesorDomicilioText.setText("Domicilio de profesor");
+        profesorDomicilioText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        profesorDomicilioText.setEnabled(false);
 
         profesorLegajoLabel.setText("Legajo");
 
@@ -528,6 +565,7 @@ public class Principal extends javax.swing.JFrame {
 
         profesorDomicilioLabel.setText("Domicilio");
 
+        profesorAsigTabla.setAutoCreateRowSorter(true);
         profesorAsigTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -551,23 +589,26 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        profesorAsigTabla.setColumnSelectionAllowed(true);
+        profesorAsigTabla.setEnabled(false);
+        profesorAsigTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         profesorAsigTabla.getTableHeader().setReorderingAllowed(false);
         profesorAsigScroll.setViewportView(profesorAsigTabla);
         profesorAsigTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (profesorAsigTabla.getColumnModel().getColumnCount() > 0) {
-            profesorAsigTabla.getColumnModel().getColumn(0).setResizable(false);
-            profesorAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
-            profesorAsigTabla.getColumnModel().getColumn(1).setResizable(false);
-            profesorAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         profesorAsigLabel.setText("Asignaturas habilitadas");
 
         profesorMailLabel.setText("Mail");
 
-        profesorMailText.setText("Mail de profesor");
+        profesorMailText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        profesorMailText.setEnabled(false);
 
         profesorAgregarAsigBoton.setText("Agregar...");
+        profesorAgregarAsigBoton.setEnabled(false);
         profesorAgregarAsigBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profesorAgregarAsigBotonActionPerformed(evt);
@@ -608,6 +649,13 @@ public class Principal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         profesorLegajoText.setText("PRO0000");
+        profesorLegajoText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        profesorLegajoText.setEnabled(false);
+
+        profesorTelefonoText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        profesorTelefonoText.setEnabled(false);
+
+        profesorTelefonoLabel.setText("Tel.");
 
         javax.swing.GroupLayout profesorDatosPanelLayout = new javax.swing.GroupLayout(profesorDatosPanel);
         profesorDatosPanel.setLayout(profesorDatosPanelLayout);
@@ -618,21 +666,23 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(profesorDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profesorAsigScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                     .addGroup(profesorDatosPanelLayout.createSequentialGroup()
+                        .addComponent(profesorAsigLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(profesorAsigBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(profesorDatosPanelLayout.createSequentialGroup()
                         .addGroup(profesorDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(profesorMailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(profesorDomicilioLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(profesorNombreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(profesorLegajoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(profesorLegajoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(profesorTelefonoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(profesorDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(profesorMailText, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(profesorDomicilioText)
-                            .addComponent(profesorNombreText)
-                            .addComponent(profesorLegajoText, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addGroup(profesorDatosPanelLayout.createSequentialGroup()
-                        .addComponent(profesorAsigLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(profesorAsigBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(profesorDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(profesorTelefonoText, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(profesorMailText)
+                            .addComponent(profesorDomicilioText, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(profesorNombreText, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(profesorLegajoText))))
                 .addContainerGap())
         );
         profesorDatosPanelLayout.setVerticalGroup(
@@ -654,9 +704,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(profesorDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(profesorMailText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(profesorMailLabel))
-                .addGap(28, 28, 28)
-                .addComponent(profesorAsigLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(profesorDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profesorTelefonoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profesorTelefonoLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(profesorAsigLabel)
+                .addGap(3, 3, 3)
                 .addComponent(profesorAsigScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profesorAsigBotonesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -697,6 +751,7 @@ public class Principal extends javax.swing.JFrame {
 
         panelTabs.addTab("Profesores", profesoresTab);
 
+        asignaturasTabla.setAutoCreateRowSorter(true);
         asignaturasTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -720,13 +775,14 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        asignaturasTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         asignaturasTabla.getTableHeader().setReorderingAllowed(false);
         asignaturasScroll.setViewportView(asignaturasTabla);
         asignaturasTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturasTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturasTabla.getColumnModel().getColumn(0).setResizable(false);
+            asignaturasTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            asignaturasTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             asignaturasTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
-            asignaturasTabla.getColumnModel().getColumn(1).setResizable(false);
             asignaturasTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
@@ -734,6 +790,7 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturaCorrLabel.setText("Correlativas");
 
+        asignaturaCorrTabla.setAutoCreateRowSorter(true);
         asignaturaCorrTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -757,17 +814,19 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        asignaturaCorrTabla.setColumnSelectionAllowed(true);
+        asignaturaCorrTabla.setEnabled(false);
+        asignaturaCorrTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         asignaturaCorrTabla.getTableHeader().setReorderingAllowed(false);
         asignaturaCorrScroll.setViewportView(asignaturaCorrTabla);
         asignaturaCorrTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturaCorrTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setResizable(false);
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
-            asignaturaCorrTabla.getColumnModel().getColumn(1).setResizable(false);
-            asignaturaCorrTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         asignaturaCorrAgregarBoton.setText("Agregar...");
+        asignaturaCorrAgregarBoton.setEnabled(false);
         asignaturaCorrAgregarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 asignaturaCorrAgregarBotonActionPerformed(evt);
@@ -804,7 +863,8 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturaIdLabel.setText("ID");
 
-        asignaturaNombreText.setText("jTextField2");
+        asignaturaNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        asignaturaNombreText.setEnabled(false);
 
         asignaturaNombreLabel.setText("Nombre");
 
@@ -813,6 +873,9 @@ public class Principal extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        asignaturaIdText.setText("ASI0000");
+        asignaturaIdText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        asignaturaIdText.setEnabled(false);
 
         javax.swing.GroupLayout asignaturaDatosPanelLayout = new javax.swing.GroupLayout(asignaturaDatosPanel);
         asignaturaDatosPanel.setLayout(asignaturaDatosPanelLayout);
@@ -953,6 +1016,7 @@ public class Principal extends javax.swing.JFrame {
 
         panelTabs.addTab("Asignaturas", asignaturasTab);
 
+        cursadasTabla.setAutoCreateRowSorter(true);
         cursadasTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -976,13 +1040,15 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        cursadasTabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        cursadasTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadasTabla.getTableHeader().setReorderingAllowed(false);
         cursadasScroll.setViewportView(cursadasTabla);
         cursadasTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (cursadasTabla.getColumnModel().getColumnCount() > 0) {
-            cursadasTabla.getColumnModel().getColumn(0).setResizable(false);
+            cursadasTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            cursadasTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             cursadasTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
-            cursadasTabla.getColumnModel().getColumn(1).setResizable(false);
             cursadasTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
@@ -990,15 +1056,15 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaIdLabel.setText("ID");
 
-        cursadaNombreLabel.setText("Nombre");
-
-        cursadaNombreText.setText("jTextField2");
+        cursadaAsignaturaLabel.setText("Asignatura");
 
         cursadaPeriodoLabel.setText("Periodo");
 
         cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom" }));
+        cursadaDiaCombo.setEnabled(false);
 
         cursadaPeriodoACombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02" }));
+        cursadaPeriodoACombo.setEnabled(false);
         cursadaPeriodoACombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cursadaPeriodoAComboActionPerformed(evt);
@@ -1011,13 +1077,17 @@ public class Principal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         cursadaPeriodoBText.setText("2017");
+        cursadaPeriodoBText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        cursadaPeriodoBText.setEnabled(false);
 
         try {
             cursadaHoraInicioText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        cursadaHoraInicioText.setText("14:00");
+        cursadaHoraInicioText.setText("08:00");
+        cursadaHoraInicioText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        cursadaHoraInicioText.setEnabled(false);
         cursadaHoraInicioText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cursadaHoraInicioTextActionPerformed(evt);
@@ -1029,7 +1099,9 @@ public class Principal extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        cursadaHoraFinText.setText("14:00");
+        cursadaHoraFinText.setText("12:00");
+        cursadaHoraFinText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        cursadaHoraFinText.setEnabled(false);
         cursadaHoraFinText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cursadaHoraFinTextActionPerformed(evt);
@@ -1040,6 +1112,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaAlumLabel.setText("Alumnos");
 
+        cursadaAlumTabla.setAutoCreateRowSorter(true);
         cursadaAlumTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1064,17 +1137,18 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         cursadaAlumTabla.setColumnSelectionAllowed(true);
+        cursadaAlumTabla.setEnabled(false);
+        cursadaAlumTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaAlumTabla.getTableHeader().setReorderingAllowed(false);
         cursadaAlumScroll.setViewportView(cursadaAlumTabla);
         cursadaAlumTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (cursadaAlumTabla.getColumnModel().getColumnCount() > 0) {
-            cursadaAlumTabla.getColumnModel().getColumn(0).setResizable(false);
-            cursadaAlumTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
-            cursadaAlumTabla.getColumnModel().getColumn(1).setResizable(false);
-            cursadaAlumTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            cursadaAlumTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            cursadaAlumTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         cursadaAlumAgregarBoton.setText("Agregar...");
+        cursadaAlumAgregarBoton.setEnabled(false);
         cursadaAlumAgregarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cursadaAlumAgregarBotonActionPerformed(evt);
@@ -1110,6 +1184,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         cursadaProfAgregarBoton.setText("Agregar...");
+        cursadaProfAgregarBoton.setEnabled(false);
         cursadaProfAgregarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cursadaProfAgregarBotonActionPerformed(evt);
@@ -1144,6 +1219,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(cursadaProfQuitarBoton)))
         );
 
+        cursadaProfTabla.setAutoCreateRowSorter(true);
         cursadaProfTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1167,14 +1243,15 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        cursadaProfTabla.setColumnSelectionAllowed(true);
+        cursadaProfTabla.setEnabled(false);
+        cursadaProfTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaProfTabla.getTableHeader().setReorderingAllowed(false);
         cursadaProfScroll.setViewportView(cursadaProfTabla);
         cursadaProfTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (cursadaProfTabla.getColumnModel().getColumnCount() > 0) {
-            cursadaProfTabla.getColumnModel().getColumn(0).setResizable(false);
-            cursadaProfTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
-            cursadaProfTabla.getColumnModel().getColumn(1).setResizable(false);
-            cursadaProfTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+            cursadaProfTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            cursadaProfTabla.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
         cursadaProfLabel.setText("Profesores");
@@ -1184,45 +1261,62 @@ public class Principal extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        cursadaIdText.setText("CUR0000");
+        cursadaIdText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        cursadaIdText.setEnabled(false);
+
+        cursadaSeleccionarBoton.setText("Seleccionar...");
+        cursadaSeleccionarBoton.setEnabled(false);
+        cursadaSeleccionarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadaSeleccionarBotonActionPerformed(evt);
+            }
+        });
+
+        cursadaAsignaturaText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        cursadaAsignaturaText.setEnabled(false);
 
         javax.swing.GroupLayout cursadaDatosPanelLayout = new javax.swing.GroupLayout(cursadaDatosPanel);
         cursadaDatosPanel.setLayout(cursadaDatosPanelLayout);
         cursadaDatosPanelLayout.setHorizontalGroup(
             cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cursadaDatosPanelLayout.createSequentialGroup()
+            .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cursadaProfBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cursadaAlumScroll, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cursadaDatosPanelLayout.createSequentialGroup()
-                        .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cursadaPeriodoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cursadaNombreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cursadaIdLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
-                                .addComponent(cursadaPeriodoACombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cursadaPeriodoBText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cursadaDiaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cursadaHoraInicioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cursadaHoraLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cursadaHoraFinText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(cursadaNombreText)
-                            .addComponent(cursadaIdText, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, cursadaDatosPanelLayout.createSequentialGroup()
+                .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cursadaProfBotonesPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cursadaAlumScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(cursadaAlumBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cursadaProfScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
                         .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cursadaAlumLabel)
-                            .addComponent(cursadaProfLabel))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(cursadaAlumBotonesPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cursadaProfScroll, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cursadaAsignaturaLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cursadaPeriodoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cursadaIdLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cursadaIdText)
+                            .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
+                                    .addComponent(cursadaPeriodoACombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cursadaPeriodoBText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cursadaDiaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cursadaHoraInicioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cursadaHoraLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cursadaHoraFinText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
+                                    .addComponent(cursadaAsignaturaText)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cursadaSeleccionarBoton)))))
+                    .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
+                        .addComponent(cursadaProfLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         cursadaDatosPanelLayout.setVerticalGroup(
@@ -1234,8 +1328,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(cursadaIdText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cursadaNombreText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cursadaNombreLabel))
+                    .addComponent(cursadaAsignaturaLabel)
+                    .addComponent(cursadaSeleccionarBoton)
+                    .addComponent(cursadaAsignaturaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cursadaPeriodoLabel)
@@ -1254,7 +1349,7 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cursadaProfLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cursadaProfScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(cursadaProfScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cursadaProfBotonesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
@@ -1370,6 +1465,12 @@ public class Principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }//GEN-END:initComponents
 
+    private Entidades entidades;
+    private Alumno alumnoActual;
+    private Profesor profesorActual;
+    private Asignatura asignaturaActual;
+    private Cursada cursadaActual;
+
     private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_alumnoAgregarAsigBotonActionPerformed
@@ -1429,6 +1530,357 @@ public class Principal extends javax.swing.JFrame {
     private void alumnoNombreTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoNombreTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_alumnoNombreTextActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        entidades = new Entidades();
+        
+        Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B. Justo 2050", "jperez@gmail.com");
+        Alumno alumnoB = new Alumno("ALU0041", "Maria Funes", "Santa Fe 1234", "mfunes@gmail.com");
+        Alumno alumnoC = new Alumno("ALU0352", "Lucas Torres", "9 de Julio 1530", "ltorres@gmail.com");
+        entidades.addAlumno(alumnoA);
+        entidades.addAlumno(alumnoB);
+        entidades.addAlumno(alumnoC);
+        
+        Profesor profesorA = new Profesor("PRO0013", "Leonel Guccione", "Calle Falsa 123", "2235-123593", "leo@copetel.com.ar");
+        Profesor profesorB = new Profesor("PRO0054", "Adolfo Tomas Spinelli", "Calle Siempreviva 567", "2234-423585", "adolfspin@gmail.com");
+        Profesor profesorC = new Profesor("PRO0793", "Guillermo Lazzurri", "Calle Verdadera 940", "2236-078934", "guillelazurr@live.com");
+        entidades.addProfesor(profesorA);
+        entidades.addProfesor(profesorB);
+        entidades.addProfesor(profesorC);
+        
+        Asignatura asignaturaA = new Asignatura("ASI0004", "Programacion 3");
+        Asignatura asignaturaB = new Asignatura("ASI0084", "Taller I");
+        Asignatura asignaturaC = new Asignatura("ASI0543", "Teoria de la Informacion");
+        entidades.addAsignatura(asignaturaA);
+        entidades.addAsignatura(asignaturaB);
+        entidades.addAsignatura(asignaturaC);
+        
+        Cursada cursadaA = new Cursada("CUR0023", asignaturaA, "01-2017", "Mar", "09:00");
+        Cursada cursadaB = new Cursada("CUR0053", asignaturaB, "02-2017", "Vie", "08:00");
+        Cursada cursadaC = new Cursada("CUR0150", asignaturaC, "02-2017", "Jue", "14:30");
+        Cursada cursadaD = new Cursada("CUR0002", asignaturaA, "01-2016", "Mié", "10:00");
+        entidades.addCursada(cursadaA);
+        entidades.addCursada(cursadaB);
+        entidades.addCursada(cursadaC);
+        entidades.addCursada(cursadaD);
+        
+        // Agregamos aprobadas para los alumnos.
+        alumnoA.addAprobada(asignaturaA);
+        alumnoA.addAprobada(asignaturaB);
+        
+        alumnoB.addAprobada(asignaturaA);
+        alumnoB.addAprobada(asignaturaB);
+        alumnoB.addAprobada(asignaturaC);
+        
+        alumnoC.addAprobada(asignaturaA);
+        
+        // Habilitamos asignaturas para los profesores.
+        profesorA.addParticipacion(asignaturaA);
+        profesorA.addParticipacion(asignaturaB);
+        profesorB.addParticipacion(asignaturaA);
+        profesorB.addParticipacion(asignaturaB);
+        profesorB.addParticipacion(asignaturaC);
+        profesorC.addParticipacion(asignaturaA);
+        
+        // Agregamos correlativas a las asignaturas.
+        asignaturaB.addCorrelativa(asignaturaA);
+        
+        // Agregamos alumnos y profesores a las cursadas.
+        cursadaA.addAlumno(alumnoA);
+        cursadaA.addAlumno(alumnoB);
+        cursadaA.addProfesor(profesorA);
+        
+        cursadaB.addAlumno(alumnoC);
+        cursadaB.addProfesor(profesorA);
+        cursadaB.addProfesor(profesorB);
+        cursadaB.addProfesor(profesorC);
+        
+        cursadaC.addAlumno(alumnoB);
+        cursadaC.addAlumno(alumnoC);
+        cursadaC.addProfesor(profesorC);
+        
+        cursadaD.addAlumno(alumnoA);
+        cursadaD.addAlumno(alumnoB);
+        cursadaD.addAlumno(alumnoC);
+        cursadaD.addProfesor(profesorA);
+        cursadaD.addProfesor(profesorC);
+        
+        // Setup inicial de las tablas de entidades.
+        setupAlumnosTabla();
+        setupProfesoresTabla();
+        setupAsignaturasTabla();
+        setupCursadasTabla();
+        
+        // Modificamos el titulo de la ventana.
+        this.setTitle("Sistema PGA");
+    }//GEN-LAST:event_formWindowOpened
+
+    private void cursadaSeleccionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaSeleccionarBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cursadaSeleccionarBotonActionPerformed
+
+    private void setupAlumnosTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
+        
+        // Crear listener para la tabla de alumnos.
+        alumnosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+          {
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                int selectedRow = lsm.getMinSelectionIndex();
+                boolean seleccionado = selectedRow >= 0;
+                alumnosBorrarBoton.setEnabled(seleccionado);
+                alumnoEditarBoton.setEnabled(seleccionado);
+                if (seleccionado) {
+                    selectedRow = alumnosTabla.convertRowIndexToModel(selectedRow);
+                    String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
+                    Alumno alumno = entidades.buscaAlumnoPorLegajo(legajo);
+                    setupAlumno(alumno);
+                }
+                else {
+                    setupAlumno(null);
+                }
+            }
+        });
+        
+        Iterator<Alumno> it = entidades.getAlumnos().iterator();
+
+        Alumno alumno;
+        while (it.hasNext()) {
+            alumno = it.next();
+            modelo.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
+        }
+    }
+    
+    void setupAlumno(Alumno alumno) {
+        boolean alumnoValido = alumno != null;
+        alumnoActual = alumno;
+        
+        DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
+        modelo.setRowCount(0);
+        if (alumnoValido) {
+            alumnoLegajoText.setText(alumnoActual.getLegajo());
+            alumnoNombreText.setText(alumnoActual.getNombre());
+            alumnoDomicilioText.setText(alumnoActual.getDomicilio());
+            alumnoMailText.setText(alumnoActual.getMail());
+            Iterator<Asignatura> it = alumnoActual.getAprobadas().iterator();
+            Asignatura asignatura;
+            while (it.hasNext()) {
+                asignatura = it.next();
+                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            }
+        }
+        else {
+            alumnoLegajoText.setText("ALU0000");
+            alumnoNombreText.setText("");
+            alumnoDomicilioText.setText("");
+            alumnoMailText.setText("");
+        }
+    }
+    
+    private void setupProfesoresTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
+        
+        // Crear listener para la tabla de profesores.
+        profesoresTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+          {
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                int selectedRow = lsm.getMinSelectionIndex();
+                boolean seleccionado = selectedRow >= 0;
+                profesoresBorrarBoton.setEnabled(seleccionado);
+                profesorEditarBoton.setEnabled(seleccionado);
+                if (seleccionado) {
+                    selectedRow = profesoresTabla.convertRowIndexToModel(selectedRow);
+                    String legajo = (String)profesoresTabla.getModel().getValueAt(selectedRow, 0);
+                    Profesor profesor = entidades.buscaProfesorPorLegajo(legajo);
+                    setupProfesor(profesor);
+                }
+                else {
+                    setupProfesor(null);
+                }
+            }
+        });
+        
+        Iterator<Profesor> it = entidades.getProfesores().iterator();
+
+        Profesor profesor;
+        while (it.hasNext()) {
+            profesor = it.next();
+            modelo.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
+        }
+    }
+    
+    private void setupProfesor(Profesor profesor) {
+        boolean profesorValido = profesor != null;
+        profesorActual = profesor;
+        
+        DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
+        modelo.setRowCount(0);
+        if (profesorValido) {
+            profesorLegajoText.setText(profesorActual.getLegajo());
+            profesorNombreText.setText(profesorActual.getNombre());
+            profesorDomicilioText.setText(profesorActual.getDomicilio());
+            profesorTelefonoText.setText(profesorActual.getTelefono());
+            profesorMailText.setText(profesorActual.getMail());
+            Iterator<Asignatura> it = profesorActual.getParticipar().iterator();
+            Asignatura asignatura;
+            while (it.hasNext()) {
+                asignatura = it.next();
+                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            }
+        }
+        else {
+            profesorLegajoText.setText("PRO0000");
+            profesorNombreText.setText("");
+            profesorDomicilioText.setText("");
+            profesorTelefonoText.setText("");
+            profesorMailText.setText("");
+        }
+    }
+    
+    private void setupAsignaturasTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
+        
+        // Crear listener para la tabla de asignaturas.
+        asignaturasTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+          {
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                int selectedRow = lsm.getMinSelectionIndex();
+                boolean seleccionado = selectedRow >= 0;
+                asignaturasBorrarBoton.setEnabled(seleccionado);
+                asignaturaEditarBoton.setEnabled(seleccionado);
+                if (seleccionado) {
+                    selectedRow = asignaturasTabla.convertRowIndexToModel(selectedRow);
+                    String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
+                    Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
+                    setupAsignatura(asignatura);
+                }
+                else {
+                    setupAsignatura(null);
+                }
+            }
+        });
+        
+        // Actualizar tabla de asignaturas.
+        Iterator<Asignatura> it = entidades.getAsignaturas().iterator();
+        Asignatura asignatura;
+        while (it.hasNext()) {
+            asignatura = it.next();
+            modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+        }
+    }
+    
+    void setupAsignatura(Asignatura asignatura) {
+        boolean asignaturaValida = asignatura != null;
+        asignaturaActual = asignatura;
+        
+        DefaultTableModel modelo = (DefaultTableModel) asignaturaCorrTabla.getModel();
+        modelo.setRowCount(0);
+        if (asignaturaValida) {
+            asignaturaIdText.setText(asignaturaActual.getId());
+            asignaturaNombreText.setText(asignaturaActual.getNombre());
+            
+            Iterator<Asignatura> it = asignaturaActual.getCorrelativas().iterator();
+            Asignatura correlativa;
+            while (it.hasNext()) {
+                correlativa = it.next();
+                modelo.addRow(new Object[] {correlativa.getId(), correlativa.getNombre()});
+            }
+        }
+        else {
+            asignaturaIdText.setText("ASI0000");
+            asignaturaNombreText.setText("");
+        }
+    }
+    
+    private void setupCursadasTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
+        
+        // Crear listener para la tabla de asignaturas.
+        cursadasTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+          {
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                int selectedRow = lsm.getMinSelectionIndex();
+                boolean seleccionado = selectedRow >= 0;
+                cursadasBorrarBoton.setEnabled(seleccionado);
+                cursadaEditarBoton.setEnabled(seleccionado);
+                if (seleccionado) {
+                    selectedRow = cursadasTabla.convertRowIndexToModel(selectedRow);
+                    String id = (String)cursadasTabla.getModel().getValueAt(selectedRow, 0);
+                    Cursada cursada = entidades.buscaCursadaPorId(id);
+                    setupCursada(cursada);
+                }
+                else {
+                    setupCursada(null);
+                }
+            }
+        });
+        
+        Iterator<Cursada> it = entidades.getCursadas().iterator();
+
+        Cursada cursada;
+        String cursadaNombre;
+        while (it.hasNext()) {
+            cursada = it.next();
+            cursadaNombre = cursada.getAsignatura().getId() + "-" + cursada.getAsignatura().getNombre() + " (" + cursada.getPeriodo() + ")";
+            modelo.addRow(new Object[] {cursada.getId(), cursadaNombre});
+        }
+    }
+    
+    void setupCursada(Cursada cursada) {
+        boolean cursadaValida = cursada != null;
+        cursadaActual = cursada;
+        
+        DefaultTableModel modeloAlum = (DefaultTableModel) cursadaAlumTabla.getModel();
+        DefaultTableModel modeloProf = (DefaultTableModel) cursadaProfTabla.getModel();
+        modeloAlum.setRowCount(0);
+        modeloProf.setRowCount(0);
+        if (cursadaValida) {
+            Asignatura asignatura = cursadaActual.getAsignatura();
+            String asignaturaNombre = asignatura.getId() + "-" + asignatura.getNombre();
+            cursadaIdText.setText(cursadaActual.getId());
+            cursadaAsignaturaText.setText(asignaturaNombre);
+            cursadaPeriodoACombo.setSelectedItem(cursadaActual.getPeriodo().substring(0, 2));
+            cursadaPeriodoBText.setText(cursadaActual.getPeriodo().substring(3));
+            cursadaDiaCombo.setSelectedItem(cursadaActual.getDia());
+            cursadaHoraInicioText.setText(cursadaActual.getHora());
+            cursadaHoraFinText.setText(/*cursadaActual.getHora()*/"12:34");
+            
+            Iterator<Alumno> ita = cursadaActual.getAlumnos().iterator();
+            Alumno alumno;
+            while (ita.hasNext()) {
+                alumno = ita.next();
+                modeloAlum.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
+            }
+            
+            Iterator<Profesor> itp = cursadaActual.getProfesores().iterator();
+            Profesor profesor;
+            while (itp.hasNext()) {
+                profesor = itp.next();
+                modeloProf.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
+            }
+        }
+        else {
+            cursadaIdText.setText("CUR0000");
+            cursadaAsignaturaText.setText("");
+            cursadaPeriodoACombo.setSelectedIndex(0);
+            cursadaPeriodoBText.setText("");
+            cursadaHoraInicioText.setText("00:00");
+            cursadaHoraFinText.setText("00:00");
+            cursadaDiaCombo.setSelectedIndex(0);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -1555,6 +2007,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton cursadaAlumQuitarBoton;
     private javax.swing.JScrollPane cursadaAlumScroll;
     private javax.swing.JTable cursadaAlumTabla;
+    private javax.swing.JLabel cursadaAsignaturaLabel;
+    private javax.swing.JTextField cursadaAsignaturaText;
     private javax.swing.JPanel cursadaBotonesPanel;
     private javax.swing.JButton cursadaCancelarBoton;
     private javax.swing.JPanel cursadaDatosPanel;
@@ -1565,8 +2019,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel cursadaHoraLabel;
     private javax.swing.JLabel cursadaIdLabel;
     private javax.swing.JFormattedTextField cursadaIdText;
-    private javax.swing.JLabel cursadaNombreLabel;
-    private javax.swing.JTextField cursadaNombreText;
     private javax.swing.JComboBox<String> cursadaPeriodoACombo;
     private javax.swing.JFormattedTextField cursadaPeriodoBText;
     private javax.swing.JLabel cursadaPeriodoLabel;
@@ -1576,6 +2028,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton cursadaProfQuitarBoton;
     private javax.swing.JScrollPane cursadaProfScroll;
     private javax.swing.JTable cursadaProfTabla;
+    private javax.swing.JButton cursadaSeleccionarBoton;
     private javax.swing.JButton cursadasBorrarBoton;
     private javax.swing.JPanel cursadasBotonesPanel;
     private javax.swing.JTextField cursadasFiltro;
@@ -1603,6 +2056,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel profesorNombreLabel;
     private javax.swing.JTextField profesorNombreText;
     private javax.swing.JButton profesorQuitarAsigBoton;
+    private javax.swing.JLabel profesorTelefonoLabel;
+    private javax.swing.JTextField profesorTelefonoText;
     private javax.swing.JButton profesoresBorrarBoton;
     private javax.swing.JPanel profesoresBotonesPanel;
     private javax.swing.JTextField profesoresFiltro;

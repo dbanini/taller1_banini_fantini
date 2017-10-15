@@ -191,6 +191,26 @@ public class Entidades {
     }
     
     /**
+     * Busca un alumno en la lista mediante su legajo. <br>
+     * <b>post: </b> Se devuelve el alumno con el cual corresponde el legajo. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param legajo Legajo por el cual buscar el alumno.
+     */
+    public Alumno buscaAlumnoPorLegajo(String legajo) {
+        Alumno alumno = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el legajo buscado.
+        Iterator<Alumno> it = alumnos.iterator();
+        while (it.hasNext() && !encontrado) {
+            alumno = it.next();
+            encontrado = alumno.getLegajo() == legajo;
+        }
+        
+        return encontrado ? alumno : null;
+    }
+    
+    /**
      * Busqueda de profesores con determinado nombre.
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList los profesores con determinado nombre pasado por parametro.
@@ -208,6 +228,26 @@ public class Entidades {
             }   
         }
         return ProfesoresEncontrados;
+    }
+    
+    /**
+     * Busca un profesor en la lista mediante su legajo. <br>
+     * <b>post: </b> Se devuelve el profesor con el cual corresponde el legajo. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param legajo Legajo por el cual buscar el profesor.
+     */
+    public Profesor buscaProfesorPorLegajo(String legajo) {
+        Profesor profesor = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el legajo buscado.
+        Iterator<Profesor> it = profesores.iterator();
+        while (it.hasNext() && !encontrado) {
+            profesor = it.next();
+            encontrado = profesor.getLegajo() == legajo;
+        }
+        
+        return encontrado ? profesor : null;
     }
     
     /**
@@ -231,6 +271,26 @@ public class Entidades {
     }
     
     /**
+     * Busca una asignatura en la lista mediante su id. <br>
+     * <b>post: </b> Se devuelve la asignatura con el cual corresponde el id. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param id Id por el cual buscar la asignatura.
+     */
+    public Asignatura buscaAsignaturaPorId(String id) {
+        Asignatura asignatura = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el id buscado.
+        Iterator<Asignatura> it = asignaturas.iterator();
+        while (it.hasNext() && !encontrado) {
+            asignatura = it.next();
+            encontrado = asignatura.getId() == id;
+        }
+        
+        return encontrado ? asignatura : null;
+    }
+    
+    /**
      * Busqueda de cursadas con determinado nombre de asignatura.
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
@@ -248,6 +308,26 @@ public class Entidades {
             }
         }
         return cursadaEncontrados;
+    }
+    
+    /**
+     * Busca una cursada en la lista mediante su id. <br>
+     * <b>post: </b> Se devuelve la cursada con el cual corresponde el id. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param id Id por el cual buscar la cursada.
+     */
+    public Cursada buscaCursadaPorId(String id) {
+        Cursada cursada = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el id buscado.
+        Iterator<Cursada> it = cursadas.iterator();
+        while (it.hasNext() && !encontrado) {
+            cursada = it.next();
+            encontrado = cursada.getId() == id;
+        }
+        
+        return encontrado ? cursada : null;
     }
     
     /**

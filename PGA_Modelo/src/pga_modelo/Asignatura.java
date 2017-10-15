@@ -122,8 +122,7 @@ public class Asignatura implements Comparable<Asignatura>{
      */
     @Override
     public int compareTo(Asignatura o) {
-        // TODO Implement this method
-        return 1;
+        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------
