@@ -21,18 +21,18 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     private void initComponents() {//GEN-BEGIN:initComponents
 
-        filtroEntidades = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        entidadesFiltro = new javax.swing.JTextField();
+        scrollEntidades = new javax.swing.JScrollPane();
         tablaEntidades = new javax.swing.JTable();
-        jPanel13 = new javax.swing.JPanel();
-        CancelarButton2 = new javax.swing.JButton();
-        AceptarButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        botonesPanel = new javax.swing.JPanel();
+        cancelarBoton = new javax.swing.JButton();
+        seleccionarBoton = new javax.swing.JButton();
+        entidadPanel = new javax.swing.JScrollPane();
         entidadDescripcion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        filtroEntidades.setToolTipText("Filtrar el listado");
+        entidadesFiltro.setToolTipText("Filtrar el listado");
 
         tablaEntidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -58,35 +58,35 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
             }
         });
         tablaEntidades.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(tablaEntidades);
+        scrollEntidades.setViewportView(tablaEntidades);
 
-        CancelarButton2.setText("Cancelar");
-        CancelarButton2.addActionListener(new java.awt.event.ActionListener() {
+        cancelarBoton.setText("Cancelar");
+        cancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarButton2ActionPerformed(evt);
+                cancelarBotonActionPerformed(evt);
             }
         });
 
-        AceptarButton2.setText("Seleccionar");
+        seleccionarBoton.setText("Seleccionar");
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+        javax.swing.GroupLayout botonesPanelLayout = new javax.swing.GroupLayout(botonesPanel);
+        botonesPanel.setLayout(botonesPanelLayout);
+        botonesPanelLayout.setHorizontalGroup(
+            botonesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, botonesPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(AceptarButton2)
+                .addComponent(seleccionarBoton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CancelarButton2)
+                .addComponent(cancelarBoton)
                 .addContainerGap())
         );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+        botonesPanelLayout.setVerticalGroup(
+            botonesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, botonesPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CancelarButton2)
-                    .addComponent(AceptarButton2))
+                .addGroup(botonesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelarBoton)
+                    .addComponent(seleccionarBoton))
                 .addContainerGap())
         );
 
@@ -95,7 +95,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         entidadDescripcion.setText("Descripcion de lo que\nEsta adentro\nde la entidad");
         entidadDescripcion.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         entidadDescripcion.setEnabled(false);
-        jScrollPane1.setViewportView(entidadDescripcion);
+        entidadPanel.setViewportView(entidadDescripcion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,35 +104,36 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(filtroEntidades)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
+                            .addComponent(entidadesFiltro)
+                            .addComponent(scrollEntidades, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                        .addComponent(entidadPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(filtroEntidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(entidadesFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                    .addComponent(entidadPanel)
+                    .addComponent(scrollEntidades, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }//GEN-END:initComponents
 
-    private void CancelarButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarButton2ActionPerformed
+    private void cancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBotonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CancelarButton2ActionPerformed
+    }//GEN-LAST:event_cancelarBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,17 +212,13 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AceptarButton2;
-    private javax.swing.JButton CancelarButton2;
+    private javax.swing.JPanel botonesPanel;
+    private javax.swing.JButton cancelarBoton;
     private javax.swing.JTextArea entidadDescripcion;
-    private javax.swing.JTextField filtroEntidades;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane entidadPanel;
+    private javax.swing.JTextField entidadesFiltro;
+    private javax.swing.JScrollPane scrollEntidades;
+    private javax.swing.JButton seleccionarBoton;
     private javax.swing.JTable tablaEntidades;
     // End of variables declaration//GEN-END:variables
 
