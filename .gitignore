@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# XML Data files (git add -f to force the data bank)
+*.xml
+
 # Log file
 *.log
 
