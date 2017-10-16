@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SingleSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -1749,6 +1751,13 @@ public class Principal extends javax.swing.JFrame {
         cursadaD.addAlumno(alumnoC);
         cursadaD.addProfesor(profesorA);
         cursadaD.addProfesor(profesorC);
+        
+        // Crear el listener para el cambio de tabs.
+        panelTabs.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                System.out.println("Tab: " + panelTabs.getSelectedIndex());
+            }
+        });
         
         // Setup inicial de las tablas de entidades.
         setupAlumnosTabla();
