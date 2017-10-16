@@ -84,7 +84,7 @@ public class Entidades {
     
     /**
      * Agrega un profesor a la lista de profesores. <br>
-     * <b>pre: </b> El profesor no existe en la lista de cursadas.
+     * <b>pre: </b> El profesor no existe en la lista de profesores.
      * <b>post: </b> Se agrega un profesor a la lista de profesores.
      *  @param profesor cumple que es valido.
      */
@@ -94,19 +94,27 @@ public class Entidades {
     }
     
     /**
-     * Elimina un profesor de la lista de profesores. <br>
-     * <b>pre: </b> El profesor existe en la lista de cursadas.
+     * Elimina un profesor de la lista de profesores y de la lista de profesores en las cursadas. <br>
+     * <b>pre: </b> El profesor existe en la lista de profesores.
      * <b>post: </b> Se elimina un profesor de la lista de profesores.
      *  @param profesor cumple que es valido.
      */
     public void removeProfesor(Profesor profesor){
+        Iterator it;
+        Cursada auxCursada;
+        
         profesores.remove(profesor);
+        it=cursadas.iterator();
+        while (it.hasNext()){
+            auxCursada=(Cursada) it.next();
+            auxCursada.getProfesores().remove(profesor);
+        }
         verificarInvariante();
     }
     
     /**
      * Agrega un alumno a la lista de alumnos. <br>
-     * <b>pre: </b> El alumno no existe en la lista de cursadas.
+     * <b>pre: </b> El alumno no existe en la lista de alumnos.
      * <b>post: </b> Se agrega un alumno a la lista de alumnos.
      *  @param alumnos cumple que es valido.
      */
@@ -117,18 +125,26 @@ public class Entidades {
     
     /**
      * Elimina una alumno de la lista de alumnos. <br>
-     * <b>pre: </b> El alumno existe en la lista de cursadas.
+     * <b>pre: </b> El alumno existe en la lista de alumnos.
      * <b>post: </b> Se elimina un alumno de la lista de alumnos.
      *  @param alumnos cumple que es valido.
      */
     public void removeAlumno(Alumno alumno){
+        Iterator it;
+        Cursada auxCursada;
+        
         alumnos.remove(alumno);
+        it=cursadas.iterator();
+        while (it.hasNext()){
+            auxCursada=(Cursada) it.next();
+            auxCursada.getAlumnos().remove(alumno);
+        }
         verificarInvariante();
     }
     
     /**
      * Agrega una asignatura a la lista de asignaturas. <br>
-     * <b>pre: </b> La asignatura no existe en la lista de cursadas.
+     * <b>pre: </b> La asignatura no existe en la lista de asignaturas.
      * <b>post: </b> Se agrega una asignatura a la lista de aisgnaturas.
      *  @param asignatura cumple que es valida.
      */
@@ -139,12 +155,32 @@ public class Entidades {
     
     /**
      * Elimina una asignatura de la lista de aisgnaturas. <br>
-     * <b>pre: </b> La asignatura existe en la lista de cursadas.
+     * <b>pre: </b> La asignatura existe en la lista de asignaturas.
      * <b>post: </b> Se elimina una asignatura de la lista de asignaturas.
      * @param asignatura cumple que es valida.
      */
     public void removeAsignatura(Asignatura asignatura){
+        Iterator it;
+        Asignatura auxAsignatura;
+        Cursada auxCursada;
+        
         asignaturas.remove(asignatura);
+        
+        //Elimina la asignatura en las correlativas.
+        it=asignaturas.iterator();
+        while (it.hasNext()){
+            auxAsignatura=(Asignatura) it.next();
+            auxAsignatura.removeCorrelativa(asignatura);
+        }
+        //Elimina las cursadas con dicha asignatura.
+        it=cursadas.iterator();
+        while (it.hasNext()){
+            auxCursada=(Cursada) it.next();
+            if (auxCursada.getAsignatura().compareTo(asignatura)==0){
+                removeCursada(auxCursada);
+                it=cursadas.iterator(); //Si no se actualiza el iterador tira excepcion.
+            }
+        }
         verificarInvariante();
     }
     
