@@ -9,7 +9,9 @@ import java.util.TreeSet;
  * La asignatura debe ser valida. <br>
  * El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (Año)) <br>
  * El dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
- * La hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
+ * La hora inicio debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
+ * La hora fin debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
+ * La hora fin debe ser mayor en valor numerico que la hora inicio <br>
  * La lista de profesores es distinta de null. <br>
  * La lista de alumnos es distinta de null.
  */
@@ -23,7 +25,8 @@ public class Cursada implements Comparable<Cursada>{
     private Asignatura asignatura;
     private String periodo;
     private String dia;
-    private String hora;
+    private String horaInicio;
+    private String horaFin;
     private TreeSet<Profesor> profesores;
     private TreeSet<Alumno> alumnos;
     
@@ -39,14 +42,15 @@ public class Cursada implements Comparable<Cursada>{
      * @param dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
      * @param hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9))
      */
-    public Cursada(String id, Asignatura asignatura, String periodo, String dia, String hora) {
-        this.id=id;
-        this.asignatura=asignatura;
-        this.periodo=periodo;
-        this.dia=dia;
-        this.hora=hora;
-        profesores= new TreeSet<Profesor>();
-        alumnos= new TreeSet<Alumno>();
+    public Cursada(String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin) {
+        this.id = id;
+        this.asignatura = asignatura;
+        this.periodo = periodo;
+        this.dia = dia;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        profesores = new TreeSet<Profesor>();
+        alumnos = new TreeSet<Alumno>();
         verificarInvariante();
     }
 
@@ -90,13 +94,22 @@ public class Cursada implements Comparable<Cursada>{
         return dia;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setHoraInicio(String hora) {
+        this.horaInicio = hora;
         verificarInvariante();
     }
 
-    public String getHora() {
-        return hora;
+    public String getHoraInicio() {
+        return horaInicio;
+    }
+    
+    public void setHoraFin(String hora) {
+        this.horaFin = hora;
+        verificarInvariante();
+    }
+
+    public String getHoraFin() {
+        return horaFin;
     }
 
     public void setProfesores(TreeSet<Profesor> profesores) {
@@ -176,7 +189,7 @@ public class Cursada implements Comparable<Cursada>{
         Profesor profesor;
         Alumno alumno;
         
-        string="Identificacion: "+id+" Periodo: "+periodo+" Dia: "+dia+" Hora: "+hora+" "+asignatura.toString();
+        string="Identificacion: "+id+" Periodo: "+periodo+" Dia: "+dia+" Hora I: "+horaInicio + "Hora F:" + horaFin +" "+asignatura.toString();
         it=profesores.iterator();
         while (it.hasNext()){
             profesor=(Profesor)it.next();
@@ -277,7 +290,6 @@ public class Cursada implements Comparable<Cursada>{
         
         case "Lun":
         case "Mar":
-        case "Mie":
         case "Mié":
         case "Jue":
         case "Vie":
@@ -290,11 +302,11 @@ public class Cursada implements Comparable<Cursada>{
     }
 
     /**
-     * Comprueba que la hora sea valida. <br>
+     * Comprueba que la hora especificada sea valida. <br>
      * La hora cumple con la mascara 99:99 (9 : 0-9) <br>
      * @return True si la hora es valida, false en caso contrario.
      */ 
-    private boolean horaEsValido() {
+    public boolean horaEsValido(String hora) {
         String auxHora;
         int horas=0,minutos=0;
         
@@ -315,14 +327,26 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
+     * Comprueba si una hora es mayor a otra. <br>
+     * <b>pre: </b> Las horas deben cumplir con la mascara 99:99 (9 : 0-9) <br>
+     * @return True si la horaA es mayor a la horaB, false en caso contrario.
+     */ 
+    public boolean horaMayorA(String horaA, String horaB) {
+        assert horaEsValido(horaA) : "La hora A es invalida.";
+        assert horaEsValido(horaB) : "La hora B es invalida.";
+        
+        // TODO Implementar chequeo entre horas.
+        
+        return true;
+    }
+    
+    /**
      * Comprueba que la lista de profesores sea valida. <br>
      * La lista de profesores es distinta de null. <br>
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean profesoresEsValido() {
-        if (profesores!=null)
-            return true;
-        return false;
+        return profesores != null;
     }
     
     /**
@@ -331,9 +355,7 @@ public class Cursada implements Comparable<Cursada>{
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean alumnosEsValido() {
-        if (alumnos!=null)
-            return true;
-        return false;
+        return alumnos != null;
     }
     
     /**
@@ -343,7 +365,9 @@ public class Cursada implements Comparable<Cursada>{
      * La asignatura es distinta de null. <br>
      * El periodo cumple con la mascara. <br>
      * El dia es igual a algun string de dias. <br>
-     * La hora cumple con la mascara. <br>
+     * La hora inicio cumple con la mascara. <br>
+     * La hora fin cumple con la mascara. <br>
+     * La hora fin es mayor que la hora inicio. <br>
      * La lista de profesores es distinta de null. <br>
      * La lista de alumnos es distinta de null.
      */
@@ -352,7 +376,9 @@ public class Cursada implements Comparable<Cursada>{
         assert asignaturaEsValido(): "La asignatura es invalida.";
         assert periodoEsValido(): "El periodo es invalido.";
         assert diaEsValido(): "El dia es invalido.";
-        assert horaEsValido(): "La hora es invalida.";
+        assert horaEsValido(horaInicio): "La hora inicio es invalida.";
+        assert horaEsValido(horaFin): "La hora fin es invalida.";
+        assert horaMayorA(horaFin, horaInicio): "La hora fin no es mayor a la hora inicio.";
         assert profesoresEsValido(): "La lista de profesores es invalida.";
         assert alumnosEsValido(): "La lista de alumnos es invalida.";
     }
