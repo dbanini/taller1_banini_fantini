@@ -24,6 +24,13 @@ public class Asignatura implements Comparable<Asignatura>{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Asignatura (){
+        this.id = "ASI0000";
+        this.nombre = "Nombre";
+        correlativas = new TreeSet<Asignatura>();
+        verificarInvariante();
+    }
+    
     /**
      * Crea una asignatura con sus atributos. <br>
      * <b>pre: </b> El id es unico.

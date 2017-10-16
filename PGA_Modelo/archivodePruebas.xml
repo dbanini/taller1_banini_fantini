@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_121" class="java.beans.XMLDecoder">
+ <object class="pga_modelo.Entidades" id="Entidades0">
+  <void property="alumnos">
+   <void method="add">
+    <object class="pga_modelo.Alumno">
+     <void property="domicilio">
+      <string>Juan B Justo 2050</string>
+     </void>
+     <void property="legajo">
+      <string>ALU0003</string>
+     </void>
+     <void property="mail">
+      <string>jperez@gmail.com</string>
+     </void>
+     <void property="nombre">
+      <string>Jose Perez</string>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>

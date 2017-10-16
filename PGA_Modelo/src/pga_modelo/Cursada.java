@@ -7,8 +7,8 @@ import java.util.TreeSet;
  * Representa una cursada junto con sus datos. <br>
  * El id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) <br>
  * La asignatura debe ser valida. <br>
- * El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (Año)) <br>
- * El dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
+ * El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (AÃ±o)) <br>
+ * El dia debe pertenecer a Lun, Mar, MiÃ©, Jue, Vie, Sab o Dom. <br>
  * La hora inicio debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
  * La hora fin debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
  * La hora fin debe ser mayor en valor numerico que la hora inicio <br>
@@ -34,12 +34,24 @@ public class Cursada implements Comparable<Cursada>{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Cursada() {
+        this.id = "CUR0000";
+        this.asignatura = new Asignatura();
+        this.periodo = "01-2017";
+        this.dia = "Dom";
+        this.horaInicio = "12:00";
+        this.horaFin = "14:00";
+        profesores = new TreeSet<Profesor>();
+        alumnos = new TreeSet<Alumno>();
+        verificarInvariante();
+    }
+    
     /**
      * Crea una cursada con sus atributos. <br>
      * @param id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) y debe ser unica. <br>
      * @param asignatura debe existir. <br>
-     * @param periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (Año)) <br>
-     * @param dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
+     * @param periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (AÃ±o)) <br>
+     * @param dia debe pertenecer a Lun, Mar, MiÃ©, Jue, Vie, Sab o Dom. <br>
      * @param hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9))
      */
     public Cursada(String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin) {
@@ -260,7 +272,7 @@ public class Cursada implements Comparable<Cursada>{
     
     /**
      * Comprueba que el periodo sea valido. <br>
-     * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) y AAAA (Año) <br>
+     * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) y AAAA (AÃ±o) <br>
      * @return True si el periodo es valido, false en caso contrario.
      */
     private boolean periodoEsValido() {
@@ -290,7 +302,7 @@ public class Cursada implements Comparable<Cursada>{
         
         case "Lun":
         case "Mar":
-        case "Mié":
+        case "MiÃ©":
         case "Jue":
         case "Vie":
         case "Sab":

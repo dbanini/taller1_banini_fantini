@@ -21,6 +21,13 @@ public class Alumno extends Persona{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Alumno() {
+        super();
+        setLegajo("ALU0000");
+        aprobadas = new TreeSet<Asignatura>();
+        verificarInvariante();
+    }
+    
     /**
      * Crea un alumno con sus atributos. <br>
      * <b>post: </b> Se crea un Alumno con sus datos correspondientes y una coleccion vacia de asignaturas aprobadas.
