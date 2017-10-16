@@ -465,7 +465,7 @@ public class Principal extends javax.swing.JFrame {
 
         alumnosFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel1.setText(" Buscar alumno:");
+        jLabel1.setText(" Buscar:");
 
         javax.swing.GroupLayout alumnosTabLayout = new javax.swing.GroupLayout(alumnosTab);
         alumnosTab.setLayout(alumnosTabLayout);
@@ -794,7 +794,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
-        jLabel2.setText(" Buscar profesor:");
+        jLabel2.setText(" Buscar:");
 
         javax.swing.GroupLayout profesoresTabLayout = new javax.swing.GroupLayout(profesoresTab);
         profesoresTab.setLayout(profesoresTabLayout);
@@ -1090,7 +1090,7 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturasFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel3.setText(" Buscar asignatura:");
+        jLabel3.setText(" Buscar:");
 
         javax.swing.GroupLayout asignaturasTabLayout = new javax.swing.GroupLayout(asignaturasTab);
         asignaturasTab.setLayout(asignaturasTabLayout);
@@ -1552,7 +1552,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel4.setText(" Buscar cursada:");
+        jLabel4.setText(" Buscar:");
 
         javax.swing.GroupLayout cursadasTabLayout = new javax.swing.GroupLayout(cursadasTab);
         cursadasTab.setLayout(cursadasTabLayout);
