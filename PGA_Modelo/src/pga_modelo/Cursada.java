@@ -302,7 +302,7 @@ public class Cursada implements Comparable<Cursada>{
         
         case "Lun":
         case "Mar":
-        case "MiÃ©":
+        case "Mié":
         case "Jue":
         case "Vie":
         case "Sab":
