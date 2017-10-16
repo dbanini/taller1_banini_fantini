@@ -172,6 +172,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         panelTabs.setToolTipText("");
+        panelTabs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelTabsMouseClicked(evt);
+            }
+        });
 
         alumnosTabla.setAutoCreateRowSorter(true);
         alumnosTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -1674,16 +1679,16 @@ public class Principal extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         entidades = new Entidades();
         
-        Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B. Justo 2050", "jperez@gmail.com");
+        Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B Justo 2050", "jperez@gmail.com");
         Alumno alumnoB = new Alumno("ALU0041", "Maria Funes", "Santa Fe 1234", "mfunes@gmail.com");
         Alumno alumnoC = new Alumno("ALU0352", "Lucas Torres", "9 de Julio 1530", "ltorres@gmail.com");
         entidades.addAlumno(alumnoA);
         entidades.addAlumno(alumnoB);
         entidades.addAlumno(alumnoC);
         
-        Profesor profesorA = new Profesor("PRO0013", "Leonel Guccione", "Calle Falsa 123", "2235-123593", "leo@copetel.com.ar");
-        Profesor profesorB = new Profesor("PRO0054", "Adolfo Tomas Spinelli", "Calle Siempreviva 567", "2234-423585", "adolfspin@gmail.com");
-        Profesor profesorC = new Profesor("PRO0793", "Guillermo Lazzurri", "Calle Verdadera 940", "2236-078934", "guillelazurr@live.com");
+        Profesor profesorA = new Profesor("PRO0013", "Leonel Guccione", "Calle Falsa 123", "2235 123593", "leo@copetel.com.ar");
+        Profesor profesorB = new Profesor("PRO0054", "Adolfo Tomas Spinelli", "Calle Siempreviva 567", "2234 423585", "adolfspin@gmail.com");
+        Profesor profesorC = new Profesor("PRO0793", "Guillermo Lazzurri", "Calle Verdadera 940", "2236 078934", "guillelazurr@live.com");
         entidades.addProfesor(profesorA);
         entidades.addProfesor(profesorB);
         entidades.addProfesor(profesorC);
@@ -1770,7 +1775,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
         String nuevoLegajo = entidades.nuevoLegajoProfesor();
-        Profesor nuevoProfesor = new Profesor(nuevoLegajo, "Nombre", "Domicilio", "0000-000000", "mail@vacio.com");
+        Profesor nuevoProfesor = new Profesor(nuevoLegajo, "Nombre", "Domicilio", "0000 000000", "mail@vacio.com");
         entidades.addProfesor(nuevoProfesor);
         agregarProfesorTabla(nuevoProfesor);
         int lastIndex = profesoresTabla.convertRowIndexToView(profesoresTabla.getRowCount() - 1);
@@ -2001,6 +2006,10 @@ public class Principal extends javax.swing.JFrame {
     private void cursadaCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaCancelarBotonActionPerformed
         setupCursada(cursadaActual);
     }//GEN-LAST:event_cursadaCancelarBotonActionPerformed
+
+    private void panelTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTabsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_panelTabsMouseClicked
 
     private void setupTablaFiltro(JTable tabla, JTextField field) {
         // Crear ordenador para la tabla.

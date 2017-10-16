@@ -118,7 +118,7 @@ public abstract class Persona implements Comparable<Persona>{
      * @return True si el nombre es valido, false en caso contrario. 
      */
     private boolean nombreEsValido(){
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
         if (nombre!=null && !nombre.equals("")){
             return !p.matcher(nombre).find();
@@ -132,7 +132,7 @@ public abstract class Persona implements Comparable<Persona>{
      * @return True si el domicilio es valido, false en caso contrario. 
      */
     private boolean domicilioEsValido() {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
         if (domicilio!=null && !domicilio.equals("")){
             return !p.matcher(domicilio).find();

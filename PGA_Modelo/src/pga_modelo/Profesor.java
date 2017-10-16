@@ -125,13 +125,14 @@ public class Profesor extends Persona{
         if(getLegajo().startsWith("PRO")){
             auxLegajo=getLegajo();
             auxLegajo=auxLegajo.substring(3);
-            if (auxLegajo.length()==4)
-            try{
-                numeroLegajo=Integer.parseInt(auxLegajo);
-                if (numeroLegajo>0 && numeroLegajo<9999)
-                    return true;
-            } catch (NumberFormatException e){
-                return false;
+            if (auxLegajo.length()==4){
+                try{
+                    numeroLegajo=Integer.parseInt(auxLegajo);
+                    if (numeroLegajo>=0 && numeroLegajo<9999)
+                        return true;
+                } catch (NumberFormatException e){
+                    return false;
+                }
             }
         }
         return false;
@@ -143,10 +144,11 @@ public class Profesor extends Persona{
      * @return True si el telefono es valido, false en caso contrario. 
      */
     private boolean telefonoEsValido(){
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
-        if (telefono!=null && telefono.equals(""))
+        if (telefono!=null && !telefono.equals(""))
             return !p.matcher(telefono).find();
+        System.out.println(telefono);
         return false;
     }
     

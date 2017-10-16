@@ -110,7 +110,6 @@ public class Alumno extends Persona{
         int numeroLegajo;
         String auxLegajo;
         
-        
         if(getLegajo().startsWith("ALU")){
             auxLegajo=getLegajo();
             auxLegajo=auxLegajo.substring(3);
@@ -119,7 +118,7 @@ public class Alumno extends Persona{
                     numeroLegajo=Integer.parseInt(auxLegajo);
                     if (numeroLegajo>=0 && numeroLegajo<=9999)
                         return true;
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e){
                     return false;
                 }
             }
