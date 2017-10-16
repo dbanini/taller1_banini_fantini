@@ -31,10 +31,10 @@ public class Entidades {
      * <b>post: </b> Se crean las entidades.
      */
     public Entidades(){        
-        profesores= new TreeSet<Profesor>();
-        alumnos= new  TreeSet<Alumno>();
-        asignaturas= new TreeSet<Asignatura>();
-        cursadas= new TreeSet<Cursada>();
+        profesores = new TreeSet<Profesor>();
+        alumnos = new TreeSet<Alumno>();
+        asignaturas = new TreeSet<Asignatura>();
+        cursadas = new TreeSet<Cursada>();
         verificarInvariante();
     }
 

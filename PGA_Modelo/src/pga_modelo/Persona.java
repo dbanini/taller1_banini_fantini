@@ -24,8 +24,12 @@ public abstract class Persona implements Comparable<Persona>{
     // Constructores
     // -----------------------------------------------------------------
     
-    public Persona(){
-    
+    public Persona() {
+        this.legajo = "LEG0000";
+        this.nombre = "Nombre";
+        this.domicilio = "Domicilio";
+        this.mail = "mail@vacio.com";
+        verificarInvariante();
     }
     
     public Persona(String legajo, String nombre, String domicilio, String mail) {

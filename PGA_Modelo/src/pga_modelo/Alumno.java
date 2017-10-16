@@ -21,9 +21,11 @@ public class Alumno extends Persona{
     // Constructores
     // -----------------------------------------------------------------
     
-    public Alumno(){
+    public Alumno() {
         super();
-        aprobadas= new TreeSet<Asignatura>();
+        setLegajo("ALU0000");
+        aprobadas = new TreeSet<Asignatura>();
+        verificarInvariante();
     }
     
     /**

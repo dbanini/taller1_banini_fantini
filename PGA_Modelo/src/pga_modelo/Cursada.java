@@ -31,8 +31,15 @@ public class Cursada implements Comparable<Cursada>{
     // Constructores
     // -----------------------------------------------------------------
     
-    public Cursada(){
-    
+    public Cursada() {
+        this.id = "CUR0000";
+        this.asignatura = new Asignatura();
+        this.periodo = "01-2017";
+        this.dia = "Dom";
+        this.hora = "12:00";
+        profesores = new TreeSet<Profesor>();
+        alumnos = new TreeSet<Alumno>();
+        verificarInvariante();
     }
     
     /**
@@ -49,8 +56,8 @@ public class Cursada implements Comparable<Cursada>{
         this.periodo=periodo;
         this.dia=dia;
         this.hora=hora;
-        profesores= new TreeSet<Profesor>();
-        alumnos= new TreeSet<Alumno>();
+        profesores = new TreeSet<Profesor>();
+        alumnos = new TreeSet<Alumno>();
         verificarInvariante();
     }
 

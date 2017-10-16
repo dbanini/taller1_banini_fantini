@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * El atributo telefono debe ser alfanumerico, distinto de null y vacio. <br>
  * La lista de materias participables debe ser distinta de null.
  */
-public class Profesor extends Persona{
+public class Profesor extends Persona {
     
     // -----------------------------------------------------------------
     // Atributos
@@ -24,8 +24,12 @@ public class Profesor extends Persona{
     // Constructores
     // -----------------------------------------------------------------
     
-    public Profesor(){
-    
+    public Profesor() {
+        super();
+        setLegajo("PRO0000");
+        this.telefono = "0000 000000";
+        participar = new TreeSet<Asignatura>();
+        verificarInvariante();
     }
     
     /**
@@ -38,9 +42,9 @@ public class Profesor extends Persona{
      * @param mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
      */
     public Profesor(String legajo, String nombre, String domicilio, String telefono, String mail) {
-        super(legajo,nombre,domicilio,mail);
-        this.telefono=telefono;
-        participar=new TreeSet<Asignatura>();
+        super(legajo, nombre, domicilio, mail);
+        this.telefono = telefono;
+        participar = new TreeSet<Asignatura>();
         verificarInvariante();
     }
 

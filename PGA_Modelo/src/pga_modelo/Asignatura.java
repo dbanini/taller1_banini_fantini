@@ -25,7 +25,10 @@ public class Asignatura implements Comparable<Asignatura>{
     // -----------------------------------------------------------------
     
     public Asignatura (){
-    
+        this.id = "ASI0000";
+        this.nombre = "Nombre";
+        correlativas = new TreeSet<Asignatura>();
+        verificarInvariante();
     }
     
     /**
