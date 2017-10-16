@@ -24,6 +24,10 @@ public class Profesor extends Persona{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Profesor(){
+    
+    }
+    
     /**
      * Crea un profesor con sus atributos. <br>
      * <b>pre: </b> El legajo es unico.

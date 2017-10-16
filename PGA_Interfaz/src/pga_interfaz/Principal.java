@@ -26,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import pga_xml.SerializadorXML;
+
 /**
  *
  * @author Dario
@@ -1678,6 +1680,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         entidades = new Entidades();
+        SerializadorXML serializador;
         
         Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B Justo 2050", "jperez@gmail.com");
         Alumno alumnoB = new Alumno("ALU0041", "Maria Funes", "Santa Fe 1234", "mfunes@gmail.com");
@@ -1755,7 +1758,12 @@ public class Principal extends javax.swing.JFrame {
         setupProfesoresTabla();
         setupAsignaturasTabla();
         setupCursadasTabla();
-        
+        serializador= new SerializadorXML();
+        try {
+            serializador.escribe(entidades, "entidades.xml");
+        } catch (Exception e) {
+            
+        }
         // Modificamos el titulo de la ventana.
         this.setTitle("Sistema PGA");
     }//GEN-LAST:event_formWindowOpened

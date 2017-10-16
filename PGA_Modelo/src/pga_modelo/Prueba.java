@@ -4,38 +4,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import pga_xml.SerializadorXML;
+
 public class Prueba {
     public static void main(String[] args) {
-        //Prueba del metodo pattern.
-        /*
-        String nombre= "p+";
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
-        boolean hasSpecialChar = p.matcher(nombre).find();
-        boolean esAlfanumerico = !Pattern.matches("[^a-zA-Z0-9]",nombre);
-        System.out.println(esAlfanumerico+" "+hasSpecialChar);
-        */
+        Entidades entidades = new Entidades();
+        SerializadorXML serializador;
+        serializador = new SerializadorXML();
         
-        //Prueba switch case
-        /*
-        String id ="ALU";
-        switch (id){
-        case "ALUWEB":
-            System.out.println("Funciona");
-            break;
-        default:
-            System.out.println("No funciona");
-            break;
-        }
-        */
+        Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B Justo 2050", "jperez@gmail.com");
+        Alumno alumnoB = new Alumno("ALU0041", "Maria Funes", "Santa Fe 1234", "mfunes@gmail.com");
+        Alumno alumnoC = new Alumno("ALU0352", "Lucas Torres", "9 de Julio 1530", "ltorres@gmail.com");
+        entidades.addAlumno(alumnoA);
+        //entidades.addAlumno(alumnoB);
+        //entidades.addAlumno(alumnoC);
         
-        /*
-        //Prueba ArrayList vacio
-        Iterator it;
-        ArrayList<Object> encontrados= new ArrayList<Object>();
-        it=encontrados.iterator();
-        while (it.hasNext()){
-            System.out.println(it.next());
+        Profesor profesorA = new Profesor("PRO0013", "Leonel Guccione", "Calle Falsa 123", "2235 123593", "leo@copetel.com.ar");
+        Profesor profesorB = new Profesor("PRO0054", "Adolfo Tomas Spinelli", "Calle Siempreviva 567", "2234 423585", "adolfspin@gmail.com");
+        Profesor profesorC = new Profesor("PRO0793", "Guillermo Lazzurri", "Calle Verdadera 940", "2236 078934", "guillelazurr@live.com");
+        //entidades.addProfesor(profesorA);
+        //entidades.addProfesor(profesorB);
+        //entidades.addProfesor(profesorC);
+
+        try {
+            serializador.escribe(entidades, "archivodePruebas.xml");
+        } catch (Exception e) {
+            
         }
-        */
     }
 }

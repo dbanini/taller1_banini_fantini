@@ -24,6 +24,10 @@ public class Asignatura implements Comparable<Asignatura>{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Asignatura (){
+    
+    }
+    
     /**
      * Crea una asignatura con sus atributos. <br>
      * <b>pre: </b> El id es unico.

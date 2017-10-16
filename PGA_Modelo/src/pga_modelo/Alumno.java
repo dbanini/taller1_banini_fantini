@@ -21,6 +21,11 @@ public class Alumno extends Persona{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Alumno(){
+        super();
+        aprobadas= new TreeSet<Asignatura>();
+    }
+    
     /**
      * Crea un alumno con sus atributos. <br>
      * <b>pre: </b> El legajo es unico.

@@ -31,6 +31,10 @@ public class Cursada implements Comparable<Cursada>{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Cursada(){
+    
+    }
+    
     /**
      * Crea una cursada con sus atributos. <br>
      * @param id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) y debe ser unica. <br>

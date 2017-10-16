@@ -24,6 +24,10 @@ public abstract class Persona implements Comparable<Persona>{
     // Constructores
     // -----------------------------------------------------------------
     
+    public Persona(){
+    
+    }
+    
     public Persona(String legajo, String nombre, String domicilio, String mail) {
         this.legajo=legajo;
         this.nombre=nombre;
