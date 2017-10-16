@@ -23,8 +23,7 @@ public class Alumno extends Persona{
     
     /**
      * Crea un alumno con sus atributos. <br>
-     * <b>pre: </b> El legajo es unico.
-     * <b>post: </b> Se crea un Alumno con sus datos.
+     * <b>post: </b> Se crea un Alumno con sus datos correspondientes y una coleccion vacia de asignaturas aprobadas.
      * @param legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9))
      * @param nombre es alfanumerico, distinto de null y de vacio.
      * @param domicilio es alfanumerico, distinto de null y de vacio.
@@ -32,7 +31,8 @@ public class Alumno extends Persona{
      */
     public Alumno(String legajo, String nombre, String domicilio, String mail) {
         super(legajo,nombre,domicilio,mail);
-        aprobadas= new TreeSet<Asignatura>();
+        aprobadas = new TreeSet<Asignatura>();
+        // TODO Codificar post-condiciones.
         verificarInvariante();
     }
     
@@ -61,7 +61,9 @@ public class Alumno extends Persona{
      * @param asignatura cumple que es valida.
      */
     public void addAprobada(Asignatura asignatura){
+        // TODO Codificar pre-condiciones.
         aprobadas.add(asignatura);
+        // TODO Codificar post-condiciones.
         verificarInvariante();
     }
 
@@ -72,7 +74,9 @@ public class Alumno extends Persona{
      * @param asignatura cumple que es valida.
      */
     public void removeAprobada(Asignatura asignatura){
+        // TODO Codificar pre-condiciones.
         aprobadas.remove(asignatura);
+        // TODO Codificar post-condiciones.
         verificarInvariante();
     }
     
