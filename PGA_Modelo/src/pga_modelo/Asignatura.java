@@ -122,8 +122,7 @@ public class Asignatura implements Comparable<Asignatura>{
      */
     @Override
     public int compareTo(Asignatura o) {
-        // TODO Implement this method
-        return 1;
+        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------
@@ -146,7 +145,7 @@ public class Asignatura implements Comparable<Asignatura>{
                 auxLegajo=auxLegajo.substring(3);
                 try{
                     numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>0 && numeroLegajo<9999)
+                    if (numeroLegajo>=0 && numeroLegajo<9999)
                         return true;
                 } catch (NumberFormatException e){
                     return false;
@@ -162,7 +161,7 @@ public class Asignatura implements Comparable<Asignatura>{
      * @return True si el nombre es valido, false en caso contrario. 
      */
     private boolean nombreEsValido() {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
         if (nombre!=null)
             return !p.matcher(nombre).find();
@@ -189,7 +188,7 @@ public class Asignatura implements Comparable<Asignatura>{
      */
     private void verificarInvariante(){
         assert idEsValido(): "El id es invalido.";
-        assert nombreEsValido(): "El nombre es invalido.";
+        assert nombreEsValido(): "El nombre de la asignatura es invalido.";
         assert correlativasEsValido(): "La lista de correlativas es invalida.";
     }
 }

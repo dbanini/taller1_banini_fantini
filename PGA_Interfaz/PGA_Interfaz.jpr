@@ -19,7 +19,7 @@
       <value n="oracle.adfdtinternal.view.rich.binding.migration.JarResourceMigrator" v="11.1.1.1.0"/>
       <value n="oracle.adfdtinternal.view.rich.migration.ComponentIdNodeMigratorHelper" v="11.1.1.1.0.01"/>
       <value n="oracle.adfdtinternal.view.rich.migration.FacesLibraryVersionMigrator" v="11.1.1.1.0.1"/>
-      <value n="oracle.ide.model.Project" v="12.2.1.2.0"/>
+      <value n="oracle.ide.model.Project" v="12.2.1.3.0"/>
       <value n="oracle.ide.model.ResourcePathsMigrator" v="11.1.1.1.0"/>
       <value n="oracle.ideimpl.model.TechnologyScopeUpdateMigrator" v="11.1.2.0.0.6"/>
       <value n="oracle.jbo.dt.jclient.migrator.JCProjectMigrator" v="11.1.1.1.0"/>
@@ -68,7 +68,7 @@
       <string v="oracle.bm.commonIde.data.project.ModelerProjectSettings/modelersContentSet"/>
       <string v="oracle.toplink.workbench.addin/toplinkContentSet"/>
    </list>
-   <value n="defaultPackage" v="pga_modelo"/>
+   <value n="defaultPackage" v="pga_interfaz"/>
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">
       <list n="technologyScope">
          <string v="Java"/>
@@ -79,53 +79,22 @@
    </hash>
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
-         <list n="constituent-sets">
-            <hash>
-               <url n="content-folder-url" path="../PGA_Interfaz/src/pga_interfaz/"/>
-               <list n="pattern-filters">
-                  <string v="+pga_interfaz/Principal.java"/>
-                  <string v="+pga_interfaz/ElegirEntidadDialogo.java"/>
-               </list>
-               <list n="url-path">
-                  <url path="../PGA_Interfaz/src/"/>
-               </list>
-            </hash>
-            <hash>
-               <list n="pattern-filters">
-                  <string v="+**"/>
-               </list>
-               <list n="url-path">
-                  <url path="src/"/>
-               </list>
-            </hash>
-            <hash>
-               <url n="content-folder-url" path="../PGA_Interfaz/src/pga_aplicacion/"/>
-               <list n="pattern-filters">
-                  <string v="+pga_aplicacion/"/>
-               </list>
-               <list n="url-path">
-                  <url path="../PGA_Interfaz/src/"/>
-               </list>
-            </hash>
-            <hash>
-               <url n="content-folder-url" path="../PGA_Interfaz/src/"/>
-               <list n="pattern-filters">
-                  <string v="+Main.java"/>
-               </list>
-               <list n="url-path">
-                  <url path="../PGA_Interfaz/src/"/>
-               </list>
-            </hash>
+         <list n="pattern-filters">
+            <string v="-pga_interfaz/Principal.java"/>
+            <string v="-pga_interfaz/ElegirEntidadDialogo.java"/>
+            <string v="+**"/>
          </list>
-         <list n="url-path"/>
+         <list n="url-path">
+            <url path="src/"/>
+         </list>
       </hash>
    </hash>
    <hash n="oracle.jdeveloper.runner.RunConfigurations">
       <hash n="runConfigurationDefinitions">
          <hash n="Default">
             <value n="custom" v="false"/>
-            <value n="javaOptions" v="-ea"/>
             <value n="name" v="Default"/>
+            <value n="runActiveFile" v="true"/>
             <value n="targetURL"/>
          </hash>
       </hash>

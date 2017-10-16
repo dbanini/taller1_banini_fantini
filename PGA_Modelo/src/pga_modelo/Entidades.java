@@ -191,6 +191,26 @@ public class Entidades {
     }
     
     /**
+     * Busca un alumno en la lista mediante su legajo. <br>
+     * <b>post: </b> Se devuelve el alumno con el cual corresponde el legajo. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param legajo Legajo por el cual buscar el alumno.
+     */
+    public Alumno buscaAlumnoPorLegajo(String legajo) {
+        Alumno alumno = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el legajo buscado.
+        Iterator<Alumno> it = alumnos.iterator();
+        while (it.hasNext() && !encontrado) {
+            alumno = it.next();
+            encontrado = alumno.getLegajo().equals(legajo);
+        }
+        
+        return encontrado ? alumno : null;
+    }
+    
+    /**
      * Busqueda de profesores con determinado nombre.
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList los profesores con determinado nombre pasado por parametro.
@@ -208,6 +228,26 @@ public class Entidades {
             }   
         }
         return ProfesoresEncontrados;
+    }
+    
+    /**
+     * Busca un profesor en la lista mediante su legajo. <br>
+     * <b>post: </b> Se devuelve el profesor con el cual corresponde el legajo. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param legajo Legajo por el cual buscar el profesor.
+     */
+    public Profesor buscaProfesorPorLegajo(String legajo) {
+        Profesor profesor = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el legajo buscado.
+        Iterator<Profesor> it = profesores.iterator();
+        while (it.hasNext() && !encontrado) {
+            profesor = it.next();
+            encontrado = profesor.getLegajo().equals(legajo);
+        }
+        
+        return encontrado ? profesor : null;
     }
     
     /**
@@ -231,6 +271,26 @@ public class Entidades {
     }
     
     /**
+     * Busca una asignatura en la lista mediante su id. <br>
+     * <b>post: </b> Se devuelve la asignatura con el cual corresponde el id. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param id Id por el cual buscar la asignatura.
+     */
+    public Asignatura buscaAsignaturaPorId(String id) {
+        Asignatura asignatura = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el id buscado.
+        Iterator<Asignatura> it = asignaturas.iterator();
+        while (it.hasNext() && !encontrado) {
+            asignatura = it.next();
+            encontrado = asignatura.getId().equals(id);
+        }
+        
+        return encontrado ? asignatura : null;
+    }
+    
+    /**
      * Busqueda de cursadas con determinado nombre de asignatura.
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
@@ -248,6 +308,82 @@ public class Entidades {
             }
         }
         return cursadaEncontrados;
+    }
+    
+    /**
+     * Busca una cursada en la lista mediante su id. <br>
+     * <b>post: </b> Se devuelve la cursada con el cual corresponde el id. 
+     * Si no fue encontrado, se devuelve nulo.
+     * @param id Id por el cual buscar la cursada.
+     */
+    public Cursada buscaCursadaPorId(String id) {
+        Cursada cursada = null;
+        boolean encontrado = false;
+        
+        // Iteramos en el set y verificamos que el alumno tenga el id buscado.
+        Iterator<Cursada> it = cursadas.iterator();
+        while (it.hasNext() && !encontrado) {
+            cursada = it.next();
+            encontrado = cursada.getId().equals(id);
+        }
+        
+        return encontrado ? cursada : null;
+    }
+    
+    /**
+     * Genera un nuevo legajo unico para un nuevo alumno.
+     * TODO: Alguna busqueda mas eficiente.
+     */
+    public String nuevoLegajoAlumno() {
+        String legajo = "ALU9999";
+        boolean encontrado = false;
+        for (int i = 0; (i < 9999) && !encontrado; i++) {
+            legajo = String.format("ALU%04d", i);
+            encontrado = buscaAlumnoPorLegajo(legajo) == null;
+        }
+        return legajo;
+    }
+    
+    /**
+     * Genera un nuevo legajo unico para un nuevo profesor.
+     * TODO: Alguna busqueda mas eficiente.
+     */
+    public String nuevoLegajoProfesor() {
+        String legajo = "PRO9999";
+        boolean encontrado = false;
+        for (int i = 0; (i < 9999) && !encontrado; i++) {
+            legajo = String.format("PRO%04d", i);
+            encontrado = buscaProfesorPorLegajo(legajo) == null;
+        }
+        return legajo;
+    }
+    
+    /**
+     * Genera un nuevo legajo unico para una nueva asignatura.
+     * TODO: Alguna busqueda mas eficiente.
+     */
+    public String nuevoIdAsignatura() {
+        String id = "ASI9999";
+        boolean encontrado = false;
+        for (int i = 0; (i < 9999) && !encontrado; i++) {
+            id = String.format("ASI%04d", i);
+            encontrado = buscaAsignaturaPorId(id) == null;
+        }
+        return id;
+    }
+    
+    /**
+     * Genera un nuevo legajo unico para una nueva cursada.
+     * TODO: Alguna busqueda mas eficiente.
+     */
+    public String nuevoIdCursada() {
+        String id = "CUR9999";
+        boolean encontrado = false;
+        for (int i = 0; (i < 9999) && !encontrado; i++) {
+            id = String.format("CUR%04d", i);
+            encontrado = buscaCursadaPorId(id) == null;
+        }
+        return id;
     }
     
     /**

@@ -200,8 +200,7 @@ public class Cursada implements Comparable<Cursada>{
      */
     @Override
     public int compareTo(Cursada o) {
-        // TODO Implement this method
-        return 1;
+        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------
@@ -225,7 +224,7 @@ public class Cursada implements Comparable<Cursada>{
                 auxLegajo=auxLegajo.substring(3);
                 try{
                     numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>0 && numeroLegajo<9999)
+                    if (numeroLegajo>=0 && numeroLegajo<9999)
                         return true;
                 }catch (NumberFormatException e){
                     return false;
@@ -255,12 +254,14 @@ public class Cursada implements Comparable<Cursada>{
         String auxPeriodo;
         int anio;
     
-        if ((periodo.startsWith("01") || periodo.startsWith("02")) && periodo.contains("-")){
-            auxPeriodo=periodo;
-            auxPeriodo=auxPeriodo.substring(3);
-            anio=Integer.parseInt(auxPeriodo);
-            if (anio>1900 && anio<2100)
-                return true;
+        if ((periodo.startsWith("01") || periodo.startsWith("02")) && periodo.contains("-") && periodo.length()==7){
+            auxPeriodo=periodo.substring(2);
+            if (auxPeriodo.startsWith("-")){
+                auxPeriodo=auxPeriodo.substring(1);
+                anio=Integer.parseInt(auxPeriodo);
+                if (anio>1900 && anio<2100)
+                    return true;
+            }
         }
         return false;
             
@@ -277,6 +278,7 @@ public class Cursada implements Comparable<Cursada>{
         case "Lun":
         case "Mar":
         case "Mie":
+        case "Mié":
         case "Jue":
         case "Vie":
         case "Sab":
@@ -294,17 +296,16 @@ public class Cursada implements Comparable<Cursada>{
      */ 
     private boolean horaEsValido() {
         String auxHora;
-        int horas,minutos;
+        int horas=0,minutos=0;
         
         if (hora.contains(":")){
-            auxHora=hora;
-            auxHora=auxHora.substring(3);
+            auxHora=hora.substring(3);
+            
             minutos=Integer.parseInt(auxHora);
-            auxHora=hora;
-            auxHora=auxHora.substring(0,1); 
+            auxHora=hora.substring(0,2);
             try{
                 horas=Integer.parseInt(auxHora);
-                if (horas>0 && horas<24 && minutos>0 && minutos<60)
+                if (horas>=0 && horas<24 && minutos>=0 && minutos<60)
                     return true;
             } catch(NumberFormatException e){
                 return false;
