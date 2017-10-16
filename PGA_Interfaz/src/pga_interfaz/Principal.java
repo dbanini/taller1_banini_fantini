@@ -1758,7 +1758,20 @@ public class Principal extends javax.swing.JFrame {
         // Crear el listener para el cambio de tabs.
         panelTabs.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                System.out.println("Tab: " + panelTabs.getSelectedIndex());
+                // Cancelar la edicion de la entidad si es distinto del nuevo tab y la edicion esta activa.
+                int selectedIndex = panelTabs.getSelectedIndex();
+                if ((selectedIndex != 0) && (alumnoActual != null) && !alumnoEditarBoton.isEnabled()) {
+                    setupAlumno(alumnoActual);
+                }
+                else if ((selectedIndex != 1) && (profesorActual != null) && !profesorEditarBoton.isEnabled()) {
+                    setupProfesor(profesorActual);
+                }
+                else if ((selectedIndex != 2) && (asignaturaActual != null) && !asignaturaEditarBoton.isEnabled()) {
+                    setupAsignatura(asignaturaActual);
+                }
+                else if ((selectedIndex != 3) && (cursadaActual != null) && !cursadaEditarBoton.isEnabled()) {
+                    setupCursada(cursadaActual);
+                }
             }
         });
         
@@ -1767,12 +1780,17 @@ public class Principal extends javax.swing.JFrame {
         setupProfesoresTabla();
         setupAsignaturasTabla();
         setupCursadasTabla();
+        
+        /* Escribe banco de datos a XML.
+         * TODO Mover a fin de aplicacion.
         serializador= new SerializadorXML();
         try {
             serializador.escribe(entidades, "entidades.xml");
-        } catch (Exception e) {
-            
+        } 
+        catch (Exception e) {
         }
+        */
+        
         // Modificamos el titulo de la ventana.
         this.setTitle("Sistema PGA");
     }//GEN-LAST:event_formWindowOpened
