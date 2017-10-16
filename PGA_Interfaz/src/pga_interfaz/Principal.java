@@ -467,7 +467,7 @@ public class Principal extends javax.swing.JFrame {
 
         alumnosFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel1.setText(" Buscar alumno:");
+        jLabel1.setText(" Buscar:");
 
         javax.swing.GroupLayout alumnosTabLayout = new javax.swing.GroupLayout(alumnosTab);
         alumnosTab.setLayout(alumnosTabLayout);
@@ -796,7 +796,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
-        jLabel2.setText(" Buscar profesor:");
+        jLabel2.setText(" Buscar:");
 
         javax.swing.GroupLayout profesoresTabLayout = new javax.swing.GroupLayout(profesoresTab);
         profesoresTab.setLayout(profesoresTabLayout);
@@ -1092,7 +1092,7 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturasFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel3.setText(" Buscar asignatura:");
+        jLabel3.setText(" Buscar:");
 
         javax.swing.GroupLayout asignaturasTabLayout = new javax.swing.GroupLayout(asignaturasTab);
         asignaturasTab.setLayout(asignaturasTabLayout);
@@ -1554,7 +1554,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel4.setText(" Buscar cursada:");
+        jLabel4.setText(" Buscar:");
 
         javax.swing.GroupLayout cursadasTabLayout = new javax.swing.GroupLayout(cursadasTab);
         cursadasTab.setLayout(cursadasTabLayout);
@@ -1703,10 +1703,10 @@ public class Principal extends javax.swing.JFrame {
         entidades.addAsignatura(asignaturaB);
         entidades.addAsignatura(asignaturaC);
         
-        Cursada cursadaA = new Cursada("CUR0023", asignaturaA, "01-2017", "Mar", "09:00");
-        Cursada cursadaB = new Cursada("CUR0053", asignaturaB, "02-2017", "Vie", "08:00");
-        Cursada cursadaC = new Cursada("CUR0150", asignaturaC, "02-2017", "Jue", "14:30");
-        Cursada cursadaD = new Cursada("CUR0002", asignaturaA, "01-2016", "Mié", "10:00");
+        Cursada cursadaA = new Cursada("CUR0023", asignaturaA, "01-2017", "Mar", "09:00", "14:00");
+        Cursada cursadaB = new Cursada("CUR0053", asignaturaB, "02-2017", "Vie", "08:00", "11:00");
+        Cursada cursadaC = new Cursada("CUR0150", asignaturaC, "02-2017", "Jue", "14:30", "17:00");
+        Cursada cursadaD = new Cursada("CUR0002", asignaturaA, "01-2016", "Mié", "10:00", "12:00");
         entidades.addCursada(cursadaA);
         entidades.addCursada(cursadaB);
         entidades.addCursada(cursadaC);
@@ -1804,7 +1804,7 @@ public class Principal extends javax.swing.JFrame {
         if (!asignaturas.isEmpty()) {
             Asignatura primerAsignatura = asignaturas.first();
             String nuevoId = entidades.nuevoIdCursada();
-            Cursada nuevaCursada = new Cursada(nuevoId, primerAsignatura, "01-2017", "Lun", "12:00");
+            Cursada nuevaCursada = new Cursada(nuevoId, primerAsignatura, "01-2017", "Lun", "12:00", "14:00");
             entidades.addCursada(nuevaCursada);
             agregarCursadaTabla(nuevaCursada);
             int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
@@ -2344,8 +2344,8 @@ public class Principal extends javax.swing.JFrame {
             cursadaPeriodoACombo.setSelectedItem(cursadaActual.getPeriodo().substring(0, 2));
             cursadaPeriodoBText.setText(cursadaActual.getPeriodo().substring(3));
             cursadaDiaCombo.setSelectedItem(cursadaActual.getDia());
-            cursadaHoraInicioText.setText(cursadaActual.getHora());
-            cursadaHoraFinText.setText(/*cursadaActual.getHora()*/"12:34");
+            cursadaHoraInicioText.setText(cursadaActual.getHoraInicio());
+            cursadaHoraFinText.setText(cursadaActual.getHoraFin());
             
             Iterator<Alumno> ita = cursadaActual.getAlumnos().iterator();
             Alumno alumno;
