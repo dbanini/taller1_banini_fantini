@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -39,8 +40,8 @@ public class Cursada implements Comparable<Cursada>{
         this.asignatura = new Asignatura();
         this.periodo = "01-2017";
         this.dia = "Dom";
-        this.horaInicio = "12:00";
-        this.horaFin = "14:00";
+        this.horaInicio = "00:00";
+        this.horaFin = "23:59";
         profesores = new TreeSet<Profesor>();
         alumnos = new TreeSet<Alumno>();
         verificarInvariante();
@@ -146,19 +147,69 @@ public class Cursada implements Comparable<Cursada>{
     // Metodos
     // -----------------------------------------------------------------
     
+    /** 
+     * Permite modificar el horario sin provocar el error por el invariante al modificarlos en distinto orden.
+     * @param horaInicio Hora de inicio.
+     * @param horaFin Hora de fin.
+     */
+    public void setHorario(String horaInicio, String horaFin) {
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        verificarInvariante();
+    }
+    
     /**
      * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. 
      * @param cursada con la cual se verifica la superposicion.
      * @return True si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(Cursada cursada) {
+        return seSuperponeCon(cursada, horaInicio, horaFin, periodo, dia);
+    }
+    
+    /**
+     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin, para un horario especifico. 
+     * @param cursada con la cual se verifica la superposicion.
+     * @return True si existe una superposicion, false en caso contrario.
+     */
+    public boolean seSuperponeCon(Cursada cursada, String horaInicio, String horaFin, String periodo, String dia) {
         if (cursada.getPeriodo().equals(periodo) && cursada.getDia().equals(dia)) {
-            if (!horaMayorA(horaInicio, cursada.getHoraFin()) && !horaMayorA(cursada.getHoraInicio(), horaFin)) {
+            if (!horaInicio.equals(cursada.getHoraFin()) && !horaFin.equals(cursada.getHoraInicio()) && 
+                !horaMayorA(horaInicio, cursada.getHoraFin()) && !horaMayorA(cursada.getHoraInicio(), horaFin)) 
+            {
                 return true;
             }
         }
         
         return false;
+    }
+    
+    /**
+     * Comprueba si esta cursada se superpone con otra lista de cursadas.
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada.
+     * @return True si existe una superposicion, false en caso contrario.
+     */
+    public boolean seSuperponeCon(ArrayList<Cursada> cursadas) {
+        return seSuperponeCon(cursadas, horaInicio, horaFin, periodo, dia);
+    }
+    
+    /**
+     * Comprueba si esta cursada se superpone con otra lista de cursadas en un horario especifico.
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada.
+     * @return True si existe una superposicion, false en caso contrario.
+     */
+    public boolean seSuperponeCon(ArrayList<Cursada> cursadas, String horaInicio, String horaFin, String periodo, String dia) {
+        boolean conSuperposicion = false;
+        Iterator<Cursada> it = cursadas.iterator();
+        Cursada cursada = null;
+        while (it.hasNext() && !conSuperposicion) {
+            cursada = it.next();
+            if (cursada != this && seSuperponeCon(cursada, horaInicio, horaFin, periodo, dia)) {
+                conSuperposicion = true;   
+            }
+        }
+        
+        return conSuperposicion;
     }
     
     /**
@@ -246,7 +297,7 @@ public class Cursada implements Comparable<Cursada>{
      * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) y AAAA (AÃ±o) <br>
      * @return True si el periodo es valido, false en caso contrario.
      */
-    private boolean periodoEsValido() {
+    static public boolean periodoEsValido(String periodo) {
         String auxPeriodo;
         int anio;
     
@@ -268,9 +319,8 @@ public class Cursada implements Comparable<Cursada>{
      * El dia cumple con uno de los dias de la semana. <br>
      * @return True si el dia es valido, false en caso contrario.
      */
-    private boolean diaEsValido() {
+    static public boolean diaEsValido(String dia) {
         switch (dia){
-        
         case "Lun":
         case "Mar":
         case "Mié":
@@ -289,7 +339,7 @@ public class Cursada implements Comparable<Cursada>{
      * La hora cumple con la mascara 99:99 (9 : 0-9) <br>
      * @return True si la hora es valida, false en caso contrario.
      */ 
-    public boolean horaEsValido(String hora) {
+    static public boolean horaEsValido(String hora) {
         String auxHora;
         int horas=0,minutos=0;
         
@@ -316,7 +366,7 @@ public class Cursada implements Comparable<Cursada>{
      * @param horaB La segunda hora a comparar. <br>
      * @return True si la horaA es mayor a la horaB, false en caso contrario.
      */ 
-    public boolean horaMayorA(String horaA, String horaB) {
+    static public boolean horaMayorA(String horaA, String horaB) {
         assert horaEsValido(horaA) : "La hora A es invalida.";
         assert horaEsValido(horaB) : "La hora B es invalida.";
         return horaA.compareTo(horaB) > 0;
@@ -398,8 +448,8 @@ public class Cursada implements Comparable<Cursada>{
     private void verificarInvariante(){
         assert idEsValido(id): "El id es invalido.";
         assert asignaturaEsValido(): "La asignatura es invalida.";
-        assert periodoEsValido(): "El periodo es invalido.";
-        assert diaEsValido(): "El dia es invalido.";
+        assert periodoEsValido(periodo): "El periodo es invalido.";
+        assert diaEsValido(dia): "El dia es invalido.";
         assert horaEsValido(horaInicio): "La hora inicio es invalida.";
         assert horaEsValido(horaFin): "La hora fin es invalida.";
         assert horaMayorA(horaFin, horaInicio): "La hora fin no es mayor a la hora inicio.";

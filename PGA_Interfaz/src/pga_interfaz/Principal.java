@@ -1,6 +1,7 @@
 
 package pga_interfaz;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -682,8 +683,8 @@ public class Principal extends javax.swing.JFrame {
         profesorAsigScroll.setViewportView(profesorAsigTabla);
         profesorAsigTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (profesorAsigTabla.getColumnModel().getColumnCount() > 0) {
-            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(100);
             profesorAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             profesorAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -875,8 +876,8 @@ public class Principal extends javax.swing.JFrame {
         asignaturasScroll.setViewportView(asignaturasTabla);
         asignaturasTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturasTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturasTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            asignaturasTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            asignaturasTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            asignaturasTabla.getColumnModel().getColumn(0).setMaxWidth(100);
             asignaturasTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             asignaturasTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -915,8 +916,8 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCorrScroll.setViewportView(asignaturaCorrTabla);
         asignaturaCorrTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturaCorrTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(100);
             asignaturaCorrTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             asignaturaCorrTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -1174,8 +1175,8 @@ public class Principal extends javax.swing.JFrame {
         cursadasScroll.setViewportView(cursadasTabla);
         cursadasTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (cursadasTabla.getColumnModel().getColumnCount() > 0) {
-            cursadasTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            cursadasTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            cursadasTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            cursadasTabla.getColumnModel().getColumn(0).setMaxWidth(100);
             cursadasTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             cursadasTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -1491,6 +1492,11 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasBorrarBoton.setText("Borrar");
         cursadasBorrarBoton.setEnabled(false);
+        cursadasBorrarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cursadasBorrarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout cursadasBotonesPanelLayout = new javax.swing.GroupLayout(cursadasBotonesPanel);
         cursadasBotonesPanel.setLayout(cursadasBotonesPanelLayout);
@@ -1732,6 +1738,13 @@ public class Principal extends javax.swing.JFrame {
         setupAsignaturasTabla();
         setupCursadasTabla();
         
+        // Queremos que se ordenen por la primer columna las tablas internas.
+        alumnoAsigTabla.getRowSorter().toggleSortOrder(0);
+        profesorAsigTabla.getRowSorter().toggleSortOrder(0);
+        asignaturaCorrTabla.getRowSorter().toggleSortOrder(0);
+        cursadaAlumnosTabla.getRowSorter().toggleSortOrder(0);
+        cursadaProfesoresTabla.getRowSorter().toggleSortOrder(0);
+        
         // Modificamos el titulo de la ventana.
         this.setTitle("Sistema PGA");
     }//GEN-LAST:event_formWindowOpened
@@ -1792,17 +1805,39 @@ public class Principal extends javax.swing.JFrame {
             Cursada nuevaCursada = new Cursada();
             nuevaCursada.setId(entidades.nuevoIdCursada());
             nuevaCursada.setAsignatura(asignaturas.first());
-            entidades.addCursada(nuevaCursada);
             
-            // Agregar y seleccionar en tabla.
-            agregarCursadaTabla(nuevaCursada);
-            int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
-            cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+            // Verifica si la nueva cursada se superpone con otras de la misma asignatura.
+            ArrayList<Cursada> cursadasDeAsignatura = entidades.buscaCursadasConAsignatura(nuevaCursada.getAsignatura());
+            if (!nuevaCursada.seSuperponeCon(cursadasDeAsignatura)) {
+                entidades.addCursada(nuevaCursada);
+                
+                // Agregar y seleccionar en tabla.
+                agregarCursadaTabla(nuevaCursada);
+                int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
+                cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "La nueva cursada no puede ser creada debido a una superposicion de horarios con otra cursada de la misma asignatura.");
+            }
         }
         else {
             JOptionPane.showMessageDialog(this, "Debe existir al menos una asignatura para poder crear una cursada.");
         }
     }//GEN-LAST:event_cursadasNuevoBotonActionPerformed
+    
+    private void cursadasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasBorrarBotonActionPerformed
+        ListSelectionModel lsm = cursadasTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            selectedRow = cursadasTabla.convertRowIndexToModel(selectedRow);
+            String id = (String)cursadasTabla.getModel().getValueAt(selectedRow, 0);
+            Cursada cursada = entidades.buscaCursadaPorId(id);
+            assert cursada != null : "La tabla tiene un id que no existe en el modelo.";
+            entidades.removeCursada(cursada);
+            DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
+            modelo.removeRow(selectedRow);
+        }
+    }//GEN-LAST:event_cursadasBorrarBotonActionPerformed
 
     private void asignaturasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasBorrarBotonActionPerformed
         ListSelectionModel lsm = asignaturasTabla.getSelectionModel();
@@ -1815,7 +1850,7 @@ public class Principal extends javax.swing.JFrame {
             entidades.removeAsignatura(asignatura);
             DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
             modelo.removeRow(selectedRow);
-        }        
+        }
     }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
 
     private void alumnosBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosBorrarBotonActionPerformed
@@ -2048,8 +2083,15 @@ public class Principal extends javax.swing.JFrame {
         boolean entradaValida = true;
         String oldId = cursadaActual.getId();
         String nuevoId = cursadaIdText.getText();
+        Asignatura nuevaAsignatura = cursadaActual.getAsignatura(); // TODO Encontrar por texto.
+        String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
+        String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
+        String nuevaHoraInicio = cursadaHoraInicioText.getText();
+        String nuevaHoraFin = cursadaHoraFinText.getText();
         
-        // TODO Traducir tabla de asignaturas correlativas a una lista.
+        // TODO Traducir tabla de alumnos y profesores a dos listas.
+        
+        // Verificar pre-condiciones e invariantes.
         if (!nuevoId.equals(oldId) && !Cursada.idEsValido(nuevoId)) {
             mostrarError("El Id no cumple con la mascara de formato requerida.");
             entradaValida = false;
@@ -2058,11 +2100,61 @@ public class Principal extends javax.swing.JFrame {
             mostrarError("El Id ya esta en uso por otra cursada.");
             entradaValida = false;
         }
+        else if (!Cursada.periodoEsValido(nuevoPeriodo)) {
+            mostrarError("El periodo no cumple con la mascara de formato requerida.");
+            entradaValida = false;
+        }
+        else if (!Cursada.diaEsValido(nuevoDia)) {
+            mostrarError("El dia no es valido. No corresponde con los valores permitidos.");
+            entradaValida = false;
+        }
+        else if (!Cursada.horaEsValido(nuevaHoraInicio)) {
+            mostrarError("La hora de inicio no es valida. No corresponde con los valores permitidos.");
+            entradaValida = false;
+        }
+        else if (!Cursada.horaEsValido(nuevaHoraFin)) {
+            mostrarError("La hora de inicio no es valida. No corresponde con los valores permitidos.");
+            entradaValida = false;
+        }
+        else if (!Cursada.horaMayorA(nuevaHoraFin, nuevaHoraInicio)) {
+            mostrarError("La hora de fin no es valida. Debe ser mayor a la hora de inicio.");
+            entradaValida = false;
+        }
+        else {
+            // Verificar superposicion para las cursadas de la misma asignatura.
+            ArrayList<Cursada> cursadasAsignatura = entidades.buscaCursadasConAsignatura(nuevaAsignatura);
+            if (cursadaActual.seSuperponeCon(cursadasAsignatura, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
+                mostrarError("No puede ubicarse la cursada en el plazo elegido. Hay superposicion con otras cursadas.");
+                entradaValida = false;
+            }
+            
+            // Verificar superposicion para los alumnos.
+            Iterator<Alumno> ita = cursadaActual.getAlumnos().iterator(); // TODO Cambiar a nueva lista.
+            while (ita.hasNext() && entradaValida) {
+                ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(ita.next());
+                if (cursadaActual.seSuperponeCon(cursadasAlumno, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
+                    mostrarError("No puede ubicarse la cursada en el plazo elegido. Causa superposicion para los alumnos con otras cursadas.");
+                    entradaValida = false;
+                }
+            }
+            
+            // Verificar superposicion para los profesores.
+            Iterator<Profesor> itp = cursadaActual.getProfesores().iterator(); // TODO Cambiar a nueva lista.
+            while (itp.hasNext() && entradaValida) {
+                ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(itp.next());
+                if (cursadaActual.seSuperponeCon(cursadasProfesor, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
+                    mostrarError("No puede ubicarse la cursada en el plazo elegido. Causa superposicion para los profesores con otras cursadas.");
+                    entradaValida = false;
+                }
+            }
+        }
         
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
             cursadaActual.setId(nuevoId);
-            // TODO Copiar el resto de datos.
+            cursadaActual.setPeriodo(nuevoPeriodo);
+            cursadaActual.setDia(nuevoDia);
+            cursadaActual.setHorario(nuevaHoraInicio, nuevaHoraFin);
             //cursadaActual.setAlumnos();
             //cursadaActual.setProfesores();
             

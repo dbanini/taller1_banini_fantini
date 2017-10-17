@@ -377,7 +377,7 @@ public class Entidades {
      * @param asignatura La asignatura a buscar.
      * @return La lista de alumnos.
      */
-    ArrayList<Alumno> buscaAlumnosConAsignatura(Asignatura asignatura) {
+    public ArrayList<Alumno> buscaAlumnosConAsignatura(Asignatura asignatura) {
         ArrayList<Alumno> lista = new ArrayList<Alumno>();
         Iterator<Alumno> it = alumnos.iterator();
         Alumno alumno = null;
@@ -396,7 +396,7 @@ public class Entidades {
      * @param asignatura La asignatura a buscar.
      * @return La lista de profesores.
      */
-    ArrayList<Profesor> buscaProfesoresConAsignatura(Asignatura asignatura) {
+    public ArrayList<Profesor> buscaProfesoresConAsignatura(Asignatura asignatura) {
         ArrayList<Profesor> lista = new ArrayList<Profesor>();
         Iterator<Profesor> it = profesores.iterator();
         Profesor profesor = null;
@@ -415,7 +415,7 @@ public class Entidades {
      * @param asignatura La asignatura a buscar.
      * @return La lista de cursadas.
      */
-    ArrayList<Cursada> buscaCursadasConAsignatura(Asignatura asignatura) {
+    public ArrayList<Cursada> buscaCursadasConAsignatura(Asignatura asignatura) {
         ArrayList<Cursada> lista = new ArrayList<Cursada>();
         Iterator<Cursada> it = cursadas.iterator();
         Cursada cursada = null;
@@ -434,7 +434,7 @@ public class Entidades {
      * @param alumno El alumno a buscar.
      * @return La lista de cursadas.
      */
-    ArrayList<Cursada> buscaCursadasConAlumno(Alumno alumno) {
+    public ArrayList<Cursada> buscaCursadasConAlumno(Alumno alumno) {
         ArrayList<Cursada> lista = new ArrayList<Cursada>();
         Iterator<Cursada> it = cursadas.iterator();
         Cursada cursada = null;
@@ -453,7 +453,7 @@ public class Entidades {
      * @param profesor El profesor a buscar.
      * @return La lista de cursadas.
      */
-    ArrayList<Cursada> buscaCursadasConProfesor(Profesor profesor) {
+    public ArrayList<Cursada> buscaCursadasConProfesor(Profesor profesor) {
         ArrayList<Cursada> lista = new ArrayList<Cursada>();
         Iterator<Cursada> it = cursadas.iterator();
         Cursada cursada = null;
@@ -615,13 +615,8 @@ public class Entidades {
         Cursada cursada = null;
         while (it.hasNext() && sinSuperposicion) {
             cursada = it.next();
-            Iterator<Cursada> itAux = cursadasLista.iterator();
-            Cursada cursadaAux = null;
-            while (itAux.hasNext() && sinSuperposicion) {
-                cursadaAux = itAux.next();
-                if (cursada != cursadaAux && cursada.seSuperponeCon(cursadaAux)) {
-                    sinSuperposicion = false;
-                }
+            if (cursada.seSuperponeCon(cursadasLista)) {
+                sinSuperposicion = false;
             }
         }
         
@@ -640,16 +635,7 @@ public class Entidades {
             asignatura = ita.next();
             
             // Buscar todas las cursadas que corresponden a esta asignatura.
-            ArrayList<Cursada> cursadasEncontradas = new ArrayList<Cursada>();
-            Iterator<Cursada> itc = cursadas.iterator();
-            Cursada cursada = null;
-            while (itc.hasNext()) {
-                cursada = itc.next();
-                if (cursada.getAsignatura() == asignatura) {
-                    cursadasEncontradas.add(cursada);
-                }
-            }
-            
+            ArrayList<Cursada> cursadasEncontradas = buscaCursadasConAsignatura(asignatura);
             sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
         }
         
@@ -668,16 +654,7 @@ public class Entidades {
             alumno = ita.next();
             
             // Buscar todas las cursadas en las que participa este alumno.
-            ArrayList<Cursada> cursadasEncontradas = new ArrayList<Cursada>();
-            Iterator<Cursada> itc = cursadas.iterator();
-            Cursada cursada = null;
-            while (itc.hasNext()) {
-                cursada = itc.next();
-                if (cursada.getAlumnos().contains(alumno)) {
-                    cursadasEncontradas.add(cursada);
-                }
-            }
-            
+            ArrayList<Cursada> cursadasEncontradas = buscaCursadasConAlumno(alumno);
             sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
         }
         
@@ -696,16 +673,7 @@ public class Entidades {
             profesor = itp.next();
             
             // Buscar todas las cursadas en las que participa este profesor.
-            ArrayList<Cursada> cursadasEncontradas = new ArrayList<Cursada>();
-            Iterator<Cursada> itc = cursadas.iterator();
-            Cursada cursada = null;
-            while (itc.hasNext()) {
-                cursada = itc.next();
-                if (cursada.getProfesores().contains(profesor)) {
-                    cursadasEncontradas.add(cursada);
-                }
-            }
-            
+            ArrayList<Cursada> cursadasEncontradas = buscaCursadasConProfesor(profesor);
             sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
         }
         
