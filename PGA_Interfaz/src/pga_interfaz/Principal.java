@@ -173,6 +173,9 @@ public class Principal extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         panelTabs.setToolTipText("");
