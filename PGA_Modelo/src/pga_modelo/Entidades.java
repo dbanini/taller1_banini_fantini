@@ -18,8 +18,8 @@ public class Entidades {
     // Atributos
     // -----------------------------------------------------------------
     
-    private TreeSet<Profesor> profesores;
     private TreeSet<Alumno> alumnos;
+    private TreeSet<Profesor> profesores;
     private TreeSet<Asignatura> asignaturas;
     private TreeSet<Cursada> cursadas;
     
@@ -32,8 +32,8 @@ public class Entidades {
      * <b>post: </b> Se crean las entidades.
      */
     public Entidades(){        
-        profesores = new TreeSet<Profesor>();
         alumnos = new TreeSet<Alumno>();
+        profesores = new TreeSet<Profesor>();
         asignaturas = new TreeSet<Asignatura>();
         cursadas = new TreeSet<Cursada>();
         verificarInvariante();
@@ -43,38 +43,58 @@ public class Entidades {
     // Getters y setters
     // -----------------------------------------------------------------
 
-    public void setProfesores(TreeSet<Profesor> profesores) {
-        this.profesores = profesores;
-        verificarInvariante();
-    }
-
-    public TreeSet<Profesor> getProfesores() {
-        return profesores;
-    }
-
+    /**
+     * Setter de alumnos. Acceso publico solo para el serializador. NO USAR.
+     */
     public void setAlumnos(TreeSet<Alumno> alumnos) {
         this.alumnos = alumnos;
         verificarInvariante();
     }
 
+    /** Devuelve la coleccion de alumnos. NO MODIFICAR MANUALMENTE.
+     */
     public TreeSet<Alumno> getAlumnos() {
         return alumnos;
     }
+    
+    /**
+     * Setter de profesores. Acceso publico solo para el serializador. NO USAR.
+     */
+    public void setProfesores(TreeSet<Profesor> profesores) {
+        this.profesores = profesores;
+        verificarInvariante();
+    }
 
+    /** Devuelve la coleccion de profesores. NO MODIFICAR MANUALMENTE.
+     */
+    public TreeSet<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    /**
+     * Setter de asignaturas. Acceso publico solo para el serializador. NO USAR.
+     */
     public void setAsignaturas(TreeSet<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;
         verificarInvariante();
     }
 
+    /** Devuelve la coleccion de asignaturas. NO MODIFICAR MANUALMENTE.
+     */
     public TreeSet<Asignatura> getAsignaturas() {
         return asignaturas;
     }
 
+    /**
+     * Setter de cursadas. Acceso publico solo para el serializador. NO USAR.
+     */
     public void setCursadas(TreeSet<Cursada> cursadas) {
         this.cursadas = cursadas;
         verificarInvariante();
     }
 
+    /** Devuelve la coleccion de cursadas. NO MODIFICAR MANUALMENTE.
+     */
     public TreeSet<Cursada> getCursadas() {
         return cursadas;
     }
