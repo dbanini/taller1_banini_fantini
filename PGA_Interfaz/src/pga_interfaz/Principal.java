@@ -174,15 +174,17 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
         panelTabs.setToolTipText("");
+
+        alumnosTab.setPreferredSize(new java.awt.Dimension(899, 490));
 
         alumnosTabla.setAutoCreateRowSorter(true);
         alumnosTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -220,6 +222,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         alumnoDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        alumnoDatosPanel.setPreferredSize(new java.awt.Dimension(480, 441));
 
         alumnoNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         alumnoNombreText.setEnabled(false);
@@ -338,7 +341,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(alumnoDatosPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(alumnoDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(alumnoAsigScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                    .addComponent(alumnoAsigScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                     .addGroup(alumnoDatosPanelLayout.createSequentialGroup()
                         .addGroup(alumnoDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(alumnoMailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -479,7 +482,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnosBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(alumnosScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addComponent(alumnosScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addComponent(alumnosFiltro, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -627,6 +630,7 @@ public class Principal extends javax.swing.JFrame {
         profesoresFiltro.setToolTipText("Filtrar el listado");
 
         profesorDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        profesorDatosPanel.setRequestFocusEnabled(false);
 
         profesorNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         profesorNombreText.setEnabled(false);
@@ -1238,7 +1242,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaAlumnosTabla.setCellSelectionEnabled(false);
         cursadaAlumnosTabla.setEnabled(false);
         cursadaAlumnosTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaAlumnosTabla.getTableHeader().setReorderingAllowed(false);
@@ -1347,7 +1350,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaProfesoresTabla.setCellSelectionEnabled(false);
         cursadaProfesoresTabla.setEnabled(false);
         cursadaProfesoresTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaProfesoresTabla.getTableHeader().setReorderingAllowed(false);
