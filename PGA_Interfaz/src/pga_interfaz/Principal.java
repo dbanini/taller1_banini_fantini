@@ -2081,8 +2081,7 @@ public class Principal extends javax.swing.JFrame {
         String nuevoDomicilio = profesorDomicilioText.getText();
         String nuevoMail = profesorMailText.getText();
         String nuevoTelefono = profesorTelefonoText.getText();
-        
-        // TODO Traducir tabla de asignaturas habilitadas a una lista.
+        TreeSet<Asignatura> nuevasHabilitadas = asignaturasDeTabla(profesorAsigTabla);
         
         if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
             entradaValida = false;
@@ -2099,6 +2098,19 @@ public class Principal extends javax.swing.JFrame {
             mostrarError("El legajo ya esta en uso por otro profesor.");
             entradaValida = false;
         }
+        else {
+            // Verificar si el profesor puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de habilitadas.
+            ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(profesorActual);
+            Iterator<Cursada> it = cursadasProfesor.iterator();
+            Cursada cursada = null;
+            while (it.hasNext() && entradaValida) {
+                cursada = it.next();
+                if (!nuevasHabilitadas.contains(cursada.getAsignatura())) {
+                    mostrarError("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra.");
+                    entradaValida = false;
+                }
+            }
+        }
         
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
@@ -2107,7 +2119,7 @@ public class Principal extends javax.swing.JFrame {
             profesorActual.setDomicilio(nuevoDomicilio);
             profesorActual.setMail(nuevoMail);
             profesorActual.setTelefono(nuevoTelefono);
-            //profesorActual.setParticipar();
+            profesorActual.setParticipar(nuevasHabilitadas);
             
             // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
