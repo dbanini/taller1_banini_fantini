@@ -229,6 +229,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         ListSelectionModel lsm = (ListSelectionModel) entidadesTabla.getSelectionModel();
         int selectedRow = lsm.getMinSelectionIndex();
         if (selectedRow >= 0) {
+            selectedRow = entidadesTabla.convertRowIndexToModel(selectedRow);
             entidadElegida = claves.get(selectedRow);
             this.setVisible(false);
         }

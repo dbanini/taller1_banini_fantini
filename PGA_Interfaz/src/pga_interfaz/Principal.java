@@ -1731,20 +1731,41 @@ public class Principal extends javax.swing.JFrame {
             // Obtenemos la asignatura seleccionada de la tabla.
             DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
             selectedRow = profesorAsigTabla.convertRowIndexToModel(selectedRow);
-            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(profesorAsigTabla);
             String id = (String) modelo.getValueAt(selectedRow, 0);
-            Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
-            assert asignatura != null : "La tabla tiene una asignatura inexistente.";
             modelo.removeRow(selectedRow);
         }
     }//GEN-LAST:event_profesorQuitarAsigBotonActionPerformed
 
     private void asignaturaCorrAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaCorrAgregarBotonActionPerformed
-        // TODO add your handling code here:
+        Asignatura asignatura = seleccionarAsignaturaDialogo();
+        if (asignatura != null) {
+            TreeSet<Asignatura> correlativas = asignaturasDeTabla(asignaturaCorrTabla);
+            if (correlativas.contains(asignatura)) {
+                mostrarError("La asignatura ya tiene esa materia como correlativa directa.");
+            }
+            else if (asignatura == asignaturaActual) {
+                mostrarError("La asignatura no puede ser correlativa de si misma.");
+            }
+            else if (asignatura.getCorrelativas().contains(asignaturaActual)) {
+                mostrarError("La asignatura actual es correlativa directa de la asignatura elegida.");
+            }
+            else {
+                DefaultTableModel modelo = (DefaultTableModel) asignaturaCorrTabla.getModel();
+                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            }
+        }
     }//GEN-LAST:event_asignaturaCorrAgregarBotonActionPerformed
 
     private void asignaturaCorrQuitarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaCorrQuitarBotonActionPerformed
-        // TODO add your handling code here:
+        ListSelectionModel lsm = (ListSelectionModel) asignaturaCorrTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            // Obtenemos la asignatura seleccionada de la tabla.
+            DefaultTableModel modelo = (DefaultTableModel) asignaturaCorrTabla.getModel();
+            selectedRow = asignaturaCorrTabla.convertRowIndexToModel(selectedRow);
+            String id = (String) modelo.getValueAt(selectedRow, 0);
+            modelo.removeRow(selectedRow);
+        }
     }//GEN-LAST:event_asignaturaCorrQuitarBotonActionPerformed
 
     private void cursadaProfQuitarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaProfQuitarBotonActionPerformed
@@ -2146,8 +2167,8 @@ public class Principal extends javax.swing.JFrame {
         String oldNombre = asignaturaActual.getNombre();
         String nuevoId = asignaturaIdText.getText();
         String nuevoNombre = asignaturaNombreText.getText();
+        TreeSet<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
         
-        // TODO Traducir tabla de asignaturas correlativas a una lista.
         if (!Asignatura.nombreEsValido(nuevoNombre)) {
             mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
             entradaValida = false;
@@ -2160,14 +2181,30 @@ public class Principal extends javax.swing.JFrame {
             mostrarError("El Id ya esta en uso por otra asignatura.");
             entradaValida = false;
         }
+        else {
+            // Verificar si los alumnos pueden mantenerse en las cursadas en las que esten con las nuevas correlativas.
+            ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
+            Iterator<Cursada> it = cursadas.iterator();
+            Cursada cursada = null;
+            while (it.hasNext() && entradaValida) {
+                cursada = it.next();
+                Iterator<Alumno> ita = cursada.getAlumnos().iterator();
+                Alumno alumno = null;
+                while (ita.hasNext() && entradaValida) {
+                    alumno = ita.next();
+                    if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
+                        mostrarError("La nueva lista de correlativas no es compatible con las cursadas porque los alumnos no tienen aprobadas las asignaturas pedidas.");
+                        entradaValida = false;
+                    }
+                }
+            }
+        }
         
-        // TODO Verificar el resto de las precondiciones.
-        
-        // Copiar los datos si las precondiciones se han cumplido.
+        // Copiar los datos si las condiciones se han cumplido.
         if (entradaValida) {
             asignaturaActual.setId(nuevoId);
             asignaturaActual.setNombre(nuevoNombre);
-            //asignaturaActual.setCorrelativas();
+            asignaturaActual.setCorrelativas(nuevasCorrelativas);
             
             // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
