@@ -1809,27 +1809,36 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cursadaSeleccionarBotonActionPerformed
 
     private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
-        String nuevoLegajo = entidades.nuevoLegajoAlumno();
-        Alumno nuevoAlumno = new Alumno(nuevoLegajo, "Nombre", "Domicilio", "mail@vacio.com");
+        // Crear nuevo alumno en banco de datos.
+        Alumno nuevoAlumno = new Alumno();
+        nuevoAlumno.setLegajo(entidades.nuevoLegajoAlumno());
         entidades.addAlumno(nuevoAlumno);
+        
+        // Agregar y seleccionar en tabla.
         agregarAlumnoTabla(nuevoAlumno);
         int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
         alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_alumnosNuevoBotonActionPerformed
 
     private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
-        String nuevoLegajo = entidades.nuevoLegajoProfesor();
-        Profesor nuevoProfesor = new Profesor(nuevoLegajo, "Nombre", "Domicilio", "0000 000000", "mail@vacio.com");
+        // Crear nuevo profesor en banco de datos.
+        Profesor nuevoProfesor = new Profesor();
+        nuevoProfesor.setLegajo(entidades.nuevoLegajoProfesor());
         entidades.addProfesor(nuevoProfesor);
+        
+        // Agregar y seleccionar en tabla.
         agregarProfesorTabla(nuevoProfesor);
         int lastIndex = profesoresTabla.convertRowIndexToView(profesoresTabla.getRowCount() - 1);
         profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_profesoresNuevoBotonActionPerformed
 
     private void asignaturasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasNuevoBotonActionPerformed
-        String nuevoId = entidades.nuevoIdAsignatura();
-        Asignatura nuevaAsignatura = new Asignatura(nuevoId, "Nombre");
+        // Crear nueva asignatura en banco de datos.
+        Asignatura nuevaAsignatura = new Asignatura();
+        nuevaAsignatura.setId(entidades.nuevoIdAsignatura());
         entidades.addAsignatura(nuevaAsignatura);
+        
+        // Agregar y seleccionar en tabla.
         agregarAsignaturaTabla(nuevaAsignatura);
         int lastIndex = asignaturasTabla.convertRowIndexToView(asignaturasTabla.getRowCount() - 1);
         asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
@@ -1838,10 +1847,13 @@ public class Principal extends javax.swing.JFrame {
     private void cursadasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasNuevoBotonActionPerformed
         TreeSet<Asignatura> asignaturas = entidades.getAsignaturas();
         if (!asignaturas.isEmpty()) {
-            Asignatura primerAsignatura = asignaturas.first();
-            String nuevoId = entidades.nuevoIdCursada();
-            Cursada nuevaCursada = new Cursada(nuevoId, primerAsignatura, "01-2017", "Lun", "12:00", "14:00");
+            // Crear nueva cursada en banco de datos.
+            Cursada nuevaCursada = new Cursada();
+            nuevaCursada.setId(entidades.nuevoIdCursada());
+            nuevaCursada.setAsignatura(asignaturas.first());
             entidades.addCursada(nuevaCursada);
+            
+            // Agregar y seleccionar en tabla.
             agregarCursadaTabla(nuevaCursada);
             int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
             cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);

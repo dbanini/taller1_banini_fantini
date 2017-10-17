@@ -191,6 +191,21 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
+     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. 
+     * @param cursada con la cual se verifica la superposicion.
+     * @return True si existe una superposicion, false en caso contrario.
+     */
+    public boolean seSuperponeCon(Cursada cursada) {
+        if (cursada.getPeriodo().equals(periodo) && cursada.getDia().equals(dia)) {
+            if (!horaMayorA(horaInicio, cursada.getHoraFin()) && !horaMayorA(cursada.getHoraInicio(), horaFin)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * Sobreescribe el metodo toString para el objeto. <br>
      * @return Retorna la clase escrita en un string.
      */
@@ -221,7 +236,7 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Compara esta cursada con otra cursada. <br>
      * @param o Es la otra cursada a comparar.
-     * @return Si this<o retorna negativo. Si this==o retorna 0. Si this>o retorna positivo.
+     * @return Resultado numerico de la comparacion entre Ids.
      */
     @Override
     public int compareTo(Cursada o) {
@@ -267,9 +282,7 @@ public class Cursada implements Comparable<Cursada>{
      * @return True si la asignatura es valida, false en caso contrario. 
      */
     private boolean asignaturaEsValido() {
-        if (asignatura!=null)
-            return true;
-        return false;
+        return asignatura != null;
     }
     
     /**
@@ -343,15 +356,14 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Comprueba si una hora es mayor a otra. <br>
      * <b>pre: </b> Las horas deben cumplir con la mascara 99:99 (9 : 0-9) <br>
+     * @param horaA La primera hora a comparar. <br>
+     * @param horaB La segunda hora a comparar. <br>
      * @return True si la horaA es mayor a la horaB, false en caso contrario.
      */ 
     public boolean horaMayorA(String horaA, String horaB) {
         assert horaEsValido(horaA) : "La hora A es invalida.";
         assert horaEsValido(horaB) : "La hora B es invalida.";
-        
-        // TODO Implementar chequeo entre horas.
-        
-        return true;
+        return horaA.compareTo(horaB) > 0;
     }
     
     /**
@@ -373,6 +385,24 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
+     * Comprueba que los alumnos que participan cumplan con las correlatividades de la asignatura. <br>
+     * @return True si estan todos los alumnos habilitados, false en caso contrario.
+     */
+    private boolean alumnosHabilitados() {
+        // TODO Implementar.
+        return true;
+    }
+    
+    /**
+     * Comprueba que los profesores que participan esten habilitados a dar la cursada. <br>
+     * @return True si estan todos los profesores habilitados, false en caso contrario.
+     */
+    private boolean profesoresHabilitados() {
+        // TODO Implementar.
+        return true;
+    }
+    
+    /**
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
      * <b>inv: </b>
      * El id cumple con la mascara. <br>
@@ -383,7 +413,9 @@ public class Cursada implements Comparable<Cursada>{
      * La hora fin cumple con la mascara. <br>
      * La hora fin es mayor que la hora inicio. <br>
      * La lista de profesores es distinta de null. <br>
-     * La lista de alumnos es distinta de null.
+     * La lista de alumnos es distinta de null. <br>
+     * Los alumnos que participan de la cursada cumplen con las correlatividades de la asignatura.
+     * Los profesores que participan de la cursada estan habilitados a dar la asignatura.
      */
     private void verificarInvariante(){
         assert idEsValido(id): "El id es invalido.";
@@ -395,5 +427,7 @@ public class Cursada implements Comparable<Cursada>{
         assert horaMayorA(horaFin, horaInicio): "La hora fin no es mayor a la hora inicio.";
         assert profesoresEsValido(): "La lista de profesores es invalida.";
         assert alumnosEsValido(): "La lista de alumnos es invalida.";
+        assert alumnosHabilitados() : "Existen alumnos que no estan habilitados a participar en la cursada.";
+        assert profesoresHabilitados() : "Existen profesores que no estan habilitados a dar la cursada.";
     }
 }

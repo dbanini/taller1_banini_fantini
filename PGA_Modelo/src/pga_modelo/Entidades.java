@@ -2,6 +2,7 @@ package pga_modelo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -473,9 +474,7 @@ public class Entidades {
      * @return True si la lista de profesores es valida, false en caso contrario. 
      */ 
     private boolean profesoresEsValido(){
-        if (profesores!=null)
-            return true;
-        return false;
+        return profesores != null;
     }
     
     /**
@@ -483,9 +482,7 @@ public class Entidades {
      * @return True si la lista de alumnos es valida, false en caso contrario. 
      */
     private boolean alumnosEsValido(){
-        if (alumnos!=null)
-            return true;
-        return false;
+        return alumnos != null;
     }
     
     /**
@@ -493,9 +490,7 @@ public class Entidades {
      * @return True si la lista de asignaturas es valida, false en caso contrario. 
      */
     private boolean asignaturasEsValido(){
-        if (asignaturas!=null)
-            return true;
-        return false;
+        return asignaturas != null;
     }
     
     /**
@@ -503,9 +498,116 @@ public class Entidades {
      * @return True si la lista de cursadas es valida, false en caso contrario. 
      */
     private boolean cursadasEsValido(){
-        if (cursadas!=null)
-            return true;
-        return false;
+        return cursadas != null;
+    }
+    
+    /**
+     * Comprueba que las cursadas de una lista de cursadas no se superpongan. <br>
+     * @param cursadasLista Lista de cursadas a verificar.
+     * @return True si no existen superposiciones, false en caso contrario.
+     */
+    private boolean cursadasSinSuperposicion(ArrayList<Cursada> cursadasLista) {
+        // Buscar entre las cursadas que le corresponden si existe alguna superposicion de horarios.
+        boolean sinSuperposicion = true;
+        Iterator<Cursada> it = cursadasLista.iterator();
+        Cursada cursada = null;
+        while (it.hasNext() && sinSuperposicion) {
+            cursada = it.next();
+            Iterator<Cursada> itAux = cursadasLista.iterator();
+            Cursada cursadaAux = null;
+            while (itAux.hasNext() && sinSuperposicion) {
+                cursadaAux = itAux.next();
+                if (cursada != cursadaAux && cursada.seSuperponeCon(cursadaAux)) {
+                    sinSuperposicion = false;
+                }
+            }
+        }
+        
+        return sinSuperposicion;
+    }
+    
+    /**
+     * Comprueba que las cursadas de una misma asignatura no se superpongan. <br>
+     * @return True si no existen superposiciones, false en caso contrario.
+     */
+    private boolean cursadasSinSuperposicion() {
+        boolean sinSuperposicion = true;
+        Iterator<Asignatura> ita = asignaturas.iterator();
+        Asignatura asignatura = null;
+        while (ita.hasNext() && sinSuperposicion) {
+            asignatura = ita.next();
+            
+            // Buscar todas las cursadas que corresponden a esta asignatura.
+            ArrayList<Cursada> cursadasEncontradas = new ArrayList<Cursada>();
+            Iterator<Cursada> itc = cursadas.iterator();
+            Cursada cursada = null;
+            while (itc.hasNext()) {
+                cursada = itc.next();
+                if (cursada.getAsignatura() == asignatura) {
+                    cursadasEncontradas.add(cursada);
+                }
+            }
+            
+            sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
+        }
+        
+        return sinSuperposicion;
+    }
+    
+    /**
+     * Comprueba que los alumnos no participen de cursadas superpuestas. <br>
+     * @return True si no existen superposiciones, false en caso contrario.
+     */
+    private boolean cursadaAlumnosSinSuperposicion() {
+        boolean sinSuperposicion = true;
+        Iterator<Alumno> ita = alumnos.iterator();
+        Alumno alumno = null;
+        while (ita.hasNext() && sinSuperposicion) {
+            alumno = ita.next();
+            
+            // Buscar todas las cursadas en las que participa este alumno.
+            ArrayList<Cursada> cursadasEncontradas = new ArrayList<Cursada>();
+            Iterator<Cursada> itc = cursadas.iterator();
+            Cursada cursada = null;
+            while (itc.hasNext()) {
+                cursada = itc.next();
+                if (cursada.getAlumnos().contains(alumno)) {
+                    cursadasEncontradas.add(cursada);
+                }
+            }
+            
+            sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
+        }
+        
+        return sinSuperposicion;
+    }
+    
+     /**
+      * Comprueba que los profesores no participen de cursadas superpuestas. <br>
+      * @return True si no existen superposiciones, false en caso contrario.
+      */
+    private boolean cursadaProfesoresSinSuperposicion() {
+        boolean sinSuperposicion = true;
+        Iterator<Profesor> itp = profesores.iterator();
+        Profesor profesor = null;
+        while (itp.hasNext() && sinSuperposicion) {
+            profesor = itp.next();
+            
+            // Buscar todas las cursadas en las que participa este profesor.
+            ArrayList<Cursada> cursadasEncontradas = new ArrayList<Cursada>();
+            Iterator<Cursada> itc = cursadas.iterator();
+            Cursada cursada = null;
+            while (itc.hasNext()) {
+                cursada = itc.next();
+                if (cursada.getProfesores().contains(profesor)) {
+                    cursadasEncontradas.add(cursada);
+                }
+            }
+            
+            sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
+        }
+        
+        return sinSuperposicion;
     }
     
     /**
@@ -514,12 +616,19 @@ public class Entidades {
      * La lista de profesores es distinta de null. <br>
      * La lista de alumnos es distinta de null. <br>
      * La lista de asignaturas es distinta de null. <br>
-     * La lista de cursadas es distinta de null.
+     * La lista de cursadas es distinta de null. <br>
+     * Las cursadas de una misma asignatura no se superponen. <br>
+     * TODO Determinar si esto es para todas las cursadas (lo que hace los siguientes invariantes redundantes).
+     * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
+     * Cada profesor de la coleccion no participa en cursadas que se superponen.
      */
     private void verificarInvariante(){
         assert profesoresEsValido(): "La lista de profesores es invalida.";
         assert alumnosEsValido(): "La lista de alumnos es invalida.";
         assert asignaturasEsValido(): "La lista de asignaturas es invalida.";
         assert cursadasEsValido(): "La lista de cursadas es invalida.";
+        assert cursadasSinSuperposicion() : "Hay cursadas de la misma asignatura que se superponen.";
+        assert cursadaAlumnosSinSuperposicion() : "Hay alumnos que participan en cursadas superpuestas.";
+        assert cursadaProfesoresSinSuperposicion() : "Hay alumnos que participan en cursadas superpuestas.";
     }
 }
