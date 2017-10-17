@@ -44,6 +44,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         seleccionarBoton = new javax.swing.JButton();
         entidadPanel = new javax.swing.JScrollPane();
         entidadDescripcion = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -135,6 +136,8 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         entidadDescripcion.setEnabled(false);
         entidadPanel.setViewportView(entidadDescripcion);
 
+        jLabel1.setText(" Buscar:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,7 +148,10 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
                     .addComponent(botonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(entidadesFiltro)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(entidadesFiltro))
                             .addComponent(scrollEntidades, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(entidadPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
@@ -155,7 +161,11 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(entidadesFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(entidadesFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(entidadPanel)
@@ -337,6 +347,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
     private javax.swing.JScrollPane entidadPanel;
     private javax.swing.JTextField entidadesFiltro;
     private javax.swing.JTable entidadesTabla;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane scrollEntidades;
     private javax.swing.JButton seleccionarBoton;
     // End of variables declaration//GEN-END:variables

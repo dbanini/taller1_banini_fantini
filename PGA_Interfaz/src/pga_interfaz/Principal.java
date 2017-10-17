@@ -84,6 +84,7 @@ public class Principal extends javax.swing.JFrame {
         alumnoCancelarBoton = new javax.swing.JButton();
         alumnoAceptarBoton = new javax.swing.JButton();
         alumnosFiltro = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         profesoresTab = new javax.swing.JPanel();
         profesoresScroll = new javax.swing.JScrollPane();
         profesoresTabla = new javax.swing.JTable();
@@ -112,6 +113,7 @@ public class Principal extends javax.swing.JFrame {
         profesorLegajoText = new javax.swing.JFormattedTextField();
         profesorTelefonoText = new javax.swing.JTextField();
         profesorTelefonoLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         asignaturasTab = new javax.swing.JPanel();
         asignaturasScroll = new javax.swing.JScrollPane();
         asignaturasTabla = new javax.swing.JTable();
@@ -134,6 +136,7 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCancelarBoton = new javax.swing.JButton();
         asignaturaAceptarBoton = new javax.swing.JButton();
         asignaturasFiltro = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         cursadasTab = new javax.swing.JPanel();
         cursadasScroll = new javax.swing.JScrollPane();
         cursadasTabla = new javax.swing.JTable();
@@ -170,19 +173,22 @@ public class Principal extends javax.swing.JFrame {
         cursadaCancelarBoton = new javax.swing.JButton();
         cursadaAceptarBoton = new javax.swing.JButton();
         cursadasFiltro = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
         panelTabs.setToolTipText("");
+
+        alumnosTab.setPreferredSize(new java.awt.Dimension(899, 490));
 
         alumnosTabla.setAutoCreateRowSorter(true);
         alumnosTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -220,6 +226,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         alumnoDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        alumnoDatosPanel.setPreferredSize(new java.awt.Dimension(486, 441));
 
         alumnoNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         alumnoNombreText.setEnabled(false);
@@ -338,7 +345,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(alumnoDatosPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(alumnoDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(alumnoAsigScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                    .addComponent(alumnoAsigScroll)
                     .addGroup(alumnoDatosPanelLayout.createSequentialGroup()
                         .addGroup(alumnoDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(alumnoMailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -471,6 +478,8 @@ public class Principal extends javax.swing.JFrame {
 
         alumnosFiltro.setToolTipText("Filtrar el listado");
 
+        jLabel1.setText(" Buscar:");
+
         javax.swing.GroupLayout alumnosTabLayout = new javax.swing.GroupLayout(alumnosTab);
         alumnosTab.setLayout(alumnosTabLayout);
         alumnosTabLayout.setHorizontalGroup(
@@ -479,8 +488,11 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnosBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(alumnosScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-                    .addComponent(alumnosFiltro, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(alumnosScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, alumnosTabLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(alumnosFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(alumnoBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -494,7 +506,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnoDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(alumnosTabLayout.createSequentialGroup()
-                        .addComponent(alumnosFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(alumnosFiltro)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(alumnosScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -627,6 +641,7 @@ public class Principal extends javax.swing.JFrame {
         profesoresFiltro.setToolTipText("Filtrar el listado");
 
         profesorDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        profesorDatosPanel.setRequestFocusEnabled(false);
 
         profesorNombreText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         profesorNombreText.setEnabled(false);
@@ -793,6 +808,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
+        jLabel2.setText(" Buscar:");
+
         javax.swing.GroupLayout profesoresTabLayout = new javax.swing.GroupLayout(profesoresTab);
         profesoresTab.setLayout(profesoresTabLayout);
         profesoresTabLayout.setHorizontalGroup(
@@ -802,7 +819,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(profesoresBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(profesoresScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addComponent(profesoresFiltro))
+                    .addGroup(profesoresTabLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profesoresFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(profesorBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -815,7 +835,9 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(profesoresTabLayout.createSequentialGroup()
-                        .addComponent(profesoresFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(profesoresFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(profesoresScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(profesorDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1082,6 +1104,8 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturasFiltro.setToolTipText("Filtrar el listado");
 
+        jLabel3.setText(" Buscar:");
+
         javax.swing.GroupLayout asignaturasTabLayout = new javax.swing.GroupLayout(asignaturasTab);
         asignaturasTab.setLayout(asignaturasTabLayout);
         asignaturasTabLayout.setHorizontalGroup(
@@ -1091,7 +1115,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(asignaturasBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(asignaturasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addComponent(asignaturasFiltro))
+                    .addGroup(asignaturasTabLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(asignaturasFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(asignaturaBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1107,7 +1134,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(asignaturaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(asignaturasTabLayout.createSequentialGroup()
-                        .addComponent(asignaturasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(asignaturasFiltro)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(asignaturasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1155,6 +1184,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         cursadaDatosPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+        cursadaDatosPanel.setPreferredSize(new java.awt.Dimension(320, 441));
 
         cursadaIdLabel.setText("ID");
 
@@ -1238,7 +1268,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaAlumnosTabla.setCellSelectionEnabled(false);
         cursadaAlumnosTabla.setEnabled(false);
         cursadaAlumnosTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaAlumnosTabla.getTableHeader().setReorderingAllowed(false);
@@ -1347,7 +1376,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaProfesoresTabla.setCellSelectionEnabled(false);
         cursadaProfesoresTabla.setEnabled(false);
         cursadaProfesoresTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaProfesoresTabla.getTableHeader().setReorderingAllowed(false);
@@ -1544,6 +1572,8 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasFiltro.setToolTipText("Filtrar el listado");
 
+        jLabel4.setText(" Buscar:");
+
         javax.swing.GroupLayout cursadasTabLayout = new javax.swing.GroupLayout(cursadasTab);
         cursadasTab.setLayout(cursadasTabLayout);
         cursadasTabLayout.setHorizontalGroup(
@@ -1553,10 +1583,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cursadasBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cursadasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addComponent(cursadasFiltro))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(cursadasTabLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cursadasFiltro)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                     .addComponent(cursadaBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1567,7 +1600,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(cursadasTabLayout.createSequentialGroup()
-                        .addComponent(cursadasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cursadasFiltro)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cursadasScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1752,54 +1787,6 @@ public class Principal extends javax.swing.JFrame {
         return profesores;
     }
 
-    private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
-        Asignatura asignatura = seleccionarAsignaturaDialogo();
-        if (asignatura != null) {
-            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
-            if (aprobadas.contains(asignatura)) {
-                mostrarError("El alumno ya tiene esa asignatura aprobada.");
-            }
-            else if (!aprobadas.containsAll(asignatura.getCorrelativas())) {
-                mostrarError("El alumno no tiene las correlativas aprobadas para agregar esa asignatura.");
-            }
-            else {
-                DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
-                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
-            }
-        }
-    }//GEN-LAST:event_alumnoAgregarAsigBotonActionPerformed
-
-    private void alumnoQuitarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoQuitarAsigBotonActionPerformed
-        ListSelectionModel lsm = (ListSelectionModel) alumnoAsigTabla.getSelectionModel();
-        int selectedRow = lsm.getMinSelectionIndex();
-        if (selectedRow >= 0) {
-            // Obtenemos la asignatura seleccionada de la tabla.
-            DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
-            selectedRow = alumnoAsigTabla.convertRowIndexToModel(selectedRow);
-            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
-            String id = (String) modelo.getValueAt(selectedRow, 0);
-            Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
-            assert asignatura != null : "La tabla tiene una asignatura inexistente.";
-            
-            // Verificamos si la asignatura a quitar no es correlativa de otra de las materias en la tabla.
-            boolean operacionValida = true;
-            Iterator<Asignatura> it = aprobadas.iterator();
-            Asignatura asignaturaAux = null;
-            while (it.hasNext() && operacionValida) {
-                asignaturaAux = it.next();
-                if (asignaturaAux != asignatura && asignaturaAux.getCorrelativas().contains(asignatura)) {
-                    mostrarError("No se puede quitar la asignatura seleccionada. Es correlativa de otra asignatura ya aprobada.");
-                    operacionValida = false;
-                }
-            }
-            
-            // Quitamos la asignatura si es valida la operacion.
-            if (operacionValida) {
-                modelo.removeRow(selectedRow);
-            }
-        }
-    }//GEN-LAST:event_alumnoQuitarAsigBotonActionPerformed
-
     private void profesorAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAgregarAsigBotonActionPerformed
         Asignatura asignatura = seleccionarAsignaturaDialogo();
         if (asignatura != null) {
@@ -1919,14 +1906,6 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cursadaPeriodoAComboActionPerformed
 
-    private void alumnoLegajoTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoLegajoTextActionPerformed
-
-    }//GEN-LAST:event_alumnoLegajoTextActionPerformed
-
-    private void alumnoNombreTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoNombreTextActionPerformed
-
-    }//GEN-LAST:event_alumnoNombreTextActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         alumnoActual = null;
         profesorActual = null;
@@ -1993,18 +1972,6 @@ public class Principal extends javax.swing.JFrame {
             cursadaAsignaturaText.setText(nombreDeAsignatura(asignatura));
         }
     }//GEN-LAST:event_cursadaSeleccionarBotonActionPerformed
-
-    private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
-        // Crear nuevo alumno en banco de datos.
-        Alumno nuevoAlumno = new Alumno();
-        nuevoAlumno.setLegajo(entidades.nuevoLegajoAlumno());
-        entidades.addAlumno(nuevoAlumno);
-        
-        // Agregar y seleccionar en tabla.
-        agregarAlumnoTabla(nuevoAlumno);
-        int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
-        alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
-    }//GEN-LAST:event_alumnosNuevoBotonActionPerformed
 
     private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
         // Crear nuevo profesor en banco de datos.
@@ -2085,20 +2052,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
 
-    private void alumnosBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosBorrarBotonActionPerformed
-        ListSelectionModel lsm = alumnosTabla.getSelectionModel();
-        int selectedRow = lsm.getMinSelectionIndex();
-        if (selectedRow >= 0) {
-            selectedRow = alumnosTabla.convertRowIndexToModel(selectedRow);
-            String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
-            Alumno alumno = entidades.buscaAlumnoPorLegajo(legajo);
-            assert alumno != null : "La tabla tiene un legajo que no existe en el modelo.";
-            entidades.removeAlumno(alumno);
-            DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
-            modelo.removeRow(selectedRow);
-        }
-    }//GEN-LAST:event_alumnosBorrarBotonActionPerformed
-
     private void profesoresBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresBorrarBotonActionPerformed
         ListSelectionModel lsm = profesoresTabla.getSelectionModel();
         int selectedRow = lsm.getMinSelectionIndex();
@@ -2112,14 +2065,6 @@ public class Principal extends javax.swing.JFrame {
             modelo.removeRow(selectedRow);
         }
     }//GEN-LAST:event_profesoresBorrarBotonActionPerformed
-
-    private void alumnoEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoEditarBotonActionPerformed
-        setAlumnoEditable(true);
-    }//GEN-LAST:event_alumnoEditarBotonActionPerformed
-
-    private void alumnoCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoCancelarBotonActionPerformed
-        setupAlumno(alumnoActual);
-    }//GEN-LAST:event_alumnoCancelarBotonActionPerformed
 
     private boolean verificarPrecondicionesPersona(String legajo, String nombre, String domicilio, String mail) {
         boolean entradaValida = true;
@@ -2159,60 +2104,6 @@ public class Principal extends javax.swing.JFrame {
         
         return encontrado;
     }
-
-    private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
-        boolean entradaValida = true;
-        String oldLegajo = alumnoActual.getLegajo();
-        String oldNombre = alumnoActual.getNombre();
-        String nuevoLegajo = alumnoLegajoText.getText();
-        String nuevoNombre = alumnoNombreText.getText();
-        String nuevoDomicilio = alumnoDomicilioText.getText();
-        String nuevoMail = alumnoMailText.getText();
-        TreeSet<Asignatura> nuevasAprobadas = asignaturasDeTabla(alumnoAsigTabla);
-        
-        if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
-            entradaValida = false;
-        }
-        else if (!nuevoLegajo.equals(oldLegajo) && !Alumno.legajoEsValido(nuevoLegajo)) {
-            mostrarError("El legajo no cumple con la mascara de formato requerida.");
-            entradaValida = false;
-        }
-        else if (!nuevoLegajo.equals(oldLegajo) && entidades.buscaAlumnoPorLegajo(nuevoLegajo) != null) {
-            mostrarError("El legajo ya esta en uso por otro alumno.");
-            entradaValida = false;
-        }
-        else {
-            // Verificar si el alumno puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de aprobadas.
-            ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumnoActual);
-            Iterator<Cursada> it = cursadasAlumno.iterator();
-            Cursada cursada = null;
-            while (it.hasNext() && entradaValida) {
-                cursada = it.next();
-                if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
-                    mostrarError("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra.");
-                    entradaValida = false;
-                }
-            }
-        }
-        
-        // Copiar los datos si las precondiciones se han cumplido.
-        if (entradaValida) {
-            alumnoActual.setLegajo(nuevoLegajo);
-            alumnoActual.setNombre(nuevoNombre);
-            alumnoActual.setDomicilio(nuevoDomicilio);
-            alumnoActual.setMail(nuevoMail);
-            alumnoActual.setAprobadas(nuevasAprobadas);
-            
-            // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
-            if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
-                reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
-                reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
-            }
-            
-            setAlumnoEditable(false);
-        }
-    }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
 
     private void profesorEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorEditarBotonActionPerformed
         setProfesorEditable(true);
@@ -2477,6 +2368,150 @@ public class Principal extends javax.swing.JFrame {
     private void panelTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTabsMouseClicked
 
     }//GEN-LAST:event_panelTabsMouseClicked
+
+    private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        boolean entradaValida = true;
+        String oldLegajo = alumnoActual.getLegajo();
+        String oldNombre = alumnoActual.getNombre();
+        String nuevoLegajo = alumnoLegajoText.getText();
+        String nuevoNombre = alumnoNombreText.getText();
+        String nuevoDomicilio = alumnoDomicilioText.getText();
+        String nuevoMail = alumnoMailText.getText();
+        TreeSet<Asignatura> nuevasAprobadas = asignaturasDeTabla(alumnoAsigTabla);
+
+        if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
+            entradaValida = false;
+        }
+        else if (!nuevoLegajo.equals(oldLegajo) && !Alumno.legajoEsValido(nuevoLegajo)) {
+            mostrarError("El legajo no cumple con la mascara de formato requerida.");
+            entradaValida = false;
+        }
+        else if (!nuevoLegajo.equals(oldLegajo) && entidades.buscaAlumnoPorLegajo(nuevoLegajo) != null) {
+            mostrarError("El legajo ya esta en uso por otro alumno.");
+            entradaValida = false;
+        }
+        else {
+            // Verificar si el alumno puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de aprobadas.
+            ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumnoActual);
+            Iterator<Cursada> it = cursadasAlumno.iterator();
+            Cursada cursada = null;
+            while (it.hasNext() && entradaValida) {
+                cursada = it.next();
+                if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
+                    mostrarError("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra.");
+                    entradaValida = false;
+                }
+            }
+        }
+
+        // Copiar los datos si las precondiciones se han cumplido.
+        if (entradaValida) {
+            alumnoActual.setLegajo(nuevoLegajo);
+            alumnoActual.setNombre(nuevoNombre);
+            alumnoActual.setDomicilio(nuevoDomicilio);
+            alumnoActual.setMail(nuevoMail);
+            alumnoActual.setAprobadas(nuevasAprobadas);
+
+            // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+            if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+            }
+
+            setAlumnoEditable(false);
+        }
+    }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
+
+    private void alumnoCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoCancelarBotonActionPerformed
+        setupAlumno(alumnoActual);
+    }//GEN-LAST:event_alumnoCancelarBotonActionPerformed
+
+    private void alumnoEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoEditarBotonActionPerformed
+        setAlumnoEditable(true);
+    }//GEN-LAST:event_alumnoEditarBotonActionPerformed
+
+    private void alumnosBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosBorrarBotonActionPerformed
+        ListSelectionModel lsm = alumnosTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            selectedRow = alumnosTabla.convertRowIndexToModel(selectedRow);
+            String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
+            Alumno alumno = entidades.buscaAlumnoPorLegajo(legajo);
+            assert alumno != null : "La tabla tiene un legajo que no existe en el modelo.";
+            entidades.removeAlumno(alumno);
+            DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
+            modelo.removeRow(selectedRow);
+        }
+    }//GEN-LAST:event_alumnosBorrarBotonActionPerformed
+
+    private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
+        // Crear nuevo alumno en banco de datos.
+        Alumno nuevoAlumno = new Alumno();
+        nuevoAlumno.setLegajo(entidades.nuevoLegajoAlumno());
+        entidades.addAlumno(nuevoAlumno);
+
+        // Agregar y seleccionar en tabla.
+        agregarAlumnoTabla(nuevoAlumno);
+        int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
+        alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+    }//GEN-LAST:event_alumnosNuevoBotonActionPerformed
+
+    private void alumnoLegajoTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoLegajoTextActionPerformed
+
+    }//GEN-LAST:event_alumnoLegajoTextActionPerformed
+
+    private void alumnoQuitarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoQuitarAsigBotonActionPerformed
+        ListSelectionModel lsm = (ListSelectionModel) alumnoAsigTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            // Obtenemos la asignatura seleccionada de la tabla.
+            DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
+            selectedRow = alumnoAsigTabla.convertRowIndexToModel(selectedRow);
+            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
+            String id = (String) modelo.getValueAt(selectedRow, 0);
+            Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
+            assert asignatura != null : "La tabla tiene una asignatura inexistente.";
+
+            // Verificamos si la asignatura a quitar no es correlativa de otra de las materias en la tabla.
+            boolean operacionValida = true;
+            Iterator<Asignatura> it = aprobadas.iterator();
+            Asignatura asignaturaAux = null;
+            while (it.hasNext() && operacionValida) {
+                asignaturaAux = it.next();
+                if (asignaturaAux != asignatura && asignaturaAux.getCorrelativas().contains(asignatura)) {
+                    mostrarError("No se puede quitar la asignatura seleccionada. Es correlativa de otra asignatura ya aprobada.");
+                    operacionValida = false;
+                }
+            }
+
+            // Quitamos la asignatura si es valida la operacion.
+            if (operacionValida) {
+                modelo.removeRow(selectedRow);
+            }
+        }
+    }//GEN-LAST:event_alumnoQuitarAsigBotonActionPerformed
+
+    private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
+        Asignatura asignatura = seleccionarAsignaturaDialogo();
+        if (asignatura != null) {
+            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
+            if (aprobadas.contains(asignatura)) {
+                mostrarError("El alumno ya tiene esa asignatura aprobada.");
+            }
+            else if (!aprobadas.containsAll(asignatura.getCorrelativas())) {
+                mostrarError("El alumno no tiene las correlativas aprobadas para agregar esa asignatura.");
+            }
+            else {
+                DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
+                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            }
+        }
+    }//GEN-LAST:event_alumnoAgregarAsigBotonActionPerformed
+
+    private void alumnoNombreTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoNombreTextActionPerformed
+
+    }//GEN-LAST:event_alumnoNombreTextActionPerformed
 
     private void setupTablaFiltro(JTable tabla, JTextField field) {
         // Crear ordenador para la tabla.
@@ -3012,6 +3047,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane cursadasScroll;
     private javax.swing.JPanel cursadasTab;
     private javax.swing.JTable cursadasTabla;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTabbedPane panelTabs;
     private javax.swing.JButton profesorAceptarBoton;
     private javax.swing.JButton profesorAgregarAsigBoton;

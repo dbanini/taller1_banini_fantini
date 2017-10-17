@@ -10,8 +10,8 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
     <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -46,6 +46,11 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="alumnosTab">
+          <Properties>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[899, 490]"/>
+            </Property>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Alumnos">
@@ -61,8 +66,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="alumnosBotonesPanel" max="32767" attributes="0"/>
-                          <Component id="alumnosScroll" pref="386" max="32767" attributes="0"/>
-                          <Component id="alumnosFiltro" alignment="1" max="32767" attributes="0"/>
+                          <Component id="alumnosScroll" pref="383" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="alumnosFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -80,7 +89,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="alumnoDatosPanel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="alumnosFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="alumnosFiltro" max="32767" attributes="0"/>
+                                  <Component id="jLabel1" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="alumnosScroll" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -142,6 +154,9 @@
                     <TitledBorder title="Datos"/>
                   </Border>
                 </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[486, 441]"/>
+                </Property>
               </Properties>
 
               <Layout>
@@ -150,7 +165,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="alumnoAsigScroll" pref="449" max="32767" attributes="0"/>
+                              <Component id="alumnoAsigScroll" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="alumnoMailLabel" max="32767" attributes="0"/>
@@ -480,6 +495,11 @@
                 <Property name="toolTipText" type="java.lang.String" value="Filtrar el listado"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="profesoresTab">
@@ -499,7 +519,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="profesoresBotonesPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="profesoresScroll" alignment="0" pref="389" max="32767" attributes="0"/>
-                          <Component id="profesoresFiltro" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="profesoresFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -516,7 +540,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="profesoresFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="profesoresFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="profesoresScroll" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -691,6 +718,7 @@
                     <TitledBorder title="Datos"/>
                   </Border>
                 </Property>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
 
               <Layout>
@@ -931,6 +959,11 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="asignaturasTab">
@@ -950,7 +983,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="asignaturasBotonesPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="asignaturasScroll" alignment="0" pref="389" max="32767" attributes="0"/>
-                          <Component id="asignaturasFiltro" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="asignaturasFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -971,7 +1008,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="asignaturaDatosPanel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="asignaturasFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="asignaturasFiltro" max="32767" attributes="0"/>
+                                  <Component id="jLabel3" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="asignaturasScroll" pref="416" max="32767" attributes="0"/>
                           </Group>
@@ -1325,6 +1365,11 @@
                 <Property name="toolTipText" type="java.lang.String" value="Filtrar el listado"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="cursadasTab">
@@ -1344,11 +1389,15 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cursadasBotonesPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="cursadasScroll" alignment="0" pref="389" max="32767" attributes="0"/>
-                          <Component id="cursadasFiltro" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cursadasFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cursadaDatosPanel" max="32767" attributes="0"/>
+                          <Component id="cursadaDatosPanel" pref="474" max="32767" attributes="0"/>
                           <Component id="cursadaBotonesPanel" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1362,7 +1411,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cursadaDatosPanel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="cursadasFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cursadasFiltro" max="32767" attributes="0"/>
+                                  <Component id="jLabel4" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cursadasScroll" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -1424,6 +1476,9 @@
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder title="Datos"/>
                   </Border>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[320, 441]"/>
                 </Property>
               </Properties>
 
@@ -1639,7 +1694,6 @@
                             <Column editable="false" title="Nombre" type="java.lang.String"/>
                           </Table>
                         </Property>
-                        <Property name="cellSelectionEnabled" type="boolean" value="false"/>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
                             <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
@@ -1775,7 +1829,6 @@
                             <Column editable="false" title="Nombre" type="java.lang.String"/>
                           </Table>
                         </Property>
-                        <Property name="cellSelectionEnabled" type="boolean" value="false"/>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
                             <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
@@ -1947,6 +2000,11 @@
             <Component class="javax.swing.JTextField" name="cursadasFiltro">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Filtrar el listado"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
               </Properties>
             </Component>
           </SubComponents>
