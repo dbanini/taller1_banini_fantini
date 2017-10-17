@@ -81,22 +81,26 @@ public class Asignatura implements Comparable<Asignatura>{
     // -----------------------------------------------------------------
     
     /**
-     * Sobreescribe el metodo toString para el objeto. <br>
-     * @return Retorna la clase escrita en un string.
+     * Genera una descripcion textual de la asignatura.
+     * @return La descripcion generada.
      */
-    @Override
-    public String toString(){
-        String string="";
-        Iterator it;
-        Asignatura asignatura;
-        
-        string+="Identificacion: "+id+" Nombre: "+nombre+" Correlativas:";
-        it=correlativas.iterator();
-        while (it.hasNext()){
-            asignatura=(Asignatura)it.next();
-            string+=" "+asignatura.toString();
+    public String getDescripcion() {
+        String string = "";
+        string += "Id: " + id + "\n";
+        string += "Nombre: " + nombre + "\n";
+        string += "Correlativas:";
+        if (!correlativas.isEmpty()) {
+            Iterator<Asignatura> it = correlativas.iterator();
+            Asignatura correlativa = null;
+            while (it.hasNext()) {
+                correlativa = it.next();
+                string += "\n * " + correlativa.getId() + "-" + correlativa.getNombre();
+            }
         }
-        string+="/n";
+        else {
+            string += " Ninguna";
+        }
+        
         return string;
     }
     

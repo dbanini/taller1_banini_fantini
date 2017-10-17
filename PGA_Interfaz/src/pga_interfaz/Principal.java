@@ -2,10 +2,14 @@
 package pga_interfaz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeSet;
 
 import javax.swing.ComboBoxModel;
+
+import javax.swing.JButton;
 
 import pga_modelo.Entidades;
 import pga_modelo.Alumno;
@@ -666,8 +670,8 @@ public class Principal extends javax.swing.JFrame {
         profesorAsigScroll.setViewportView(profesorAsigTabla);
         profesorAsigTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (profesorAsigTabla.getColumnModel().getColumnCount() > 0) {
-            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(100);
             profesorAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             profesorAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -892,8 +896,8 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCorrScroll.setViewportView(asignaturaCorrTabla);
         asignaturaCorrTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturaCorrTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(80);
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(100);
             asignaturaCorrTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             asignaturaCorrTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -1234,7 +1238,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaAlumnosTabla.setColumnSelectionAllowed(true);
+        cursadaAlumnosTabla.setCellSelectionEnabled(false);
         cursadaAlumnosTabla.setEnabled(false);
         cursadaAlumnosTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaAlumnosTabla.getTableHeader().setReorderingAllowed(false);
@@ -1243,6 +1247,8 @@ public class Principal extends javax.swing.JFrame {
         if (cursadaAlumnosTabla.getColumnModel().getColumnCount() > 0) {
             cursadaAlumnosTabla.getColumnModel().getColumn(0).setMinWidth(80);
             cursadaAlumnosTabla.getColumnModel().getColumn(0).setMaxWidth(80);
+            cursadaAlumnosTabla.getColumnModel().getColumn(0).setHeaderValue("Legajo");
+            cursadaAlumnosTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
 
         cursadaAlumAgregarBoton.setText("Agregar...");
@@ -1341,7 +1347,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        cursadaProfesoresTabla.setColumnSelectionAllowed(true);
+        cursadaProfesoresTabla.setCellSelectionEnabled(false);
         cursadaProfesoresTabla.setEnabled(false);
         cursadaProfesoresTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         cursadaProfesoresTabla.getTableHeader().setReorderingAllowed(false);
@@ -1596,22 +1602,141 @@ public class Principal extends javax.swing.JFrame {
     private void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
+    
+    private void setupSubcoleccionTabla(JTable tabla, JButton botonQuitar) {
+        tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+          {
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                botonQuitar.setEnabled(lsm.getMinSelectionIndex() >= 0);
+            }
+        });
+        
+        tabla.getRowSorter().toggleSortOrder(0);
+    }
+    
+    private Asignatura seleccionarAsignaturaDialogo() {
+        // Crear un dialogo para seleccionar una asignatura.
+        ElegirEntidadDialogo dialogo = new ElegirEntidadDialogo(this, true);
+        ArrayList<String> claves = new ArrayList<String>();
+        ArrayList<String> nombres = new ArrayList<String>();
+        ArrayList<String> descripciones = new ArrayList<String>();
+        Iterator<Asignatura> it = entidades.getAsignaturas().iterator();
+        Asignatura asignatura = null;
+        while (it.hasNext()) {
+            asignatura = it.next();
+            claves.add(asignatura.getId());
+            nombres.add(asignatura.getNombre());
+            descripciones.add(asignatura.getDescripcion());
+        }
+        dialogo.setupTabla("Id", claves, nombres, descripciones);
+        
+        // Arrancar el dialogo en modo modal.
+        dialogo.setVisible(true);
+        
+        // Buscar la asignatura elegidad por el selector.
+        asignatura = null;
+        String entidadElegida = dialogo.getEntidadElegida();
+        if (entidadElegida != null) {
+            asignatura = entidades.buscaAsignaturaPorId(entidadElegida);
+        }
+
+        return asignatura;
+    }
+    
+    private TreeSet<Asignatura> asignaturasDeTabla(JTable tabla) {
+        TreeSet<Asignatura> asignaturas = new TreeSet<Asignatura>();
+        Asignatura asignatura = null;
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        int rowCount = modelo.getRowCount();
+        String id = null;
+        for (int row = 0; row < rowCount; row++) {
+            id = (String) modelo.getValueAt(row, 0);
+            asignatura = entidades.buscaAsignaturaPorId(id);
+            assert asignatura != null : "La tabla tiene una asignatura inexistente.";
+            asignaturas.add(asignatura);
+        }
+        
+        return asignaturas;
+    }
 
     private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
-        ElegirEntidadDialogo dialogo = new ElegirEntidadDialogo(this, true);
-        dialogo.setVisible(true);
+        Asignatura asignatura = seleccionarAsignaturaDialogo();
+        if (asignatura != null) {
+            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
+            if (aprobadas.contains(asignatura)) {
+                mostrarError("El alumno ya tiene esa asignatura aprobada.");
+            }
+            else if (!aprobadas.containsAll(asignatura.getCorrelativas())) {
+                mostrarError("El alumno no tiene las correlativas aprobadas para agregar esa asignatura.");
+            }
+            else {
+                DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
+                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            }
+        }
     }//GEN-LAST:event_alumnoAgregarAsigBotonActionPerformed
 
     private void alumnoQuitarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoQuitarAsigBotonActionPerformed
-        // TODO add your handling code here:
+        ListSelectionModel lsm = (ListSelectionModel) alumnoAsigTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            // Obtenemos la asignatura seleccionada de la tabla.
+            DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
+            selectedRow = alumnoAsigTabla.convertRowIndexToModel(selectedRow);
+            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
+            String id = (String) modelo.getValueAt(selectedRow, 0);
+            Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
+            assert asignatura != null : "La tabla tiene una asignatura inexistente.";
+            
+            // Verificamos si la asignatura a quitar no es correlativa de otra de las materias en la tabla.
+            boolean operacionValida = true;
+            Iterator<Asignatura> it = aprobadas.iterator();
+            Asignatura asignaturaAux = null;
+            while (it.hasNext() && operacionValida) {
+                asignaturaAux = it.next();
+                if (asignaturaAux != asignatura && asignaturaAux.getCorrelativas().contains(asignatura)) {
+                    mostrarError("No se puede quitar la asignatura seleccionada. Es correlativa de otra asignatura ya aprobada.");
+                    operacionValida = false;
+                }
+            }
+            
+            // Quitamos la asignatura si es valida la operacion.
+            if (operacionValida) {
+                modelo.removeRow(selectedRow);
+            }
+        }
     }//GEN-LAST:event_alumnoQuitarAsigBotonActionPerformed
 
     private void profesorAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAgregarAsigBotonActionPerformed
-        // TODO add your handling code here:
+        Asignatura asignatura = seleccionarAsignaturaDialogo();
+        if (asignatura != null) {
+            TreeSet<Asignatura> habilitadas = asignaturasDeTabla(profesorAsigTabla);
+            if (habilitadas.contains(asignatura)) {
+                mostrarError("El profesor ya tiene esa asignatura habilitada.");
+            }
+            else {
+                DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
+                modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
+            }
+        }
     }//GEN-LAST:event_profesorAgregarAsigBotonActionPerformed
 
     private void profesorQuitarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorQuitarAsigBotonActionPerformed
-        // TODO add your handling code here:
+        ListSelectionModel lsm = (ListSelectionModel) profesorAsigTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            // Obtenemos la asignatura seleccionada de la tabla.
+            DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
+            selectedRow = profesorAsigTabla.convertRowIndexToModel(selectedRow);
+            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(profesorAsigTabla);
+            String id = (String) modelo.getValueAt(selectedRow, 0);
+            Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
+            assert asignatura != null : "La tabla tiene una asignatura inexistente.";
+            modelo.removeRow(selectedRow);
+        }
     }//GEN-LAST:event_profesorQuitarAsigBotonActionPerformed
 
     private void asignaturaCorrAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaCorrAgregarBotonActionPerformed
@@ -1699,12 +1824,11 @@ public class Principal extends javax.swing.JFrame {
         setupAsignaturasTabla();
         setupCursadasTabla();
         
-        // Queremos que se ordenen por la primer columna las tablas internas.
-        alumnoAsigTabla.getRowSorter().toggleSortOrder(0);
-        profesorAsigTabla.getRowSorter().toggleSortOrder(0);
-        asignaturaCorrTabla.getRowSorter().toggleSortOrder(0);
-        cursadaAlumnosTabla.getRowSorter().toggleSortOrder(0);
-        cursadaProfesoresTabla.getRowSorter().toggleSortOrder(0);
+        setupSubcoleccionTabla(alumnoAsigTabla, alumnoQuitarAsigBoton);
+        setupSubcoleccionTabla(profesorAsigTabla, profesorQuitarAsigBoton);
+        setupSubcoleccionTabla(asignaturaCorrTabla, asignaturaCorrQuitarBoton);
+        setupSubcoleccionTabla(cursadaAlumnosTabla, cursadaAlumQuitarBoton);
+        setupSubcoleccionTabla(cursadaProfesoresTabla, cursadaProfQuitarBoton);
         
         // Modificamos el titulo de la ventana.
         this.setTitle("Sistema PGA");
@@ -1898,8 +2022,7 @@ public class Principal extends javax.swing.JFrame {
         String nuevoNombre = alumnoNombreText.getText();
         String nuevoDomicilio = alumnoDomicilioText.getText();
         String nuevoMail = alumnoMailText.getText();
-        
-        // TODO Traducir tabla de asignaturas aprobadas a una lista.
+        TreeSet<Asignatura> nuevasAprobadas = asignaturasDeTabla(alumnoAsigTabla);
         
         if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
             entradaValida = false;
@@ -1912,6 +2035,19 @@ public class Principal extends javax.swing.JFrame {
             mostrarError("El legajo ya esta en uso por otro alumno.");
             entradaValida = false;
         }
+        else {
+            // Verificar si el alumno puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de aprobadas.
+            ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumnoActual);
+            Iterator<Cursada> it = cursadasAlumno.iterator();
+            Cursada cursada = null;
+            while (it.hasNext() && entradaValida) {
+                cursada = it.next();
+                if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
+                    mostrarError("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra.");
+                    entradaValida = false;
+                }
+            }
+        }
         
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
@@ -1919,7 +2055,7 @@ public class Principal extends javax.swing.JFrame {
             alumnoActual.setNombre(nuevoNombre);
             alumnoActual.setDomicilio(nuevoDomicilio);
             alumnoActual.setMail(nuevoMail);
-            //alumnoActual.setAprobadas();
+            alumnoActual.setAprobadas(nuevasAprobadas);
             
             // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {

@@ -5,6 +5,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import pga_modelo.Alumno;
+
 /**
  *
  * @author Dario
@@ -27,7 +38,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
 
         entidadesFiltro = new javax.swing.JTextField();
         scrollEntidades = new javax.swing.JScrollPane();
-        tablaEntidades = new javax.swing.JTable();
+        entidadesTabla = new javax.swing.JTable();
         botonesPanel = new javax.swing.JPanel();
         cancelarBoton = new javax.swing.JButton();
         seleccionarBoton = new javax.swing.JButton();
@@ -35,10 +46,21 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         entidadDescripcion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         entidadesFiltro.setToolTipText("Filtrar el listado");
+        entidadesFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entidadesFiltroActionPerformed(evt);
+            }
+        });
 
-        tablaEntidades.setModel(new javax.swing.table.DefaultTableModel(
+        entidadesTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -61,8 +83,15 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tablaEntidades.getTableHeader().setReorderingAllowed(false);
-        scrollEntidades.setViewportView(tablaEntidades);
+        entidadesTabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        entidadesTabla.getTableHeader().setReorderingAllowed(false);
+        scrollEntidades.setViewportView(entidadesTabla);
+        if (entidadesTabla.getColumnModel().getColumnCount() > 0) {
+            entidadesTabla.getColumnModel().getColumn(0).setMinWidth(100);
+            entidadesTabla.getColumnModel().getColumn(0).setMaxWidth(100);
+            entidadesTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
+            entidadesTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+        }
 
         cancelarBoton.setText("Cancelar");
         cancelarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -72,6 +101,12 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         });
 
         seleccionarBoton.setText("Seleccionar");
+        seleccionarBoton.setEnabled(false);
+        seleccionarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout botonesPanelLayout = new javax.swing.GroupLayout(botonesPanel);
         botonesPanel.setLayout(botonesPanelLayout);
@@ -96,7 +131,6 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
 
         entidadDescripcion.setColumns(20);
         entidadDescripcion.setRows(5);
-        entidadDescripcion.setText("");
         entidadDescripcion.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         entidadDescripcion.setEnabled(false);
         entidadPanel.setViewportView(entidadDescripcion);
@@ -135,13 +169,88 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }//GEN-END:initComponents
 
+    private ArrayList<String> claves;
+    private ArrayList<String> descripciones;
+    private String entidadElegida = null;
+
     private void cancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBotonActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
     }//GEN-LAST:event_cancelarBotonActionPerformed
 
-    public void setupTabla(ArrayList<String> claves, ArrayList<String> nombres, HashMap<String, String> descripciones) {
-        assert claves.size() == nombres.size() : "El arreglo de claves no tiene la misma cantidad que el de nombres.";
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Crear ordenador para la tabla.
+        TableRowSorter sorter = new TableRowSorter(entidadesTabla.getModel());
+        entidadesTabla.setRowSorter(sorter);
         
+        // Crear listener para el filtro, el cual usa el sorter creado.
+        entidadesFiltro.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                actualizarFiltro();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                actualizarFiltro();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                actualizarFiltro();
+            }
+    
+            public void actualizarFiltro() {
+                String filtro = entidadesFiltro.getText();
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
+            }
+        });
+        
+        entidadesTabla.getRowSorter().toggleSortOrder(0);
+        
+        // Crear listener para la tabla.
+        entidadesTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+          {
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                int selectedRow = lsm.getMinSelectionIndex();
+                boolean seleccionado = selectedRow >= 0;
+                seleccionarBoton.setEnabled(seleccionado);
+                if (seleccionado) {
+                    selectedRow = entidadesTabla.convertRowIndexToModel(selectedRow);
+                    entidadDescripcion.setText(descripciones.get(selectedRow));
+                }
+                else {
+                    entidadDescripcion.setText("");
+                }
+            }
+        });
+        
+        this.setTitle("Seleccione una entidad");
+    }//GEN-LAST:event_formWindowOpened
+
+    private void seleccionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarBotonActionPerformed
+        ListSelectionModel lsm = (ListSelectionModel) entidadesTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            entidadElegida = claves.get(selectedRow);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_seleccionarBotonActionPerformed
+
+    private void entidadesFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entidadesFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entidadesFiltroActionPerformed
+
+    public void setupTabla(String claveNombre, ArrayList<String> claves, ArrayList<String> nombres, ArrayList<String> descripciones) {
+        assert claves.size() == nombres.size() : "El arreglo de claves no tiene la misma cantidad que el de nombres.";
+        this.claves = claves;
+        this.descripciones = descripciones;
+
+        DefaultTableModel modelo = (DefaultTableModel) entidadesTabla.getModel();
+        for (int i = 0; i < claves.size(); i++) {
+            modelo.addRow(new Object[] {claves.get(i), nombres.get(i)});
+        }
+    }
+    
+    public String getEntidadElegida() {
+        return entidadElegida;
     }
 
     /**
@@ -226,9 +335,9 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
     private javax.swing.JTextArea entidadDescripcion;
     private javax.swing.JScrollPane entidadPanel;
     private javax.swing.JTextField entidadesFiltro;
+    private javax.swing.JTable entidadesTabla;
     private javax.swing.JScrollPane scrollEntidades;
     private javax.swing.JButton seleccionarBoton;
-    private javax.swing.JTable tablaEntidades;
     // End of variables declaration//GEN-END:variables
 
 }

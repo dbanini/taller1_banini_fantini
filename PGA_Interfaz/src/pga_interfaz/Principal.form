@@ -816,7 +816,7 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
-                            <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
+                            <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
                               <Title value="Identificador"/>
                               <Editor/>
                               <Renderer/>
@@ -1111,7 +1111,7 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
-                            <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
+                            <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
                               <Title value="Identificador"/>
                               <Editor/>
                               <Renderer/>
@@ -1639,21 +1639,21 @@
                             <Column editable="false" title="Nombre" type="java.lang.String"/>
                           </Table>
                         </Property>
+                        <Property name="cellSelectionEnabled" type="boolean" value="false"/>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
                             <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
-                              <Title/>
+                              <Title value="Legajo"/>
                               <Editor/>
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
+                              <Title value="Nombre"/>
                               <Editor/>
                               <Renderer/>
                             </Column>
                           </TableColumnModel>
                         </Property>
-                        <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
@@ -1775,6 +1775,7 @@
                             <Column editable="false" title="Nombre" type="java.lang.String"/>
                           </Table>
                         </Property>
+                        <Property name="cellSelectionEnabled" type="boolean" value="false"/>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="1">
                             <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
@@ -1789,7 +1790,6 @@
                             </Column>
                           </TableColumnModel>
                         </Property>
-                        <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                         <Property name="enabled" type="boolean" value="false"/>
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
