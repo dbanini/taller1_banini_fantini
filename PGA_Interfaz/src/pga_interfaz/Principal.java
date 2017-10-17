@@ -2693,5 +2693,4 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel profesoresTab;
     private javax.swing.JTable profesoresTabla;
     // End of variables declaration//GEN-END:variables
-
 }
