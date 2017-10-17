@@ -84,62 +84,58 @@ public class Entidades {
     // -----------------------------------------------------------------
     
     /**
-     * Agrega un profesor a la lista de profesores. <br>
-     * <b>pre: </b> El profesor no existe en la lista de profesores.
-     * <b>post: </b> Se agrega un profesor a la lista de profesores.
-     *  @param profesor cumple que es valido.
-     */
-    public void addProfesor(Profesor profesor){
-        profesores.add(profesor);
-        verificarInvariante();
-    }
-    
-    /**
-     * Elimina un profesor de la lista de profesores y de la lista de profesores en las cursadas en las que participa. <br>
-     * <b>pre: </b> El profesor existe en la lista de profesores.
-     * <b>post: </b> Se elimina un profesor de la lista de profesores y de las cursadas en las que participa.
-     *  @param profesor cumple que es valido.
-     */
-    public void removeProfesor(Profesor profesor){
-        Iterator it;
-        Cursada auxCursada;
-        
-        profesores.remove(profesor);
-        it=cursadas.iterator();
-        while (it.hasNext()){
-            auxCursada=(Cursada) it.next();
-            auxCursada.getProfesores().remove(profesor);
-        }
-        verificarInvariante();
-    }
-    
-    /**
      * Agrega un alumno a la lista de alumnos. <br>
      * <b>pre: </b> El alumno no existe en la lista de alumnos.
      * <b>post: </b> Se agrega un alumno a la lista de alumnos.
      *  @param alumnos cumple que es valido.
      */
-    public void addAlumno(Alumno alumno){
+    public void addAlumno(Alumno alumno) {
+        assert !alumnos.contains(alumno) : "El alumno ya existe en la lista de alumnos.";
         alumnos.add(alumno);
+        assert alumnos.contains(alumno) : "El alumno no fue agregado a la lista de alumnos.";
         verificarInvariante();
     }
     
     /**
-     * Elimina una alumno de la lista de alumnos y de la lista de alumnos en las cursadas en las que esta anotado. <br>
+     * Elimina un alumno de la lista de alumnos. <br>
      * <b>pre: </b> El alumno existe en la lista de alumnos.
-     * <b>post: </b> Se elimina un alumno de la lista de alumnos y tambien de las cursadas en las que esta anotado.
+     * <b>pre: </b> El alumno no debe estar en la lista de alumnos de ninguna cursada.
+     * <b>post: </b> Se elimina un alumno de la lista de alumnos.
      *  @param alumnos cumple que es valido.
      */
-    public void removeAlumno(Alumno alumno){
-        Iterator it;
-        Cursada auxCursada;
-        
+    public void removeAlumno(Alumno alumno) {
+        assert alumnos.contains(alumno) : "El alumno no existe en la lista de alumnos.";
+        assert buscaCursadasConAlumno(alumno).isEmpty() : "Hay cursadas que contienen referencias al alumno.";
         alumnos.remove(alumno);
-        it=cursadas.iterator();
-        while (it.hasNext()){
-            auxCursada=(Cursada) it.next();
-            auxCursada.getAlumnos().remove(alumno);
-        }
+        assert !alumnos.contains(alumno) : "El alumno no fue eliminado de la lista de alumnos.";
+        verificarInvariante();
+    }
+    
+    /**
+     * Agrega un profesor a la lista de profesores. <br>
+     * <b>pre: </b> El profesor no existe en la lista de profesores.
+     * <b>post: </b> Se agrega un profesor a la lista de profesores.
+     *  @param profesor El profesor a agregar.
+     */
+    public void addProfesor(Profesor profesor) {
+        assert !profesores.contains(profesor) : "El profesor ya existe en la lista de profesores.";
+        profesores.add(profesor);
+        assert profesores.contains(profesor) : "El profesor no fue agregado a la lista de profesores.";
+        verificarInvariante();
+    }
+    
+     /**
+      * Elimina un profesor de la lista de profesores. <br>
+      * <b>pre: </b> El profesor existe en la lista de profesores.
+      * <b>pre: </b> El profesor no debe estar en la lista de profesores de ninguna cursada.
+      * <b>post: </b> Se elimina un profesor de la lista de profesores.
+      *  @param profesor El profesor a eliminar.
+      */
+    public void removeProfesor(Profesor profesor){
+        assert profesores.contains(profesor) : "El profesor no existe en la lista de profesores.";
+        assert buscaCursadasConProfesor(profesor).isEmpty() : "Hay cursadas que contienen referencias al profesor.";
+        profesores.remove(profesor);
+        assert !profesores.contains(profesor) : "El profesor no fue eliminado de la lista de profesores.";
         verificarInvariante();
     }
     
@@ -149,41 +145,29 @@ public class Entidades {
      * <b>post: </b> Se agrega una asignatura a la lista de aisgnaturas.
      *  @param asignatura cumple que es valida.
      */
-    public void addAsignatura(Asignatura asignatura){
+    public void addAsignatura(Asignatura asignatura) {
+        assert !asignaturas.contains(asignatura) : "La asignatura ya existe en la lista de asignaturas.";
         asignaturas.add(asignatura);
+        assert asignaturas.contains(asignatura) : "La asignatura no fue agregada a la lista de asignaturas.";
         verificarInvariante();
     }
     
     /**
-     * Elimina una asignatura de la lista de aisgnaturas, se eliminan las cursadas de dicha asignatura y se elimina la 
-     * correlatividad en el resto de las asignaturas. <br>
+     * Elimina una asignatura de la lista de asignaturas.
      * <b>pre: </b> La asignatura existe en la lista de asignaturas.
-     * <b>post: </b> Se elimina una asignatura de la lista de asignaturas, se eliminan las cursadas de dicha
-     *  asignatura y ademas se elimina la asignatura en dichas asignaturas que la tengan de correlativa.
+     * <b>pre: </b> La asignatura no debe estar en la lista de aprobadas de ningun alumno.
+     * <b>pre: </b> La asignatura no debe estar en la lista de habilitadas de ningun profesor.
+     * <b>pre: </b> La asignatura no debe estar asignada a alguna cursada.
+     * <b>post: </b> Se elimina una asignatura de la lista de asignaturas.
      * @param asignatura cumple que es valida.
      */
-    public void removeAsignatura(Asignatura asignatura){
-        Iterator it;
-        Asignatura auxAsignatura;
-        Cursada auxCursada;
-        
+    public void removeAsignatura(Asignatura asignatura) {
+        assert asignaturas.contains(asignatura) : "La asignatura no existe en la lista de asignaturas.";
+        assert buscaAlumnosConAsignatura(asignatura).isEmpty() : "Hay alumnos que contienen referencias a la asignatura.";
+        assert buscaProfesoresConAsignatura(asignatura).isEmpty() : "Hay profesores que contienen referencias a la asignatura.";
+        assert buscaCursadasConAsignatura(asignatura).isEmpty() : "Hay cursadas que refieren a la asignatura.";
         asignaturas.remove(asignatura);
-        
-        //Elimina la asignatura en las correlativas.
-        it=asignaturas.iterator();
-        while (it.hasNext()){
-            auxAsignatura=(Asignatura) it.next();
-            auxAsignatura.removeCorrelativa(asignatura);
-        }
-        //Elimina las cursadas con dicha asignatura.
-        it=cursadas.iterator();
-        while (it.hasNext()){
-            auxCursada=(Cursada) it.next();
-            if (auxCursada.getAsignatura().compareTo(asignatura)==0){
-                removeCursada(auxCursada);
-                it=cursadas.iterator(); //Si no se actualiza el iterador tira excepcion.
-            }
-        }
+        assert !asignaturas.contains(asignatura) : "La asignatura no ha sido eliminada.";
         verificarInvariante();
     }
     
@@ -193,8 +177,10 @@ public class Entidades {
      * <b>post: </b> Se agrega una cursada a la lista de cursadas.
      * @param cursada cumple que es valida.
      */
-    public void addCursada(Cursada cursada){
+    public void addCursada(Cursada cursada) {
+        assert !cursadas.contains(cursada) : "La cursada ya existe en la lista de cursadas.";
         cursadas.add(cursada);
+        assert cursadas.contains(cursada) : "La cursada no fue agregada a la lista de cursadas.";
         verificarInvariante();
     }
     
@@ -204,8 +190,10 @@ public class Entidades {
      * <b>post: </b> Se elimina una cursada de la lista de cursadas.
      * @param cursada cumple que es valida.
      */
-    public void removeCursada(Cursada cursada){
+    public void removeCursada(Cursada cursada) {
+        assert cursadas.contains(cursada) : "La cursada no existe en la lista de cursadas.";
         cursadas.remove(cursada);
+        assert !cursadas.contains(cursada) : "La cursada no ha sido eliminada de la lista de cursadas.";
         verificarInvariante();
     }
 
@@ -214,7 +202,7 @@ public class Entidades {
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList los alumnos con determinado nombre pasado por parametro.
      */
-    public ArrayList<Alumno> buscaAlumno (String nombre){
+    public ArrayList<Alumno> buscaAlumno(String nombre){
         Iterator it;
         Alumno alumnoAux;
         ArrayList<Alumno> alumnosEncontrados = new ArrayList<Alumno>();
@@ -226,6 +214,7 @@ public class Entidades {
                 alumnosEncontrados.add(alumnoAux);
             }
         }
+        
         return alumnosEncontrados;
     }
     
@@ -254,7 +243,7 @@ public class Entidades {
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList los profesores con determinado nombre pasado por parametro.
      */
-    public ArrayList<Profesor> buscaProfesor (String nombre){
+    public ArrayList<Profesor> buscaProfesor(String nombre){
         Iterator it;
         Profesor profesoresAux;
         ArrayList<Profesor> ProfesoresEncontrados = new ArrayList<Profesor>();
@@ -266,6 +255,7 @@ public class Entidades {
                 ProfesoresEncontrados.add(profesoresAux);
             }   
         }
+        
         return ProfesoresEncontrados;
     }
     
@@ -294,7 +284,7 @@ public class Entidades {
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList las asignaturas con determinado nombre pasado por parametro.
      */
-    public ArrayList<Asignatura> buscaAsignatura (String nombre){
+    public ArrayList<Asignatura> buscaAsignatura(String nombre){
         Iterator it;
         Asignatura asignaturaAux;
         ArrayList<Asignatura> asignaturaEncontrados = new ArrayList<Asignatura>();
@@ -306,6 +296,7 @@ public class Entidades {
                 asignaturaEncontrados.add(asignaturaAux);
             }
         }
+        
         return asignaturaEncontrados;
     }
     
@@ -334,7 +325,7 @@ public class Entidades {
      * @param string cumple que es valido.
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
      */
-    public ArrayList<Cursada> buscaCursada (String nombre){
+    public ArrayList<Cursada> buscaCursada(String nombre){
         Iterator it;
         Cursada cursadaAux;
         ArrayList<Cursada> cursadaEncontrados = new ArrayList<Cursada>();
@@ -346,6 +337,7 @@ public class Entidades {
                 cursadaEncontrados.add(cursadaAux);
             }
         }
+        
         return cursadaEncontrados;
     }
     
@@ -367,6 +359,101 @@ public class Entidades {
         }
         
         return encontrado ? cursada : null;
+    }
+    
+    /**
+     * Devuelve una lista de los alumnos que tienen la asignatura buscada aprobada.
+     * @param asignatura La asignatura a buscar.
+     * @return La lista de alumnos.
+     */
+    ArrayList<Alumno> buscaAlumnosConAsignatura(Asignatura asignatura) {
+        ArrayList<Alumno> lista = new ArrayList<Alumno>();
+        Iterator<Alumno> it = alumnos.iterator();
+        Alumno alumno = null;
+        while (it.hasNext()) {
+            alumno = it.next();
+            if (alumno.getAprobadas().contains(asignatura)) {
+                lista.add(alumno);
+            }
+        }
+        
+        return lista;
+    }
+    
+    /**
+     * Devuelve una lista de los profesores que tienen la asignatura buscada habilitada.
+     * @param asignatura La asignatura a buscar.
+     * @return La lista de profesores.
+     */
+    ArrayList<Profesor> buscaProfesoresConAsignatura(Asignatura asignatura) {
+        ArrayList<Profesor> lista = new ArrayList<Profesor>();
+        Iterator<Profesor> it = profesores.iterator();
+        Profesor profesor = null;
+        while (it.hasNext()) {
+            profesor = it.next();
+            if (profesor.getParticipar().contains(asignatura)) {
+                lista.add(profesor);
+            }
+        }
+        
+        return lista;
+    }
+    
+    /**
+     * Devuelve una lista de las cursadas que tienen la asignatura buscada asignada.
+     * @param asignatura La asignatura a buscar.
+     * @return La lista de cursadas.
+     */
+    ArrayList<Cursada> buscaCursadasConAsignatura(Asignatura asignatura) {
+        ArrayList<Cursada> lista = new ArrayList<Cursada>();
+        Iterator<Cursada> it = cursadas.iterator();
+        Cursada cursada = null;
+        while (it.hasNext()) {
+            cursada = it.next();
+            if (cursada.getAsignatura() == asignatura) {
+                lista.add(cursada);
+            }
+        }
+        
+        return lista;
+    }
+    
+    /**
+     * Devuelve una lista de las cursadas que tienen al alumno buscado.
+     * @param alumno El alumno a buscar.
+     * @return La lista de cursadas.
+     */
+    ArrayList<Cursada> buscaCursadasConAlumno(Alumno alumno) {
+        ArrayList<Cursada> lista = new ArrayList<Cursada>();
+        Iterator<Cursada> it = cursadas.iterator();
+        Cursada cursada = null;
+        while (it.hasNext()) {
+            cursada = it.next();
+            if (cursada.getAlumnos().contains(alumno)) {
+                lista.add(cursada);
+            }
+        }
+        
+        return lista;
+    }
+    
+    /**
+     * Devuelve una lista de las cursadas que tienen al profesor buscado.
+     * @param profesor El profesor a buscar.
+     * @return La lista de cursadas.
+     */
+    ArrayList<Cursada> buscaCursadasConProfesor(Profesor profesor) {
+        ArrayList<Cursada> lista = new ArrayList<Cursada>();
+        Iterator<Cursada> it = cursadas.iterator();
+        Cursada cursada = null;
+        while (it.hasNext()) {
+            cursada = it.next();
+            if (cursada.getProfesores().contains(profesor)) {
+                lista.add(cursada);
+            }
+        }
+        
+        return lista;
     }
     
     /**

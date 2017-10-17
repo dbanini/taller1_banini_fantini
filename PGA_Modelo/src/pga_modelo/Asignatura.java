@@ -80,28 +80,6 @@ public class Asignatura implements Comparable<Asignatura>{
     // Metodos
     // -----------------------------------------------------------------
     
-    /** 
-     * Agrega una correlativa a la asignatura. <br>
-     * <b>pre: </b> La asignatura no existe en la lista de correlativas.
-     * <b>post: </b> Se agrega una asignatura correlativa a la lista de correlativas.
-     * @param asignatura cumple que es valida.
-     */
-    public void addCorrelativa(Asignatura asignatura){
-        correlativas.add(asignatura);
-        verificarInvariante();
-    }
-    
-    /**
-     * Elimina una correlativa de la asignatura. <br>
-     * <b>pre: </b> La correlativa existe en la lista de correlativas de la asignatura.
-     * <b>post: </b> Se elimina una correlativa de la lista de correlativas de la asignatura.
-     * @param asignatura cumple que es valida.
-     */
-    public void removeCorrelativa(Asignatura asignatura){
-        correlativas.remove(asignatura);
-        verificarInvariante();
-    }
-    
     /**
      * Sobreescribe el metodo toString para el objeto. <br>
      * @return Retorna la clase escrita en un string.

@@ -1687,83 +1687,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_alumnoNombreTextActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        entidades = new Entidades();
         alumnoActual = null;
         profesorActual = null;
         asignaturaActual = null;
         cursadaActual = null;
-        
-        Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B Justo 2050", "jperez@gmail.com");
-        Alumno alumnoB = new Alumno("ALU0041", "Maria Funes", "Santa Fe 1234", "mfunes@gmail.com");
-        Alumno alumnoC = new Alumno("ALU0352", "Lucas Torres", "9 de Julio 1530", "ltorres@gmail.com");
-        entidades.addAlumno(alumnoA);
-        entidades.addAlumno(alumnoB);
-        entidades.addAlumno(alumnoC);
-        
-        Profesor profesorA = new Profesor("PRO0013", "Leonel Guccione", "Calle Falsa 123", "2235 123593", "leo@copetel.com.ar");
-        Profesor profesorB = new Profesor("PRO0054", "Adolfo Tomas Spinelli", "Calle Siempreviva 567", "2234 423585", "adolfspin@gmail.com");
-        Profesor profesorC = new Profesor("PRO0793", "Guillermo Lazzurri", "Calle Verdadera 940", "2236 078934", "guillelazurr@live.com");
-        entidades.addProfesor(profesorA);
-        entidades.addProfesor(profesorB);
-        entidades.addProfesor(profesorC);
-        
-        Asignatura asignaturaA = new Asignatura("ASI0004", "Programacion 3");
-        Asignatura asignaturaB = new Asignatura("ASI0084", "Taller I");
-        Asignatura asignaturaC = new Asignatura("ASI0543", "Teoria de la Informacion");
-        entidades.addAsignatura(asignaturaA);
-        entidades.addAsignatura(asignaturaB);
-        entidades.addAsignatura(asignaturaC);
-        
-        Cursada cursadaA = new Cursada("CUR0023", asignaturaA, "01-2017", "Mar", "09:00", "14:00");
-        Cursada cursadaB = new Cursada("CUR0053", asignaturaB, "02-2017", "Vie", "08:00", "11:00");
-        Cursada cursadaC = new Cursada("CUR0150", asignaturaC, "02-2017", "Jue", "14:30", "17:00");
-        Cursada cursadaD = new Cursada("CUR0002", asignaturaA, "01-2016", "Mié", "10:00", "12:00");
-        entidades.addCursada(cursadaA);
-        entidades.addCursada(cursadaB);
-        entidades.addCursada(cursadaC);
-        entidades.addCursada(cursadaD);
-        
-        // Agregamos aprobadas para los alumnos.
-        alumnoA.addAprobada(asignaturaA);
-        alumnoA.addAprobada(asignaturaB);
-        
-        alumnoB.addAprobada(asignaturaA);
-        alumnoB.addAprobada(asignaturaB);
-        alumnoB.addAprobada(asignaturaC);
-        
-        alumnoC.addAprobada(asignaturaA);
-        
-        // Habilitamos asignaturas para los profesores.
-        profesorA.addParticipacion(asignaturaA);
-        profesorA.addParticipacion(asignaturaB);
-        profesorB.addParticipacion(asignaturaA);
-        profesorB.addParticipacion(asignaturaB);
-        profesorB.addParticipacion(asignaturaC);
-        profesorC.addParticipacion(asignaturaA);
-        profesorC.addParticipacion(asignaturaB);
-        
-        // Agregamos correlativas a las asignaturas.
-        asignaturaB.addCorrelativa(asignaturaA);
-        
-        // Agregamos alumnos y profesores a las cursadas.
-        cursadaA.addAlumno(alumnoA);
-        cursadaA.addAlumno(alumnoB);
-        cursadaA.addProfesor(profesorA);
-
-        cursadaB.addAlumno(alumnoC);
-        cursadaB.addProfesor(profesorA);
-        cursadaB.addProfesor(profesorB);
-        cursadaB.addProfesor(profesorC);
-
-        cursadaC.addAlumno(alumnoB);
-        cursadaC.addAlumno(alumnoC);
-        cursadaC.addProfesor(profesorB);
-
-        cursadaD.addAlumno(alumnoA);
-        cursadaD.addAlumno(alumnoB);
-        cursadaD.addAlumno(alumnoC);
-        cursadaD.addProfesor(profesorA);
-        cursadaD.addProfesor(profesorC);
         
         // Crear el listener para el cambio de tabs.
         panelTabs.addChangeListener(new ChangeListener() {
@@ -1784,6 +1711,9 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         });
+        
+        // Cargamos el banco de datos o creamos uno vacio si no es encontrado.
+        entidades = new Entidades();
         
         // Setup inicial de las tablas de entidades.
         setupAlumnosTabla();

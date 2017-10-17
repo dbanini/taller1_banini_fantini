@@ -73,28 +73,6 @@ public class Profesor extends Persona {
     // -----------------------------------------------------------------
     // Metodos
     // -----------------------------------------------------------------
-
-    /** 
-     * Agrega una asignatura al profesor. <br>
-     * <b>pre: </b> La asignatura no existe en la lista de asignaturas del profesor.
-     * <b>post: </b> Se agrega una asignatura al profesor.
-     * @param asignatura cumple que es valida.
-     */
-    public void addParticipacion (Asignatura asignatura){
-        participar.add(asignatura);
-        verificarInvariante();
-    }
-    
-    /**
-     * Elimina una asignatura del profesor. <br>
-     * <b>pre: </b> La asignatura existe en la lista de asignaturas del profesor.
-     * <b>post: </b> Se elimina una asignatura de la lista de asignaturas del profesor.
-     * @param asignatura cumple que es valida.
-     */
-    public void removeParticipacion (Asignatura asignatura){
-        participar.remove(asignatura);
-        verificarInvariante();
-    }
     
     /**
      * Sobreescribe el metodo toString para el objeto. <br>

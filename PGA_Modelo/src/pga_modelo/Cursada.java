@@ -147,50 +147,6 @@ public class Cursada implements Comparable<Cursada>{
     // -----------------------------------------------------------------
     
     /**
-     * Agrega un profesor a la lista de profesores.<br>
-     * <b>pre: </b> El profesor no existe en la lista.
-     * <b>post: </b> Se agrego el profesor a la lista.
-     * @param profesor cumple que es valido.
-     */
-    public void addProfesor(Profesor profesor){
-        profesores.add(profesor);
-        verificarInvariante();
-    }
-    
-    /**
-     * Elimina un profesor de la lista de profesores.<br>
-     * <b>pre: </b> El profesor existe en la lista.
-     * <b>post: </b> Se elimina al profesor de la lista.
-     * @param  profesor cumple que es valido.
-     */
-    public void removeProfesor(Profesor profesor){
-        profesores.remove(profesor);
-        verificarInvariante();
-    }
-    
-    /**
-     * Agrega un alumno a la lista de alumnos.<br>
-     * <b>pre: </b> El alumno no existe en la lista.
-     * <b>post: </b> Se agrego el alumno a la lista.
-     * @param alumno cumple que es valido.
-     */
-    public void addAlumno(Alumno alumno){
-        alumnos.add(alumno);
-        verificarInvariante();
-    }
-    
-    /**
-     * Elimina un alumno de la lista de alumnos.<br>
-     * <b>pre: </b> El alumno existe en la lista.
-     * <b>post: </b> Se elimina al alumno de la lista.
-     * @param  alumno cumple que es valido.
-     */
-    public void removeAlumno(Alumno alumno){
-        alumnos.remove(alumno);
-        verificarInvariante();
-    }
-    
-    /**
      * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. 
      * @param cursada con la cual se verifica la superposicion.
      * @return True si existe una superposicion, false en caso contrario.
