@@ -117,23 +117,25 @@ public class Alumno extends Persona{
      * El legajo debe terminar con un numero entre 0 y 9999. <br>
      * @return True si el legajo es valido, false en caso contrario. 
      */
-    private boolean legajoEsValido(){
+    static public boolean legajoEsValido(String legajo){
         int numeroLegajo;
         String auxLegajo;
         
-        if(getLegajo().startsWith("ALU")){
-            auxLegajo=getLegajo();
-            auxLegajo=auxLegajo.substring(3);
-            if (auxLegajo.length()==4){
+        if(legajo.startsWith("ALU")){
+            auxLegajo = legajo;
+            auxLegajo = auxLegajo.substring(3);
+            if (auxLegajo.length()==4) {
                 try{
                     numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>=0 && numeroLegajo<=9999)
+                    if (numeroLegajo >= 0 && numeroLegajo <= 9999) {
                         return true;
-                } catch (NumberFormatException e){
+                    }
+                } catch (NumberFormatException e) {
                     return false;
                 }
             }
         }
+        
         return false;
     }
     
@@ -155,7 +157,7 @@ public class Alumno extends Persona{
      * La lista de asignaturas aprobadas es distinta de null.
      */
     private void verificarInvariante(){
-        assert legajoEsValido(): "La mascara del legajo es invalida.";
-        assert aprobadasEsValido(): "La lista de aprobadas es invalida.";
+        assert legajoEsValido(getLegajo()) : "La mascara del legajo es invalida.";
+        assert aprobadasEsValido() : "La lista de aprobadas es invalida.";
     }
 }

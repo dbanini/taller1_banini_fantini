@@ -114,10 +114,8 @@ public abstract class Persona implements Comparable<Persona>{
      * El legajo debe ser distinto de null y de vacio. <br>
      * @return True si el legajo es valido, false en caso contrario. 
      */
-    private boolean legajoEsValido() {
-        if (legajo!=null && !legajo.equals(""))
-            return true;
-        return false;
+    static public boolean legajoEsValido(String legajo) {
+        return legajo != null && !legajo.equals("");
     }
     
     /**
@@ -125,7 +123,7 @@ public abstract class Persona implements Comparable<Persona>{
      * El atributo nombre debe ser alfanumerico, distinto de null y de vacio. <br>
      * @return True si el nombre es valido, false en caso contrario. 
      */
-    private boolean nombreEsValido(){
+    static public boolean nombreEsValido(String nombre) {
         Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
         if (nombre!=null && !nombre.equals("")){
@@ -139,7 +137,7 @@ public abstract class Persona implements Comparable<Persona>{
      * El atributo domicilio debe ser alfanumerico, distinto de null y de vacio. <br>
      * @return True si el domicilio es valido, false en caso contrario. 
      */
-    private boolean domicilioEsValido() {
+    static public boolean domicilioEsValido(String domicilio) {
         Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
         if (domicilio!=null && !domicilio.equals("")){
@@ -155,15 +153,17 @@ public abstract class Persona implements Comparable<Persona>{
      * Si el mail cumple la mascara (AAAAA@AAAAAA) es valido. <br>
      * @return True si el mail es valido, false en caso contrario. 
      */
-    private boolean mailEsValido() {
+    static public boolean mailEsValido(String mail) {
         int indice;
         
-        if (mail!=null && !mail.equals(""))
+        if (mail!=null && !mail.equals("")) {
             if(mail.contains("@")){
                 indice=mail.indexOf("@");
                 if (indice>1 && mail.length()!=indice)
                     return true;
             }
+        }
+        
         return false;
     }
     
@@ -176,9 +176,9 @@ public abstract class Persona implements Comparable<Persona>{
      * El mail cumple la mascara.
      */
     private void verificarInvariante(){
-        assert legajoEsValido(): "El legajo es invalido.";
-        assert nombreEsValido(): "El nombre es invalido.";
-        assert domicilioEsValido(): "El domicilio es invalido.";
-        assert mailEsValido(): "El mail es invalido.";
+        assert legajoEsValido(legajo): "El legajo es invalido.";
+        assert nombreEsValido(nombre): "El nombre es invalido.";
+        assert domicilioEsValido(domicilio): "El domicilio es invalido.";
+        assert mailEsValido(mail): "El mail es invalido.";
     }
 }

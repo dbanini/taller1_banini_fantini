@@ -28,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import pga_modelo.Persona;
+
 import pga_xml.SerializadorXML;
 
 /**
@@ -1619,6 +1621,10 @@ public class Principal extends javax.swing.JFrame {
     private Profesor profesorActual;
     private Asignatura asignaturaActual;
     private Cursada cursadaActual;
+    
+    private void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
         // TODO add your handling code here:
@@ -1682,7 +1688,10 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         entidades = new Entidades();
-        SerializadorXML serializador;
+        alumnoActual = null;
+        profesorActual = null;
+        asignaturaActual = null;
+        cursadaActual = null;
         
         Alumno alumnoA = new Alumno("ALU0003", "Jose Perez", "Juan B Justo 2050", "jperez@gmail.com");
         Alumno alumnoB = new Alumno("ALU0041", "Maria Funes", "Santa Fe 1234", "mfunes@gmail.com");
@@ -1892,36 +1901,83 @@ public class Principal extends javax.swing.JFrame {
         setupAlumno(alumnoActual);
     }//GEN-LAST:event_alumnoCancelarBotonActionPerformed
 
+    private boolean verificarPrecondicionesPersona(String legajo, String nombre, String domicilio, String mail) {
+        if (!Persona.legajoEsValido(legajo)) {
+            mostrarError("El legajo no es valido. No debe ser vacio.");
+            return false;
+        }
+        else if (!Persona.nombreEsValido(nombre)) {
+            mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
+            return false;
+        }
+        else if (!Persona.domicilioEsValido(domicilio)) {
+            mostrarError("El domicilio no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
+            return false;
+        }
+        else if (!Persona.mailEsValido(mail)) {
+            mostrarError("El mail no es valido. Debe respetar la mascara de mail.");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean reemplazarEnTabla(JTable tabla, String claveVieja, String claveNueva, String valorNuevo) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        int rowCount = modelo.getRowCount();
+        boolean encontrado = false;
+        for (int row = 0; (row < rowCount) && !encontrado; row++) {
+            String legajoCelda = (String) modelo.getValueAt(row, 0);
+            if (legajoCelda.equals(claveVieja)) {
+                modelo.setValueAt(claveNueva, row, 0);
+                modelo.setValueAt(valorNuevo, row, 1);
+                tabla.getRowSorter().allRowsChanged();
+                encontrado = true;
+            }
+        }
+        
+        return encontrado;
+    }
+
     private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
         String oldLegajo = alumnoActual.getLegajo();
         String oldNombre = alumnoActual.getNombre();
         
         // TODO Traducir tabla de asignaturas aprobadas a una lista.
         
-        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Legajo deberia ser unico si es diferente del actual)
-        
-        alumnoActual.setLegajo(alumnoLegajoText.getText());
-        alumnoActual.setNombre(alumnoNombreText.getText());
-        alumnoActual.setDomicilio(alumnoDomicilioText.getText());
-        alumnoActual.setMail(alumnoMailText.getText());
-        
-        // TODO Actualizar nombre y legajo en tabla si cambiaron.
-        if (!alumnoActual.getLegajo().equals(oldLegajo) || !alumnoActual.getNombre().equals(oldNombre)) {
-            DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
-            int rowCount = modelo.getRowCount();
-            boolean encontrado = false;
-            for (int row = 0; (row < rowCount) && !encontrado; row++) {
-                String legajoCelda = (String) modelo.getValueAt(row, 0);
-                if (legajoCelda.equals(oldLegajo)) {
-                    modelo.setValueAt(alumnoActual.getLegajo(), row, 0);
-                    modelo.setValueAt(alumnoActual.getNombre(), row, 1);
-                    alumnosTabla.getRowSorter().allRowsChanged();
-                    encontrado = true;
-                }
-            }
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        boolean entradaValida = true;
+        String nuevoLegajo = alumnoLegajoText.getText();
+        String nuevoNombre = alumnoNombreText.getText();
+        String nuevoDomicilio = alumnoDomicilioText.getText();
+        String nuevoMail = alumnoMailText.getText();
+        if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
+            entradaValida = false;
+        }
+        else if (!nuevoLegajo.equals(oldLegajo) && !Alumno.legajoEsValido(nuevoLegajo)) {
+            mostrarError("El legajo no cumple con la mascara de formato requerida.");
+            entradaValida = false;
+        }
+        else if (!nuevoLegajo.equals(oldLegajo) && entidades.buscaAlumnoPorLegajo(nuevoLegajo) != null) {
+            mostrarError("El legajo ya esta en uso por otro alumno.");
+            entradaValida = false;
         }
         
-        setAlumnoEditable(false);
+        // Copiar los datos si las precondiciones se han cumplido.
+        if (entradaValida) {
+            alumnoActual.setLegajo(nuevoLegajo);
+            alumnoActual.setNombre(nuevoNombre);
+            alumnoActual.setDomicilio(nuevoDomicilio);
+            alumnoActual.setMail(nuevoMail);
+            
+            // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+            if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+            }
+            
+            setAlumnoEditable(false);
+        }
     }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
 
     private void profesorEditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorEditarBotonActionPerformed
