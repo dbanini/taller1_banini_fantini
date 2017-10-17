@@ -2064,6 +2064,8 @@ public class Principal extends javax.swing.JFrame {
             entradaValida = false;
         }
         
+        // TODO Verificar el resto de las precondiciones.
+        
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
             asignaturaActual.setId(nuevoId);
