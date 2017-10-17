@@ -94,9 +94,9 @@ public class Entidades {
     }
     
     /**
-     * Elimina un profesor de la lista de profesores y de la lista de profesores en las cursadas. <br>
+     * Elimina un profesor de la lista de profesores y de la lista de profesores en las cursadas en las que participa. <br>
      * <b>pre: </b> El profesor existe en la lista de profesores.
-     * <b>post: </b> Se elimina un profesor de la lista de profesores.
+     * <b>post: </b> Se elimina un profesor de la lista de profesores y de las cursadas en las que participa.
      *  @param profesor cumple que es valido.
      */
     public void removeProfesor(Profesor profesor){
@@ -124,9 +124,9 @@ public class Entidades {
     }
     
     /**
-     * Elimina una alumno de la lista de alumnos. <br>
+     * Elimina una alumno de la lista de alumnos y de la lista de alumnos en las cursadas en las que esta anotado. <br>
      * <b>pre: </b> El alumno existe en la lista de alumnos.
-     * <b>post: </b> Se elimina un alumno de la lista de alumnos.
+     * <b>post: </b> Se elimina un alumno de la lista de alumnos y tambien de las cursadas en las que esta anotado.
      *  @param alumnos cumple que es valido.
      */
     public void removeAlumno(Alumno alumno){
@@ -154,9 +154,11 @@ public class Entidades {
     }
     
     /**
-     * Elimina una asignatura de la lista de aisgnaturas. <br>
+     * Elimina una asignatura de la lista de aisgnaturas, se eliminan las cursadas de dicha asignatura y se elimina la 
+     * correlatividad en el resto de las asignaturas. <br>
      * <b>pre: </b> La asignatura existe en la lista de asignaturas.
-     * <b>post: </b> Se elimina una asignatura de la lista de asignaturas.
+     * <b>post: </b> Se elimina una asignatura de la lista de asignaturas, se eliminan las cursadas de dicha
+     *  asignatura y ademas se elimina la asignatura en dichas asignaturas que la tengan de correlativa.
      * @param asignatura cumple que es valida.
      */
     public void removeAsignatura(Asignatura asignatura){
