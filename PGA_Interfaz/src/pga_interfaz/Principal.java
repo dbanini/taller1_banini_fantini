@@ -2046,9 +2046,14 @@ public class Principal extends javax.swing.JFrame {
             String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
             assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
-            entidades.removeAsignatura(asignatura);
-            DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
-            modelo.removeRow(selectedRow);
+            if (entidades.buscaCursadasConAsignatura(asignatura)!=null){
+                JOptionPane.showMessageDialog(this, "Deben eliminarse las cursadas de dicha asignatura antes de eliminarla.");
+            }
+            else {
+                entidades.removeAsignatura(asignatura);
+                DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
+                modelo.removeRow(selectedRow);      
+            }
         }
     }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
 
