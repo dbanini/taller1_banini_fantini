@@ -37,6 +37,7 @@ import pga_xml.SerializadorXML;
  * @author Dario
  */
 public class Principal extends javax.swing.JFrame {
+    static final String BANCO_DE_DATOS_PATH = "pga_datos.xml";
 
     /** Creates new form Principal */
     public Principal() {
@@ -174,6 +175,10 @@ public class Principal extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -1712,8 +1717,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         
-        // Cargamos el banco de datos o creamos uno vacio si no es encontrado.
-        entidades = new Entidades();
+        // Cargamos el banco de datos o creamos uno vacio si no es posible.
+        SerializadorXML serializador = new SerializadorXML();
+        try {
+            entidades = (Entidades) serializador.lee(BANCO_DE_DATOS_PATH);
+        } catch (Exception e) {
+            mostrarError(e.getMessage());
+            entidades = new Entidades();
+        }
         
         // Setup inicial de las tablas de entidades.
         setupAlumnosTabla();
@@ -1721,19 +1732,18 @@ public class Principal extends javax.swing.JFrame {
         setupAsignaturasTabla();
         setupCursadasTabla();
         
-        /* Escribe banco de datos a XML.
-         * TODO Mover a fin de aplicacion.
-        serializador= new SerializadorXML();
-        try {
-            serializador.escribe(entidades, "entidades.xml");
-        } 
-        catch (Exception e) {
-        }
-        */
-        
         // Modificamos el titulo de la ventana.
         this.setTitle("Sistema PGA");
     }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        SerializadorXML serializador = new SerializadorXML();
+        try {
+            serializador.escribe(entidades, BANCO_DE_DATOS_PATH);
+        } catch (Exception e) {
+            mostrarError(e.getMessage());
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     private void cursadaSeleccionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaSeleccionarBotonActionPerformed
         // TODO add your handling code here:
