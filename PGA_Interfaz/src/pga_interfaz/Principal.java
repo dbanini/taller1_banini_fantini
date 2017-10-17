@@ -1902,24 +1902,25 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_alumnoCancelarBotonActionPerformed
 
     private boolean verificarPrecondicionesPersona(String legajo, String nombre, String domicilio, String mail) {
+        boolean entradaValida = true;
         if (!Persona.legajoEsValido(legajo)) {
             mostrarError("El legajo no es valido. No debe ser vacio.");
-            return false;
+            entradaValida = false;
         }
         else if (!Persona.nombreEsValido(nombre)) {
             mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
-            return false;
+            entradaValida = false;
         }
         else if (!Persona.domicilioEsValido(domicilio)) {
             mostrarError("El domicilio no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
-            return false;
+            entradaValida = false;
         }
         else if (!Persona.mailEsValido(mail)) {
             mostrarError("El mail no es valido. Debe respetar la mascara de mail.");
-            return false;
+            entradaValida = false;
         }
         
-        return true;
+        return entradaValida;
     }
     
     private boolean reemplazarEnTabla(JTable tabla, String claveVieja, String claveNueva, String valorNuevo) {
@@ -1940,17 +1941,17 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
-        String oldLegajo = alumnoActual.getLegajo();
-        String oldNombre = alumnoActual.getNombre();
-        
-        // TODO Traducir tabla de asignaturas aprobadas a una lista.
-        
         // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
         boolean entradaValida = true;
+        String oldLegajo = alumnoActual.getLegajo();
+        String oldNombre = alumnoActual.getNombre();
         String nuevoLegajo = alumnoLegajoText.getText();
         String nuevoNombre = alumnoNombreText.getText();
         String nuevoDomicilio = alumnoDomicilioText.getText();
         String nuevoMail = alumnoMailText.getText();
+        
+        // TODO Traducir tabla de asignaturas aprobadas a una lista.
+        
         if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
             entradaValida = false;
         }
@@ -1969,6 +1970,7 @@ public class Principal extends javax.swing.JFrame {
             alumnoActual.setNombre(nuevoNombre);
             alumnoActual.setDomicilio(nuevoDomicilio);
             alumnoActual.setMail(nuevoMail);
+            //alumnoActual.setAprobadas();
             
             // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
@@ -1985,36 +1987,51 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_profesorEditarBotonActionPerformed
 
     private void profesorAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        boolean entradaValida = true;
         String oldLegajo = profesorActual.getLegajo();
         String oldNombre = profesorActual.getNombre();
+        String nuevoLegajo = profesorLegajoText.getText();
+        String nuevoNombre = profesorNombreText.getText();
+        String nuevoDomicilio = profesorDomicilioText.getText();
+        String nuevoMail = profesorMailText.getText();
+        String nuevoTelefono = profesorTelefonoText.getText();
         
         // TODO Traducir tabla de asignaturas habilitadas a una lista.
         
-        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Legajo deberia ser unico si es diferente del actual)
-        
-        profesorActual.setLegajo(profesorLegajoText.getText());
-        profesorActual.setNombre(profesorNombreText.getText());
-        profesorActual.setDomicilio(profesorDomicilioText.getText());
-        profesorActual.setMail(profesorMailText.getText());
-        profesorActual.setTelefono(profesorTelefonoText.getText());
-        
-        // TODO Actualizar nombre y legajo en tabla si cambiaron.
-        if (!profesorActual.getLegajo().equals(oldLegajo) || !profesorActual.getNombre().equals(oldNombre)) {
-            DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
-            int rowCount = modelo.getRowCount();
-            boolean encontrado = false;
-            for (int row = 0; (row < rowCount) && !encontrado; row++) {
-                String legajoCelda = (String) modelo.getValueAt(row, 0);
-                if (legajoCelda.equals(oldLegajo)) {
-                    modelo.setValueAt(profesorActual.getLegajo(), row, 0);
-                    modelo.setValueAt(profesorActual.getNombre(), row, 1);
-                    profesoresTabla.getRowSorter().allRowsChanged();
-                    encontrado = true;
-                }
-            }
+        if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
+            entradaValida = false;
+        }
+        else if (!Profesor.telefonoEsValido(nuevoTelefono)) {
+            mostrarError("El telefono no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
+            entradaValida = false;
+        }
+        else if (!nuevoLegajo.equals(oldLegajo) && !Profesor.legajoEsValido(nuevoLegajo)) {
+            mostrarError("El legajo no cumple con la mascara de formato requerida.");
+            entradaValida = false;
+        }
+        else if (!nuevoLegajo.equals(oldLegajo) && entidades.buscaProfesorPorLegajo(nuevoLegajo) != null) {
+            mostrarError("El legajo ya esta en uso por otro profesor.");
+            entradaValida = false;
         }
         
-        setProfesorEditable(false);
+        // Copiar los datos si las precondiciones se han cumplido.
+        if (entradaValida) {
+            profesorActual.setLegajo(nuevoLegajo);
+            profesorActual.setNombre(nuevoNombre);
+            profesorActual.setDomicilio(nuevoDomicilio);
+            profesorActual.setMail(nuevoMail);
+            profesorActual.setTelefono(nuevoTelefono);
+            //profesorActual.setParticipar();
+            
+            // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+            if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                reemplazarEnTabla(profesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                reemplazarEnTabla(cursadaProfesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+            }
+            
+            setProfesorEditable(false);
+        }
     }//GEN-LAST:event_profesorAceptarBotonActionPerformed
 
     private void profesorCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorCancelarBotonActionPerformed
@@ -2026,33 +2043,41 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_asignaturaEditarBotonActionPerformed
 
     private void asignaturaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        boolean entradaValida = true;
         String oldId = asignaturaActual.getId();
         String oldNombre = asignaturaActual.getNombre();
+        String nuevoId = asignaturaIdText.getText();
+        String nuevoNombre = asignaturaNombreText.getText();
         
         // TODO Traducir tabla de asignaturas correlativas a una lista.
-        
-        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Id deberia ser unico si es diferente del actual)
-        
-        asignaturaActual.setId(asignaturaIdText.getText());
-        asignaturaActual.setNombre(asignaturaNombreText.getText());
-        
-        // TODO Actualizar nombre y id en tabla si cambiaron.
-        if (!asignaturaActual.getId().equals(oldId) || !asignaturaActual.getNombre().equals(oldNombre)) {
-            DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
-            int rowCount = modelo.getRowCount();
-            boolean encontrado = false;
-            for (int row = 0; (row < rowCount) && !encontrado; row++) {
-                String idCelda = (String) modelo.getValueAt(row, 0);
-                if (idCelda.equals(oldId)) {
-                    modelo.setValueAt(asignaturaActual.getId(), row, 0);
-                    modelo.setValueAt(asignaturaActual.getNombre(), row, 1);
-                    asignaturasTabla.getRowSorter().allRowsChanged();
-                    encontrado = true;
-                }
-            }
+        if (!Asignatura.nombreEsValido(nuevoNombre)) {
+            mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
+            entradaValida = false;
+        }
+        else if (!nuevoId.equals(oldId) && !Asignatura.idEsValido(nuevoId)) {
+            mostrarError("El Id no cumple con la mascara de formato requerida.");
+            entradaValida = false;
+        }
+        else if (!nuevoId.equals(oldId) && entidades.buscaAsignaturaPorId(nuevoId) != null) {
+            mostrarError("El Id ya esta en uso por otra asignatura.");
+            entradaValida = false;
         }
         
-        setAsignaturaEditable(false);
+        // Copiar los datos si las precondiciones se han cumplido.
+        if (entradaValida) {
+            asignaturaActual.setId(nuevoId);
+            asignaturaActual.setNombre(nuevoNombre);
+            //asignaturaActual.setCorrelativas();
+            
+            // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
+            if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
+                reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
+                // TODO Reemplazar en cursadaAsignatura si corresponde la asignatura a la cursadaActual.
+            }
+            
+            setAsignaturaEditable(false);
+        }
     }//GEN-LAST:event_asignaturaAceptarBotonActionPerformed
 
     private void asignaturaCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaCancelarBotonActionPerformed
@@ -2064,34 +2089,35 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cursadaEditarBotonActionPerformed
 
     private void cursadaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        boolean entradaValida = true;
         String oldId = cursadaActual.getId();
+        String nuevoId = cursadaIdText.getText();
         
-        // TODO Traducir tabla de alumnos y profesores a una lista.
-        
-        // TODO Verificar precondiciones para cada atributo e imprimir mensajes de error. (Id deberia ser unico si es diferente del actual)
-        
-        // TODO Asignar el resto de los atributos.
-        cursadaActual.setId(cursadaIdText.getText());
-        
-        // TODO Actualizar nombre y id en tabla si cambiaron.
-        if (!asignaturaActual.getId().equals(oldId) /* o cambio el periodo o la asignatura */) {
-            DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
-            int rowCount = modelo.getRowCount();
-            boolean encontrado = false;
-            for (int row = 0; (row < rowCount) && !encontrado; row++) {
-                String idCelda = (String) modelo.getValueAt(row, 0);
-                if (idCelda.equals(oldId)) {
-                    /*
-                    modelo.setValueAt(asignaturaActual.getId(), row, 0);
-                    modelo.setValueAt(asignaturaActual.getNombre(), row, 1);
-                    */
-                    cursadasTabla.getRowSorter().allRowsChanged();
-                    encontrado = true;
-                }
-            }
+        // TODO Traducir tabla de asignaturas correlativas a una lista.
+        if (!nuevoId.equals(oldId) && !Cursada.idEsValido(nuevoId)) {
+            mostrarError("El Id no cumple con la mascara de formato requerida.");
+            entradaValida = false;
+        }
+        else if (!nuevoId.equals(oldId) && entidades.buscaCursadaPorId(nuevoId) != null) {
+            mostrarError("El Id ya esta en uso por otra cursada.");
+            entradaValida = false;
         }
         
-        setCursadaEditable(false);
+        // Copiar los datos si las precondiciones se han cumplido.
+        if (entradaValida) {
+            cursadaActual.setId(nuevoId);
+            // TODO Copiar el resto de datos.
+            //cursadaActual.setAlumnos();
+            //cursadaActual.setProfesores();
+            
+            // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
+            // FIXME: Deberia chequear los parametros de los cuales depende el nombre para saber si 
+            // hace falta actualizar la tabla o no.
+            reemplazarEnTabla(cursadasTabla, oldId, nuevoId, nombreDeCursada(cursadaActual));
+            
+            setCursadaEditable(false);
+        }
     }//GEN-LAST:event_cursadaAceptarBotonActionPerformed
 
     private void cursadaCancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaCancelarBotonActionPerformed
@@ -2403,10 +2429,13 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    private String nombreDeCursada(Cursada cursada) {
+        return cursada.getAsignatura().getId() + "-" + cursada.getAsignatura().getNombre() + " (" + cursada.getPeriodo() + ")";
+    }
+    
     private void agregarCursadaTabla(Cursada cursada) {
         DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
-        String cursadaNombre = cursada.getAsignatura().getId() + "-" + cursada.getAsignatura().getNombre() + " (" + cursada.getPeriodo() + ")";
-        modelo.addRow(new Object[] {cursada.getId(), cursadaNombre});
+        modelo.addRow(new Object[] {cursada.getId(), nombreDeCursada(cursada)});
     }
     
     void setupCursada(Cursada cursada) {

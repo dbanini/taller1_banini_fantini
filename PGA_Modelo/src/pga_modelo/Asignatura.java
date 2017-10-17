@@ -125,7 +125,7 @@ public class Asignatura implements Comparable<Asignatura>{
     /**
      * Compara esta asignatura con otra asignatura.
      * @param o Es la otra asignatura a comparar.
-     * @return Si this<o retorna negativo. Si this==o retorna 0. Si this>o retorna positivo.
+     * @return Devuelve la comparacion entre los Ids de las asignaturas.
      */
     @Override
     public int compareTo(Asignatura o) {
@@ -142,23 +142,25 @@ public class Asignatura implements Comparable<Asignatura>{
      * El id debe terminar con un numero entre 0 y 9999. <br>
      * @return True si el id es valido, false en caso contrario. 
      */
-    private boolean idEsValido() {
-        int numeroLegajo;
-        String auxLegajo;
-        
-        if (id!=null){
-            if(id.startsWith("ASI")){
-                auxLegajo=id;
-                auxLegajo=auxLegajo.substring(3);
+    static public boolean idEsValido(String id) {
+        int numeroId;
+        String auxId;
+        if (id != null) {
+            if(id.startsWith("ASI")) {
+                auxId = id;
+                auxId = auxId.substring(3);
                 try{
-                    numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>=0 && numeroLegajo<9999)
+                    numeroId=Integer.parseInt(auxId);
+                    if (numeroId >= 0 && numeroId <= 9999) {
                         return true;
-                } catch (NumberFormatException e){
+                    }
+                } 
+                catch (NumberFormatException e){
                     return false;
                 }
             }
         }
+        
         return false;
     }
 
@@ -167,12 +169,15 @@ public class Asignatura implements Comparable<Asignatura>{
      * El atributo nombre debe ser distinto de null y de vacio. <br>
      * @return True si el nombre es valido, false en caso contrario. 
      */
-    private boolean nombreEsValido() {
+    static public boolean nombreEsValido(String nombre) {
         Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
         
-        if (nombre!=null)
+        if (nombre!=null && !nombre.equals("")){
             return !p.matcher(nombre).find();
-        return false;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -181,9 +186,7 @@ public class Asignatura implements Comparable<Asignatura>{
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean correlativasEsValido() {
-        if (correlativas!=null)
-            return true;
-        return false;
+        return correlativas != null;
     }
     
     /**
@@ -194,8 +197,8 @@ public class Asignatura implements Comparable<Asignatura>{
      * La lista de correlativas es distinta de null.
      */
     private void verificarInvariante(){
-        assert idEsValido(): "El id es invalido.";
-        assert nombreEsValido(): "El nombre de la asignatura es invalido.";
+        assert idEsValido(id): "El id es invalido.";
+        assert nombreEsValido(nombre): "El nombre de la asignatura es invalido.";
         assert correlativasEsValido(): "La lista de correlativas es invalida.";
     }
 }

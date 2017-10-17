@@ -126,13 +126,13 @@ public class Profesor extends Persona {
      * El legajo debe terminar con un numero entre 0 y 9999. <br>
      * @return True si el legajo es valido, false en caso contrario. 
      */
-    private boolean legajoEsValido(){
+    static public boolean legajoEsValido(String legajo) {
         int numeroLegajo;
         String auxLegajo;
         
-        if(getLegajo().startsWith("PRO")){
-            auxLegajo=getLegajo();
-            auxLegajo=auxLegajo.substring(3);
+        if(legajo.startsWith("PRO")){
+            auxLegajo = legajo;
+            auxLegajo = auxLegajo.substring(3);
             if (auxLegajo.length()==4){
                 try{
                     numeroLegajo=Integer.parseInt(auxLegajo);
@@ -151,12 +151,11 @@ public class Profesor extends Persona {
      * El atributo telefono debe ser distinto de null y de vacio. <br>
      * @return True si el telefono es valido, false en caso contrario. 
      */
-    private boolean telefonoEsValido(){
+    static public boolean telefonoEsValido(String telefono){
         Pattern p = Pattern.compile("[^a-zA-Z0-9 ]");
-        
-        if (telefono!=null && !telefono.equals(""))
+        if (telefono != null && !telefono.equals(""))
             return !p.matcher(telefono).find();
-        System.out.println(telefono);
+        
         return false;
     }
     
@@ -166,9 +165,7 @@ public class Profesor extends Persona {
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean participarEsValido(){
-        if (participar!=null)
-            return true;
-        return false;
+        return participar != null;
     }
     
     /**
@@ -179,8 +176,8 @@ public class Profesor extends Persona {
      * La lista de asignaturas participables es distinta de null.
      */
     private void verificarInvariante(){
-        assert legajoEsValido(): "La mascara del legajo es invalida.";
-        assert telefonoEsValido(): "El telefono es invalido.";
+        assert legajoEsValido(getLegajo()): "La mascara del legajo es invalida.";
+        assert telefonoEsValido(telefono): "El telefono es invalido.";
         assert participarEsValido(): "La lista de asignaturas participables es invalida.";
     }
 }

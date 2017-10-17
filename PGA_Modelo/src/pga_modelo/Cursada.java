@@ -239,23 +239,25 @@ public class Cursada implements Comparable<Cursada>{
      * El id debe terminar con un numero entre 0 y 9999. <br>
      * @return True si el id es valido, false en caso contrario. 
      */
-    private boolean idEsValido() {
-        int numeroLegajo;
-        String auxLegajo;
-        
-        if (id!=null){
-            if(id.startsWith("CUR")){
-                auxLegajo=id;
-                auxLegajo=auxLegajo.substring(3);
+    static public boolean idEsValido(String id) {
+        int numeroId;
+        String auxId;
+        if (id != null) {
+            if(id.startsWith("CUR")) {
+                auxId = id;
+                auxId = auxId.substring(3);
                 try{
-                    numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo>=0 && numeroLegajo<9999)
+                    numeroId=Integer.parseInt(auxId);
+                    if (numeroId >= 0 && numeroId <= 9999) {
                         return true;
-                }catch (NumberFormatException e){
+                    }
+                } 
+                catch (NumberFormatException e){
                     return false;
                 }
             }
         }
+        
         return false;
     }
     
@@ -384,7 +386,7 @@ public class Cursada implements Comparable<Cursada>{
      * La lista de alumnos es distinta de null.
      */
     private void verificarInvariante(){
-        assert idEsValido(): "El id es invalido.";
+        assert idEsValido(id): "El id es invalido.";
         assert asignaturaEsValido(): "La asignatura es invalida.";
         assert periodoEsValido(): "El periodo es invalido.";
         assert diaEsValido(): "El dia es invalido.";
