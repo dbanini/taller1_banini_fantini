@@ -107,17 +107,17 @@ public class Cursada implements Comparable<Cursada>{
         return dia;
     }
 
-    public void setHoraInicio(String hora) {
-        this.horaInicio = hora;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
         verificarInvariante();
     }
 
     public String getHoraInicio() {
         return horaInicio;
     }
-    
-    public void setHoraFin(String hora) {
-        this.horaFin = hora;
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
         verificarInvariante();
     }
 
@@ -148,13 +148,16 @@ public class Cursada implements Comparable<Cursada>{
     // -----------------------------------------------------------------
     
     /** 
-     * Permite modificar el horario sin provocar el error por el invariante al modificarlos en distinto orden.
-     * @param horaInicio Hora de inicio.
-     * @param horaFin Hora de fin.
+     * Permite modificar la configuracion de la cursada sin provocar errores por el invariante basados en el orden de operaciones.
      */
-    public void setHorario(String horaInicio, String horaFin) {
+    public void configurar(Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, TreeSet<Alumno> alumnos, TreeSet<Profesor> profesores) {
+        this.asignatura = asignatura;
+        this.periodo = periodo;
+        this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
+        this.alumnos = alumnos;
+        this.profesores = profesores;
         verificarInvariante();
     }
     

@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
 
@@ -83,17 +84,18 @@ public abstract class Persona implements Comparable<Persona>{
     // Metodos
     // -----------------------------------------------------------------
     
-    /**
-     * Sobreescribe el metodo toString para el objeto. <br>
-     * @return Retorna la clase escrita en un string.
-     */
-    @Override
-    public String toString(){
-        String string;
-        
-        string="Legajo: "+legajo+" Nombre: "+nombre+" Domicilio: "+domicilio+" Mail: "+mail;
-        return string;
-    }
+     /**
+      * Genera una descripcion textual de la persona.
+      * @return La descripcion generada.
+      */
+     public String getDescripcion() {
+         String string = "";
+         string += "Legajo: " + legajo + "\n";
+         string += "Nombre: " + nombre + "\n";
+         string += "Domicilio: " + domicilio + "\n";
+         string += "Mail: " + mail;
+         return string;
+     }
     
     /**
      *

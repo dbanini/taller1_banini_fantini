@@ -62,24 +62,26 @@ public class Alumno extends Persona {
     // -----------------------------------------------------------------
     // Metodos
     // -----------------------------------------------------------------
-    /**
-     * Sobreescribe el metodo toString para el objeto. <br>
-     * @return Retorna la clase escrita en un string.
-     */
-    @Override
-    public String toString(){
-        String string="";
-        Iterator it;
-        Asignatura asignatura;
-        
-        string+=super.toString()+ " Aprobadas:";
-        it=aprobadas.iterator();
-        while (it.hasNext()){
-            asignatura=(Asignatura)it.next();
-            string+=" "+asignatura.toString();
-        }
-        string+="/n";
-        return string;
+     /**
+      * Genera una descripcion textual del alumno.
+      * @return La descripcion generada.
+      */
+     public String getDescripcion() {
+         String string = super.getDescripcion();
+         string += "\nAprobadas:";
+         if (!aprobadas.isEmpty()) {
+             Iterator<Asignatura> it = aprobadas.iterator();
+             Asignatura aprobada = null;
+             while (it.hasNext()) {
+                 aprobada = it.next();
+                 string += "\n * " + aprobada.getId() + "-" + aprobada.getNombre();
+             }
+         }
+         else {
+             string += " Ninguna";
+         }
+         
+         return string;
     }
     
     // -----------------------------------------------------------------

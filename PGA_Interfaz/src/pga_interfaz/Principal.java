@@ -1661,6 +1661,96 @@ public class Principal extends javax.swing.JFrame {
         
         return asignaturas;
     }
+    
+    private Alumno seleccionarAlumnoDialogo() {
+        // Crear un dialogo para seleccionar un alumno.
+        ElegirEntidadDialogo dialogo = new ElegirEntidadDialogo(this, true);
+        ArrayList<String> claves = new ArrayList<String>();
+        ArrayList<String> nombres = new ArrayList<String>();
+        ArrayList<String> descripciones = new ArrayList<String>();
+        Iterator<Alumno> it = entidades.getAlumnos().iterator();
+        Alumno alumno = null;
+        while (it.hasNext()) {
+            alumno = it.next();
+            claves.add(alumno.getLegajo());
+            nombres.add(alumno.getNombre());
+            descripciones.add(alumno.getDescripcion());
+        }
+        dialogo.setupTabla("Legajo", claves, nombres, descripciones);
+        
+        // Arrancar el dialogo en modo modal.
+        dialogo.setVisible(true);
+        
+        // Buscar la asignatura elegidad por el selector.
+        alumno = null;
+        String entidadElegida = dialogo.getEntidadElegida();
+        if (entidadElegida != null) {
+            alumno = entidades.buscaAlumnoPorLegajo(entidadElegida);
+        }
+
+        return alumno;
+    }
+    
+    private TreeSet<Alumno> alumnosDeTabla(JTable tabla) {
+        TreeSet<Alumno> alumnos = new TreeSet<Alumno>();
+        Alumno alumno = null;
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        int rowCount = modelo.getRowCount();
+        String legajo = null;
+        for (int row = 0; row < rowCount; row++) {
+            legajo = (String) modelo.getValueAt(row, 0);
+            alumno = entidades.buscaAlumnoPorLegajo(legajo);
+            assert alumno != null : "La tabla tiene un alumno inexistente.";
+            alumnos.add(alumno);
+        }
+        
+        return alumnos;
+    }
+    
+    private Profesor seleccionarProfesorDialogo() {
+        // Crear un dialogo para seleccionar un profesor.
+        ElegirEntidadDialogo dialogo = new ElegirEntidadDialogo(this, true);
+        ArrayList<String> claves = new ArrayList<String>();
+        ArrayList<String> nombres = new ArrayList<String>();
+        ArrayList<String> descripciones = new ArrayList<String>();
+        Iterator<Profesor> it = entidades.getProfesores().iterator();
+        Profesor profesor = null;
+        while (it.hasNext()) {
+            profesor = it.next();
+            claves.add(profesor.getLegajo());
+            nombres.add(profesor.getNombre());
+            descripciones.add(profesor.getDescripcion());
+        }
+        dialogo.setupTabla("Legajo", claves, nombres, descripciones);
+        
+        // Arrancar el dialogo en modo modal.
+        dialogo.setVisible(true);
+        
+        // Buscar la asignatura elegidad por el selector.
+        profesor = null;
+        String entidadElegida = dialogo.getEntidadElegida();
+        if (entidadElegida != null) {
+            profesor = entidades.buscaProfesorPorLegajo(entidadElegida);
+        }
+
+        return profesor;
+    }
+    
+    private TreeSet<Profesor> profesoresDeTabla(JTable tabla) {
+        TreeSet<Profesor> profesores = new TreeSet<Profesor>();
+        Profesor profesor = null;
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        int rowCount = modelo.getRowCount();
+        String legajo = null;
+        for (int row = 0; row < rowCount; row++) {
+            legajo = (String) modelo.getValueAt(row, 0);
+            profesor = entidades.buscaProfesorPorLegajo(legajo);
+            assert profesor != null : "La tabla tiene un profesor inexistente.";
+            profesores.add(profesor);
+        }
+        
+        return profesores;
+    }
 
     private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
         Asignatura asignatura = seleccionarAsignaturaDialogo();
@@ -1763,45 +1853,78 @@ public class Principal extends javax.swing.JFrame {
             // Obtenemos la asignatura seleccionada de la tabla.
             DefaultTableModel modelo = (DefaultTableModel) asignaturaCorrTabla.getModel();
             selectedRow = asignaturaCorrTabla.convertRowIndexToModel(selectedRow);
-            String id = (String) modelo.getValueAt(selectedRow, 0);
             modelo.removeRow(selectedRow);
         }
     }//GEN-LAST:event_asignaturaCorrQuitarBotonActionPerformed
 
     private void cursadaProfQuitarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaProfQuitarBotonActionPerformed
-        // TODO add your handling code here:
+        ListSelectionModel lsm = (ListSelectionModel) cursadaProfesoresTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            // Obtenemos la asignatura seleccionada de la tabla.
+            DefaultTableModel modelo = (DefaultTableModel) cursadaProfesoresTabla.getModel();
+            selectedRow = cursadaProfesoresTabla.convertRowIndexToModel(selectedRow);
+            modelo.removeRow(selectedRow);
+        }
     }//GEN-LAST:event_cursadaProfQuitarBotonActionPerformed
 
     private void cursadaProfAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaProfAgregarBotonActionPerformed
-        // TODO add your handling code here:
+        Profesor profesor = seleccionarProfesorDialogo();
+        if (profesor != null) {
+            TreeSet<Profesor> profesores = profesoresDeTabla(cursadaProfesoresTabla);
+            if (profesores.contains(profesor)) {
+                mostrarError("El profesor ya se encuentra en la cursada.");
+            }
+            else {
+                DefaultTableModel modelo = (DefaultTableModel) cursadaProfesoresTabla.getModel();
+                modelo.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
+            }
+        }
     }//GEN-LAST:event_cursadaProfAgregarBotonActionPerformed
 
     private void cursadaAlumQuitarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAlumQuitarBotonActionPerformed
-        // TODO add your handling code here:
+        ListSelectionModel lsm = (ListSelectionModel) cursadaAlumnosTabla.getSelectionModel();
+        int selectedRow = lsm.getMinSelectionIndex();
+        if (selectedRow >= 0) {
+            // Obtenemos la asignatura seleccionada de la tabla.
+            DefaultTableModel modelo = (DefaultTableModel) cursadaAlumnosTabla.getModel();
+            selectedRow = cursadaAlumnosTabla.convertRowIndexToModel(selectedRow);
+            modelo.removeRow(selectedRow);
+        }
     }//GEN-LAST:event_cursadaAlumQuitarBotonActionPerformed
 
     private void cursadaAlumAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAlumAgregarBotonActionPerformed
-        
+        Alumno alumno = seleccionarAlumnoDialogo();
+        if (alumno != null) {
+            TreeSet<Alumno> alumnos = alumnosDeTabla(cursadaAlumnosTabla);
+            if (alumnos.contains(alumno)) {
+                mostrarError("El alumno ya se encuentra en la cursada.");
+            }
+            else {
+                DefaultTableModel modelo = (DefaultTableModel) cursadaAlumnosTabla.getModel();
+                modelo.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
+            }
+        }
     }//GEN-LAST:event_cursadaAlumAgregarBotonActionPerformed
 
     private void cursadaHoraFinTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaHoraFinTextActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cursadaHoraFinTextActionPerformed
 
     private void cursadaHoraInicioTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaHoraInicioTextActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cursadaHoraInicioTextActionPerformed
 
     private void cursadaPeriodoAComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaPeriodoAComboActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cursadaPeriodoAComboActionPerformed
 
     private void alumnoLegajoTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoLegajoTextActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_alumnoLegajoTextActionPerformed
 
     private void alumnoNombreTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoNombreTextActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_alumnoNombreTextActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -1865,7 +1988,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void cursadaSeleccionarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaSeleccionarBotonActionPerformed
-        // TODO add your handling code here:
+        Asignatura asignatura = seleccionarAsignaturaDialogo();
+        if (asignatura != null) {
+            cursadaAsignaturaText.setText(nombreDeAsignatura(asignatura));
+        }
     }//GEN-LAST:event_cursadaSeleccionarBotonActionPerformed
 
     private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
@@ -2168,6 +2294,7 @@ public class Principal extends javax.swing.JFrame {
         String nuevoId = asignaturaIdText.getText();
         String nuevoNombre = asignaturaNombreText.getText();
         TreeSet<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
+        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
         
         if (!Asignatura.nombreEsValido(nuevoNombre)) {
             mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
@@ -2183,7 +2310,6 @@ public class Principal extends javax.swing.JFrame {
         }
         else {
             // Verificar si los alumnos pueden mantenerse en las cursadas en las que esten con las nuevas correlativas.
-            ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
             Iterator<Cursada> it = cursadas.iterator();
             Cursada cursada = null;
             while (it.hasNext() && entradaValida) {
@@ -2209,7 +2335,19 @@ public class Principal extends javax.swing.JFrame {
             // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
                 reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
-                // TODO Reemplazar en cursadaAsignatura si corresponde la asignatura a la cursadaActual.
+                
+                /*
+                TODO Actualizar cursadas.
+                Iterator<Cursada> it = cursadas.iterator();
+                Cursada cursada = null;
+                while (it.hasNext()) {
+                    
+                }
+                */
+                
+                if (cursadaActual != null && cursadaActual.getAsignatura() == asignaturaActual) {
+                    cursadaAsignaturaText.setText(nombreDeAsignatura(asignaturaActual));
+                }
             }
             
             setAsignaturaEditable(false);
@@ -2229,13 +2367,15 @@ public class Principal extends javax.swing.JFrame {
         boolean entradaValida = true;
         String oldId = cursadaActual.getId();
         String nuevoId = cursadaIdText.getText();
-        Asignatura nuevaAsignatura = cursadaActual.getAsignatura(); // TODO Encontrar por texto.
+        String nuevaAsignaturaId = cursadaAsignaturaText.getText().substring(0, 7);
+        Asignatura nuevaAsignatura = entidades.buscaAsignaturaPorId(nuevaAsignaturaId);
+        assert nuevaAsignatura != null : "El texto contiene una asignatura inexistente.";
         String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
         String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
         String nuevaHoraInicio = cursadaHoraInicioText.getText();
         String nuevaHoraFin = cursadaHoraFinText.getText();
-        
-        // TODO Traducir tabla de alumnos y profesores a dos listas.
+        TreeSet<Alumno> nuevosAlumnos = alumnosDeTabla(cursadaAlumnosTabla);
+        TreeSet<Profesor> nuevosProfesores = profesoresDeTabla(cursadaProfesoresTabla);
         
         // Verificar pre-condiciones e invariantes.
         if (!nuevoId.equals(oldId) && !Cursada.idEsValido(nuevoId)) {
@@ -2267,15 +2407,37 @@ public class Principal extends javax.swing.JFrame {
             entradaValida = false;
         }
         else {
+            // Verificar si los nuevos alumnos estan aprobados para esta cursada.
+            Iterator<Alumno> ita = nuevosAlumnos.iterator();
+            Alumno alumno = null;
+            while (ita.hasNext() && entradaValida) {
+                alumno = ita.next();
+                if (!alumno.getAprobadas().containsAll(nuevaAsignatura.getCorrelativas())) {
+                    mostrarError("Los alumnos no tienen las correlativas aprobadas para cursar esta asignatura.");
+                    entradaValida = false;
+                }
+            }
+            
+            // Verificar si los nuevos profesores estan habilitados para esta cursada.
+            Iterator<Profesor> itp = nuevosProfesores.iterator();
+            Profesor profesor = null;
+            while (itp.hasNext() && entradaValida) {
+                profesor = itp.next();
+                if (!profesor.getParticipar().contains(nuevaAsignatura)) {
+                    mostrarError("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
+                    entradaValida = false;
+                }
+            }
+            
             // Verificar superposicion para las cursadas de la misma asignatura.
             ArrayList<Cursada> cursadasAsignatura = entidades.buscaCursadasConAsignatura(nuevaAsignatura);
             if (cursadaActual.seSuperponeCon(cursadasAsignatura, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
-                mostrarError("No puede ubicarse la cursada en el plazo elegido. Hay superposicion con otras cursadas.");
+                mostrarError("No puede ubicarse la cursada en el plazo elegido. Hay superposicion con otras cursadas de la misma asignatura.");
                 entradaValida = false;
             }
             
             // Verificar superposicion para los alumnos.
-            Iterator<Alumno> ita = cursadaActual.getAlumnos().iterator(); // TODO Cambiar a nueva lista.
+            ita = nuevosAlumnos.iterator();
             while (ita.hasNext() && entradaValida) {
                 ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(ita.next());
                 if (cursadaActual.seSuperponeCon(cursadasAlumno, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
@@ -2285,7 +2447,7 @@ public class Principal extends javax.swing.JFrame {
             }
             
             // Verificar superposicion para los profesores.
-            Iterator<Profesor> itp = cursadaActual.getProfesores().iterator(); // TODO Cambiar a nueva lista.
+            itp = nuevosProfesores.iterator();
             while (itp.hasNext() && entradaValida) {
                 ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(itp.next());
                 if (cursadaActual.seSuperponeCon(cursadasProfesor, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
@@ -2298,15 +2460,10 @@ public class Principal extends javax.swing.JFrame {
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
             cursadaActual.setId(nuevoId);
-            cursadaActual.setPeriodo(nuevoPeriodo);
-            cursadaActual.setDia(nuevoDia);
-            cursadaActual.setHorario(nuevaHoraInicio, nuevaHoraFin);
-            //cursadaActual.setAlumnos();
-            //cursadaActual.setProfesores();
+            cursadaActual.configurar(nuevaAsignatura, nuevoPeriodo, nuevoDia, nuevaHoraInicio, nuevaHoraFin, nuevosAlumnos, nuevosProfesores);
             
             // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
-            // FIXME: Deberia chequear los parametros de los cuales depende el nombre para saber si 
-            // hace falta actualizar la tabla o no.
+            // FIXME Deberia chequear los parametros de los cuales depende el nombre para saber si hace falta actualizar la tabla o no.
             reemplazarEnTabla(cursadasTabla, oldId, nuevoId, nombreDeCursada(cursadaActual));
             
             setCursadaEditable(false);
@@ -2318,7 +2475,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cursadaCancelarBotonActionPerformed
 
     private void panelTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTabsMouseClicked
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_panelTabsMouseClicked
 
     private void setupTablaFiltro(JTable tabla, JTextField field) {
@@ -2622,8 +2779,12 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    private String nombreDeAsignatura(Asignatura asignatura) {
+        return asignatura.getId() + "-" + asignatura.getNombre();
+    }
+    
     private String nombreDeCursada(Cursada cursada) {
-        return cursada.getAsignatura().getId() + "-" + cursada.getAsignatura().getNombre() + " (" + cursada.getPeriodo() + ")";
+        return nombreDeAsignatura(cursada.getAsignatura()) + " (" + cursada.getPeriodo() + ")";
     }
     
     private void agregarCursadaTabla(Cursada cursada) {
@@ -2643,9 +2804,8 @@ public class Principal extends javax.swing.JFrame {
         modeloProf.setRowCount(0);
         if (cursadaValida) {
             Asignatura asignatura = cursadaActual.getAsignatura();
-            String asignaturaNombre = asignatura.getId() + "-" + asignatura.getNombre();
             cursadaIdText.setText(cursadaActual.getId());
-            cursadaAsignaturaText.setText(asignaturaNombre);
+            cursadaAsignaturaText.setText(nombreDeAsignatura(asignatura));
             cursadaPeriodoACombo.setSelectedItem(cursadaActual.getPeriodo().substring(0, 2));
             cursadaPeriodoBText.setText(cursadaActual.getPeriodo().substring(3));
             cursadaDiaCombo.setSelectedItem(cursadaActual.getDia());

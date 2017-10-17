@@ -74,25 +74,28 @@ public class Profesor extends Persona {
     // Metodos
     // -----------------------------------------------------------------
     
-    /**
-     * Sobreescribe el metodo toString para el objeto. <br>
-     * @return Retorna la clase escrita en un string.
-     */
-    @Override
-    public String toString(){
-        String string="";
-        Iterator it;
-        Asignatura asignatura;
-        
-        string="Telefono: "+telefono+" "+super.toString()+ " Participables:";
-        it=participar.iterator();
-        while (it.hasNext()){
-            asignatura=(Asignatura)it.next();
-            string+=" "+asignatura.toString();
-        }
-        string+="/n";
-        return string;
-    }
+     /**
+      * Genera una descripcion textual del alumno.
+      * @return La descripcion generada.
+      */
+     public String getDescripcion() {
+         String string = super.getDescripcion();
+         string += "\nTelefono: " + telefono + "\n";
+         string += "Habilitadas:";
+         if (!participar.isEmpty()) {
+             Iterator<Asignatura> it = participar.iterator();
+             Asignatura habilitada = null;
+             while (it.hasNext()) {
+                 habilitada = it.next();
+                 string += "\n * " + habilitada.getId() + "-" + habilitada.getNombre();
+             }
+         }
+         else {
+             string += " Ninguna";
+         }
+         
+         return string;
+     }
     
     // -----------------------------------------------------------------
     // Invariante
