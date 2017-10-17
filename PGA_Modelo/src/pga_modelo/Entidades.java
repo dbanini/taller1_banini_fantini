@@ -6,11 +6,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 /**
- * Contiene a las colecciones de las entidades. <br>
- * La lista profesores contiene a los profesores. <br>
- * La lista alumnos contiene a los alumnos. <br>
- * La lista asignaturas contiene a las asignaturas. <br>
- * La lista cursadas contiene a las cursadas. 
+ * Contiene todas las colecciones para la administracion del sistema PGA.
  */
 public class Entidades {
     
@@ -29,7 +25,6 @@ public class Entidades {
     
     /**
      * Crea las entidades.
-     * <b>post: </b> Se crean las entidades.
      */
     public Entidades(){        
         alumnos = new TreeSet<Alumno>();
@@ -51,7 +46,7 @@ public class Entidades {
         verificarInvariante();
     }
 
-    /** Devuelve la coleccion de alumnos. NO MODIFICAR MANUALMENTE.
+    /** Devuelve la coleccion de alumnos. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
     public TreeSet<Alumno> getAlumnos() {
         return alumnos;
@@ -65,7 +60,7 @@ public class Entidades {
         verificarInvariante();
     }
 
-    /** Devuelve la coleccion de profesores. NO MODIFICAR MANUALMENTE.
+    /** Devuelve la coleccion de profesores. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
     public TreeSet<Profesor> getProfesores() {
         return profesores;
@@ -79,7 +74,7 @@ public class Entidades {
         verificarInvariante();
     }
 
-    /** Devuelve la coleccion de asignaturas. NO MODIFICAR MANUALMENTE.
+    /** Devuelve la coleccion de asignaturas. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
     public TreeSet<Asignatura> getAsignaturas() {
         return asignaturas;
@@ -93,7 +88,7 @@ public class Entidades {
         verificarInvariante();
     }
 
-    /** Devuelve la coleccion de cursadas. NO MODIFICAR MANUALMENTE.
+    /** Devuelve la coleccion de cursadas. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
     public TreeSet<Cursada> getCursadas() {
         return cursadas;
@@ -219,8 +214,8 @@ public class Entidades {
 
     /**
      * Busqueda de alumnos con determinado nombre.
-     * @param string cumple que es valido.
-     * @return Retorna en un ArrayList los alumnos con determinado nombre pasado por parametro.
+     * @param nombre Nombre con el cual buscar.
+     * @return Retorna en un ArrayList los alumnos con el nombre especificado.
      */
     public ArrayList<Alumno> buscaAlumno(String nombre){
         Iterator it;
@@ -238,12 +233,11 @@ public class Entidades {
         return alumnosEncontrados;
     }
     
-    /**
-     * Busca un alumno en la lista mediante su legajo. <br>
-     * <b>post: </b> Se devuelve el alumno con el cual corresponde el legajo. 
-     * Si no fue encontrado, se devuelve nulo.
-     * @param legajo Legajo por el cual buscar el alumno.
-     */
+     /**
+      * Busca un alumno en la lista mediante su legajo. <br>
+      * @param legajo Legajo por el cual buscar al alumno. <br>
+      * @return El alumno si fue encontrado, null en caso contrario.
+      */
     public Alumno buscaAlumnoPorLegajo(String legajo) {
         Alumno alumno = null;
         boolean encontrado = false;
@@ -260,8 +254,8 @@ public class Entidades {
     
     /**
      * Busqueda de profesores con determinado nombre.
-     * @param string cumple que es valido.
-     * @return Retorna en un ArrayList los profesores con determinado nombre pasado por parametro.
+     * @param nombre Nombre con el cual buscar.
+     * @return Retorna en un ArrayList los profesores con el nombre especificado.
      */
     public ArrayList<Profesor> buscaProfesor(String nombre){
         Iterator it;
@@ -281,9 +275,8 @@ public class Entidades {
     
     /**
      * Busca un profesor en la lista mediante su legajo. <br>
-     * <b>post: </b> Se devuelve el profesor con el cual corresponde el legajo. 
-     * Si no fue encontrado, se devuelve nulo.
-     * @param legajo Legajo por el cual buscar el profesor.
+     * @param legajo Legajo por el cual buscar al profesor. <br>
+     * @return El profesor si fue encontrado, null en caso contrario.
      */
     public Profesor buscaProfesorPorLegajo(String legajo) {
         Profesor profesor = null;
@@ -301,8 +294,8 @@ public class Entidades {
     
     /**
      * Busqueda de asignaturas con determinado nombre.
-     * @param string cumple que es valido.
-     * @return Retorna en un ArrayList las asignaturas con determinado nombre pasado por parametro.
+     * @param nombre Nombre con el cual buscar.
+     * @return Retorna en un ArrayList las asignaturas con el nombre especificado.
      */
     public ArrayList<Asignatura> buscaAsignatura(String nombre){
         Iterator it;
@@ -322,9 +315,8 @@ public class Entidades {
     
     /**
      * Busca una asignatura en la lista mediante su id. <br>
-     * <b>post: </b> Se devuelve la asignatura con el cual corresponde el id. 
-     * Si no fue encontrado, se devuelve nulo.
-     * @param id Id por el cual buscar la asignatura.
+     * @param id Id por el cual buscar la asignatura. <br>
+     * @return La asignatura si fue encontrada, null en caso contrario.
      */
     public Asignatura buscaAsignaturaPorId(String id) {
         Asignatura asignatura = null;
@@ -342,7 +334,7 @@ public class Entidades {
     
     /**
      * Busqueda de cursadas con determinado nombre de asignatura.
-     * @param string cumple que es valido.
+     * @param nombre Nombre con el cual buscar.
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
      */
     public ArrayList<Cursada> buscaCursada(String nombre){
@@ -361,12 +353,11 @@ public class Entidades {
         return cursadaEncontrados;
     }
     
-    /**
-     * Busca una cursada en la lista mediante su id. <br>
-     * <b>post: </b> Se devuelve la cursada con el cual corresponde el id. 
-     * Si no fue encontrado, se devuelve nulo.
-     * @param id Id por el cual buscar la cursada.
-     */
+     /**
+      * Busca una cursada en la lista mediante su id. <br>
+      * @param id Id por el cual buscar la cursada. <br>
+      * @return La cursada si fue encontrada, null en caso contrario.
+      */
     public Cursada buscaCursadaPorId(String id) {
         Cursada cursada = null;
         boolean encontrado = false;
@@ -479,6 +470,7 @@ public class Entidades {
     /**
      * Genera un nuevo legajo unico para un nuevo alumno.
      * TODO: Alguna busqueda mas eficiente.
+     * @return El nuevo legajo.
      */
     public String nuevoLegajoAlumno() {
         String legajo = "ALU9999";
@@ -493,6 +485,7 @@ public class Entidades {
     /**
      * Genera un nuevo legajo unico para un nuevo profesor.
      * TODO: Alguna busqueda mas eficiente.
+     * @return El nuevo legajo.
      */
     public String nuevoLegajoProfesor() {
         String legajo = "PRO9999";
@@ -507,6 +500,7 @@ public class Entidades {
     /**
      * Genera un nuevo legajo unico para una nueva asignatura.
      * TODO: Alguna busqueda mas eficiente.
+     * @return El nuevo Id.
      */
     public String nuevoIdAsignatura() {
         String id = "ASI9999";
@@ -521,6 +515,7 @@ public class Entidades {
     /**
      * Genera un nuevo legajo unico para una nueva cursada.
      * TODO: Alguna busqueda mas eficiente.
+     * @return El nuevo Id.
      */
     public String nuevoIdCursada() {
         String id = "CUR9999";
