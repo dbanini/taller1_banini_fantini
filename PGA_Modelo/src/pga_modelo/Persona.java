@@ -161,7 +161,7 @@ public abstract class Persona implements Comparable<Persona>{
         if (mail!=null && !mail.equals("")) {
             if(mail.contains("@")){
                 indice=mail.indexOf("@");
-                if (indice>1 && mail.length()!=indice)
+                if (indice>1 && mail.length()!=indice+1)
                     return true;
             }
         }
