@@ -84,6 +84,7 @@ public class Principal extends javax.swing.JFrame {
         alumnoCancelarBoton = new javax.swing.JButton();
         alumnoAceptarBoton = new javax.swing.JButton();
         alumnosFiltro = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         profesoresTab = new javax.swing.JPanel();
         profesoresScroll = new javax.swing.JScrollPane();
         profesoresTabla = new javax.swing.JTable();
@@ -112,6 +113,7 @@ public class Principal extends javax.swing.JFrame {
         profesorLegajoText = new javax.swing.JFormattedTextField();
         profesorTelefonoText = new javax.swing.JTextField();
         profesorTelefonoLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         asignaturasTab = new javax.swing.JPanel();
         asignaturasScroll = new javax.swing.JScrollPane();
         asignaturasTabla = new javax.swing.JTable();
@@ -134,6 +136,7 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCancelarBoton = new javax.swing.JButton();
         asignaturaAceptarBoton = new javax.swing.JButton();
         asignaturasFiltro = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         cursadasTab = new javax.swing.JPanel();
         cursadasScroll = new javax.swing.JScrollPane();
         cursadasTabla = new javax.swing.JTable();
@@ -170,6 +173,7 @@ public class Principal extends javax.swing.JFrame {
         cursadaCancelarBoton = new javax.swing.JButton();
         cursadaAceptarBoton = new javax.swing.JButton();
         cursadasFiltro = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -474,6 +478,8 @@ public class Principal extends javax.swing.JFrame {
 
         alumnosFiltro.setToolTipText("Filtrar el listado");
 
+        jLabel1.setText(" Buscar:");
+
         javax.swing.GroupLayout alumnosTabLayout = new javax.swing.GroupLayout(alumnosTab);
         alumnosTab.setLayout(alumnosTabLayout);
         alumnosTabLayout.setHorizontalGroup(
@@ -483,7 +489,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnosBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(alumnosScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-                    .addComponent(alumnosFiltro, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, alumnosTabLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(alumnosFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(alumnoBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -497,7 +506,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnoDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(alumnosTabLayout.createSequentialGroup()
-                        .addComponent(alumnosFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(alumnosFiltro)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(alumnosScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -797,6 +808,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
+        jLabel2.setText(" Buscar:");
+
         javax.swing.GroupLayout profesoresTabLayout = new javax.swing.GroupLayout(profesoresTab);
         profesoresTab.setLayout(profesoresTabLayout);
         profesoresTabLayout.setHorizontalGroup(
@@ -806,7 +819,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(profesoresBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(profesoresScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addComponent(profesoresFiltro))
+                    .addGroup(profesoresTabLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profesoresFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(profesorBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -819,7 +835,9 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(profesoresTabLayout.createSequentialGroup()
-                        .addComponent(profesoresFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(profesoresFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(profesoresScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(profesorDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1086,6 +1104,8 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturasFiltro.setToolTipText("Filtrar el listado");
 
+        jLabel3.setText(" Buscar:");
+
         javax.swing.GroupLayout asignaturasTabLayout = new javax.swing.GroupLayout(asignaturasTab);
         asignaturasTab.setLayout(asignaturasTabLayout);
         asignaturasTabLayout.setHorizontalGroup(
@@ -1095,7 +1115,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(asignaturasBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(asignaturasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addComponent(asignaturasFiltro))
+                    .addGroup(asignaturasTabLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(asignaturasFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(asignaturaBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1111,7 +1134,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(asignaturaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(asignaturasTabLayout.createSequentialGroup()
-                        .addComponent(asignaturasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(asignaturasFiltro)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(asignaturasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1547,6 +1572,8 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasFiltro.setToolTipText("Filtrar el listado");
 
+        jLabel4.setText(" Buscar:");
+
         javax.swing.GroupLayout cursadasTabLayout = new javax.swing.GroupLayout(cursadasTab);
         cursadasTab.setLayout(cursadasTabLayout);
         cursadasTabLayout.setHorizontalGroup(
@@ -1556,7 +1583,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cursadasBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cursadasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addComponent(cursadasFiltro))
+                    .addGroup(cursadasTabLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cursadasFiltro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
@@ -1570,7 +1600,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(cursadasTabLayout.createSequentialGroup()
-                        .addComponent(cursadasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cursadasFiltro)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cursadasScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3015,6 +3047,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane cursadasScroll;
     private javax.swing.JPanel cursadasTab;
     private javax.swing.JTable cursadasTabla;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTabbedPane panelTabs;
     private javax.swing.JButton profesorAceptarBoton;
     private javax.swing.JButton profesorAgregarAsigBoton;

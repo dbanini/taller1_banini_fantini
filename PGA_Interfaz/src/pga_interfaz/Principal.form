@@ -67,7 +67,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="alumnosBotonesPanel" max="32767" attributes="0"/>
                           <Component id="alumnosScroll" pref="383" max="32767" attributes="0"/>
-                          <Component id="alumnosFiltro" alignment="1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="alumnosFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -85,7 +89,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="alumnoDatosPanel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="alumnosFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="alumnosFiltro" max="32767" attributes="0"/>
+                                  <Component id="jLabel1" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="alumnosScroll" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -488,6 +495,11 @@
                 <Property name="toolTipText" type="java.lang.String" value="Filtrar el listado"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="profesoresTab">
@@ -507,7 +519,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="profesoresBotonesPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="profesoresScroll" alignment="0" pref="389" max="32767" attributes="0"/>
-                          <Component id="profesoresFiltro" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="profesoresFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -524,7 +540,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="profesoresFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="profesoresFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="profesoresScroll" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -940,6 +959,11 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="asignaturasTab">
@@ -959,7 +983,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="asignaturasBotonesPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="asignaturasScroll" alignment="0" pref="389" max="32767" attributes="0"/>
-                          <Component id="asignaturasFiltro" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="asignaturasFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -980,7 +1008,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="asignaturaDatosPanel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="asignaturasFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="asignaturasFiltro" max="32767" attributes="0"/>
+                                  <Component id="jLabel3" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="asignaturasScroll" pref="416" max="32767" attributes="0"/>
                           </Group>
@@ -1334,6 +1365,11 @@
                 <Property name="toolTipText" type="java.lang.String" value="Filtrar el listado"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="cursadasTab">
@@ -1353,7 +1389,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cursadasBotonesPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="cursadasScroll" alignment="0" pref="389" max="32767" attributes="0"/>
-                          <Component id="cursadasFiltro" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cursadasFiltro" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -1371,7 +1411,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cursadaDatosPanel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="cursadasFiltro" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cursadasFiltro" max="32767" attributes="0"/>
+                                  <Component id="jLabel4" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cursadasScroll" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -1957,6 +2000,11 @@
             <Component class="javax.swing.JTextField" name="cursadasFiltro">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Filtrar el listado"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=" Buscar:"/>
               </Properties>
             </Component>
           </SubComponents>
