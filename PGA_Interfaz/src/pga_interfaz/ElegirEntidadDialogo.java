@@ -1,6 +1,10 @@
 
 package pga_interfaz;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Dario
@@ -92,7 +96,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
 
         entidadDescripcion.setColumns(20);
         entidadDescripcion.setRows(5);
-        entidadDescripcion.setText("Descripcion de lo que\nEsta adentro\nde la entidad");
+        entidadDescripcion.setText("");
         entidadDescripcion.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         entidadDescripcion.setEnabled(false);
         entidadPanel.setViewportView(entidadDescripcion);
@@ -134,6 +138,11 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
     private void cancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBotonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelarBotonActionPerformed
+
+    public void setupTabla(ArrayList<String> claves, ArrayList<String> nombres, HashMap<String, String> descripciones) {
+        assert claves.size() == nombres.size() : "El arreglo de claves no tiene la misma cantidad que el de nombres.";
+        
+    }
 
     /**
      * @param args the command line arguments

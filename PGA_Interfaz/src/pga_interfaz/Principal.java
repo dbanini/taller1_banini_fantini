@@ -80,7 +80,6 @@ public class Principal extends javax.swing.JFrame {
         alumnoCancelarBoton = new javax.swing.JButton();
         alumnoAceptarBoton = new javax.swing.JButton();
         alumnosFiltro = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         profesoresTab = new javax.swing.JPanel();
         profesoresScroll = new javax.swing.JScrollPane();
         profesoresTabla = new javax.swing.JTable();
@@ -109,7 +108,6 @@ public class Principal extends javax.swing.JFrame {
         profesorLegajoText = new javax.swing.JFormattedTextField();
         profesorTelefonoText = new javax.swing.JTextField();
         profesorTelefonoLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         asignaturasTab = new javax.swing.JPanel();
         asignaturasScroll = new javax.swing.JScrollPane();
         asignaturasTabla = new javax.swing.JTable();
@@ -132,7 +130,6 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCancelarBoton = new javax.swing.JButton();
         asignaturaAceptarBoton = new javax.swing.JButton();
         asignaturasFiltro = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         cursadasTab = new javax.swing.JPanel();
         cursadasScroll = new javax.swing.JScrollPane();
         cursadasTabla = new javax.swing.JTable();
@@ -169,7 +166,6 @@ public class Principal extends javax.swing.JFrame {
         cursadaCancelarBoton = new javax.swing.JButton();
         cursadaAceptarBoton = new javax.swing.JButton();
         cursadasFiltro = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -177,18 +173,9 @@ public class Principal extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
-            
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
         });
 
         panelTabs.setToolTipText("");
-        panelTabs.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelTabsMouseClicked(evt);
-            }
-        });
 
         alumnosTabla.setAutoCreateRowSorter(true);
         alumnosTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -411,7 +398,7 @@ public class Principal extends javax.swing.JFrame {
         alumnosBotonesPanelLayout.setHorizontalGroup(
             alumnosBotonesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(alumnosBotonesPanelLayout.createSequentialGroup()
-                .addContainerGap(292, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(alumnosNuevoBoton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(alumnosBorrarBoton)
@@ -477,8 +464,6 @@ public class Principal extends javax.swing.JFrame {
 
         alumnosFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel1.setText(" Buscar:");
-
         javax.swing.GroupLayout alumnosTabLayout = new javax.swing.GroupLayout(alumnosTab);
         alumnosTab.setLayout(alumnosTabLayout);
         alumnosTabLayout.setHorizontalGroup(
@@ -487,11 +472,8 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnosBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, alumnosTabLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(alumnosFiltro))
-                    .addComponent(alumnosScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(alumnosScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                    .addComponent(alumnosFiltro, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(alumnoBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -505,9 +487,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alumnoDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(alumnosTabLayout.createSequentialGroup()
-                        .addGroup(alumnosTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(alumnosFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addComponent(alumnosFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(alumnosScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -683,8 +663,8 @@ public class Principal extends javax.swing.JFrame {
         profesorAsigScroll.setViewportView(profesorAsigTabla);
         profesorAsigTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (profesorAsigTabla.getColumnModel().getColumnCount() > 0) {
-            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(100);
-            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(100);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            profesorAsigTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             profesorAsigTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             profesorAsigTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -806,21 +786,16 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
-        jLabel2.setText(" Buscar:");
-
         javax.swing.GroupLayout profesoresTabLayout = new javax.swing.GroupLayout(profesoresTab);
         profesoresTab.setLayout(profesoresTabLayout);
         profesoresTabLayout.setHorizontalGroup(
             profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profesoresTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(profesoresBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(profesoresScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profesoresTabLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(profesoresFiltro)))
+                    .addComponent(profesoresFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(profesorBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -833,9 +808,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(profesoresTabLayout.createSequentialGroup()
-                        .addGroup(profesoresTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(profesoresFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                        .addComponent(profesoresFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(profesoresScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(profesorDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -876,8 +849,8 @@ public class Principal extends javax.swing.JFrame {
         asignaturasScroll.setViewportView(asignaturasTabla);
         asignaturasTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturasTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturasTabla.getColumnModel().getColumn(0).setMinWidth(100);
-            asignaturasTabla.getColumnModel().getColumn(0).setMaxWidth(100);
+            asignaturasTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            asignaturasTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             asignaturasTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             asignaturasTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -916,8 +889,8 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCorrScroll.setViewportView(asignaturaCorrTabla);
         asignaturaCorrTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (asignaturaCorrTabla.getColumnModel().getColumnCount() > 0) {
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(100);
-            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(100);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            asignaturaCorrTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             asignaturaCorrTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             asignaturaCorrTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -1102,21 +1075,16 @@ public class Principal extends javax.swing.JFrame {
 
         asignaturasFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel3.setText(" Buscar:");
-
         javax.swing.GroupLayout asignaturasTabLayout = new javax.swing.GroupLayout(asignaturasTab);
         asignaturasTab.setLayout(asignaturasTabLayout);
         asignaturasTabLayout.setHorizontalGroup(
             asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(asignaturasTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(asignaturasBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(asignaturasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, asignaturasTabLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(asignaturasFiltro)))
+                    .addComponent(asignaturasFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(asignaturaBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1132,9 +1100,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(asignaturaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(asignaturasTabLayout.createSequentialGroup()
-                        .addGroup(asignaturasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(asignaturasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                        .addComponent(asignaturasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(asignaturasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1175,8 +1141,8 @@ public class Principal extends javax.swing.JFrame {
         cursadasScroll.setViewportView(cursadasTabla);
         cursadasTabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (cursadasTabla.getColumnModel().getColumnCount() > 0) {
-            cursadasTabla.getColumnModel().getColumn(0).setMinWidth(100);
-            cursadasTabla.getColumnModel().getColumn(0).setMaxWidth(100);
+            cursadasTabla.getColumnModel().getColumn(0).setMinWidth(80);
+            cursadasTabla.getColumnModel().getColumn(0).setMaxWidth(80);
             cursadasTabla.getColumnModel().getColumn(0).setHeaderValue("Identificador");
             cursadasTabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
         }
@@ -1413,9 +1379,9 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cursadaProfBotonesPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cursadaAlumScroll)
+                    .addComponent(cursadaAlumScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(cursadaAlumBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cursadaProfScroll)
+                    .addComponent(cursadaProfScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(cursadaDatosPanelLayout.createSequentialGroup()
                         .addGroup(cursadaDatosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cursadaAlumLabel)
@@ -1569,27 +1535,20 @@ public class Principal extends javax.swing.JFrame {
 
         cursadasFiltro.setToolTipText("Filtrar el listado");
 
-        jLabel4.setText(" Buscar:");
-
         javax.swing.GroupLayout cursadasTabLayout = new javax.swing.GroupLayout(cursadasTab);
         cursadasTab.setLayout(cursadasTabLayout);
         cursadasTabLayout.setHorizontalGroup(
             cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cursadasTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cursadasBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cursadasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cursadasTabLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cursadasFiltro)))
+                    .addComponent(cursadasScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                    .addComponent(cursadasFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cursadaBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(cursadasTabLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cursadaBotonesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         cursadasTabLayout.setVerticalGroup(
@@ -1599,9 +1558,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cursadaDatosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(cursadasTabLayout.createSequentialGroup()
-                        .addGroup(cursadasTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cursadasFiltro)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cursadasFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cursadasScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1638,7 +1595,8 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
-        // TODO add your handling code here:
+        ElegirEntidadDialogo dialogo = new ElegirEntidadDialogo(this, true);
+        dialogo.setVisible(true);
     }//GEN-LAST:event_alumnoAgregarAsigBotonActionPerformed
 
     private void alumnoQuitarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoQuitarAsigBotonActionPerformed
@@ -1674,7 +1632,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cursadaAlumQuitarBotonActionPerformed
 
     private void cursadaAlumAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAlumAgregarBotonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_cursadaAlumAgregarBotonActionPerformed
 
     private void cursadaHoraFinTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaHoraFinTextActionPerformed
@@ -2706,10 +2664,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane cursadasScroll;
     private javax.swing.JPanel cursadasTab;
     private javax.swing.JTable cursadasTabla;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JTabbedPane panelTabs;
     private javax.swing.JButton profesorAceptarBoton;
     private javax.swing.JButton profesorAgregarAsigBoton;
