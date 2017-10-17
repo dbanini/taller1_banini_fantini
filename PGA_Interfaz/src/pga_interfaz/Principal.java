@@ -1740,6 +1740,7 @@ public class Principal extends javax.swing.JFrame {
         profesorB.addParticipacion(asignaturaB);
         profesorB.addParticipacion(asignaturaC);
         profesorC.addParticipacion(asignaturaA);
+        profesorC.addParticipacion(asignaturaB);
         
         // Agregamos correlativas a las asignaturas.
         asignaturaB.addCorrelativa(asignaturaA);
@@ -1748,16 +1749,16 @@ public class Principal extends javax.swing.JFrame {
         cursadaA.addAlumno(alumnoA);
         cursadaA.addAlumno(alumnoB);
         cursadaA.addProfesor(profesorA);
-        
+
         cursadaB.addAlumno(alumnoC);
         cursadaB.addProfesor(profesorA);
         cursadaB.addProfesor(profesorB);
         cursadaB.addProfesor(profesorC);
-        
+
         cursadaC.addAlumno(alumnoB);
         cursadaC.addAlumno(alumnoC);
-        cursadaC.addProfesor(profesorC);
-        
+        cursadaC.addProfesor(profesorB);
+
         cursadaD.addAlumno(alumnoA);
         cursadaD.addAlumno(alumnoB);
         cursadaD.addAlumno(alumnoC);

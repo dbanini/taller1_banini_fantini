@@ -389,8 +389,19 @@ public class Cursada implements Comparable<Cursada>{
      * @return True si estan todos los alumnos habilitados, false en caso contrario.
      */
     private boolean alumnosHabilitados() {
-        // TODO Implementar.
-        return true;
+        boolean habilitados = true;
+        Iterator<Alumno> it = alumnos.iterator();
+        Alumno alumno = null;
+        while (it.hasNext() && habilitados) {
+            alumno = it.next();
+            
+            // Verificamos si el alumno no ha aprobado todas las correlativas requeridas por la asignatura.
+            if (!alumno.getAprobadas().containsAll(asignatura.getCorrelativas())) {
+                habilitados = false;
+            }
+        }
+        
+        return habilitados;
     }
     
     /**
@@ -398,8 +409,19 @@ public class Cursada implements Comparable<Cursada>{
      * @return True si estan todos los profesores habilitados, false en caso contrario.
      */
     private boolean profesoresHabilitados() {
-        // TODO Implementar.
-        return true;
+        boolean habilitados = true;
+        Iterator<Profesor> it = profesores.iterator();
+        Profesor profesor = null;
+        while (it.hasNext() && habilitados) {
+            profesor = it.next();
+            
+            // Verificamos si el profesor esta habilitado a dar la asignatura.
+            if (!profesor.getParticipar().contains(asignatura)) {
+                habilitados = false;
+            }
+        }
+        
+        return habilitados;
     }
     
     /**
