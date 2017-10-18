@@ -2016,7 +2016,20 @@ public class Principal extends javax.swing.JFrame {
                 cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
             else {
-                JOptionPane.showMessageDialog(this, "La nueva cursada no puede ser creada debido a una superposicion de horarios con otra cursada de la misma asignatura.");
+                while (nuevaCursada.seSuperponeCon(cursadasDeAsignatura)){
+                    nuevaCursada.modificarAtributo();
+                }
+                if (!nuevaCursada.seSuperponeCon(cursadasDeAsignatura)){
+                    entidades.addCursada(nuevaCursada);
+                    
+                    // Agregar y seleccionar en tabla.
+                    agregarCursadaTabla(nuevaCursada);
+                    int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
+                    cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "La nueva cursada no puede ser creada debido a una superposicion de horarios con otra cursada de la misma asignatura.");
+                }
             }
         }
         else {
@@ -2046,8 +2059,8 @@ public class Principal extends javax.swing.JFrame {
             String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
             assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
-            if (entidades.buscaCursadasConAsignatura(asignatura)!=null){
-                JOptionPane.showMessageDialog(this, "Deben eliminarse las cursadas de dicha asignatura antes de eliminarla.");
+            if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()){
+                mostrarError("Deben eliminarse las cursadas de dicha asignatura antes poder de eliminarla.");
             }
             else {
                 entidades.removeAsignatura(asignatura);
