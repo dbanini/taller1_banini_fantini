@@ -2252,18 +2252,20 @@ public class Principal extends javax.swing.JFrame {
             // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
                 reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
-                
-                /*
-                TODO Actualizar cursadas.
-                Iterator<Cursada> it = cursadas.iterator();
-                Cursada cursada = null;
-                while (it.hasNext()) {
-                    
-                }
-                */
+                reemplazarEnTabla(alumnoAsigTabla, oldId, nuevoId, nuevoNombre);
+                reemplazarEnTabla(profesorAsigTabla, oldId, nuevoId, nuevoNombre);
                 
                 if (cursadaActual != null && cursadaActual.getAsignatura() == asignaturaActual) {
                     cursadaAsignaturaText.setText(nombreDeAsignatura(asignaturaActual));
+                }
+                
+                // FIXME Es un doble loop medio ineficiente, pero no es una operacion frecuente. Necesario porque el
+                // nombre de la cursada es autogenerado a partir del de la asignatura.
+                Iterator<Cursada> it = cursadas.iterator();
+                Cursada cursada = null;
+                while (it.hasNext()) {
+                    cursada = it.next();
+                    reemplazarEnTabla(cursadasTabla, cursada.getId(), cursada.getId(), nombreDeCursada(cursada));
                 }
             }
             
