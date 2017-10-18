@@ -1192,7 +1192,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaPeriodoLabel.setText("Periodo");
 
-        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom" }));
+        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "MiÃ©", "Jue", "Vie", "Sab", "Dom" }));
         cursadaDiaCombo.setEnabled(false);
 
         cursadaPeriodoACombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02" }));
@@ -2058,14 +2058,25 @@ public class Principal extends javax.swing.JFrame {
             selectedRow = asignaturasTabla.convertRowIndexToModel(selectedRow);
             String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
-            assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
-            if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()){
-                mostrarError("Deben eliminarse las cursadas de dicha asignatura antes poder de eliminarla.");
+            assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";            
+            boolean operacionValida = true;
+            if (!entidades.buscaAlumnosConAsignatura(asignatura).isEmpty()) {
+                mostrarError("No puede borrarse la asignatura. Hay alumnos que la tienen en su lista de aprobadas.");
+                operacionValida = false;
             }
-            else {
+            else if (!entidades.buscaProfesoresConAsignatura(asignatura).isEmpty()) {
+                mostrarError("No puede borrarse la asignatura. Hay profesores que la tienen en su lista de habilitadas.");
+                operacionValida = false;
+            }
+            else if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()) {
+                mostrarError("No puede borrarse la asignatura. Existen cursadas de esta asignatura.");
+                operacionValida = false;
+            }
+            
+            if (operacionValida) {
                 entidades.removeAsignatura(asignatura);
                 DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
-                modelo.removeRow(selectedRow);      
+                modelo.removeRow(selectedRow);
             }
         }
     }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
@@ -2078,9 +2089,18 @@ public class Principal extends javax.swing.JFrame {
             String legajo = (String)profesoresTabla.getModel().getValueAt(selectedRow, 0);
             Profesor profesor = entidades.buscaProfesorPorLegajo(legajo);
             assert profesor != null : "La tabla tiene un legajo que no existe en el modelo.";
-            entidades.removeProfesor(profesor);
-            DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
-            modelo.removeRow(selectedRow);
+            
+            boolean operacionValida = true;
+            if (!entidades.buscaCursadasConProfesor(profesor).isEmpty()) {
+                mostrarError("No puede borrarse el profesor. Hay cursadas en las que esta participando actualmente.");
+                operacionValida = false;
+            }
+            
+            if (operacionValida) {
+                entidades.removeProfesor(profesor);
+                DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
+                modelo.removeRow(selectedRow);
+            }
         }
     }//GEN-LAST:event_profesoresBorrarBotonActionPerformed
 
@@ -2218,19 +2238,15 @@ public class Principal extends javax.swing.JFrame {
             entradaValida = false;
         }
         else {
-            // Verificar si los alumnos pueden mantenerse en las cursadas en las que esten con las nuevas correlativas.
-            Iterator<Cursada> it = cursadas.iterator();
-            Cursada cursada = null;
-            while (it.hasNext() && entradaValida) {
-                cursada = it.next();
-                Iterator<Alumno> ita = cursada.getAlumnos().iterator();
-                Alumno alumno = null;
-                while (ita.hasNext() && entradaValida) {
-                    alumno = ita.next();
-                    if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                        mostrarError("La nueva lista de correlativas no es compatible con las cursadas porque los alumnos no tienen aprobadas las asignaturas pedidas.");
-                        entradaValida = false;
-                    }
+            // Verificar si los alumnos pueden seguir teniendo esta asignatura como aprobada con las nuevas correlativas.
+            ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaActual);
+            Iterator<Alumno> ita = alumnos.iterator();
+            Alumno alumno = null;
+            while (ita.hasNext() && entradaValida) {
+                alumno = ita.next();
+                if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
+                    mostrarError("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas.");
+                    entradaValida = false;
                 }
             }
         }
@@ -2457,9 +2473,19 @@ public class Principal extends javax.swing.JFrame {
             String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
             Alumno alumno = entidades.buscaAlumnoPorLegajo(legajo);
             assert alumno != null : "La tabla tiene un legajo que no existe en el modelo.";
-            entidades.removeAlumno(alumno);
-            DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
-            modelo.removeRow(selectedRow);
+            
+            // Verificamos que el alumno no se encuentre actualmente en una cursada.
+            boolean operacionValida = true;
+            if (!entidades.buscaCursadasConAlumno(alumno).isEmpty()) {
+                mostrarError("No puede borrarse el alumno. Hay cursadas en las que esta participando actualmente.");
+                operacionValida = false;
+            }
+            
+            if (operacionValida) {
+                entidades.removeAlumno(alumno);
+                DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
+                modelo.removeRow(selectedRow);
+            }
         }
     }//GEN-LAST:event_alumnosBorrarBotonActionPerformed
 
