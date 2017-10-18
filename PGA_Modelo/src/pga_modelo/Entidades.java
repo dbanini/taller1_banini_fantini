@@ -12,7 +12,6 @@ import java.util.TreeSet;
  * La lista de alumnos es distinta de null. <br>
  * La lista de asignaturas es distinta de null. <br>
  * La lista de cursadas es distinta de null. <br>
- * Las cursadas de una misma asignatura no se superponen. <br>
  * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
  * Cada profesor de la coleccion no participa en cursadas que se superponen.
  */
