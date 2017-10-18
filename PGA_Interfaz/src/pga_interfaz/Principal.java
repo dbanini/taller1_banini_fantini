@@ -2341,13 +2341,6 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
             
-            // Verificar superposicion para las cursadas de la misma asignatura.
-            ArrayList<Cursada> cursadasAsignatura = entidades.buscaCursadasConAsignatura(nuevaAsignatura);
-            if (cursadaActual.seSuperponeCon(cursadasAsignatura, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
-                mostrarError("No puede ubicarse la cursada en el plazo elegido. Hay superposicion con otras cursadas de la misma asignatura.");
-                entradaValida = false;
-            }
-            
             // Verificar superposicion para los alumnos.
             ita = nuevosAlumnos.iterator();
             while (ita.hasNext() && entradaValida) {
