@@ -1,1 +1,1 @@
-# taller1_banini_fantini
+# Sistema PGA - Grupo 2.
