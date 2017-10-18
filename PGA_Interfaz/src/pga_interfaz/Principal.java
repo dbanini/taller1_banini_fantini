@@ -2200,19 +2200,15 @@ public class Principal extends javax.swing.JFrame {
             entradaValida = false;
         }
         else {
-            // Verificar si los alumnos pueden mantenerse en las cursadas en las que esten con las nuevas correlativas.
-            Iterator<Cursada> it = cursadas.iterator();
-            Cursada cursada = null;
-            while (it.hasNext() && entradaValida) {
-                cursada = it.next();
-                Iterator<Alumno> ita = cursada.getAlumnos().iterator();
-                Alumno alumno = null;
-                while (ita.hasNext() && entradaValida) {
-                    alumno = ita.next();
-                    if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                        mostrarError("La nueva lista de correlativas no es compatible con las cursadas porque los alumnos no tienen aprobadas las asignaturas pedidas.");
-                        entradaValida = false;
-                    }
+            // Verificar si los alumnos pueden seguir teniendo esta asignatura como aprobada con las nuevas correlativas.
+            ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaActual);
+            Iterator<Alumno> ita = alumnos.iterator();
+            Alumno alumno = null;
+            while (ita.hasNext() && entradaValida) {
+                alumno = ita.next();
+                if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
+                    mostrarError("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas.");
+                    entradaValida = false;
                 }
             }
         }
