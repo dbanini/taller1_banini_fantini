@@ -2056,6 +2056,10 @@ public class Principal extends javax.swing.JFrame {
                 mostrarError("No puede borrarse la asignatura. Hay profesores que la tienen en su lista de habilitadas.");
                 operacionValida = false;
             }
+            else if (!entidades.buscaAsignaturasConCorrelativa(asignatura).isEmpty()) {
+                mostrarError("No puede borrarse la asignatura. Hay asignaturas que la tienen en su lista de correlativas.");
+                operacionValida = false;
+            }
             else if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()) {
                 mostrarError("No puede borrarse la asignatura. Existen cursadas de esta asignatura.");
                 operacionValida = false;

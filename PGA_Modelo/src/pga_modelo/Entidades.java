@@ -172,6 +172,7 @@ public class Entidades {
      * <b>pre: </b> La asignatura existe en la lista de asignaturas.
      * <b>pre: </b> La asignatura no debe estar en la lista de aprobadas de ningun alumno.
      * <b>pre: </b> La asignatura no debe estar en la lista de habilitadas de ningun profesor.
+     * <b>pre: </b> La asignatura no debe estar en la lista de correlativas de otra asignatura.
      * <b>pre: </b> La asignatura no debe estar asignada a alguna cursada.
      * <b>post: </b> Se elimina una asignatura de la lista de asignaturas.
      * @param asignatura cumple que es valida.
@@ -180,6 +181,7 @@ public class Entidades {
         assert asignaturas.contains(asignatura) : "La asignatura no existe en la lista de asignaturas.";
         assert buscaAlumnosConAsignatura(asignatura).isEmpty() : "Hay alumnos que contienen referencias a la asignatura.";
         assert buscaProfesoresConAsignatura(asignatura).isEmpty() : "Hay profesores que contienen referencias a la asignatura.";
+        assert buscaAsignaturasConCorrelativa(asignatura).isEmpty() : "Hay asignaturas que tienen como correlativa a esta asignatura.";
         assert buscaCursadasConAsignatura(asignatura).isEmpty() : "Hay cursadas que refieren a la asignatura.";
         asignaturas.remove(asignatura);
         assert !asignaturas.contains(asignatura) : "La asignatura no ha sido eliminada.";
@@ -404,6 +406,25 @@ public class Entidades {
             profesor = it.next();
             if (profesor.getParticipar().contains(asignatura)) {
                 lista.add(profesor);
+            }
+        }
+        
+        return lista;
+    }
+    
+    /**
+     * Devuelve una lista de asignaturas que tienen la asignatura como correlativa.
+     * @param correlativa La asignatura correlativa a buscar.
+     * @return La lista de asignaturas.
+     */
+    public ArrayList<Asignatura> buscaAsignaturasConCorrelativa(Asignatura correlativa) {
+        ArrayList<Asignatura> lista = new ArrayList<Asignatura>();
+        Iterator<Asignatura> it = asignaturas.iterator();
+        Asignatura asignatura = null;
+        while (it.hasNext()) {
+            asignatura = it.next();
+            if (asignatura.getCorrelativas().contains(correlativa)) {
+                lista.add(asignatura);
             }
         }
         

@@ -175,12 +175,14 @@ public class Asignatura implements Comparable<Asignatura>{
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
      * <b>inv: </b>
      * El legajo cumple con la mascara de asignatura. <br>
-     * El nombre es distinto de null y de vacio.<br>
-     * La lista de correlativas es distinta de null.
+     * El nombre es distinto de null y de vacio. <br>
+     * La lista de correlativas es distinta de null. <br>
+     * La lista de correlativas no contiene a la asignatura misma.
      */
     private void verificarInvariante(){
-        assert idEsValido(id): "El id es invalido.";
-        assert nombreEsValido(nombre): "El nombre de la asignatura es invalido.";
-        assert correlativasEsValido(): "La lista de correlativas es invalida.";
+        assert idEsValido(id) : "El id es invalido.";
+        assert nombreEsValido(nombre) : "El nombre de la asignatura es invalido.";
+        assert correlativasEsValido() : "La lista de correlativas de la asignatura es invalida.";
+        assert !correlativas.contains(this) : "La lista de correlativas de la asignatura contiene a la asignatura misma.";
     }
 }
