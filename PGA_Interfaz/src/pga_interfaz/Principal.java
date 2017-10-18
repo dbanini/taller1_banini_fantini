@@ -1192,7 +1192,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaPeriodoLabel.setText("Periodo");
 
-        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom" }));
+        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "MiÃ©", "Jue", "Vie", "Sab", "Dom" }));
         cursadaDiaCombo.setEnabled(false);
 
         cursadaPeriodoACombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02" }));
@@ -2016,7 +2016,20 @@ public class Principal extends javax.swing.JFrame {
                 cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
             else {
-                JOptionPane.showMessageDialog(this, "La nueva cursada no puede ser creada debido a una superposicion de horarios con otra cursada de la misma asignatura.");
+                while (nuevaCursada.seSuperponeCon(cursadasDeAsignatura)){
+                    nuevaCursada.modificarAtributo();
+                }
+                if (!nuevaCursada.seSuperponeCon(cursadasDeAsignatura)){
+                    entidades.addCursada(nuevaCursada);
+                    
+                    // Agregar y seleccionar en tabla.
+                    agregarCursadaTabla(nuevaCursada);
+                    int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
+                    cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "La nueva cursada no puede ser creada debido a una superposicion de horarios con otra cursada de la misma asignatura.");
+                }
             }
         }
         else {
@@ -2045,8 +2058,7 @@ public class Principal extends javax.swing.JFrame {
             selectedRow = asignaturasTabla.convertRowIndexToModel(selectedRow);
             String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
-            assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
-            
+            assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";            
             boolean operacionValida = true;
             if (!entidades.buscaAlumnosConAsignatura(asignatura).isEmpty()) {
                 mostrarError("No puede borrarse la asignatura. Hay alumnos que la tienen en su lista de aprobadas.");

@@ -2,6 +2,7 @@ package pga_modelo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.TreeSet;
 
 /**
@@ -213,6 +214,12 @@ public class Cursada implements Comparable<Cursada>{
         }
         
         return conSuperposicion;
+    }
+    
+    public void modificarAtributo() {
+        String auxPeriodo=getPeriodo().substring(3);
+        int auxAnio=Integer.parseInt(auxPeriodo)+1;
+        setPeriodo("01-"+auxAnio);
     }
     
     /**
