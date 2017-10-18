@@ -7,6 +7,14 @@ import java.util.TreeSet;
 
 /**
  * Contiene todas las colecciones para la administracion del sistema PGA.
+ * <b>inv: </b>
+ * La lista de profesores es distinta de null. <br>
+ * La lista de alumnos es distinta de null. <br>
+ * La lista de asignaturas es distinta de null. <br>
+ * La lista de cursadas es distinta de null. <br>
+ * Las cursadas de una misma asignatura no se superponen. <br>
+ * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
+ * Cada profesor de la coleccion no participa en cursadas que se superponen.
  */
 public class Entidades {
     
@@ -24,9 +32,9 @@ public class Entidades {
     // -----------------------------------------------------------------
     
     /**
-     * Crea las entidades.
+     * Constructor vacio.
      */
-    public Entidades(){        
+    public Entidades() {        
         alumnos = new TreeSet<Alumno>();
         profesores = new TreeSet<Profesor>();
         asignaturas = new TreeSet<Asignatura>();
@@ -190,8 +198,8 @@ public class Entidades {
     
     /** 
      * Agrega una cursada a la lista de cursadas. <br>
-     * <b>pre: </b> La cursada no existe en la lista de cursadas.
-     * <b>post: </b> Se agrega una cursada a la lista de cursadas.
+     * <b>pre: </b> La cursada no existe en la lista de cursadas. <br>
+     * <b>post: </b> Se agrega una cursada a la lista de cursadas. <br>
      * @param cursada cumple que es valida.
      */
     public void addCursada(Cursada cursada) {
@@ -203,8 +211,8 @@ public class Entidades {
     
     /**
      * Elimina una cursada de la lista de cursadas. <br>
-     * <b>pre: </b> La cursada existe en la lista de cursadas.
-     * <b>post: </b> Se elimina una cursada de la lista de cursadas.
+     * <b>pre: </b> La cursada existe en la lista de cursadas. <br>
+     * <b>post: </b> Se elimina una cursada de la lista de cursadas. <br>
      * @param cursada cumple que es valida.
      */
     public void removeCursada(Cursada cursada) {
@@ -215,8 +223,8 @@ public class Entidades {
     }
 
     /**
-     * Busqueda de alumnos con determinado nombre.
-     * @param nombre Nombre con el cual buscar.
+     * Busqueda de alumnos con determinado nombre. <br>
+     * @param nombre Nombre con el cual buscar. <br>
      * @return Retorna en un ArrayList los alumnos con el nombre especificado.
      */
     public ArrayList<Alumno> buscaAlumno(String nombre){
@@ -255,8 +263,8 @@ public class Entidades {
     }
     
     /**
-     * Busqueda de profesores con determinado nombre.
-     * @param nombre Nombre con el cual buscar.
+     * Busqueda de profesores con determinado nombre. <br>
+     * @param nombre Nombre con el cual buscar. <br>
      * @return Retorna en un ArrayList los profesores con el nombre especificado.
      */
     public ArrayList<Profesor> buscaProfesor(String nombre){
@@ -295,8 +303,8 @@ public class Entidades {
     }
     
     /**
-     * Busqueda de asignaturas con determinado nombre.
-     * @param nombre Nombre con el cual buscar.
+     * Busqueda de asignaturas con determinado nombre. <br>
+     * @param nombre Nombre con el cual buscar. <br>
      * @return Retorna en un ArrayList las asignaturas con el nombre especificado.
      */
     public ArrayList<Asignatura> buscaAsignatura(String nombre){
@@ -335,8 +343,8 @@ public class Entidades {
     }
     
     /**
-     * Busqueda de cursadas con determinado nombre de asignatura.
-     * @param nombre Nombre con el cual buscar.
+     * Busqueda de cursadas con determinado nombre de asignatura. <br>
+     * @param nombre Nombre con el cual buscar. <br>
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
      */
     public ArrayList<Cursada> buscaCursada(String nombre){
@@ -375,8 +383,8 @@ public class Entidades {
     }
     
     /**
-     * Devuelve una lista de los alumnos que tienen la asignatura buscada aprobada.
-     * @param asignatura La asignatura a buscar.
+     * Devuelve una lista de los alumnos que tienen la asignatura buscada aprobada. <br>
+     * @param asignatura La asignatura a buscar. <br>
      * @return La lista de alumnos.
      */
     public ArrayList<Alumno> buscaAlumnosConAsignatura(Asignatura asignatura) {
@@ -394,8 +402,8 @@ public class Entidades {
     }
     
     /**
-     * Devuelve una lista de los profesores que tienen la asignatura buscada habilitada.
-     * @param asignatura La asignatura a buscar.
+     * Devuelve una lista de los profesores que tienen la asignatura buscada habilitada. <br>
+     * @param asignatura La asignatura a buscar. <br>
      * @return La lista de profesores.
      */
     public ArrayList<Profesor> buscaProfesoresConAsignatura(Asignatura asignatura) {
@@ -413,8 +421,8 @@ public class Entidades {
     }
     
     /**
-     * Devuelve una lista de asignaturas que tienen la asignatura como correlativa.
-     * @param correlativa La asignatura correlativa a buscar.
+     * Devuelve una lista de asignaturas que tienen la asignatura como correlativa. <br>
+     * @param correlativa La asignatura correlativa a buscar. <br>
      * @return La lista de asignaturas.
      */
     public ArrayList<Asignatura> buscaAsignaturasConCorrelativa(Asignatura correlativa) {
@@ -432,8 +440,8 @@ public class Entidades {
     }
     
     /**
-     * Devuelve una lista de las cursadas que tienen la asignatura buscada asignada.
-     * @param asignatura La asignatura a buscar.
+     * Devuelve una lista de las cursadas que tienen la asignatura buscada asignada. <br>
+     * @param asignatura La asignatura a buscar. <br>
      * @return La lista de cursadas.
      */
     public ArrayList<Cursada> buscaCursadasConAsignatura(Asignatura asignatura) {
@@ -451,8 +459,8 @@ public class Entidades {
     }
     
     /**
-     * Devuelve una lista de las cursadas que tienen al alumno buscado.
-     * @param alumno El alumno a buscar.
+     * Devuelve una lista de las cursadas que tienen al alumno buscado. <br>
+     * @param alumno El alumno a buscar. <br>
      * @return La lista de cursadas.
      */
     public ArrayList<Cursada> buscaCursadasConAlumno(Alumno alumno) {
@@ -470,8 +478,8 @@ public class Entidades {
     }
     
     /**
-     * Devuelve una lista de las cursadas que tienen al profesor buscado.
-     * @param profesor El profesor a buscar.
+     * Devuelve una lista de las cursadas que tienen al profesor buscado. <br>
+     * @param profesor El profesor a buscar. <br>
      * @return La lista de cursadas.
      */
     public ArrayList<Cursada> buscaCursadasConProfesor(Profesor profesor) {
@@ -489,11 +497,11 @@ public class Entidades {
     }
     
     /**
-     * Genera un nuevo legajo unico para un nuevo alumno.
-     * TODO: Alguna busqueda mas eficiente.
+     * Genera un nuevo legajo unico para un nuevo alumno. <br>
      * @return El nuevo legajo.
      */
     public String nuevoLegajoAlumno() {
+        // TODO: Alguna busqueda mas eficiente.
         String legajo = "ALU9999";
         boolean encontrado = false;
         for (int i = 0; (i < 9999) && !encontrado; i++) {
@@ -504,11 +512,11 @@ public class Entidades {
     }
     
     /**
-     * Genera un nuevo legajo unico para un nuevo profesor.
-     * TODO: Alguna busqueda mas eficiente.
+     * Genera un nuevo legajo unico para un nuevo profesor. <br>
      * @return El nuevo legajo.
      */
     public String nuevoLegajoProfesor() {
+        // TODO: Alguna busqueda mas eficiente.
         String legajo = "PRO9999";
         boolean encontrado = false;
         for (int i = 0; (i < 9999) && !encontrado; i++) {
@@ -520,10 +528,10 @@ public class Entidades {
     
     /**
      * Genera un nuevo legajo unico para una nueva asignatura.
-     * TODO: Alguna busqueda mas eficiente.
      * @return El nuevo Id.
      */
     public String nuevoIdAsignatura() {
+        // TODO: Alguna busqueda mas eficiente.
         String id = "ASI9999";
         boolean encontrado = false;
         for (int i = 0; (i < 9999) && !encontrado; i++) {
@@ -535,10 +543,10 @@ public class Entidades {
     
     /**
      * Genera un nuevo legajo unico para una nueva cursada.
-     * TODO: Alguna busqueda mas eficiente.
      * @return El nuevo Id.
      */
     public String nuevoIdCursada() {
+        // TODO: Alguna busqueda mas eficiente.
         String id = "CUR9999";
         boolean encontrado = false;
         for (int i = 0; (i < 9999) && !encontrado; i++) {
@@ -546,46 +554,6 @@ public class Entidades {
             encontrado = buscaCursadaPorId(id) == null;
         }
         return id;
-    }
-    
-    /**
-     * Sobreescribe el metodo toString para el objeto. <br>
-     * @return Retorna la clase escrita en un string.
-     */
-    @Override
-    public String toString(){
-        Iterator it;
-        String string="";
-        Profesor profesor;
-        Alumno alumno;
-        Asignatura asignatura;
-        Cursada cursada;
-        
-        it=profesores.iterator();
-        while (it.hasNext()){
-            profesor=(Profesor)it.next();
-            string+=" "+profesor.toString();
-        }
-        string+="/n";
-        it=alumnos.iterator();
-        while (it.hasNext()){
-            alumno=(Alumno)it.next();
-            string+=" "+alumno.toString();
-        }
-        string+="/n";
-        it=asignaturas.iterator();
-        while (it.hasNext()){
-            asignatura=(Asignatura)it.next();
-            string+=" "+asignatura.toString();
-        }
-        string+="/n";
-        it=cursadas.iterator();
-        while (it.hasNext()){
-            cursada=(Cursada)it.next();
-            string+=" "+cursada.toString();
-        }
-        string+="/n";
-        return string;
     }
     
     // -----------------------------------------------------------------
@@ -626,7 +594,7 @@ public class Entidades {
     
     /**
      * Comprueba que las cursadas de una lista de cursadas no se superpongan. <br>
-     * @param cursadasLista Lista de cursadas a verificar.
+     * @param cursadasLista Lista de cursadas a verificar. <br>
      * @return True si no existen superposiciones, false en caso contrario.
      */
     private boolean cursadasSinSuperposicion(ArrayList<Cursada> cursadasLista) {
@@ -709,7 +677,6 @@ public class Entidades {
      * La lista de asignaturas es distinta de null. <br>
      * La lista de cursadas es distinta de null. <br>
      * Las cursadas de una misma asignatura no se superponen. <br>
-     * TODO Determinar si esto es para todas las cursadas (lo que hace los siguientes invariantes redundantes).
      * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
      * Cada profesor de la coleccion no participa en cursadas que se superponen.
      */

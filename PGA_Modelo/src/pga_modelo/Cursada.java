@@ -6,15 +6,18 @@ import java.util.TreeSet;
 
 /**
  * Representa una cursada junto con sus datos. <br>
- * El id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) <br>
- * La asignatura debe ser valida. <br>
- * El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (Año)) <br>
- * El dia debe pertenecer a Lun, Mar, Mié, Jue, Vie, Sab o Dom. <br>
- * La hora inicio debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
- * La hora fin debe cumplir con la mascada de Hora (99:99 (9 : 0-9)) <br>
- * La hora fin debe ser mayor en valor numerico que la hora inicio <br>
+ * <b>inv: </b>
+ * El id cumple con la mascara. <br>
+ * La asignatura es distinta de null. <br>
+ * El periodo cumple con la mascara. <br>
+ * El dia es igual a algun string de dias. <br>
+ * La hora inicio cumple con la mascara. <br>
+ * La hora fin cumple con la mascara. <br>
+ * La hora fin es mayor que la hora inicio. <br>
  * La lista de profesores es distinta de null. <br>
- * La lista de alumnos es distinta de null.
+ * La lista de alumnos es distinta de null. <br>
+ * Los alumnos que participan de la cursada cumplen con las correlatividades de la asignatura. <br>
+ * Los profesores que participan de la cursada estan habilitados a dar la asignatura.
  */
 public class Cursada implements Comparable<Cursada>{
     
@@ -35,6 +38,9 @@ public class Cursada implements Comparable<Cursada>{
     // Constructores
     // -----------------------------------------------------------------
     
+    /**
+     * Constructor vacio.
+     */
     public Cursada() {
         this.id = "CUR0000";
         this.asignatura = new Asignatura();
@@ -162,8 +168,8 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
-     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. 
-     * @param cursada con la cual se verifica la superposicion.
+     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. <br>
+     * @param cursada con la cual se verifica la superposicion. <br>
      * @return True si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(Cursada cursada) {
@@ -171,9 +177,9 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
-     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin, para un horario especifico. 
-     * @param cursada con la cual se verifica la superposicion.
-     * @return True si existe una superposicion, false en caso contrario.
+     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin, para un horario especifico. <br>
+     * @param cursada Cursda con la cual se verifica la superposicion. <br>
+     * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(Cursada cursada, String horaInicio, String horaFin, String periodo, String dia) {
         if (cursada.getPeriodo().equals(periodo) && cursada.getDia().equals(dia)) {
@@ -188,18 +194,18 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
-     * Comprueba si esta cursada se superpone con otra lista de cursadas.
-     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada.
-     * @return True si existe una superposicion, false en caso contrario.
+     * Comprueba si esta cursada se superpone con otra lista de cursadas. <br>
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada. <br>
+     * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(ArrayList<Cursada> cursadas) {
         return seSuperponeCon(cursadas, horaInicio, horaFin, periodo, dia);
     }
     
     /**
-     * Comprueba si esta cursada se superpone con otra lista de cursadas en un horario especifico.
-     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada.
-     * @return True si existe una superposicion, false en caso contrario.
+     * Comprueba si esta cursada se superpone con otra lista de cursadas en un horario especifico. <br>
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada. <br>
+     * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(ArrayList<Cursada> cursadas, String horaInicio, String horaFin, String periodo, String dia) {
         boolean conSuperposicion = false;
@@ -216,37 +222,9 @@ public class Cursada implements Comparable<Cursada>{
     }
     
     /**
-     * Sobreescribe el metodo toString para el objeto. <br>
-     * @return Retorna la clase escrita en un string.
-     */
-    @Override
-    public String toString(){
-        String string="";
-        Iterator it;
-        Profesor profesor;
-        Alumno alumno;
-        
-        string="Identificacion: "+id+" Periodo: "+periodo+" Dia: "+dia+" Hora I: "+horaInicio + "Hora F:" + horaFin +" "+asignatura.toString();
-        it=profesores.iterator();
-        while (it.hasNext()){
-            profesor=(Profesor)it.next();
-            string+=" "+profesor.toString();
-        }
-        string+="/n";
-        it=alumnos.iterator();
-        while (it.hasNext()){
-            alumno=(Alumno)it.next();
-            string+=" "+alumno.toString();
-        }
-        string+="/n";
-        return string;
-        
-    }
-    
-    /**
-     * Compara esta cursada con otra cursada. <br>
-     * @param o Es la otra cursada a comparar.
-     * @return Resultado numerico de la comparacion entre Ids.
+     * Compara esta cursada con otra cursada para su ordenamiento. <br>
+     * @param o La otra cursada a comparar. <br>
+     * @return Resultado numerico de la comparacion lexicografica entre Ids.
      */
     @Override
     public int compareTo(Cursada o) {
@@ -262,7 +240,7 @@ public class Cursada implements Comparable<Cursada>{
      * El id debe ser distinto de null. <br>
      * El id debe empezar con "CUR" y luego contener 4 caracteres. <br>
      * El id debe terminar con un numero entre 0 y 9999. <br>
-     * @return True si el id es valido, false en caso contrario. 
+     * @return true si el id es valido, false en caso contrario. 
      */
     static public boolean idEsValido(String id) {
         int numeroId;
@@ -289,7 +267,7 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Comprueba que la asignatura sea valida. <br>
      * El atributo asignatura debe ser distinto de null y de vacio. <br>
-     * @return True si la asignatura es valida, false en caso contrario. 
+     * @return true si la asignatura es valida, false en caso contrario. 
      */
     private boolean asignaturaEsValido() {
         return asignatura != null;
@@ -297,8 +275,8 @@ public class Cursada implements Comparable<Cursada>{
     
     /**
      * Comprueba que el periodo sea valido. <br>
-     * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) y AAAA (Año) <br>
-     * @return True si el periodo es valido, false en caso contrario.
+     * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) y AAAA <br>
+     * @return true si el periodo es valido, false en caso contrario.
      */
     static public boolean periodoEsValido(String periodo) {
         String auxPeriodo;
@@ -320,7 +298,8 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Comprueba que el dia sea valido. <br>
      * El dia cumple con uno de los dias de la semana. <br>
-     * @return True si el dia es valido, false en caso contrario.
+     * @param dia El dia a validar. <br>
+     * @return true si el dia es valido, false en caso contrario.
      */
     static public boolean diaEsValido(String dia) {
         switch (dia){
@@ -340,7 +319,8 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Comprueba que la hora especificada sea valida. <br>
      * La hora cumple con la mascara 99:99 (9 : 0-9) <br>
-     * @return True si la hora es valida, false en caso contrario.
+     * @param hora La hora a validar. <br>
+     * @return true si la hora es valida, false en caso contrario.
      */ 
     static public boolean horaEsValido(String hora) {
         String auxHora;
@@ -367,7 +347,7 @@ public class Cursada implements Comparable<Cursada>{
      * <b>pre: </b> Las horas deben cumplir con la mascara 99:99 (9 : 0-9) <br>
      * @param horaA La primera hora a comparar. <br>
      * @param horaB La segunda hora a comparar. <br>
-     * @return True si la horaA es mayor a la horaB, false en caso contrario.
+     * @return true si la horaA es mayor a la horaB, false en caso contrario.
      */ 
     static public boolean horaMayorA(String horaA, String horaB) {
         assert horaEsValido(horaA) : "La hora A es invalida.";
@@ -378,7 +358,7 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Comprueba que la lista de profesores sea valida. <br>
      * La lista de profesores es distinta de null. <br>
-     * @return True si la lista es valida, false en caso contrario.
+     * @return true si la lista es valida, false en caso contrario.
      */
     private boolean profesoresEsValido() {
         return profesores != null;
@@ -387,7 +367,7 @@ public class Cursada implements Comparable<Cursada>{
     /**
      * Comprueba que la lista de alumnos sea valida. <br>
      * La lista de alumnos es distinta de null. <br>
-     * @return True si la lista es valida, false en caso contrario.
+     * @return true si la lista es valida, false en caso contrario.
      */
     private boolean alumnosEsValido() {
         return alumnos != null;
@@ -395,7 +375,7 @@ public class Cursada implements Comparable<Cursada>{
     
     /**
      * Comprueba que los alumnos que participan cumplan con las correlatividades de la asignatura. <br>
-     * @return True si estan todos los alumnos habilitados, false en caso contrario.
+     * @return true si estan todos los alumnos habilitados, false en caso contrario.
      */
     private boolean alumnosHabilitados() {
         boolean habilitados = true;
@@ -445,7 +425,7 @@ public class Cursada implements Comparable<Cursada>{
      * La hora fin es mayor que la hora inicio. <br>
      * La lista de profesores es distinta de null. <br>
      * La lista de alumnos es distinta de null. <br>
-     * Los alumnos que participan de la cursada cumplen con las correlatividades de la asignatura.
+     * Los alumnos que participan de la cursada cumplen con las correlatividades de la asignatura. <br>
      * Los profesores que participan de la cursada estan habilitados a dar la asignatura.
      */
     private void verificarInvariante(){

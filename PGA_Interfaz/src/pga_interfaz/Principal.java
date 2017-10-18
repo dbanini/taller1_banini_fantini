@@ -1933,9 +1933,8 @@ public class Principal extends javax.swing.JFrame {
         });
         
         // Cargamos el banco de datos o creamos uno vacio si no es posible.
-        SerializadorXML serializador = new SerializadorXML();
         try {
-            entidades = (Entidades) serializador.lee(BANCO_DE_DATOS_PATH);
+            entidades = (Entidades) SerializadorXML.lee(BANCO_DE_DATOS_PATH);
         } catch (Exception e) {
             mostrarError(e.getMessage());
             entidades = new Entidades();
@@ -1958,9 +1957,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        SerializadorXML serializador = new SerializadorXML();
         try {
-            serializador.escribe(entidades, BANCO_DE_DATOS_PATH);
+            SerializadorXML.escribe(entidades, BANCO_DE_DATOS_PATH);
         } catch (Exception e) {
             mostrarError(e.getMessage());
         }

@@ -5,10 +5,11 @@ import java.util.regex.Pattern;
 
 
 /** Representa una persona, ya sea un alumno o un profesor. <br>
- * El legajo debe ser distinto de null y de vacio. <br>
- * El nombre debe ser alfanumerico, distinto de null y de vacio. <br>
- * El domicilio debe ser alfanumerico, distinto de null y de vacio. <br>
- * El mail debe cumplir la mascara de mail (AAAAA@AAAAAA) y debe ser distinto de null.
+ * <b>inv:</b> <br>
+ * El legajo es distinto de null y de vacio. <br>
+ * El nombre es alfanumerico, distinto de null y de vacio. <br>
+ * El domicilio es alfanumerico, distinto de null y de vacio.<br>
+ * El mail cumple la mascara.
  */
 public abstract class Persona implements Comparable<Persona>{
     
@@ -25,6 +26,9 @@ public abstract class Persona implements Comparable<Persona>{
     // Constructores
     // -----------------------------------------------------------------
     
+    /**
+     * Constructor vacio.
+     */
     public Persona() {
         this.legajo = "LEG0000";
         this.nombre = "Nombre";
@@ -33,6 +37,9 @@ public abstract class Persona implements Comparable<Persona>{
         verificarInvariante();
     }
     
+    /**
+     * Constructor con parametros. Documentado en clases que lo heredan.
+     */
     public Persona(String legajo, String nombre, String domicilio, String mail) {
         this.legajo=legajo;
         this.nombre=nombre;
@@ -85,7 +92,7 @@ public abstract class Persona implements Comparable<Persona>{
     // -----------------------------------------------------------------
     
      /**
-      * Genera una descripcion textual de la persona.
+      * Genera una descripcion textual de la persona. <br>
       * @return La descripcion generada.
       */
      public String getDescripcion() {
@@ -97,11 +104,11 @@ public abstract class Persona implements Comparable<Persona>{
          return string;
      }
     
-    /**
-     *
-     * @param o
-     * @return
-     */
+     /**
+      * Compara esta persona con otra persona para su ordenamiento. <br>
+      * @param o La otra persona a comparar. <br>
+      * @return Resultado numerico de la comparacion lexicografica entre Legajos.
+      */
     @Override
     public int compareTo(Persona o) {
         return legajo.compareTo(o.getLegajo());
@@ -150,8 +157,7 @@ public abstract class Persona implements Comparable<Persona>{
     
     /**
      * Comprueba si un mail es valido. <br>
-     * Para ello, si hay arroba y esta es diferente a la posicion 0 y a la ultima del string(no empieza con 
-     * arroba ni termina) entonces cumple. <br>
+     * Para ello, si hay arroba y esta es diferente a la posicion 0 y a la ultima del string(no empieza con arroba ni termina) entonces cumple. <br>
      * Si el mail cumple la mascara (AAAAA@AAAAAA) es valido. <br>
      * @return True si el mail es valido, false en caso contrario. 
      */
@@ -171,10 +177,10 @@ public abstract class Persona implements Comparable<Persona>{
     
     /**
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
-     * <b>inv: </b>
+     * <b>inv:</b> <br>
      * El legajo es distinto de null y de vacio. <br>
      * El nombre es alfanumerico, distinto de null y de vacio. <br>
-     * El domicilio es alfanumerico, distinto de null y de vacio.<br>
+     * El domicilio es alfanumerico, distinto de null y de vacio. <br>
      * El mail cumple la mascara.
      */
     private void verificarInvariante(){

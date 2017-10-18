@@ -6,9 +6,11 @@ import java.util.regex.Pattern;
 
 /**
  * Representa una asignatura junto con sus datos. <br>
- * Debe ser distinta de null y cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9)) <br>
- * El nombre debe ser alfanumerico, diferente de null y de vacio. <br>
- * La lista de correlativas debe ser no nula.
+ * <b>inv:</b> <br>
+ * El legajo cumple con la mascara de asignatura. <br>
+ * El nombre es distinto de null y de vacio. <br>
+ * La lista de correlativas es distinta de null. <br>
+ * La lista de correlativas no contiene a la asignatura misma.
  */
 public class Asignatura implements Comparable<Asignatura>{
     
@@ -33,10 +35,9 @@ public class Asignatura implements Comparable<Asignatura>{
     
     /**
      * Crea una asignatura con sus atributos. <br>
-     * <b>pre: </b> El id es unico.
-     * <b>post: </b> Se crea una asignatura.
-     * @param id Debe cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9))
-     * @param nombre alfanumerico - nombre!=null && nombre!=""
+     * <b>post: </b> Se crea una asignatura. <br>
+     * @param id Debe cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9)) <br>
+     * @param nombre El nombre de la asignatura. Debe ser alfanumerico y no vacio.
      */
     public Asignatura(String id, String nombre) {
         this.id=id;
@@ -81,7 +82,7 @@ public class Asignatura implements Comparable<Asignatura>{
     // -----------------------------------------------------------------
     
     /**
-     * Genera una descripcion textual de la asignatura.
+     * Genera una descripcion textual de la asignatura. <br>
      * @return La descripcion generada.
      */
     public String getDescripcion() {
@@ -105,8 +106,8 @@ public class Asignatura implements Comparable<Asignatura>{
     }
     
     /**
-     * Compara esta asignatura con otra asignatura.
-     * @param o Es la otra asignatura a comparar.
+     * Compara esta asignatura con otra asignatura. <br>
+     * @param o Es la otra asignatura a comparar. <br>
      * @return Devuelve la comparacion entre los Ids de las asignaturas.
      */
     @Override
@@ -173,7 +174,7 @@ public class Asignatura implements Comparable<Asignatura>{
     
     /**
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
-     * <b>inv: </b>
+     * <b>inv:</b> <br>
      * El legajo cumple con la mascara de asignatura. <br>
      * El nombre es distinto de null y de vacio. <br>
      * La lista de correlativas es distinta de null. <br>

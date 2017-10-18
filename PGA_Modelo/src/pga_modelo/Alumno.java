@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 /**
  * Representa un Alumno junto con sus datos. <br>
- * <b>inv: </b> <br>
+ * <b>inv:</b> <br>
  * El legajo cumple con la mascara de alumno. <br>
  * La lista de asignaturas aprobadas es distinta de null. <br>
  * El alumno no posee asignaturas aprobadas para las cuales no cumple con las correlativas correspondientes.
@@ -34,10 +34,10 @@ public class Alumno extends Persona {
     
     /**
      * Crea un alumno con sus atributos. <br>
-     * <b>post: </b> Se crea un Alumno con sus datos correspondientes y una coleccion vacia de asignaturas aprobadas.
-     * @param legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9))
-     * @param nombre es alfanumerico, distinto de null y de vacio.
-     * @param domicilio es alfanumerico, distinto de null y de vacio.
+     * <b>post: </b> Se crea un Alumno con sus datos correspondientes y una coleccion vacia de asignaturas aprobadas. <br>
+     * @param legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9)) <br>
+     * @param nombre es alfanumerico, distinto de null y de vacio. <br>
+     * @param domicilio es alfanumerico, distinto de null y de vacio. <br>
      * @param mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
      */
     public Alumno(String legajo, String nombre, String domicilio, String mail) {
@@ -63,7 +63,7 @@ public class Alumno extends Persona {
     // Metodos
     // -----------------------------------------------------------------
      /**
-      * Genera una descripcion textual del alumno.
+      * Genera una descripcion textual del alumno. <br>
       * @return La descripcion generada.
       */
      public String getDescripcion() {
@@ -144,7 +144,7 @@ public class Alumno extends Persona {
     
     /**
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
-     * <b>inv: </b>
+     * <b>inv:</b> <br>
      * El legajo cumple con la mascara de alumno. <br>
      * La lista de asignaturas aprobadas es distinta de null. <br>
      * El alumno no posee asignaturas aprobadas para las cuales no cumple con las correlativas correspondientes.

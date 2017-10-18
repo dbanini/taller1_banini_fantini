@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 
 /**
  * Representa un profesor junto con sus datos. <br>
- * <b>inv: </b> <br>
- * El atributo legajo debe cumplir la mascara de legajo del profesor (PROXXXX (X 0-9))<br>
- * El atributo telefono debe ser alfanumerico, distinto de null y vacio. <br>
- * La lista de materias participables debe ser distinta de null.
+ * <b>inv:</b> <br>
+ * El legajo cumple con la mascara de profesor. <br>
+ * El telefono es alfanumerico, distinto de null y de vacio.<br>
+ * La lista de asignaturas participables es distinta de null.
  */
 public class Profesor extends Persona {
     
@@ -24,6 +24,9 @@ public class Profesor extends Persona {
     // Constructores
     // -----------------------------------------------------------------
     
+    /**
+     * Constructor vacio.
+     */
     public Profesor() {
         super();
         setLegajo("PRO0000");
@@ -34,12 +37,10 @@ public class Profesor extends Persona {
     
     /**
      * Crea un profesor con sus atributos. <br>
-     * <b>pre: </b> El legajo es unico.
-     * <b>post: </b> Se crea un Profesor con sus datos.
-     * @param legajo debe cumplir la mascara de legajo del profesor (PROXXXX (X 0-9))
-     * @param domicilio alfanumerico - domicilio!=null && domicilio!=""
-     * @param telefono alfanumerico - telefono!=null && telefono!=""
-     * @param mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
+     * @param legajo El legajo del profesor. Debe cumplir la mascara de legajo del profesor PROXXXX (X 0-9) <br>
+     * @param domicilio El domicilio del profesor. Debe ser alfanumerico y no vacio. <br>
+     * @param telefono El telefono del profesor. Debe ser alfanumerico y no vacio. <br>
+     * @param mail El mail del profesor. Debe cumplir la mascara de mail AAAAA@AAAAAA
      */
     public Profesor(String legajo, String nombre, String domicilio, String telefono, String mail) {
         super(legajo, nombre, domicilio, mail);
@@ -75,7 +76,7 @@ public class Profesor extends Persona {
     // -----------------------------------------------------------------
     
      /**
-      * Genera una descripcion textual del alumno.
+      * Genera una descripcion textual del alumno. <br>
       * @return La descripcion generada.
       */
      public String getDescripcion() {
@@ -151,7 +152,7 @@ public class Profesor extends Persona {
     
     /**
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
-     * <b>inv: </b>
+     * <b>inv:</b> <br>
      * El legajo cumple con la mascara de profesor. <br>
      * El telefono es alfanumerico, distinto de null y de vacio.<br>
      * La lista de asignaturas participables es distinta de null.
