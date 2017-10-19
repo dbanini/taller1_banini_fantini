@@ -2005,17 +2005,12 @@ public class Principal extends javax.swing.JFrame {
             
             // Verifica si la nueva cursada se superpone con otras de la misma asignatura.
             ArrayList<Cursada> cursadasDeAsignatura = entidades.buscaCursadasConAsignatura(nuevaCursada.getAsignatura());
-            if (!nuevaCursada.seSuperponeCon(cursadasDeAsignatura)) {
-                entidades.addCursada(nuevaCursada);
+            entidades.addCursada(nuevaCursada);
                 
-                // Agregar y seleccionar en tabla.
-                agregarCursadaTabla(nuevaCursada);
-                int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
-                cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "La nueva cursada no puede ser creada debido a una superposicion de horarios con otra cursada de la misma asignatura.");
-            }
+            // Agregar y seleccionar en tabla.
+            agregarCursadaTabla(nuevaCursada);
+            int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
+            cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
         }
         else {
             JOptionPane.showMessageDialog(this, "Debe existir al menos una asignatura para poder crear una cursada.");
@@ -2360,13 +2355,6 @@ public class Principal extends javax.swing.JFrame {
                     mostrarError("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
                     entradaValida = false;
                 }
-            }
-            
-            // Verificar superposicion para las cursadas de la misma asignatura.
-            ArrayList<Cursada> cursadasAsignatura = entidades.buscaCursadasConAsignatura(nuevaAsignatura);
-            if (cursadaActual.seSuperponeCon(cursadasAsignatura, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
-                mostrarError("No puede ubicarse la cursada en el plazo elegido. Hay superposicion con otras cursadas de la misma asignatura.");
-                entradaValida = false;
             }
             
             // Verificar superposicion para los alumnos.

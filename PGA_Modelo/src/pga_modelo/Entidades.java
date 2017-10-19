@@ -12,7 +12,6 @@ import java.util.TreeSet;
  * La lista de alumnos es distinta de null. <br>
  * La lista de asignaturas es distinta de null. <br>
  * La lista de cursadas es distinta de null. <br>
- * Las cursadas de una misma asignatura no se superponen. <br>
  * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
  * Cada profesor de la coleccion no participa en cursadas que se superponen.
  */
@@ -613,25 +612,6 @@ public class Entidades {
     }
     
     /**
-     * Comprueba que las cursadas de una misma asignatura no se superpongan. <br>
-     * @return True si no existen superposiciones, false en caso contrario.
-     */
-    private boolean cursadasSinSuperposicion() {
-        boolean sinSuperposicion = true;
-        Iterator<Asignatura> ita = asignaturas.iterator();
-        Asignatura asignatura = null;
-        while (ita.hasNext() && sinSuperposicion) {
-            asignatura = ita.next();
-            
-            // Buscar todas las cursadas que corresponden a esta asignatura.
-            ArrayList<Cursada> cursadasEncontradas = buscaCursadasConAsignatura(asignatura);
-            sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
-        }
-        
-        return sinSuperposicion;
-    }
-    
-    /**
      * Comprueba que los alumnos no participen de cursadas superpuestas. <br>
      * @return True si no existen superposiciones, false en caso contrario.
      */
@@ -676,7 +656,6 @@ public class Entidades {
      * La lista de alumnos es distinta de null. <br>
      * La lista de asignaturas es distinta de null. <br>
      * La lista de cursadas es distinta de null. <br>
-     * Las cursadas de una misma asignatura no se superponen. <br>
      * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
      * Cada profesor de la coleccion no participa en cursadas que se superponen.
      */
@@ -685,7 +664,6 @@ public class Entidades {
         assert alumnosEsValido(): "La lista de alumnos es invalida.";
         assert asignaturasEsValido(): "La lista de asignaturas es invalida.";
         assert cursadasEsValido(): "La lista de cursadas es invalida.";
-        assert cursadasSinSuperposicion() : "Hay cursadas de la misma asignatura que se superponen.";
         assert cursadaAlumnosSinSuperposicion() : "Hay alumnos que participan en cursadas superpuestas.";
         assert cursadaProfesoresSinSuperposicion() : "Hay alumnos que participan en cursadas superpuestas.";
     }
