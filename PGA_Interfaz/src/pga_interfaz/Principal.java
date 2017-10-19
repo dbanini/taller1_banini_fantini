@@ -2228,6 +2228,22 @@ public class Principal extends javax.swing.JFrame {
             entradaValida = false;
         }
         else {
+            // Verificar si los alumnos pueden mantenerse en las cursadas de esta asignatura con las nuevas correlativas.
+            Iterator<Cursada> itc = cursadas.iterator();
+            Cursada cursada = null;
+            while (itc.hasNext() && entradaValida) {
+                cursada = itc.next();
+                Iterator<Alumno> ita = cursada.getAlumnos().iterator();
+                Alumno alumno = null;
+                while (ita.hasNext() && entradaValida) {
+                    alumno = ita.next();
+                    if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
+                        mostrarError("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas.");
+                        entradaValida = false;
+                    }
+                }
+            }
+            
             // Verificar si los alumnos pueden seguir teniendo esta asignatura como aprobada con las nuevas correlativas.
             ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaActual);
             Iterator<Alumno> ita = alumnos.iterator();
