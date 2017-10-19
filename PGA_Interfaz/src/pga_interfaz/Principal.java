@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
+import java.util.regex.Pattern;
+
 import javax.swing.ComboBoxModel;
 
 import javax.swing.JButton;
@@ -1972,6 +1974,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cursadaSeleccionarBotonActionPerformed
 
     private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
+        profesoresFiltro.setText("");
+        
         // Crear nuevo profesor en banco de datos.
         Profesor nuevoProfesor = new Profesor();
         nuevoProfesor.setLegajo(entidades.nuevoLegajoProfesor());
@@ -1984,6 +1988,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_profesoresNuevoBotonActionPerformed
 
     private void asignaturasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasNuevoBotonActionPerformed
+        asignaturasFiltro.setText("");
+    
         // Crear nueva asignatura en banco de datos.
         Asignatura nuevaAsignatura = new Asignatura();
         nuevaAsignatura.setId(entidades.nuevoIdAsignatura());
@@ -1998,6 +2004,8 @@ public class Principal extends javax.swing.JFrame {
     private void cursadasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasNuevoBotonActionPerformed
         TreeSet<Asignatura> asignaturas = entidades.getAsignaturas();
         if (!asignaturas.isEmpty()) {
+            cursadasFiltro.setText("");
+            
             // Crear nueva cursada en banco de datos.
             Cursada nuevaCursada = new Cursada();
             nuevaCursada.setId(entidades.nuevoIdCursada());
@@ -2013,7 +2021,7 @@ public class Principal extends javax.swing.JFrame {
             cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
         }
         else {
-            JOptionPane.showMessageDialog(this, "Debe existir al menos una asignatura para poder crear una cursada.");
+            mostrarError("Debe existir al menos una asignatura para poder crear una cursada.");
         }
     }//GEN-LAST:event_cursadasNuevoBotonActionPerformed
     
@@ -2486,6 +2494,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_alumnosBorrarBotonActionPerformed
 
     private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
+        alumnosFiltro.setText("");
+        
         // Crear nuevo alumno en banco de datos.
         Alumno nuevoAlumno = new Alumno();
         nuevoAlumno.setLegajo(entidades.nuevoLegajoAlumno());
@@ -2571,7 +2581,7 @@ public class Principal extends javax.swing.JFrame {
             }
 
             public void actualizarFiltro() {
-                String filtro = field.getText();
+                String filtro = Pattern.quote(field.getText());
                 sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
             }
         });

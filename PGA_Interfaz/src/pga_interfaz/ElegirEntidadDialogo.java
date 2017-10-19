@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.regex.Pattern;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
@@ -205,7 +207,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
             }
     
             public void actualizarFiltro() {
-                String filtro = entidadesFiltro.getText();
+                String filtro = Pattern.quote(entidadesFiltro.getText());
                 sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
             }
         });
