@@ -251,7 +251,7 @@ public class ElegirEntidadDialogo extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_entidadesFiltroActionPerformed
 
-    public void setupTabla(String claveNombre, ArrayList<String> claves, ArrayList<String> nombres, ArrayList<String> descripciones) {
+    public void setupTabla(ArrayList<String> claves, ArrayList<String> nombres, ArrayList<String> descripciones) {
         assert claves.size() == nombres.size() : "El arreglo de claves no tiene la misma cantidad que el de nombres.";
         this.claves = claves;
         this.descripciones = descripciones;

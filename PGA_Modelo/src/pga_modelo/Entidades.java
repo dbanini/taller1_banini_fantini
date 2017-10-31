@@ -31,7 +31,7 @@ public class Entidades {
     // -----------------------------------------------------------------
     
     /**
-     * Constructor vacio.
+     * Constructor vacio utilizado al serializar y al crear una neueva entidad.
      */
     public Entidades() {        
         alumnos = new TreeSet<Alumno>();
@@ -411,7 +411,7 @@ public class Entidades {
         Profesor profesor = null;
         while (it.hasNext()) {
             profesor = it.next();
-            if (profesor.getParticipar().contains(asignatura)) {
+            if (profesor.getHabilitadas().contains(asignatura)) {
                 lista.add(profesor);
             }
         }
@@ -503,7 +503,7 @@ public class Entidades {
         // TODO: Alguna busqueda mas eficiente.
         String legajo = "ALU9999";
         boolean encontrado = false;
-        for (int i = 0; (i < 9999) && !encontrado; i++) {
+        for (int i = 0; (i <= 9999) && !encontrado; i++) {
             legajo = String.format("ALU%04d", i);
             encontrado = buscaAlumnoPorLegajo(legajo) == null;
         }
@@ -518,7 +518,7 @@ public class Entidades {
         // TODO: Alguna busqueda mas eficiente.
         String legajo = "PRO9999";
         boolean encontrado = false;
-        for (int i = 0; (i < 9999) && !encontrado; i++) {
+        for (int i = 0; (i <= 9999) && !encontrado; i++) {
             legajo = String.format("PRO%04d", i);
             encontrado = buscaProfesorPorLegajo(legajo) == null;
         }
@@ -533,7 +533,7 @@ public class Entidades {
         // TODO: Alguna busqueda mas eficiente.
         String id = "ASI9999";
         boolean encontrado = false;
-        for (int i = 0; (i < 9999) && !encontrado; i++) {
+        for (int i = 0; (i <= 9999) && !encontrado; i++) {
             id = String.format("ASI%04d", i);
             encontrado = buscaAsignaturaPorId(id) == null;
         }
@@ -548,7 +548,7 @@ public class Entidades {
         // TODO: Alguna busqueda mas eficiente.
         String id = "CUR9999";
         boolean encontrado = false;
-        for (int i = 0; (i < 9999) && !encontrado; i++) {
+        for (int i = 0; (i <= 9999) && !encontrado; i++) {
             id = String.format("CUR%04d", i);
             encontrado = buscaCursadaPorId(id) == null;
         }

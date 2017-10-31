@@ -24,7 +24,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.SingleSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -32,7 +31,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import pga_modelo.Persona;
@@ -44,7 +42,7 @@ import pga_xml.SerializadorXML;
  * @author Dario
  */
 public class Principal extends javax.swing.JFrame {
-    static final String BANCO_DE_DATOS_PATH = "pga_datos.xml";
+    private static final String BANCO_DE_DATOS_PATH = "pga_datos.xml";
 
     /** Creates new form Principal */
     public Principal() {
@@ -1668,7 +1666,7 @@ public class Principal extends javax.swing.JFrame {
             nombres.add(asignatura.getNombre());
             descripciones.add(asignatura.getDescripcion());
         }
-        dialogo.setupTabla("Id", claves, nombres, descripciones);
+        dialogo.setupTabla(claves, nombres, descripciones);
         
         // Arrancar el dialogo en modo modal.
         dialogo.setVisible(true);
@@ -1713,7 +1711,7 @@ public class Principal extends javax.swing.JFrame {
             nombres.add(alumno.getNombre());
             descripciones.add(alumno.getDescripcion());
         }
-        dialogo.setupTabla("Legajo", claves, nombres, descripciones);
+        dialogo.setupTabla(claves, nombres, descripciones);
         
         // Arrancar el dialogo en modo modal.
         dialogo.setVisible(true);
@@ -1758,7 +1756,7 @@ public class Principal extends javax.swing.JFrame {
             nombres.add(profesor.getNombre());
             descripciones.add(profesor.getDescripcion());
         }
-        dialogo.setupTabla("Legajo", claves, nombres, descripciones);
+        dialogo.setupTabla(claves, nombres, descripciones);
         
         // Arrancar el dialogo en modo modal.
         dialogo.setVisible(true);
@@ -2011,8 +2009,6 @@ public class Principal extends javax.swing.JFrame {
             nuevaCursada.setId(entidades.nuevoIdCursada());
             nuevaCursada.setAsignatura(asignaturas.first());
             
-            // Verifica si la nueva cursada se superpone con otras de la misma asignatura.
-            ArrayList<Cursada> cursadasDeAsignatura = entidades.buscaCursadasConAsignatura(nuevaCursada.getAsignatura());
             entidades.addCursada(nuevaCursada);
                 
             // Agregar y seleccionar en tabla.
@@ -2188,7 +2184,7 @@ public class Principal extends javax.swing.JFrame {
             profesorActual.setDomicilio(nuevoDomicilio);
             profesorActual.setMail(nuevoMail);
             profesorActual.setTelefono(nuevoTelefono);
-            profesorActual.setParticipar(nuevasHabilitadas);
+            profesorActual.setHabilitadas(nuevasHabilitadas);
             
             // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
@@ -2359,7 +2355,7 @@ public class Principal extends javax.swing.JFrame {
             Profesor profesor = null;
             while (itp.hasNext() && entradaValida) {
                 profesor = itp.next();
-                if (!profesor.getParticipar().contains(nuevaAsignatura)) {
+                if (!profesor.getHabilitadas().contains(nuevaAsignatura)) {
                     mostrarError("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
                     entradaValida = false;
                 }
@@ -2723,7 +2719,7 @@ public class Principal extends javax.swing.JFrame {
             profesorDomicilioText.setText(profesorActual.getDomicilio());
             profesorTelefonoText.setText(profesorActual.getTelefono());
             profesorMailText.setText(profesorActual.getMail());
-            Iterator<Asignatura> it = profesorActual.getParticipar().iterator();
+            Iterator<Asignatura> it = profesorActual.getHabilitadas().iterator();
             Asignatura asignatura;
             while (it.hasNext()) {
                 asignatura = it.next();

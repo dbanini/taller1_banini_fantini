@@ -39,7 +39,7 @@ public class Cursada implements Comparable<Cursada>{
     // -----------------------------------------------------------------
     
     /**
-     * Constructor vacio.
+     * Constructor vacio utilizado al serializar y al crear una nueva cursada.
      */
     public Cursada() {
         this.id = "CUR0000";
@@ -131,20 +131,36 @@ public class Cursada implements Comparable<Cursada>{
         return horaFin;
     }
 
+    /**
+     * Se permite la manipulacion directa de la coleccion.
+     * @param profesores es la lista nueva de profesores que participan en la materia.
+     */
     public void setProfesores(TreeSet<Profesor> profesores) {
         this.profesores = profesores;
         verificarInvariante();
     }
 
+    /**
+     * Se permite la manipulacion directa de la coleccion.
+     * @return La lista de profesores que participan en la materia.
+     */
     public TreeSet<Profesor> getProfesores() {
         return profesores;
     }
 
+    /**
+     * Se permite la manipulacion directa de la coleccion.
+     * @param alumnos es la lista nueva de alumnos que estan anotados en la cursada.
+     */
     public void setAlumnos(TreeSet<Alumno> alumnos) {
         this.alumnos = alumnos;
         verificarInvariante();
     }
 
+    /**
+     * Se permite la manipulacion directa de la coleccion.
+     * @return La lista de alumnos que estan anotados en la cursada.
+     */
     public TreeSet<Alumno> getAlumnos() {
         return alumnos;
     }
@@ -153,8 +169,15 @@ public class Cursada implements Comparable<Cursada>{
     // Metodos
     // -----------------------------------------------------------------
     
-    /** 
+    /**
      * Permite modificar la configuracion de la cursada sin provocar errores por el invariante basados en el orden de operaciones.
+     * @param asignatura La nueva asignatura.
+     * @param periodo El nuevo periodo
+     * @param dia El nuevo dia.
+     * @param horaInicio La nueva hora de inicio.
+     * @param horaFin La nueva hora de fin.
+     * @param alumnos Los nuevos alumnos.
+     * @param profesores Los nuevos profesores.
      */
     public void configurar(Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, TreeSet<Alumno> alumnos, TreeSet<Profesor> profesores) {
         this.asignatura = asignatura;
@@ -178,7 +201,11 @@ public class Cursada implements Comparable<Cursada>{
     
     /**
      * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin, para un horario especifico. <br>
-     * @param cursada Cursda con la cual se verifica la superposicion. <br>
+     * @param cursada Es la cursada con la cual se verifica la superposicion. <br>
+     * @param horaInicio Es la hora inicial con la cual se verifica la superposicion. <br>
+     * @param horaFin Es la hora final con la cual se verifica la superposicion. <br>
+     * @param periodo Es el periodo con el cual se verifica la superposicion. <br>
+     * @param dia Es el dia con el cual se verifica la superposicion. <br>
      * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(Cursada cursada, String horaInicio, String horaFin, String periodo, String dia) {
@@ -240,6 +267,7 @@ public class Cursada implements Comparable<Cursada>{
      * El id debe ser distinto de null. <br>
      * El id debe empezar con "CUR" y luego contener 4 caracteres. <br>
      * El id debe terminar con un numero entre 0 y 9999. <br>
+     * @param id El id a validar. <br>
      * @return true si el id es valido, false en caso contrario. 
      */
     static public boolean idEsValido(String id) {
@@ -275,24 +303,28 @@ public class Cursada implements Comparable<Cursada>{
     
     /**
      * Comprueba que el periodo sea valido. <br>
-     * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) y AAAA <br>
+     * El periodo cumple con la mascara de periodo CC-AAAA (CC cursada : 01 o 02) (AAAA anio : entre 1900 y 2100)<br>
+     * @param periodo El periodo a validar. <br>
      * @return true si el periodo es valido, false en caso contrario.
      */
     static public boolean periodoEsValido(String periodo) {
         String auxPeriodo;
         int anio;
     
-        if ((periodo.startsWith("01") || periodo.startsWith("02")) && periodo.contains("-") && periodo.length()==7){
+        if (periodo.length()==7 && (periodo.startsWith("01") || periodo.startsWith("02"))){
             auxPeriodo=periodo.substring(2);
             if (auxPeriodo.startsWith("-")){
                 auxPeriodo=auxPeriodo.substring(1);
-                anio=Integer.parseInt(auxPeriodo);
-                if (anio>1900 && anio<2100)
-                    return true;
+                try{
+                    anio=Integer.parseInt(auxPeriodo);
+                    if (anio>1900 && anio<2100)
+                        return true;
+                } catch(NumberFormatException e){
+                    return false;
+                }
             }
         }
         return false;
-            
     }
     
     /**
@@ -318,7 +350,7 @@ public class Cursada implements Comparable<Cursada>{
 
     /**
      * Comprueba que la hora especificada sea valida. <br>
-     * La hora cumple con la mascara 99:99 (9 : 0-9) <br>
+     * La hora cumple con la mascara XX:YY (XX : 0-24) (YY : 0-60) <br>
      * @param hora La hora a validar. <br>
      * @return true si la hora es valida, false en caso contrario.
      */ 
@@ -326,12 +358,11 @@ public class Cursada implements Comparable<Cursada>{
         String auxHora;
         int horas=0,minutos=0;
         
-        if (hora.contains(":")){
+        if (hora.length()==5 && hora.charAt(2)==':'){
             auxHora=hora.substring(3);
-            
-            minutos=Integer.parseInt(auxHora);
-            auxHora=hora.substring(0,2);
             try{
+                minutos=Integer.parseInt(auxHora);
+                auxHora=hora.substring(0,2);
                 horas=Integer.parseInt(auxHora);
                 if (horas>=0 && horas<24 && minutos>=0 && minutos<60)
                     return true;
@@ -405,7 +436,7 @@ public class Cursada implements Comparable<Cursada>{
             profesor = it.next();
             
             // Verificamos si el profesor esta habilitado a dar la asignatura.
-            if (!profesor.getParticipar().contains(asignatura)) {
+            if (!profesor.getHabilitadas().contains(asignatura)) {
                 habilitados = false;
             }
         }
