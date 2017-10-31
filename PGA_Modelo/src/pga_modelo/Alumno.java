@@ -24,7 +24,7 @@ public class Alumno extends Persona {
     // -----------------------------------------------------------------
     
     /**
-     * Constructor vacio.
+     * Constructor vacio utilizado al serializar y al crear un nuevo alumno.
      */
     public Alumno() {
         super();
@@ -50,12 +50,19 @@ public class Alumno extends Persona {
     // -----------------------------------------------------------------
     // Getters y setters
     // -----------------------------------------------------------------
-
+    /**
+     * Se permite la manipulacion directa de la coleccion.
+     * @param aprobadas es la lista nueva de aprobadas del alumno.
+     */
     public void setAprobadas(ArrayList<Asignatura> aprobadas) {
         this.aprobadas = aprobadas;
         verificarInvariante();
     }
-
+      
+    /**
+     * Se permite la manipulacion directa de la coleccion.
+     * @return Las asignaturas aprobadas del alumno.
+     */
     public ArrayList<Asignatura> getAprobadas() {
         return aprobadas;
     }
@@ -64,7 +71,7 @@ public class Alumno extends Persona {
     // Metodos
     // -----------------------------------------------------------------
      /**
-      * Genera una descripcion textual del alumno. <br>
+      * Genera una descripcion textual del alumno que se utiliza en la interfaz. <br>
       * @return La descripcion generada.
       */
      public String getDescripcion() {
@@ -93,27 +100,25 @@ public class Alumno extends Persona {
      * Comprueba si un legajo es valido. <br>
      * El legajo debe empezar con "ALU" y luego debe contener 4 caracteres. <br>
      * El legajo debe terminar con un numero entre 0 y 9999. <br>
+     * @param legajo el legajo a validar.
      * @return True si el legajo es valido, false en caso contrario. 
      */
     static public boolean legajoEsValido(String legajo){
         int numeroLegajo;
         String auxLegajo;
         
-        if(legajo.startsWith("ALU")){
+        if(legajo.startsWith("ALU") && legajo.length()==7){
             auxLegajo = legajo;
             auxLegajo = auxLegajo.substring(3);
-            if (auxLegajo.length()==4) {
-                try{
-                    numeroLegajo=Integer.parseInt(auxLegajo);
-                    if (numeroLegajo >= 0 && numeroLegajo <= 9999) {
-                        return true;
-                    }
-                } catch (NumberFormatException e) {
-                    return false;
+            try{
+                numeroLegajo=Integer.parseInt(auxLegajo);
+                if (numeroLegajo >= 0 && numeroLegajo <= 9999) {
+                    return true;
                 }
+            } catch (NumberFormatException e) {
+                return false;
             }
         }
-        
         return false;
     }
     

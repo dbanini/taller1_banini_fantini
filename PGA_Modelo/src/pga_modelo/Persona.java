@@ -27,7 +27,7 @@ public abstract class Persona {
     // -----------------------------------------------------------------
     
     /**
-     * Constructor vacio.
+     * Constructor vacio utilizado al serializar y al crear una nueva persona.
      */
     public Persona() {
         this.legajo = "LEG0000";
@@ -92,7 +92,7 @@ public abstract class Persona {
     // -----------------------------------------------------------------
     
      /**
-      * Genera una descripcion textual de la persona. <br>
+      * Genera una descripcion textual de la persona que se utiliza en la interfaz. <br>
       * @return La descripcion generada.
       */
      public String getDescripcion() {
@@ -111,6 +111,7 @@ public abstract class Persona {
     /**
      * Comprueba si un legajo es valido. <br>
      * El legajo debe ser distinto de null y de vacio. <br>
+     * @param legajo el legajo a validar.
      * @return True si el legajo es valido, false en caso contrario. 
      */
     static public boolean legajoEsValido(String legajo) {
@@ -120,6 +121,7 @@ public abstract class Persona {
     /**
      * Comprueba que el nombre sea valido. <br>
      * El atributo nombre debe ser alfanumerico, distinto de null y de vacio. <br>
+     * @param nombre el nombre a validar.
      * @return True si el nombre es valido, false en caso contrario. 
      */
     static public boolean nombreEsValido(String nombre) {
@@ -134,6 +136,7 @@ public abstract class Persona {
     /**
      * Comprueba si un domicilio es valido. <br>
      * El atributo domicilio debe ser alfanumerico, distinto de null y de vacio. <br>
+     * @param domicilio el domicilio a validar.
      * @return True si el domicilio es valido, false en caso contrario. 
      */
     static public boolean domicilioEsValido(String domicilio) {
@@ -149,6 +152,7 @@ public abstract class Persona {
      * Comprueba si un mail es valido. <br>
      * Para ello, si hay arroba y esta es diferente a la posicion 0 y a la ultima del string(no empieza con arroba ni termina) entonces cumple. <br>
      * Si el mail cumple la mascara (AAAAA@AAAAAA) es valido. <br>
+     * @param mail el mail a validar.
      * @return True si el mail es valido, false en caso contrario. 
      */
     static public boolean mailEsValido(String mail) {
@@ -161,7 +165,6 @@ public abstract class Persona {
                     return true;
             }
         }
-        
         return false;
     }
     
