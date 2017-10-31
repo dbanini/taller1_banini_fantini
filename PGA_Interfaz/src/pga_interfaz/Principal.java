@@ -2393,22 +2393,8 @@ public class Principal extends javax.swing.JFrame {
         setCursadaEditable(true);
     }//GEN-LAST:event_cursadaEditarBotonActionPerformed
 
-    private void cursadaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+    private boolean cursadaValidarEntrada(String oldId, String nuevoId, Asignatura nuevaAsignatura, String nuevoPeriodo, String nuevoDia, String nuevaHoraInicio, String nuevaHoraFin, ArrayList<Alumno> nuevosAlumnos, ArrayList<Profesor> nuevosProfesores) {
         boolean entradaValida = true;
-        String oldId = cursadaActual.getId();
-        String nuevoId = cursadaIdText.getText();
-        String nuevaAsignaturaId = cursadaAsignaturaText.getText().substring(0, 7);
-        Asignatura nuevaAsignatura = entidades.buscaAsignaturaPorId(nuevaAsignaturaId);
-        assert nuevaAsignatura != null : "El texto contiene una asignatura inexistente.";
-        String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
-        String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
-        String nuevaHoraInicio = cursadaHoraInicioText.getText();
-        String nuevaHoraFin = cursadaHoraFinText.getText();
-        ArrayList<Alumno> nuevosAlumnos = alumnosDeTabla(cursadaAlumnosTabla);
-        ArrayList<Profesor> nuevosProfesores = profesoresDeTabla(cursadaProfesoresTabla);
-        
-        // Verificar pre-condiciones e invariantes.
         if (!nuevoId.equals(oldId) && !Cursada.idEsValido(nuevoId)) {
             mostrarError("El Id no cumple con la mascara de formato requerida.");
             entradaValida = false;
@@ -2481,6 +2467,24 @@ public class Principal extends javax.swing.JFrame {
             }
         }
         
+        return entradaValida;
+    }
+
+    private void cursadaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        String oldId = cursadaActual.getId();
+        String nuevoId = cursadaIdText.getText();
+        String nuevaAsignaturaId = cursadaAsignaturaText.getText().substring(0, 7);
+        Asignatura nuevaAsignatura = entidades.buscaAsignaturaPorId(nuevaAsignaturaId);
+        assert nuevaAsignatura != null : "El texto contiene una asignatura inexistente.";
+        String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
+        String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
+        String nuevaHoraInicio = cursadaHoraInicioText.getText();
+        String nuevaHoraFin = cursadaHoraFinText.getText();
+        ArrayList<Alumno> nuevosAlumnos = alumnosDeTabla(cursadaAlumnosTabla);
+        ArrayList<Profesor> nuevosProfesores = profesoresDeTabla(cursadaProfesoresTabla);
+        boolean entradaValida = cursadaValidarEntrada(oldId, nuevoId, nuevaAsignatura, nuevoPeriodo, nuevoDia, nuevaHoraInicio, nuevaHoraFin, nuevosAlumnos, nuevosProfesores);
+
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
             cursadaActual.setId(nuevoId);
