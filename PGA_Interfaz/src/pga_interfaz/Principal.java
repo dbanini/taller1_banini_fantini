@@ -2109,13 +2109,6 @@ public class Principal extends javax.swing.JFrame {
             setupCursadas();
         }
         
-        /*
-        if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()) {
-            mostrarError("No puede borrarse la asignatura. Existen cursadas de esta asignatura.");
-            bajaValida = false;
-        }
-*/
-        
         return bajaValida;
     }
 
