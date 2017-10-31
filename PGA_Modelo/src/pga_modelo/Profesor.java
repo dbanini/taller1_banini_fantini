@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -18,7 +19,7 @@ public class Profesor extends Persona {
     // -----------------------------------------------------------------
     
     private String telefono;
-    private TreeSet<Asignatura> participar;
+    private ArrayList<Asignatura> participar;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -31,7 +32,7 @@ public class Profesor extends Persona {
         super();
         setLegajo("PRO0000");
         this.telefono = "0000 000000";
-        participar = new TreeSet<Asignatura>();
+        participar = new ArrayList<Asignatura>();
         verificarInvariante();
     }
     
@@ -45,7 +46,7 @@ public class Profesor extends Persona {
     public Profesor(String legajo, String nombre, String domicilio, String telefono, String mail) {
         super(legajo, nombre, domicilio, mail);
         this.telefono = telefono;
-        participar = new TreeSet<Asignatura>();
+        participar = new ArrayList<Asignatura>();
         verificarInvariante();
     }
 
@@ -62,12 +63,12 @@ public class Profesor extends Persona {
         return telefono;
     }
 
-    public void setParticipar(TreeSet<Asignatura> participar) {
+    public void setParticipar(ArrayList<Asignatura> participar) {
         this.participar = participar;
         verificarInvariante();
     }
 
-    public TreeSet<Asignatura> getParticipar() {
+    public ArrayList<Asignatura> getParticipar() {
         return participar;
     }
 

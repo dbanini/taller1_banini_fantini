@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeSet;
 
 import java.util.regex.Pattern;
 
@@ -1640,6 +1639,10 @@ public class Principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
+    private boolean mostrarPregunta(String mensaje) {
+        return JOptionPane.showConfirmDialog(this, mensaje, "Pregunta", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+    }
+    
     private void setupSubcoleccionTabla(JTable tabla, JButton botonQuitar) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
           {
@@ -1683,8 +1686,8 @@ public class Principal extends javax.swing.JFrame {
         return asignatura;
     }
     
-    private TreeSet<Asignatura> asignaturasDeTabla(JTable tabla) {
-        TreeSet<Asignatura> asignaturas = new TreeSet<Asignatura>();
+    private ArrayList<Asignatura> asignaturasDeTabla(JTable tabla) {
+        ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
         Asignatura asignatura = null;
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         int rowCount = modelo.getRowCount();
@@ -1792,7 +1795,7 @@ public class Principal extends javax.swing.JFrame {
     private void profesorAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAgregarAsigBotonActionPerformed
         Asignatura asignatura = seleccionarAsignaturaDialogo();
         if (asignatura != null) {
-            TreeSet<Asignatura> habilitadas = asignaturasDeTabla(profesorAsigTabla);
+            ArrayList<Asignatura> habilitadas = asignaturasDeTabla(profesorAsigTabla);
             if (habilitadas.contains(asignatura)) {
                 mostrarError("El profesor ya tiene esa asignatura habilitada.");
             }
@@ -1818,7 +1821,7 @@ public class Principal extends javax.swing.JFrame {
     private void asignaturaCorrAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaCorrAgregarBotonActionPerformed
         Asignatura asignatura = seleccionarAsignaturaDialogo();
         if (asignatura != null) {
-            TreeSet<Asignatura> correlativas = asignaturasDeTabla(asignaturaCorrTabla);
+            ArrayList<Asignatura> correlativas = asignaturasDeTabla(asignaturaCorrTabla);
             if (correlativas.contains(asignatura)) {
                 mostrarError("La asignatura ya tiene esa materia como correlativa directa.");
             }
@@ -2151,7 +2154,7 @@ public class Principal extends javax.swing.JFrame {
         String nuevoDomicilio = profesorDomicilioText.getText();
         String nuevoMail = profesorMailText.getText();
         String nuevoTelefono = profesorTelefonoText.getText();
-        TreeSet<Asignatura> nuevasHabilitadas = asignaturasDeTabla(profesorAsigTabla);
+        ArrayList<Asignatura> nuevasHabilitadas = asignaturasDeTabla(profesorAsigTabla);
         
         if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
             entradaValida = false;
@@ -2216,7 +2219,7 @@ public class Principal extends javax.swing.JFrame {
         String oldNombre = asignaturaActual.getNombre();
         String nuevoId = asignaturaIdText.getText();
         String nuevoNombre = asignaturaNombreText.getText();
-        TreeSet<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
+        ArrayList<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
         ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
         
         if (!Asignatura.nombreEsValido(nuevoNombre)) {
@@ -2408,17 +2411,8 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_panelTabsMouseClicked
 
-    private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+    private boolean alumnoValidarEntrada(String oldLegajo, String nuevoLegajo, String nuevoNombre, String nuevoDomicilio, String nuevoMail, ArrayList<Asignatura> nuevasAprobadas) {
         boolean entradaValida = true;
-        String oldLegajo = alumnoActual.getLegajo();
-        String oldNombre = alumnoActual.getNombre();
-        String nuevoLegajo = alumnoLegajoText.getText();
-        String nuevoNombre = alumnoNombreText.getText();
-        String nuevoDomicilio = alumnoDomicilioText.getText();
-        String nuevoMail = alumnoMailText.getText();
-        TreeSet<Asignatura> nuevasAprobadas = asignaturasDeTabla(alumnoAsigTabla);
-
         if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
             entradaValida = false;
         }
@@ -2435,15 +2429,43 @@ public class Principal extends javax.swing.JFrame {
             ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumnoActual);
             Iterator<Cursada> it = cursadasAlumno.iterator();
             Cursada cursada = null;
+            boolean corregirCorrelativas = false;
             while (it.hasNext() && entradaValida) {
                 cursada = it.next();
                 if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
-                    mostrarError("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra.");
-                    entradaValida = false;
+                    if (!corregirCorrelativas) {
+                        if (mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. Quitar al alumno de las cursadas en las que ya no podria participar?")) {
+                            corregirCorrelativas = true;
+                        }
+                        else {
+                            entradaValida = false;
+                        }
+                    }
+                    
+                    if (corregirCorrelativas) {
+                        cursada.getAlumnos().remove(alumnoActual);
+                        if (cursadaActual == cursada) {
+                            setupCursadaAlumnos();
+                        }
+                    }
                 }
             }
         }
+        
+        return entradaValida;
+    }
 
+    private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        String oldLegajo = alumnoActual.getLegajo();
+        String oldNombre = alumnoActual.getNombre();
+        String nuevoLegajo = alumnoLegajoText.getText();
+        String nuevoNombre = alumnoNombreText.getText();
+        String nuevoDomicilio = alumnoDomicilioText.getText();
+        String nuevoMail = alumnoMailText.getText();
+        ArrayList<Asignatura> nuevasAprobadas = asignaturasDeTabla(alumnoAsigTabla);
+        boolean entradaValida = alumnoValidarEntrada(oldLegajo, nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail, nuevasAprobadas);
+        
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
             alumnoActual.setLegajo(nuevoLegajo);
@@ -2519,7 +2541,7 @@ public class Principal extends javax.swing.JFrame {
             // Obtenemos la asignatura seleccionada de la tabla.
             DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
             selectedRow = alumnoAsigTabla.convertRowIndexToModel(selectedRow);
-            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
+            ArrayList<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
             String id = (String) modelo.getValueAt(selectedRow, 0);
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
             assert asignatura != null : "La tabla tiene una asignatura inexistente.";
@@ -2546,7 +2568,7 @@ public class Principal extends javax.swing.JFrame {
     private void alumnoAgregarAsigBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAgregarAsigBotonActionPerformed
         Asignatura asignatura = seleccionarAsignaturaDialogo();
         if (asignatura != null) {
-            TreeSet<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
+            ArrayList<Asignatura> aprobadas = asignaturasDeTabla(alumnoAsigTabla);
             if (aprobadas.contains(asignatura)) {
                 mostrarError("El alumno ya tiene esa asignatura aprobada.");
             }
@@ -2878,16 +2900,37 @@ public class Principal extends javax.swing.JFrame {
         modelo.addRow(new Object[] {cursada.getId(), nombreDeCursada(cursada)});
     }
     
+    void setupCursadaAlumnos() {
+        DefaultTableModel modeloAlum = (DefaultTableModel) cursadaAlumnosTabla.getModel();
+        modeloAlum.setRowCount(0);
+        if (cursadaActual != null) {
+            Iterator<Alumno> it = cursadaActual.getAlumnos().iterator();
+            Alumno alumno;
+            while (it.hasNext()) {
+                alumno = it.next();
+                modeloAlum.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
+            }
+        }
+    }
+    
+    void setupCursadaProfesores() {
+        DefaultTableModel modeloProf = (DefaultTableModel) cursadaProfesoresTabla.getModel();
+        modeloProf.setRowCount(0);
+        if (cursadaActual != null) {
+            Iterator<Profesor> it = cursadaActual.getProfesores().iterator();
+            Profesor profesor;
+            while (it.hasNext()) {
+                profesor = it.next();
+                modeloProf.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
+            }
+        }
+    }
+    
     void setupCursada(Cursada cursada) {
         setCursadaEditable(false);
         boolean cursadaValida = cursada != null;
         cursadaActual = cursada;
         cursadaEditarBoton.setEnabled(cursadaValida);
-        
-        DefaultTableModel modeloAlum = (DefaultTableModel) cursadaAlumnosTabla.getModel();
-        DefaultTableModel modeloProf = (DefaultTableModel) cursadaProfesoresTabla.getModel();
-        modeloAlum.setRowCount(0);
-        modeloProf.setRowCount(0);
         if (cursadaValida) {
             Asignatura asignatura = cursadaActual.getAsignatura();
             cursadaIdText.setText(cursadaActual.getId());
@@ -2897,20 +2940,6 @@ public class Principal extends javax.swing.JFrame {
             cursadaDiaCombo.setSelectedItem(cursadaActual.getDia());
             cursadaHoraInicioText.setText(cursadaActual.getHoraInicio());
             cursadaHoraFinText.setText(cursadaActual.getHoraFin());
-            
-            Iterator<Alumno> ita = cursadaActual.getAlumnos().iterator();
-            Alumno alumno;
-            while (ita.hasNext()) {
-                alumno = ita.next();
-                modeloAlum.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
-            }
-            
-            Iterator<Profesor> itp = cursadaActual.getProfesores().iterator();
-            Profesor profesor;
-            while (itp.hasNext()) {
-                profesor = itp.next();
-                modeloProf.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
-            }
         }
         else {
             cursadaIdText.setText("CUR0000");
@@ -2921,6 +2950,9 @@ public class Principal extends javax.swing.JFrame {
             cursadaHoraFinText.setText("00:00");
             cursadaDiaCombo.setSelectedIndex(0);
         }
+        
+        setupCursadaAlumnos();
+        setupCursadaProfesores();
     }
     
     void setCursadaEditable(boolean editable) {

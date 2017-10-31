@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ public class Asignatura {
     
     private String id;
     private String nombre;
-    private TreeSet<Asignatura> correlativas;
+    private ArrayList<Asignatura> correlativas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -29,7 +30,7 @@ public class Asignatura {
     public Asignatura (){
         this.id = "ASI0000";
         this.nombre = "Nombre";
-        correlativas = new TreeSet<Asignatura>();
+        correlativas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
     
@@ -40,9 +41,9 @@ public class Asignatura {
      * @param nombre El nombre de la asignatura. Debe ser alfanumerico y no vacio.
      */
     public Asignatura(String id, String nombre) {
-        this.id=id;
-        this.nombre=nombre;
-        correlativas= new TreeSet<Asignatura>();
+        this.id = id;
+        this.nombre = nombre;
+        correlativas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
 
@@ -68,12 +69,12 @@ public class Asignatura {
         return nombre;
     }
 
-    public void setCorrelativas(TreeSet<Asignatura> correlativas) {
+    public void setCorrelativas(ArrayList<Asignatura> correlativas) {
         this.correlativas = correlativas;
         verificarInvariante();
     }
 
-    public TreeSet<Asignatura> getCorrelativas() {
+    public ArrayList<Asignatura> getCorrelativas() {
         return correlativas;
     }
     
