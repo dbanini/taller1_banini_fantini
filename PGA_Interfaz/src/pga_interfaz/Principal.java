@@ -23,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.SingleSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -31,7 +30,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import pga_modelo.Persona;
@@ -43,7 +41,7 @@ import pga_xml.SerializadorXML;
  * @author Dario
  */
 public class Principal extends javax.swing.JFrame {
-    static final String BANCO_DE_DATOS_PATH = "pga_datos.xml";
+    private static final String BANCO_DE_DATOS_PATH = "pga_datos.xml";
 
     /** Creates new form Principal */
     public Principal() {
@@ -1193,7 +1191,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaPeriodoLabel.setText("Periodo");
 
-        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom" }));
+        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "MiÃ©", "Jue", "Vie", "Sab", "Dom" }));
         cursadaDiaCombo.setEnabled(false);
 
         cursadaPeriodoACombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02" }));
@@ -1671,7 +1669,7 @@ public class Principal extends javax.swing.JFrame {
             nombres.add(asignatura.getNombre());
             descripciones.add(asignatura.getDescripcion());
         }
-        dialogo.setupTabla("Id", claves, nombres, descripciones);
+        dialogo.setupTabla(claves, nombres, descripciones);
         
         // Arrancar el dialogo en modo modal.
         dialogo.setVisible(true);
@@ -1716,7 +1714,7 @@ public class Principal extends javax.swing.JFrame {
             nombres.add(alumno.getNombre());
             descripciones.add(alumno.getDescripcion());
         }
-        dialogo.setupTabla("Legajo", claves, nombres, descripciones);
+        dialogo.setupTabla(claves, nombres, descripciones);
         
         // Arrancar el dialogo en modo modal.
         dialogo.setVisible(true);
@@ -1761,7 +1759,7 @@ public class Principal extends javax.swing.JFrame {
             nombres.add(profesor.getNombre());
             descripciones.add(profesor.getDescripcion());
         }
-        dialogo.setupTabla("Legajo", claves, nombres, descripciones);
+        dialogo.setupTabla(claves, nombres, descripciones);
         
         // Arrancar el dialogo en modo modal.
         dialogo.setVisible(true);
@@ -2014,8 +2012,6 @@ public class Principal extends javax.swing.JFrame {
             nuevaCursada.setId(entidades.nuevoIdCursada());
             nuevaCursada.setAsignatura(asignaturas.get(0));
             
-            // Verifica si la nueva cursada se superpone con otras de la misma asignatura.
-            ArrayList<Cursada> cursadasDeAsignatura = entidades.buscaCursadasConAsignatura(nuevaCursada.getAsignatura());
             entidades.addCursada(nuevaCursada);
                 
             // Agregar y seleccionar en tabla.
@@ -2062,7 +2058,7 @@ public class Principal extends javax.swing.JFrame {
         boolean corregirCursadas = false;
         while (ita.hasNext() && bajaValida) {
             alumno = ita.next();
-            corregirAlumnos = corregirAlumnos || mostrarPregunta("No puede borrarse la asignatura porque hay alumnos que la tienen en su lista de aprobadas. ¿Desea quitar la aprobacion de dichos alumnos?");
+            corregirAlumnos = corregirAlumnos || mostrarPregunta("No puede borrarse la asignatura porque hay alumnos que la tienen en su lista de aprobadas. Â¿Desea quitar la aprobacion de dichos alumnos?");
             bajaValida = corregirAlumnos;
             if (corregirAlumnos) {
                 alumno.getAprobadas().remove(asignaturaBaja);
@@ -2074,10 +2070,10 @@ public class Principal extends javax.swing.JFrame {
         
         while (itp.hasNext() && bajaValida) {
             profesor = itp.next();
-            corregirProfesores = corregirProfesores || mostrarPregunta("No puede borrarse la asignatura porque hay profesores que la tienen en su lista de habilitadas. ¿Desea quitar la habilitacion de dichos profesores?");
+            corregirProfesores = corregirProfesores || mostrarPregunta("No puede borrarse la asignatura porque hay profesores que la tienen en su lista de habilitadas. Â¿Desea quitar la habilitacion de dichos profesores?");
             bajaValida = corregirProfesores;
             if (corregirProfesores) {
-                profesor.getParticipar().remove(asignaturaBaja);
+                profesor.getHabilitadas().remove(asignaturaBaja);
                 if (profesor == profesorActual) {
                     setupProfesorHabilitadas();
                 }
@@ -2086,7 +2082,7 @@ public class Principal extends javax.swing.JFrame {
         
         while (itas.hasNext() && bajaValida) {
             asignatura = itas.next();
-            corregirAsignaturas = corregirAsignaturas || mostrarPregunta("No puede borrarse la asignatura porque hay asignaturas que la tienen en su lista de correlativas. ¿Desea quitar la correlatividad de dichas asignaturas?");
+            corregirAsignaturas = corregirAsignaturas || mostrarPregunta("No puede borrarse la asignatura porque hay asignaturas que la tienen en su lista de correlativas. Â¿Desea quitar la correlatividad de dichas asignaturas?");
             bajaValida = corregirAsignaturas;
             if (corregirAsignaturas) {
                 asignatura.getCorrelativas().remove(asignaturaBaja);
@@ -2098,7 +2094,7 @@ public class Principal extends javax.swing.JFrame {
         
         while (itc.hasNext() && bajaValida) {
             cursada = itc.next();
-            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse la asignatura porque existen cursadas de ella. ¿Desea borrar dichas cursadas?");
+            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse la asignatura porque existen cursadas de ella. Â¿Desea borrar dichas cursadas?");
             bajaValida = corregirCursadas;
             if (corregirCursadas) {
                 entidades.removeCursada(cursada);
@@ -2223,7 +2219,7 @@ public class Principal extends javax.swing.JFrame {
             while (it.hasNext() && entradaValida) {
                 cursada = it.next();
                 if (!nuevasHabilitadas.contains(cursada.getAsignatura())) {
-                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra. ¿Desea quitar al profesor de las cursadas en las que ya no podria participar?");
+                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra. Â¿Desea quitar al profesor de las cursadas en las que ya no podria participar?");
                     entradaValida = corregirCursadas;
                     if (corregirCursadas) {
                         cursada.getProfesores().remove(profesorActual);
@@ -2257,7 +2253,7 @@ public class Principal extends javax.swing.JFrame {
             profesorActual.setDomicilio(nuevoDomicilio);
             profesorActual.setMail(nuevoMail);
             profesorActual.setTelefono(nuevoTelefono);
-            profesorActual.setParticipar(nuevasHabilitadas);
+            profesorActual.setHabilitadas(nuevasHabilitadas);
             
             // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
             if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
@@ -2306,7 +2302,7 @@ public class Principal extends javax.swing.JFrame {
                 while (ita.hasNext() && entradaValida) {
                     alumno = ita.next();
                     if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                        corregirCursadas = corregirCursadas || mostrarPregunta("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas. ¿Desea quitar la participacion de estos alumnos de dichas cursadas?");
+                        corregirCursadas = corregirCursadas || mostrarPregunta("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas. Â¿Desea quitar la participacion de estos alumnos de dichas cursadas?");
                         entradaValida = corregirCursadas;
                         if (corregirCursadas) {
                             alumnosQuitados.add(alumno);
@@ -2330,7 +2326,7 @@ public class Principal extends javax.swing.JFrame {
             while (ita.hasNext() && entradaValida) {
                 alumno = ita.next();
                 if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                    corregirAlumnos = corregirAlumnos || mostrarPregunta("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas. ¿Desea quitar la aprobacion de esta asignatura de dichos alumnos?");
+                    corregirAlumnos = corregirAlumnos || mostrarPregunta("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas. Â¿Desea quitar la aprobacion de esta asignatura de dichos alumnos?");
                     entradaValida = corregirAlumnos;
                     if (corregirAlumnos) {
                         alumno.getAprobadas().remove(asignaturaActual);
@@ -2440,7 +2436,7 @@ public class Principal extends javax.swing.JFrame {
             Profesor profesor = null;
             while (itp.hasNext() && entradaValida) {
                 profesor = itp.next();
-                if (!profesor.getParticipar().contains(nuevaAsignatura)) {
+                if (!profesor.getHabilitadas().contains(nuevaAsignatura)) {
                     mostrarError("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
                     entradaValida = false;
                 }
@@ -2528,7 +2524,7 @@ public class Principal extends javax.swing.JFrame {
             while (it.hasNext() && entradaValida) {
                 cursada = it.next();
                 if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
-                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. ¿Desea quitar al alumno de las cursadas en las que ya no podria participar?");
+                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. Â¿Desea quitar al alumno de las cursadas en las que ya no podria participar?");
                     entradaValida = corregirCursadas;
                     if (corregirCursadas) {
                         cursada.getAlumnos().remove(alumnoActual);
@@ -2830,7 +2826,7 @@ public class Principal extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
         modelo.setRowCount(0);
         if (profesorActual != null) {
-            Iterator<Asignatura> it = profesorActual.getParticipar().iterator();
+            Iterator<Asignatura> it = profesorActual.getHabilitadas().iterator();
             Asignatura asignatura;
             while (it.hasNext()) {
                 asignatura = it.next();
