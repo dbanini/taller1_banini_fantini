@@ -177,11 +177,11 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -1191,7 +1191,7 @@ public class Principal extends javax.swing.JFrame {
 
         cursadaPeriodoLabel.setText("Periodo");
 
-        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "MiÃ©", "Jue", "Vie", "Sab", "Dom" }));
+        cursadaDiaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom" }));
         cursadaDiaCombo.setEnabled(false);
 
         cursadaPeriodoACombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02" }));
