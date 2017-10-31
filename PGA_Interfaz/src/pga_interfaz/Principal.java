@@ -2277,16 +2277,8 @@ public class Principal extends javax.swing.JFrame {
         setAsignaturaEditable(true);
     }//GEN-LAST:event_asignaturaEditarBotonActionPerformed
 
-    private void asignaturaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+    private boolean validarAsignaturaEntrada(String oldId, String nuevoId, String nuevoNombre, ArrayList<Asignatura> nuevasCorrelativas) {
         boolean entradaValida = true;
-        String oldId = asignaturaActual.getId();
-        String oldNombre = asignaturaActual.getNombre();
-        String nuevoId = asignaturaIdText.getText();
-        String nuevoNombre = asignaturaNombreText.getText();
-        ArrayList<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
-        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
-        
         if (!Asignatura.nombreEsValido(nuevoNombre)) {
             mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
             entradaValida = false;
@@ -2301,17 +2293,31 @@ public class Principal extends javax.swing.JFrame {
         }
         else {
             // Verificar si los alumnos pueden mantenerse en las cursadas de esta asignatura con las nuevas correlativas.
+            ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
             Iterator<Cursada> itc = cursadas.iterator();
+            ArrayList<Alumno> alumnosQuitados = new ArrayList<Alumno>();
             Cursada cursada = null;
+            boolean corregirCursadas = false;
             while (itc.hasNext() && entradaValida) {
+                alumnosQuitados.clear();
                 cursada = itc.next();
                 Iterator<Alumno> ita = cursada.getAlumnos().iterator();
                 Alumno alumno = null;
                 while (ita.hasNext() && entradaValida) {
                     alumno = ita.next();
                     if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                        mostrarError("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas.");
-                        entradaValida = false;
+                        corregirCursadas = corregirCursadas || mostrarPregunta("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas. ¿Desea quitar la participacion de estos alumnos de dichas cursadas?");
+                        entradaValida = corregirCursadas;
+                        if (corregirCursadas) {
+                            alumnosQuitados.add(alumno);
+                        }
+                    }
+                }
+                
+                if (!alumnosQuitados.isEmpty()) {
+                    cursada.getAlumnos().removeAll(alumnosQuitados);
+                    if (cursada == cursadaActual) {
+                        setupCursadaAlumnos();
                     }
                 }
             }
@@ -2320,14 +2326,33 @@ public class Principal extends javax.swing.JFrame {
             ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaActual);
             Iterator<Alumno> ita = alumnos.iterator();
             Alumno alumno = null;
+            boolean corregirAlumnos = false;
             while (ita.hasNext() && entradaValida) {
                 alumno = ita.next();
                 if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                    mostrarError("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas.");
-                    entradaValida = false;
+                    corregirAlumnos = corregirAlumnos || mostrarPregunta("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas. ¿Desea quitar la aprobacion de esta asignatura de dichos alumnos?");
+                    entradaValida = corregirAlumnos;
+                    if (corregirAlumnos) {
+                        alumno.getAprobadas().remove(asignaturaActual);
+                        if (alumno == alumnoActual) {
+                            setupAlumnoAprobadas();
+                        }
+                    }
                 }
             }
         }
+        
+        return entradaValida;
+    }
+
+    private void asignaturaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        String oldId = asignaturaActual.getId();
+        String oldNombre = asignaturaActual.getNombre();
+        String nuevoId = asignaturaIdText.getText();
+        String nuevoNombre = asignaturaNombreText.getText();
+        ArrayList<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
+        boolean entradaValida = validarAsignaturaEntrada(oldId, nuevoId, nuevoNombre, nuevasCorrelativas);
         
         // Copiar los datos si las condiciones se han cumplido.
         if (entradaValida) {
@@ -2347,6 +2372,7 @@ public class Principal extends javax.swing.JFrame {
                 
                 // FIXME Es un doble loop medio ineficiente, pero no es una operacion frecuente. Necesario porque el
                 // nombre de la cursada es autogenerado a partir del de la asignatura.
+                ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
                 Iterator<Cursada> it = cursadas.iterator();
                 Cursada cursada = null;
                 while (it.hasNext()) {
