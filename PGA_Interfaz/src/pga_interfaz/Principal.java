@@ -1728,8 +1728,8 @@ public class Principal extends javax.swing.JFrame {
         return alumno;
     }
     
-    private TreeSet<Alumno> alumnosDeTabla(JTable tabla) {
-        TreeSet<Alumno> alumnos = new TreeSet<Alumno>();
+    private ArrayList<Alumno> alumnosDeTabla(JTable tabla) {
+        ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
         Alumno alumno = null;
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         int rowCount = modelo.getRowCount();
@@ -1773,8 +1773,8 @@ public class Principal extends javax.swing.JFrame {
         return profesor;
     }
     
-    private TreeSet<Profesor> profesoresDeTabla(JTable tabla) {
-        TreeSet<Profesor> profesores = new TreeSet<Profesor>();
+    private ArrayList<Profesor> profesoresDeTabla(JTable tabla) {
+        ArrayList<Profesor> profesores = new ArrayList<Profesor>();
         Profesor profesor = null;
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         int rowCount = modelo.getRowCount();
@@ -1860,7 +1860,7 @@ public class Principal extends javax.swing.JFrame {
     private void cursadaProfAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaProfAgregarBotonActionPerformed
         Profesor profesor = seleccionarProfesorDialogo();
         if (profesor != null) {
-            TreeSet<Profesor> profesores = profesoresDeTabla(cursadaProfesoresTabla);
+            ArrayList<Profesor> profesores = profesoresDeTabla(cursadaProfesoresTabla);
             if (profesores.contains(profesor)) {
                 mostrarError("El profesor ya se encuentra en la cursada.");
             }
@@ -1885,7 +1885,7 @@ public class Principal extends javax.swing.JFrame {
     private void cursadaAlumAgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAlumAgregarBotonActionPerformed
         Alumno alumno = seleccionarAlumnoDialogo();
         if (alumno != null) {
-            TreeSet<Alumno> alumnos = alumnosDeTabla(cursadaAlumnosTabla);
+            ArrayList<Alumno> alumnos = alumnosDeTabla(cursadaAlumnosTabla);
             if (alumnos.contains(alumno)) {
                 mostrarError("El alumno ya se encuentra en la cursada.");
             }
@@ -2002,14 +2002,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_asignaturasNuevoBotonActionPerformed
 
     private void cursadasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasNuevoBotonActionPerformed
-        TreeSet<Asignatura> asignaturas = entidades.getAsignaturas();
+        ArrayList<Asignatura> asignaturas = entidades.getAsignaturas();
         if (!asignaturas.isEmpty()) {
             cursadasFiltro.setText("");
             
             // Crear nueva cursada en banco de datos.
             Cursada nuevaCursada = new Cursada();
             nuevaCursada.setId(entidades.nuevoIdCursada());
-            nuevaCursada.setAsignatura(asignaturas.first());
+            nuevaCursada.setAsignatura(asignaturas.get(0));
             
             // Verifica si la nueva cursada se superpone con otras de la misma asignatura.
             ArrayList<Cursada> cursadasDeAsignatura = entidades.buscaCursadasConAsignatura(nuevaCursada.getAsignatura());
@@ -2114,6 +2114,7 @@ public class Principal extends javax.swing.JFrame {
         else if (!Persona.mailEsValido(mail)) {
             mostrarError("El mail no es valido. Debe respetar la mascara de mail.");
             entradaValida = false;
+            
         }
         
         return entradaValida;
@@ -2310,8 +2311,8 @@ public class Principal extends javax.swing.JFrame {
         String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
         String nuevaHoraInicio = cursadaHoraInicioText.getText();
         String nuevaHoraFin = cursadaHoraFinText.getText();
-        TreeSet<Alumno> nuevosAlumnos = alumnosDeTabla(cursadaAlumnosTabla);
-        TreeSet<Profesor> nuevosProfesores = profesoresDeTabla(cursadaProfesoresTabla);
+        ArrayList<Alumno> nuevosAlumnos = alumnosDeTabla(cursadaAlumnosTabla);
+        ArrayList<Profesor> nuevosProfesores = profesoresDeTabla(cursadaProfesoresTabla);
         
         // Verificar pre-condiciones e invariantes.
         if (!nuevoId.equals(oldId) && !Cursada.idEsValido(nuevoId)) {

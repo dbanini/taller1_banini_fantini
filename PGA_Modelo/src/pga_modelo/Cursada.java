@@ -19,7 +19,7 @@ import java.util.TreeSet;
  * Los alumnos que participan de la cursada cumplen con las correlatividades de la asignatura. <br>
  * Los profesores que participan de la cursada estan habilitados a dar la asignatura.
  */
-public class Cursada implements Comparable<Cursada>{
+public class Cursada {
     
     // -----------------------------------------------------------------
     // Atributos
@@ -31,8 +31,8 @@ public class Cursada implements Comparable<Cursada>{
     private String dia;
     private String horaInicio;
     private String horaFin;
-    private TreeSet<Profesor> profesores;
-    private TreeSet<Alumno> alumnos;
+    private ArrayList<Profesor> profesores;
+    private ArrayList<Alumno> alumnos;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -48,8 +48,8 @@ public class Cursada implements Comparable<Cursada>{
         this.dia = "Dom";
         this.horaInicio = "00:00";
         this.horaFin = "23:59";
-        profesores = new TreeSet<Profesor>();
-        alumnos = new TreeSet<Alumno>();
+        profesores = new ArrayList<Profesor>();
+        alumnos = new ArrayList<Alumno>();
         verificarInvariante();
     }
     
@@ -68,8 +68,8 @@ public class Cursada implements Comparable<Cursada>{
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
-        profesores = new TreeSet<Profesor>();
-        alumnos = new TreeSet<Alumno>();
+        profesores = new ArrayList<Profesor>();
+        alumnos = new ArrayList<Alumno>();
         verificarInvariante();
     }
 
@@ -131,21 +131,21 @@ public class Cursada implements Comparable<Cursada>{
         return horaFin;
     }
 
-    public void setProfesores(TreeSet<Profesor> profesores) {
+    public void setProfesores(ArrayList<Profesor> profesores) {
         this.profesores = profesores;
         verificarInvariante();
     }
 
-    public TreeSet<Profesor> getProfesores() {
+    public ArrayList<Profesor> getProfesores() {
         return profesores;
     }
 
-    public void setAlumnos(TreeSet<Alumno> alumnos) {
+    public void setAlumnos(ArrayList<Alumno> alumnos) {
         this.alumnos = alumnos;
         verificarInvariante();
     }
 
-    public TreeSet<Alumno> getAlumnos() {
+    public ArrayList<Alumno> getAlumnos() {
         return alumnos;
     }
 
@@ -156,7 +156,7 @@ public class Cursada implements Comparable<Cursada>{
     /** 
      * Permite modificar la configuracion de la cursada sin provocar errores por el invariante basados en el orden de operaciones.
      */
-    public void configurar(Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, TreeSet<Alumno> alumnos, TreeSet<Profesor> profesores) {
+    public void configurar(Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, ArrayList<Alumno> alumnos, ArrayList<Profesor> profesores) {
         this.asignatura = asignatura;
         this.periodo = periodo;
         this.dia = dia;
@@ -219,16 +219,6 @@ public class Cursada implements Comparable<Cursada>{
         }
         
         return conSuperposicion;
-    }
-    
-    /**
-     * Compara esta cursada con otra cursada para su ordenamiento. <br>
-     * @param o La otra cursada a comparar. <br>
-     * @return Resultado numerico de la comparacion lexicografica entre Ids.
-     */
-    @Override
-    public int compareTo(Cursada o) {
-        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------

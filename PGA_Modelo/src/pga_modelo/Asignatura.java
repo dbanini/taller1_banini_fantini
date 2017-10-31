@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * La lista de correlativas es distinta de null. <br>
  * La lista de correlativas no contiene a la asignatura misma.
  */
-public class Asignatura implements Comparable<Asignatura>{
+public class Asignatura {
     
     // -----------------------------------------------------------------
     // Atributos
@@ -103,16 +103,6 @@ public class Asignatura implements Comparable<Asignatura>{
         }
         
         return string;
-    }
-    
-    /**
-     * Compara esta asignatura con otra asignatura. <br>
-     * @param o Es la otra asignatura a comparar. <br>
-     * @return Devuelve la comparacion entre los Ids de las asignaturas.
-     */
-    @Override
-    public int compareTo(Asignatura o) {
-        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------
