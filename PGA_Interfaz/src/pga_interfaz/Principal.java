@@ -2144,18 +2144,8 @@ public class Principal extends javax.swing.JFrame {
         setProfesorEditable(true);
     }//GEN-LAST:event_profesorEditarBotonActionPerformed
 
-    private void profesorAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+    private boolean profesorValidarEntrada(String oldLegajo, String nuevoLegajo, String nuevoNombre, String nuevoDomicilio, String nuevoMail, String nuevoTelefono, ArrayList<Asignatura> nuevasHabilitadas) {
         boolean entradaValida = true;
-        String oldLegajo = profesorActual.getLegajo();
-        String oldNombre = profesorActual.getNombre();
-        String nuevoLegajo = profesorLegajoText.getText();
-        String nuevoNombre = profesorNombreText.getText();
-        String nuevoDomicilio = profesorDomicilioText.getText();
-        String nuevoMail = profesorMailText.getText();
-        String nuevoTelefono = profesorTelefonoText.getText();
-        ArrayList<Asignatura> nuevasHabilitadas = asignaturasDeTabla(profesorAsigTabla);
-        
         if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
             entradaValida = false;
         }
@@ -2176,14 +2166,36 @@ public class Principal extends javax.swing.JFrame {
             ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(profesorActual);
             Iterator<Cursada> it = cursadasProfesor.iterator();
             Cursada cursada = null;
+            boolean corregirCursadas = false;
             while (it.hasNext() && entradaValida) {
                 cursada = it.next();
                 if (!nuevasHabilitadas.contains(cursada.getAsignatura())) {
-                    mostrarError("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra.");
-                    entradaValida = false;
+                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra. ¿Desea quitar al profesor de las cursadas en las que ya no podria participar?");
+                    entradaValida = corregirCursadas;
+                    if (corregirCursadas) {
+                        cursada.getProfesores().remove(profesorActual);
+                        if (cursadaActual == cursada) {
+                            setupCursadaProfesores();
+                        }
+                    }
                 }
             }
         }
+        
+        return entradaValida;
+    }
+
+    private void profesorAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAceptarBotonActionPerformed
+        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
+        String oldLegajo = profesorActual.getLegajo();
+        String oldNombre = profesorActual.getNombre();
+        String nuevoLegajo = profesorLegajoText.getText();
+        String nuevoNombre = profesorNombreText.getText();
+        String nuevoDomicilio = profesorDomicilioText.getText();
+        String nuevoMail = profesorMailText.getText();
+        String nuevoTelefono = profesorTelefonoText.getText();
+        ArrayList<Asignatura> nuevasHabilitadas = asignaturasDeTabla(profesorAsigTabla);
+        boolean entradaValida = profesorValidarEntrada(oldLegajo, nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail, nuevoTelefono, nuevasHabilitadas);
         
         // Copiar los datos si las precondiciones se han cumplido.
         if (entradaValida) {
@@ -2429,20 +2441,13 @@ public class Principal extends javax.swing.JFrame {
             ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumnoActual);
             Iterator<Cursada> it = cursadasAlumno.iterator();
             Cursada cursada = null;
-            boolean corregirCorrelativas = false;
+            boolean corregirCursadas = false;
             while (it.hasNext() && entradaValida) {
                 cursada = it.next();
                 if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
-                    if (!corregirCorrelativas) {
-                        if (mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. Quitar al alumno de las cursadas en las que ya no podria participar?")) {
-                            corregirCorrelativas = true;
-                        }
-                        else {
-                            entradaValida = false;
-                        }
-                    }
-                    
-                    if (corregirCorrelativas) {
+                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. ¿Desea quitar al alumno de las cursadas en las que ya no podria participar?");
+                    entradaValida = corregirCursadas;
+                    if (corregirCursadas) {
                         cursada.getAlumnos().remove(alumnoActual);
                         if (cursadaActual == cursada) {
                             setupCursadaAlumnos();
