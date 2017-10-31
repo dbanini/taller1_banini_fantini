@@ -327,7 +327,7 @@ public class Cursada {
         switch (dia){
         case "Lun":
         case "Mar":
-        case "MiÃ©":
+        case "Mié":
         case "Jue":
         case "Vie":
         case "Sab":
