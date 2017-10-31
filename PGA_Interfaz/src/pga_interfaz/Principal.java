@@ -2042,6 +2042,83 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cursadasBorrarBotonActionPerformed
 
+    private boolean asignaturaValidarBaja(Asignatura asignaturaBaja) {
+        boolean bajaValida = true;
+        ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaBaja);
+        ArrayList<Profesor> profesores = entidades.buscaProfesoresConAsignatura(asignaturaBaja);
+        ArrayList<Asignatura> asignaturas = entidades.buscaAsignaturasConCorrelativa(asignaturaBaja);
+        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaBaja);
+        Iterator<Alumno> ita = alumnos.iterator();
+        Iterator<Profesor> itp = profesores.iterator();
+        Iterator<Asignatura> itas = asignaturas.iterator();
+        Iterator<Cursada> itc = cursadas.iterator();
+        Alumno alumno = null;
+        Profesor profesor = null;
+        Asignatura asignatura = null;
+        Cursada cursada = null;
+        boolean corregirAlumnos = false;
+        boolean corregirProfesores = false;
+        boolean corregirAsignaturas = false;
+        boolean corregirCursadas = false;
+        while (ita.hasNext() && bajaValida) {
+            alumno = ita.next();
+            corregirAlumnos = corregirAlumnos || mostrarPregunta("No puede borrarse la asignatura porque hay alumnos que la tienen en su lista de aprobadas. ¿Desea quitar la aprobacion de dichos alumnos?");
+            bajaValida = corregirAlumnos;
+            if (corregirAlumnos) {
+                alumno.getAprobadas().remove(asignaturaBaja);
+                if (alumno == alumnoActual) {
+                    setupAlumnoAprobadas();
+                }
+            }
+        }
+        
+        while (itp.hasNext() && bajaValida) {
+            profesor = itp.next();
+            corregirProfesores = corregirProfesores || mostrarPregunta("No puede borrarse la asignatura porque hay profesores que la tienen en su lista de habilitadas. ¿Desea quitar la habilitacion de dichos profesores?");
+            bajaValida = corregirProfesores;
+            if (corregirProfesores) {
+                profesor.getParticipar().remove(asignaturaBaja);
+                if (profesor == profesorActual) {
+                    setupProfesorHabilitadas();
+                }
+            }
+        }
+        
+        while (itas.hasNext() && bajaValida) {
+            asignatura = itas.next();
+            corregirAsignaturas = corregirAsignaturas || mostrarPregunta("No puede borrarse la asignatura porque hay asignaturas que la tienen en su lista de correlativas. ¿Desea quitar la correlatividad de dichas asignaturas?");
+            bajaValida = corregirAsignaturas;
+            if (corregirAsignaturas) {
+                asignatura.getCorrelativas().remove(asignaturaBaja);
+                if (asignatura == asignaturaActual) {
+                    setupAsignaturaCorrelativas();
+                }
+            }
+        }
+        
+        while (itc.hasNext() && bajaValida) {
+            cursada = itc.next();
+            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse la asignatura porque existen cursadas de ella. ¿Desea borrar dichas cursadas?");
+            bajaValida = corregirCursadas;
+            if (corregirCursadas) {
+                entidades.removeCursada(cursada);
+            }
+        }
+        
+        if (corregirCursadas) {
+            setupCursadas();
+        }
+        
+        /*
+        if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()) {
+            mostrarError("No puede borrarse la asignatura. Existen cursadas de esta asignatura.");
+            bajaValida = false;
+        }
+*/
+        
+        return bajaValida;
+    }
+
     private void asignaturasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasBorrarBotonActionPerformed
         ListSelectionModel lsm = asignaturasTabla.getSelectionModel();
         int selectedRow = lsm.getMinSelectionIndex();
@@ -2051,24 +2128,7 @@ public class Principal extends javax.swing.JFrame {
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
             assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
             
-            boolean operacionValida = true;
-            if (!entidades.buscaAlumnosConAsignatura(asignatura).isEmpty()) {
-                mostrarError("No puede borrarse la asignatura. Hay alumnos que la tienen en su lista de aprobadas.");
-                operacionValida = false;
-            }
-            else if (!entidades.buscaProfesoresConAsignatura(asignatura).isEmpty()) {
-                mostrarError("No puede borrarse la asignatura. Hay profesores que la tienen en su lista de habilitadas.");
-                operacionValida = false;
-            }
-            else if (!entidades.buscaAsignaturasConCorrelativa(asignatura).isEmpty()) {
-                mostrarError("No puede borrarse la asignatura. Hay asignaturas que la tienen en su lista de correlativas.");
-                operacionValida = false;
-            }
-            else if (!entidades.buscaCursadasConAsignatura(asignatura).isEmpty()) {
-                mostrarError("No puede borrarse la asignatura. Existen cursadas de esta asignatura.");
-                operacionValida = false;
-            }
-            
+            boolean operacionValida = asignaturaValidarBaja(asignatura);
             if (operacionValida) {
                 entidades.removeAsignatura(asignatura);
                 DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
@@ -2616,7 +2676,7 @@ public class Principal extends javax.swing.JFrame {
         
         tabla.getRowSorter().toggleSortOrder(0);
     }
-
+    
     private void setupAlumnosTabla() {
         // Crear listener para la tabla de alumnos.
         alumnosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener()
@@ -2656,19 +2716,10 @@ public class Principal extends javax.swing.JFrame {
         modelo.addRow(new Object[] {alumno.getLegajo(), alumno.getNombre()});
     }
     
-    void setupAlumno(Alumno alumno) {
-        setAlumnoEditable(false);
-        boolean alumnoValido = alumno != null;
-        alumnoActual = alumno;
-        alumnoEditarBoton.setEnabled(alumnoValido);
-        
+    private void setupAlumnoAprobadas() {
         DefaultTableModel modelo = (DefaultTableModel) alumnoAsigTabla.getModel();
         modelo.setRowCount(0);
-        if (alumnoValido) {
-            alumnoLegajoText.setText(alumnoActual.getLegajo());
-            alumnoNombreText.setText(alumnoActual.getNombre());
-            alumnoDomicilioText.setText(alumnoActual.getDomicilio());
-            alumnoMailText.setText(alumnoActual.getMail());
+        if (alumnoActual != null) {
             Iterator<Asignatura> it = alumnoActual.getAprobadas().iterator();
             Asignatura asignatura;
             while (it.hasNext()) {
@@ -2676,12 +2727,27 @@ public class Principal extends javax.swing.JFrame {
                 modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
             }
         }
+    }
+    
+    void setupAlumno(Alumno alumno) {
+        setAlumnoEditable(false);
+        boolean alumnoValido = alumno != null;
+        alumnoActual = alumno;
+        alumnoEditarBoton.setEnabled(alumnoValido);
+        if (alumnoValido) {
+            alumnoLegajoText.setText(alumnoActual.getLegajo());
+            alumnoNombreText.setText(alumnoActual.getNombre());
+            alumnoDomicilioText.setText(alumnoActual.getDomicilio());
+            alumnoMailText.setText(alumnoActual.getMail());
+        }
         else {
             alumnoLegajoText.setText("ALU0000");
             alumnoNombreText.setText("");
             alumnoDomicilioText.setText("");
             alumnoMailText.setText("");
         }
+        
+        setupAlumnoAprobadas();
     }
     
     void setAlumnoEditable(boolean editable) {
@@ -2737,26 +2803,30 @@ public class Principal extends javax.swing.JFrame {
         modelo.addRow(new Object[] {profesor.getLegajo(), profesor.getNombre()});
     }
     
-    private void setupProfesor(Profesor profesor) {
-        setProfesorEditable(false);
-        boolean profesorValido = profesor != null;
-        profesorActual = profesor;
-        profesorEditarBoton.setEnabled(profesorValido);
-        
+    private void setupProfesorHabilitadas() {
         DefaultTableModel modelo = (DefaultTableModel) profesorAsigTabla.getModel();
         modelo.setRowCount(0);
-        if (profesorValido) {
-            profesorLegajoText.setText(profesorActual.getLegajo());
-            profesorNombreText.setText(profesorActual.getNombre());
-            profesorDomicilioText.setText(profesorActual.getDomicilio());
-            profesorTelefonoText.setText(profesorActual.getTelefono());
-            profesorMailText.setText(profesorActual.getMail());
+        if (profesorActual != null) {
             Iterator<Asignatura> it = profesorActual.getParticipar().iterator();
             Asignatura asignatura;
             while (it.hasNext()) {
                 asignatura = it.next();
                 modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
             }
+        }
+    }
+    
+    private void setupProfesor(Profesor profesor) {
+        setProfesorEditable(false);
+        boolean profesorValido = profesor != null;
+        profesorActual = profesor;
+        profesorEditarBoton.setEnabled(profesorValido);
+        if (profesorValido) {
+            profesorLegajoText.setText(profesorActual.getLegajo());
+            profesorNombreText.setText(profesorActual.getNombre());
+            profesorDomicilioText.setText(profesorActual.getDomicilio());
+            profesorTelefonoText.setText(profesorActual.getTelefono());
+            profesorMailText.setText(profesorActual.getMail());
         }
         else {
             profesorLegajoText.setText("PRO0000");
@@ -2765,6 +2835,8 @@ public class Principal extends javax.swing.JFrame {
             profesorTelefonoText.setText("");
             profesorMailText.setText("");
         }
+        
+        setupProfesorHabilitadas();
     }
     
     void setProfesorEditable(boolean editable) {
@@ -2821,18 +2893,10 @@ public class Principal extends javax.swing.JFrame {
         modelo.addRow(new Object[] {asignatura.getId(), asignatura.getNombre()});
     }
     
-    void setupAsignatura(Asignatura asignatura) {
-        setAsignaturaEditable(false);
-        boolean asignaturaValida = asignatura != null;
-        asignaturaActual = asignatura;
-        asignaturaEditarBoton.setEnabled(asignaturaValida);
-        
+    void setupAsignaturaCorrelativas() {
         DefaultTableModel modelo = (DefaultTableModel) asignaturaCorrTabla.getModel();
         modelo.setRowCount(0);
-        if (asignaturaValida) {
-            asignaturaIdText.setText(asignaturaActual.getId());
-            asignaturaNombreText.setText(asignaturaActual.getNombre());
-            
+        if (asignaturaActual != null) {
             Iterator<Asignatura> it = asignaturaActual.getCorrelativas().iterator();
             Asignatura correlativa;
             while (it.hasNext()) {
@@ -2840,10 +2904,23 @@ public class Principal extends javax.swing.JFrame {
                 modelo.addRow(new Object[] {correlativa.getId(), correlativa.getNombre()});
             }
         }
+    }
+    
+    void setupAsignatura(Asignatura asignatura) {
+        setAsignaturaEditable(false);
+        boolean asignaturaValida = asignatura != null;
+        asignaturaActual = asignatura;
+        asignaturaEditarBoton.setEnabled(asignaturaValida);
+        if (asignaturaValida) {
+            asignaturaIdText.setText(asignaturaActual.getId());
+            asignaturaNombreText.setText(asignaturaActual.getNombre());
+        }
         else {
             asignaturaIdText.setText("ASI0000");
             asignaturaNombreText.setText("");
         }
+        
+        setupAsignaturaCorrelativas();
     }
     
     void setAsignaturaEditable(boolean editable) {
@@ -2856,6 +2933,18 @@ public class Principal extends javax.swing.JFrame {
         asignaturaCorrAgregarBoton.setEnabled(editable);
         if (editable == false)
             asignaturaCorrQuitarBoton.setEnabled(editable);
+    }
+    
+    private void setupCursadas() {
+        // Agregar cursadas a la tabla.
+        DefaultTableModel modeloCursadas = (DefaultTableModel) cursadasTabla.getModel();
+        modeloCursadas.setRowCount(0);
+        Iterator<Cursada> it = entidades.getCursadas().iterator();
+        Cursada cursada;
+        while (it.hasNext()) {
+            cursada = it.next();
+            agregarCursadaTabla(cursada);
+        }
     }
     
     private void setupCursadasTabla() {
@@ -2882,14 +2971,7 @@ public class Principal extends javax.swing.JFrame {
         });
         
         setupTablaFiltro(cursadasTabla, cursadasFiltro);
-        
-        // Agregar cursadas a la tabla.
-        Iterator<Cursada> it = entidades.getCursadas().iterator();
-        Cursada cursada;
-        while (it.hasNext()) {
-            cursada = it.next();
-            agregarCursadaTabla(cursada);
-        }
+        setupCursadas();
     }
     
     private String nombreDeAsignatura(Asignatura asignatura) {
