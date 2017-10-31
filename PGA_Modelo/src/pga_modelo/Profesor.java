@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -18,7 +19,7 @@ public class Profesor extends Persona {
     // -----------------------------------------------------------------
     
     private String telefono;
-    private TreeSet<Asignatura> habilitadas;
+    private ArrayList<Asignatura> habilitadas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -31,7 +32,7 @@ public class Profesor extends Persona {
         super();
         setLegajo("PRO0000");
         this.telefono = "0000 000000";
-        habilitadas = new TreeSet<Asignatura>();
+        habilitadas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
     
@@ -45,7 +46,7 @@ public class Profesor extends Persona {
     public Profesor(String legajo, String nombre, String domicilio, String telefono, String mail) {
         super(legajo, nombre, domicilio, mail);
         this.telefono = telefono;
-        habilitadas = new TreeSet<Asignatura>();
+        habilitadas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
 
@@ -66,7 +67,7 @@ public class Profesor extends Persona {
      * Se permite la manipulacion directa de la coleccion.
      * @param habilitadas es la lista nueva de asignaturas a las que puede participar un profesor.
      */
-    public void setHabilitadas(TreeSet<Asignatura> participar) {
+    public void setHabilitadas(ArrayList<Asignatura> participar) {
         this.habilitadas = participar;
         verificarInvariante();
     }
@@ -75,7 +76,7 @@ public class Profesor extends Persona {
      * Se permite la manipulacion directa de la coleccion.
      * @return La lista de asignaturas a las cuales el profesor puede participar.
      */
-    public TreeSet<Asignatura> getHabilitadas() {
+    public ArrayList<Asignatura> getHabilitadas() {
         return habilitadas;
     }
 

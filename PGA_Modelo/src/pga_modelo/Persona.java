@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * El domicilio es alfanumerico, distinto de null y de vacio.<br>
  * El mail cumple la mascara.
  */
-public abstract class Persona implements Comparable<Persona>{
+public abstract class Persona {
     
     // -----------------------------------------------------------------
     // Atributos
@@ -103,16 +103,6 @@ public abstract class Persona implements Comparable<Persona>{
          string += "Mail: " + mail;
          return string;
      }
-    
-     /**
-      * Compara esta persona con otra persona para su ordenamiento. <br>
-      * @param o La otra persona a comparar. <br>
-      * @return Resultado numerico de la comparacion lexicografica entre Legajos.
-      */
-    @Override
-    public int compareTo(Persona o) {
-        return legajo.compareTo(o.getLegajo());
-    }
     
     // -----------------------------------------------------------------
     // Invariante

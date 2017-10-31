@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -16,7 +17,7 @@ public class Alumno extends Persona {
     // Atributos
     // -----------------------------------------------------------------
     
-    private TreeSet<Asignatura> aprobadas;
+    private ArrayList<Asignatura> aprobadas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -28,7 +29,7 @@ public class Alumno extends Persona {
     public Alumno() {
         super();
         setLegajo("ALU0000");
-        aprobadas = new TreeSet<Asignatura>();
+        aprobadas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
     
@@ -42,28 +43,27 @@ public class Alumno extends Persona {
      */
     public Alumno(String legajo, String nombre, String domicilio, String mail) {
         super(legajo, nombre, domicilio, mail);
-        aprobadas = new TreeSet<Asignatura>();
+        aprobadas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
     
     // -----------------------------------------------------------------
     // Getters y setters
     // -----------------------------------------------------------------
-    
     /**
      * Se permite la manipulacion directa de la coleccion.
      * @param aprobadas es la lista nueva de aprobadas del alumno.
      */
-    public void setAprobadas(TreeSet<Asignatura> aprobadas) {
+    public void setAprobadas(ArrayList<Asignatura> aprobadas) {
         this.aprobadas = aprobadas;
         verificarInvariante();
     }
-    
+      
     /**
      * Se permite la manipulacion directa de la coleccion.
      * @return Las asignaturas aprobadas del alumno.
      */
-    public TreeSet<Asignatura> getAprobadas() {
+    public ArrayList<Asignatura> getAprobadas() {
         return aprobadas;
     }
 

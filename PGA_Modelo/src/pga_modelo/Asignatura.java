@@ -1,5 +1,6 @@
 package pga_modelo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  * La lista de correlativas es distinta de null. <br>
  * La lista de correlativas no contiene a la asignatura misma.
  */
-public class Asignatura implements Comparable<Asignatura>{
+public class Asignatura {
     
     // -----------------------------------------------------------------
     // Atributos
@@ -20,7 +21,7 @@ public class Asignatura implements Comparable<Asignatura>{
     
     private String id;
     private String nombre;
-    private TreeSet<Asignatura> correlativas;
+    private ArrayList<Asignatura> correlativas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -32,20 +33,20 @@ public class Asignatura implements Comparable<Asignatura>{
     public Asignatura (){
         this.id = "ASI0000";
         this.nombre = "Nombre";
-        correlativas = new TreeSet<Asignatura>();
+        correlativas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
     
     /**
      * Crea una asignatura con sus atributos. <br>
      * <b>post: </b> Se crea una asignatura. <br>
-     * @param id Debe cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9)) <br>
+     * @param id Debe cumplir la mascara de identificaciÃ³n de la asignatura (ASIXXXX (X 0-9)) <br>
      * @param nombre El nombre de la asignatura. Debe ser alfanumerico y no vacio.
      */
     public Asignatura(String id, String nombre) {
-        this.id=id;
-        this.nombre=nombre;
-        correlativas= new TreeSet<Asignatura>();
+        this.id = id;
+        this.nombre = nombre;
+        correlativas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
 
@@ -75,16 +76,16 @@ public class Asignatura implements Comparable<Asignatura>{
      * Se permite la manipulacion directa de la coleccion.
      * @param correlativas es la lista nueva de asignaturas que debe tener aprobadas un alumno para cursar esta materia.
      */
-    public void setCorrelativas(TreeSet<Asignatura> correlativas) {
+    public void setCorrelativas(ArrayList<Asignatura> correlativas) {
         this.correlativas = correlativas;
         verificarInvariante();
     }
-    
+
     /**
      * Se permite la manipulacion directa de la coleccion.
      * @return Las correlativas de la materia.
      */
-    public TreeSet<Asignatura> getCorrelativas() {
+    public ArrayList<Asignatura> getCorrelativas() {
         return correlativas;
     }
     
@@ -114,16 +115,6 @@ public class Asignatura implements Comparable<Asignatura>{
         }
         
         return string;
-    }
-    
-    /**
-     * Compara esta asignatura con otra asignatura. <br>
-     * @param o Es la otra asignatura a comparar. <br>
-     * @return Devuelve la comparacion entre los Ids de las asignaturas.
-     */
-    @Override
-    public int compareTo(Asignatura o) {
-        return id.compareTo(o.getId());
     }
     
     // -----------------------------------------------------------------

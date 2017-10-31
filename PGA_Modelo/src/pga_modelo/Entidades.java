@@ -12,6 +12,10 @@ import java.util.TreeSet;
  * La lista de alumnos es distinta de null. <br>
  * La lista de asignaturas es distinta de null. <br>
  * La lista de cursadas es distinta de null. <br>
+ * La lista de profesores debe tener legajos duplicados. <br>
+ * La lista de alumnos no debe tener legajos duplicados. <br>
+ * La lista de asignaturas no debe tener ids duplicados. <br>
+ * La lista de cursadas no debe tener ids duplicados. <br>
  * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
  * Cada profesor de la coleccion no participa en cursadas que se superponen.
  */
@@ -21,10 +25,10 @@ public class Entidades {
     // Atributos
     // -----------------------------------------------------------------
     
-    private TreeSet<Alumno> alumnos;
-    private TreeSet<Profesor> profesores;
-    private TreeSet<Asignatura> asignaturas;
-    private TreeSet<Cursada> cursadas;
+    private ArrayList<Alumno> alumnos;
+    private ArrayList<Profesor> profesores;
+    private ArrayList<Asignatura> asignaturas;
+    private ArrayList<Cursada> cursadas;
     
     // -----------------------------------------------------------------
     // Constructores
@@ -34,10 +38,10 @@ public class Entidades {
      * Constructor vacio utilizado al serializar y al crear una neueva entidad.
      */
     public Entidades() {        
-        alumnos = new TreeSet<Alumno>();
-        profesores = new TreeSet<Profesor>();
-        asignaturas = new TreeSet<Asignatura>();
-        cursadas = new TreeSet<Cursada>();
+        alumnos = new ArrayList<Alumno>();
+        profesores = new ArrayList<Profesor>();
+        asignaturas = new ArrayList<Asignatura>();
+        cursadas = new ArrayList<Cursada>();
         verificarInvariante();
     }
 
@@ -48,56 +52,56 @@ public class Entidades {
     /**
      * Setter de alumnos. Acceso publico solo para el serializador. NO USAR.
      */
-    public void setAlumnos(TreeSet<Alumno> alumnos) {
+    public void setAlumnos(ArrayList<Alumno> alumnos) {
         this.alumnos = alumnos;
         verificarInvariante();
     }
 
     /** Devuelve la coleccion de alumnos. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
-    public TreeSet<Alumno> getAlumnos() {
+    public ArrayList<Alumno> getAlumnos() {
         return alumnos;
     }
     
     /**
      * Setter de profesores. Acceso publico solo para el serializador. NO USAR.
      */
-    public void setProfesores(TreeSet<Profesor> profesores) {
+    public void setProfesores(ArrayList<Profesor> profesores) {
         this.profesores = profesores;
         verificarInvariante();
     }
 
     /** Devuelve la coleccion de profesores. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
-    public TreeSet<Profesor> getProfesores() {
+    public ArrayList<Profesor> getProfesores() {
         return profesores;
     }
 
     /**
      * Setter de asignaturas. Acceso publico solo para el serializador. NO USAR.
      */
-    public void setAsignaturas(TreeSet<Asignatura> asignaturas) {
+    public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;
         verificarInvariante();
     }
 
     /** Devuelve la coleccion de asignaturas. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
-    public TreeSet<Asignatura> getAsignaturas() {
+    public ArrayList<Asignatura> getAsignaturas() {
         return asignaturas;
     }
 
     /**
      * Setter de cursadas. Acceso publico solo para el serializador. NO USAR.
      */
-    public void setCursadas(TreeSet<Cursada> cursadas) {
+    public void setCursadas(ArrayList<Cursada> cursadas) {
         this.cursadas = cursadas;
         verificarInvariante();
     }
 
     /** Devuelve la coleccion de cursadas. Acceso publico para el serializador. NO MODIFICAR MANUALMENTE.
      */
-    public TreeSet<Cursada> getCursadas() {
+    public ArrayList<Cursada> getCursadas() {
         return cursadas;
     }
 
@@ -592,6 +596,94 @@ public class Entidades {
     }
     
     /**
+     * Verifica que los legajos de todos los profesores sean únicos.
+     * @return True si la lista de profesores no contiene legajos duplicados, false en caso contrario. 
+     */
+    private boolean profesoresSinDuplicados() {
+        boolean sinDuplicados = true;
+        TreeSet<String> legajos = new TreeSet<String>();
+        Iterator<Profesor> it = profesores.iterator();
+        String legajo = null;
+        while (it.hasNext() && sinDuplicados) {
+            legajo = it.next().getLegajo();
+            if (legajos.contains(legajo)) {
+                sinDuplicados = false;
+            }
+            else {
+                legajos.add(legajo);
+            }
+        }
+        
+        return sinDuplicados;
+    }
+    
+    /**
+    * Verifica que los legajos de todos los alumnos sean únicos.
+    * @return True si la lista de alumnos no contiene legajos duplicados, false en caso contrario. 
+    */
+    private boolean alumnosSinDuplicados() {
+        boolean sinDuplicados = true;
+        TreeSet<String> legajos = new TreeSet<String>();
+        Iterator<Alumno> it = alumnos.iterator();
+        String legajo = null;
+        while (it.hasNext() && sinDuplicados) {
+            legajo = it.next().getLegajo();
+            if (legajos.contains(legajo)) {
+                sinDuplicados = false;
+            }
+            else {
+                legajos.add(legajo);
+            }
+        }
+        
+        return sinDuplicados;
+    }
+        
+    /**
+    * Verifica que los ids de todas las asignaturas sean únicos.
+    * @return True si la lista de asignaturas no contiene ids duplicados, false en caso contrario. 
+    */
+    private boolean asignaturasSinDuplicados() {
+        boolean sinDuplicados = true;
+        TreeSet<String> ids = new TreeSet<String>();
+        Iterator<Asignatura> it = asignaturas.iterator();
+        String id = null;
+        while (it.hasNext() && sinDuplicados) {
+            id = it.next().getId();
+            if (ids.contains(id)) {
+                sinDuplicados = false;
+            }
+            else {
+                ids.add(id);
+            }
+        }
+        
+        return sinDuplicados;
+    }
+        
+    /**
+    * Verifica que los ids de todas los cursadas sean únicos.
+    * @return True si la lista de cursadas no contiene ids duplicados, false en caso contrario. 
+    */
+    private boolean cursadasSinDuplicados() {
+        boolean sinDuplicados = true;
+        TreeSet<String> ids = new TreeSet<String>();
+        Iterator<Cursada> it = cursadas.iterator();
+        String id = null;
+        while (it.hasNext() && sinDuplicados) {
+            id = it.next().getId();
+            if (ids.contains(id)) {
+                sinDuplicados = false;
+            }
+            else {
+                ids.add(id);
+            }
+        }
+        
+        return sinDuplicados;
+    }
+    
+    /**
      * Comprueba que las cursadas de una lista de cursadas no se superpongan. <br>
      * @param cursadasLista Lista de cursadas a verificar. <br>
      * @return True si no existen superposiciones, false en caso contrario.
@@ -656,6 +748,10 @@ public class Entidades {
      * La lista de alumnos es distinta de null. <br>
      * La lista de asignaturas es distinta de null. <br>
      * La lista de cursadas es distinta de null. <br>
+     * La lista de profesores no debe tener legajos duplicados. <br>
+     * La lista de alumnos no debe tener legajos duplicados. <br>
+     * La lista de asignaturas no debe tener ids duplicados. <br>
+     * La lista de cursadas no debe tener ids duplicados. <br>
      * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
      * Cada profesor de la coleccion no participa en cursadas que se superponen.
      */
@@ -664,6 +760,10 @@ public class Entidades {
         assert alumnosEsValido(): "La lista de alumnos es invalida.";
         assert asignaturasEsValido(): "La lista de asignaturas es invalida.";
         assert cursadasEsValido(): "La lista de cursadas es invalida.";
+        assert profesoresSinDuplicados() : "La lista de profesores contiene legajos duplicados.";
+        assert alumnosSinDuplicados() : "La lista de alumnos contiene legajos duplicados.";
+        assert asignaturasSinDuplicados() : "La lista de asignaturas contiene ids duplicados.";
+        assert cursadasSinDuplicados() : "La lista de cursadas contiene ids duplicados.";
         assert cursadaAlumnosSinSuperposicion() : "Hay alumnos que participan en cursadas superpuestas.";
         assert cursadaProfesoresSinSuperposicion() : "Hay alumnos que participan en cursadas superpuestas.";
     }
