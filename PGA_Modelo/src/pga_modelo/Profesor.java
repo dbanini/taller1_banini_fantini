@@ -65,7 +65,7 @@ public class Profesor extends Persona {
 
     /**
      * Se permite la manipulacion directa de la coleccion.
-     * @param habilitadas es la lista nueva de asignaturas a las que puede participar un profesor.
+     * @param habilitadas La lista nueva de asignaturas a las que puede participar un profesor.
      */
     public void setHabilitadas(ArrayList<Asignatura> participar) {
         this.habilitadas = participar;
@@ -115,7 +115,7 @@ public class Profesor extends Persona {
      * Comprueba si un legajo es valido. <br>
      * El legajo debe empezar con "PRO" y luego debe contener 4 caracteres.  <br>
      * El legajo debe terminar con un numero entre 0 y 9999. <br>
-     * @param legajo el legajo a validar.
+     * @param legajo El legajo a validar.
      * @return True si el legajo es valido, false en caso contrario. 
      */
     static public boolean legajoEsValido(String legajo) {
@@ -139,7 +139,7 @@ public class Profesor extends Persona {
     /**
      * Comprueba que el telefono sea valido. <br>
      * El atributo telefono debe ser distinto de null y de vacio. <br>
-     * @param telefono el telefono a validar.
+     * @param telefono El telefono a validar.
      * @return True si el telefono es valido, false en caso contrario. 
      */
     static public boolean telefonoEsValido(String telefono){

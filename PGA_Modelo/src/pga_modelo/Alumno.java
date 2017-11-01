@@ -36,10 +36,10 @@ public class Alumno extends Persona {
     /**
      * Crea un alumno con sus atributos. <br>
      * <b>post: </b> Se crea un Alumno con sus datos correspondientes y una coleccion vacia de asignaturas aprobadas. <br>
-     * @param legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9)) <br>
-     * @param nombre es alfanumerico, distinto de null y de vacio. <br>
-     * @param domicilio es alfanumerico, distinto de null y de vacio. <br>
-     * @param mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
+     * @param legajo El legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9)) <br>
+     * @param nombre El nombre es alfanumerico, distinto de null y de vacio. <br>
+     * @param domicilio El domicilio es alfanumerico, distinto de null y de vacio. <br>
+     * @param mail El mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
      */
     public Alumno(String legajo, String nombre, String domicilio, String mail) {
         super(legajo, nombre, domicilio, mail);
@@ -52,7 +52,7 @@ public class Alumno extends Persona {
     // -----------------------------------------------------------------
     /**
      * Se permite la manipulacion directa de la coleccion.
-     * @param aprobadas es la lista nueva de aprobadas del alumno.
+     * @param aprobadas La lista nueva de aprobadas del alumno.
      */
     public void setAprobadas(ArrayList<Asignatura> aprobadas) {
         this.aprobadas = aprobadas;
@@ -100,7 +100,7 @@ public class Alumno extends Persona {
      * Comprueba si un legajo es valido. <br>
      * El legajo debe empezar con "ALU" y luego debe contener 4 caracteres. <br>
      * El legajo debe terminar con un numero entre 0 y 9999. <br>
-     * @param legajo el legajo a validar.
+     * @param legajo Es el legajo a validar.
      * @return True si el legajo es valido, false en caso contrario. 
      */
     static public boolean legajoEsValido(String legajo){
