@@ -2126,6 +2126,27 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
 
+    private boolean profesorValidarBaja(Profesor profesor) {
+        boolean bajaValida = true;
+        boolean corregirCursadas = false;
+        ArrayList<Cursada> cursadas = entidades.buscaCursadasConProfesor(profesor);
+        Iterator<Cursada> itc = cursadas.iterator();
+        Cursada cursada = null;
+        while (itc.hasNext() && bajaValida) {
+            cursada = itc.next();
+            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse el profesor porque existen cursadas en las que esta participando. ¿Desea quitar al profesor de dichas cursadas?");
+            bajaValida = corregirCursadas;
+            if (corregirCursadas) {
+                cursada.getProfesores().remove(profesor);
+                if (cursada == cursadaActual) {
+                    setupCursadaProfesores();
+                }
+            }
+        }
+        
+        return bajaValida;
+    }
+
     private void profesoresBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresBorrarBotonActionPerformed
         ListSelectionModel lsm = profesoresTabla.getSelectionModel();
         int selectedRow = lsm.getMinSelectionIndex();
@@ -2135,12 +2156,7 @@ public class Principal extends javax.swing.JFrame {
             Profesor profesor = entidades.buscaProfesorPorLegajo(legajo);
             assert profesor != null : "La tabla tiene un legajo que no existe en el modelo.";
             
-            boolean operacionValida = true;
-            if (!entidades.buscaCursadasConProfesor(profesor).isEmpty()) {
-                mostrarError("No puede borrarse el profesor. Hay cursadas en las que esta participando actualmente.");
-                operacionValida = false;
-            }
-            
+            boolean operacionValida = profesorValidarBaja(profesor);
             if (operacionValida) {
                 entidades.removeProfesor(profesor);
                 DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
@@ -2576,6 +2592,27 @@ public class Principal extends javax.swing.JFrame {
         setAlumnoEditable(true);
     }//GEN-LAST:event_alumnoEditarBotonActionPerformed
 
+    private boolean alumnoValidarBaja(Alumno alumno) {
+        boolean bajaValida = true;
+        boolean corregirCursadas = false;
+        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAlumno(alumno);
+        Iterator<Cursada> itc = cursadas.iterator();
+        Cursada cursada = null;
+        while (itc.hasNext() && bajaValida) {
+            cursada = itc.next();
+            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse el alumno porque existen cursadas en las que esta participando. ¿Desea quitar al alumno de dichas cursadas?");
+            bajaValida = corregirCursadas;
+            if (corregirCursadas) {
+                cursada.getAlumnos().remove(alumno);
+                if (cursada == cursadaActual) {
+                    setupCursadaAlumnos();
+                }
+            }
+        }
+        
+        return bajaValida;
+    }
+
     private void alumnosBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosBorrarBotonActionPerformed
         ListSelectionModel lsm = alumnosTabla.getSelectionModel();
         int selectedRow = lsm.getMinSelectionIndex();
@@ -2586,12 +2623,7 @@ public class Principal extends javax.swing.JFrame {
             assert alumno != null : "La tabla tiene un legajo que no existe en el modelo.";
             
             // Verificamos que el alumno no se encuentre actualmente en una cursada.
-            boolean operacionValida = true;
-            if (!entidades.buscaCursadasConAlumno(alumno).isEmpty()) {
-                mostrarError("No puede borrarse el alumno. Hay cursadas en las que esta participando actualmente.");
-                operacionValida = false;
-            }
-            
+            boolean operacionValida = alumnoValidarBaja(alumno);
             if (operacionValida) {
                 entidades.removeAlumno(alumno);
                 DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
