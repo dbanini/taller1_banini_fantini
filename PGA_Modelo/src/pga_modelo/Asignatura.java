@@ -40,7 +40,7 @@ public class Asignatura {
     /**
      * Crea una asignatura con sus atributos. <br>
      * <b>post: </b> Se crea una asignatura. <br>
-     * @param id Debe cumplir la mascara de identificación de la asignatura (ASIXXXX (X 0-9)) <br>
+     * @param id El id debe cumplir la mascara de identificacion de la asignatura (ASIXXXX (X 0-9)) <br>
      * @param nombre El nombre de la asignatura. Debe ser alfanumerico y no vacio.
      */
     public Asignatura(String id, String nombre) {
@@ -74,7 +74,7 @@ public class Asignatura {
 
     /**
      * Se permite la manipulacion directa de la coleccion.
-     * @param correlativas es la lista nueva de asignaturas que debe tener aprobadas un alumno para cursar esta materia.
+     * @param correlativas La lista nueva de asignaturas que debe tener aprobadas un alumno para cursar esta materia.
      */
     public void setCorrelativas(ArrayList<Asignatura> correlativas) {
         this.correlativas = correlativas;
@@ -125,7 +125,7 @@ public class Asignatura {
      * Comprueba si el id es valido. <br>
      * El id debe empezar con "ASI". <br>
      * El id debe terminar con un numero entre 0 y 9999. <br>
-     * @param id el id a validar.
+     * @param id Es el id a validar.
      * @return True si el id es valido, false en caso contrario. 
      */
     static public boolean idEsValido(String id) {
@@ -153,7 +153,7 @@ public class Asignatura {
     /**
      * Comprueba que el nombre sea valido. <br>
      * El atributo nombre debe ser distinto de null y de vacio. <br>
-     * @param nombre el nombre a validar.
+     * @param nombre Es el nombre a validar.
      * @return True si el nombre es valido, false en caso contrario. 
      */
     static public boolean nombreEsValido(String nombre) {

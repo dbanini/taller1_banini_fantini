@@ -113,7 +113,7 @@ public class Entidades {
      * Agrega un alumno a la lista de alumnos. <br>
      * <b>pre: </b> El alumno no existe en la lista de alumnos.
      * <b>post: </b> Se agrega un alumno a la lista de alumnos.
-     *  @param alumnos cumple que es valido.
+     *  @param alumnos El alumno a agregar a la coleccion.
      */
     public void addAlumno(Alumno alumno) {
         assert !alumnos.contains(alumno) : "El alumno ya existe en la lista de alumnos.";
@@ -127,7 +127,7 @@ public class Entidades {
      * <b>pre: </b> El alumno existe en la lista de alumnos.
      * <b>pre: </b> El alumno no debe estar en la lista de alumnos de ninguna cursada.
      * <b>post: </b> Se elimina un alumno de la lista de alumnos.
-     *  @param alumnos cumple que es valido.
+     *  @param alumnos El alumno a eliminar de la coleccion.
      */
     public void removeAlumno(Alumno alumno) {
         assert alumnos.contains(alumno) : "El alumno no existe en la lista de alumnos.";
@@ -141,7 +141,7 @@ public class Entidades {
      * Agrega un profesor a la lista de profesores. <br>
      * <b>pre: </b> El profesor no existe en la lista de profesores.
      * <b>post: </b> Se agrega un profesor a la lista de profesores.
-     *  @param profesor El profesor a agregar.
+     *  @param profesor El profesor a agregar a la coleccion.
      */
     public void addProfesor(Profesor profesor) {
         assert !profesores.contains(profesor) : "El profesor ya existe en la lista de profesores.";
@@ -155,7 +155,7 @@ public class Entidades {
       * <b>pre: </b> El profesor existe en la lista de profesores.
       * <b>pre: </b> El profesor no debe estar en la lista de profesores de ninguna cursada.
       * <b>post: </b> Se elimina un profesor de la lista de profesores.
-      *  @param profesor El profesor a eliminar.
+      *  @param profesor El profesor a eliminar de la coleccion.
       */
     public void removeProfesor(Profesor profesor){
         assert profesores.contains(profesor) : "El profesor no existe en la lista de profesores.";
@@ -169,7 +169,7 @@ public class Entidades {
      * Agrega una asignatura a la lista de asignaturas. <br>
      * <b>pre: </b> La asignatura no existe en la lista de asignaturas.
      * <b>post: </b> Se agrega una asignatura a la lista de aisgnaturas.
-     *  @param asignatura cumple que es valida.
+     *  @param asignatura La asignatura a agregar a la coleccion.
      */
     public void addAsignatura(Asignatura asignatura) {
         assert !asignaturas.contains(asignatura) : "La asignatura ya existe en la lista de asignaturas.";
@@ -186,7 +186,7 @@ public class Entidades {
      * <b>pre: </b> La asignatura no debe estar en la lista de correlativas de otra asignatura.
      * <b>pre: </b> La asignatura no debe estar asignada a alguna cursada.
      * <b>post: </b> Se elimina una asignatura de la lista de asignaturas.
-     * @param asignatura cumple que es valida.
+     * @param asignatura La asignatura a eliminar de la coleccion.
      */
     public void removeAsignatura(Asignatura asignatura) {
         assert asignaturas.contains(asignatura) : "La asignatura no existe en la lista de asignaturas.";
@@ -203,7 +203,7 @@ public class Entidades {
      * Agrega una cursada a la lista de cursadas. <br>
      * <b>pre: </b> La cursada no existe en la lista de cursadas. <br>
      * <b>post: </b> Se agrega una cursada a la lista de cursadas. <br>
-     * @param cursada cumple que es valida.
+     * @param cursada La cursada a agregar a la coleccion.
      */
     public void addCursada(Cursada cursada) {
         assert !cursadas.contains(cursada) : "La cursada ya existe en la lista de cursadas.";
@@ -216,7 +216,7 @@ public class Entidades {
      * Elimina una cursada de la lista de cursadas. <br>
      * <b>pre: </b> La cursada existe en la lista de cursadas. <br>
      * <b>post: </b> Se elimina una cursada de la lista de cursadas. <br>
-     * @param cursada cumple que es valida.
+     * @param cursada La cursada a eliminar de la coleccion.
      */
     public void removeCursada(Cursada cursada) {
         assert cursadas.contains(cursada) : "La cursada no existe en la lista de cursadas.";
@@ -227,7 +227,7 @@ public class Entidades {
 
     /**
      * Busqueda de alumnos con determinado nombre. <br>
-     * @param nombre Nombre con el cual buscar. <br>
+     * @param nombre El nombre del alumno a buscar. <br>
      * @return Retorna en un ArrayList los alumnos con el nombre especificado.
      */
     public ArrayList<Alumno> buscaAlumno(String nombre){
@@ -248,7 +248,7 @@ public class Entidades {
     
      /**
       * Busca un alumno en la lista mediante su legajo. <br>
-      * @param legajo Legajo por el cual buscar al alumno. <br>
+      * @param legajo El legajo del alumno a buscar. <br>
       * @return El alumno si fue encontrado, null en caso contrario.
       */
     public Alumno buscaAlumnoPorLegajo(String legajo) {
@@ -267,7 +267,7 @@ public class Entidades {
     
     /**
      * Busqueda de profesores con determinado nombre. <br>
-     * @param nombre Nombre con el cual buscar. <br>
+     * @param nombre El nombre del profesor a buscar. <br>
      * @return Retorna en un ArrayList los profesores con el nombre especificado.
      */
     public ArrayList<Profesor> buscaProfesor(String nombre){
@@ -288,7 +288,7 @@ public class Entidades {
     
     /**
      * Busca un profesor en la lista mediante su legajo. <br>
-     * @param legajo Legajo por el cual buscar al profesor. <br>
+     * @param legajo El legajo del profesor a buscar. <br>
      * @return El profesor si fue encontrado, null en caso contrario.
      */
     public Profesor buscaProfesorPorLegajo(String legajo) {
@@ -307,7 +307,7 @@ public class Entidades {
     
     /**
      * Busqueda de asignaturas con determinado nombre. <br>
-     * @param nombre Nombre con el cual buscar. <br>
+     * @param nombre El nombre de la asignatura a buscar. <br>
      * @return Retorna en un ArrayList las asignaturas con el nombre especificado.
      */
     public ArrayList<Asignatura> buscaAsignatura(String nombre){
@@ -328,7 +328,7 @@ public class Entidades {
     
     /**
      * Busca una asignatura en la lista mediante su id. <br>
-     * @param id Id por el cual buscar la asignatura. <br>
+     * @param id El id de la asignatura a buscar. <br>
      * @return La asignatura si fue encontrada, null en caso contrario.
      */
     public Asignatura buscaAsignaturaPorId(String id) {
@@ -347,7 +347,7 @@ public class Entidades {
     
     /**
      * Busqueda de cursadas con determinado nombre de asignatura. <br>
-     * @param nombre Nombre con el cual buscar. <br>
+     * @param nombre El nombre de la cursada a buscar. <br>
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
      */
     public ArrayList<Cursada> buscaCursada(String nombre){
@@ -368,7 +368,7 @@ public class Entidades {
     
      /**
       * Busca una cursada en la lista mediante su id. <br>
-      * @param id Id por el cual buscar la cursada. <br>
+      * @param id El id de la cursada a buscar. <br>
       * @return La cursada si fue encontrada, null en caso contrario.
       */
     public Cursada buscaCursadaPorId(String id) {

@@ -55,11 +55,11 @@ public class Cursada {
     
     /**
      * Crea una cursada con sus atributos. <br>
-     * @param id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) y debe ser unica. <br>
-     * @param asignatura debe existir. <br>
-     * @param periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (AÃ±o)) <br>
-     * @param dia debe pertenecer a Lun, Mar, MiÃ©, Jue, Vie, Sab o Dom. <br>
-     * @param hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9))
+     * @param id El id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) y debe ser unica. <br>
+     * @param asignatura La asignatura debe existir. <br>
+     * @param periodo El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (AÃ±o)) <br>
+     * @param dia El dia debe pertenecer a Lun, Mar, MiÃ©, Jue, Vie, Sab o Dom. <br>
+     * @param hora La hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9))
      */
     public Cursada(String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin) {
         this.id = id;
@@ -133,7 +133,7 @@ public class Cursada {
 
     /**
      * Se permite la manipulacion directa de la coleccion.
-     * @param profesores es la lista nueva de profesores que participan en la materia.
+     * @param profesores La lista nueva de profesores que participan en la materia.
      */
     public void setProfesores(ArrayList<Profesor> profesores) {
         this.profesores = profesores;
@@ -150,7 +150,7 @@ public class Cursada {
 
     /**
      * Se permite la manipulacion directa de la coleccion.
-     * @param alumnos es la lista nueva de alumnos que estan anotados en la cursada.
+     * @param alumnos La lista nueva de alumnos que estan anotados en la cursada.
      */
     public void setAlumnos(ArrayList<Alumno> alumnos) {
         this.alumnos = alumnos;
@@ -171,13 +171,13 @@ public class Cursada {
     
     /**
      * Permite modificar la configuracion de la cursada sin provocar errores por el invariante basados en el orden de operaciones.
-     * @param asignatura La nueva asignatura.
-     * @param periodo El nuevo periodo
-     * @param dia El nuevo dia.
-     * @param horaInicio La nueva hora de inicio.
-     * @param horaFin La nueva hora de fin.
-     * @param alumnos Los nuevos alumnos.
-     * @param profesores Los nuevos profesores.
+     * @param asignatura La nueva asignatura de la cursada.
+     * @param periodo El nuevo periodo de la cursada.
+     * @param dia El nuevo dia de la cursada.
+     * @param horaInicio La nueva hora de inicio de la cursada.
+     * @param horaFin La nueva hora de fin de la cursada.
+     * @param alumnos Los nuevos alumnos de la cursada.
+     * @param profesores Los nuevos profesores de la cursada.
      */
     public void configurar(Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, ArrayList<Alumno> alumnos, ArrayList<Profesor> profesores) {
         this.asignatura = asignatura;
@@ -192,7 +192,7 @@ public class Cursada {
     
     /**
      * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. <br>
-     * @param cursada con la cual se verifica la superposicion. <br>
+     * @param cursada El parametro con el cual se verifica la superposicion de la cursada. <br>
      * @return True si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(Cursada cursada) {
@@ -201,11 +201,11 @@ public class Cursada {
     
     /**
      * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin, para un horario especifico. <br>
-     * @param cursada Es la cursada con la cual se verifica la superposicion. <br>
-     * @param horaInicio Es la hora inicial con la cual se verifica la superposicion. <br>
-     * @param horaFin Es la hora final con la cual se verifica la superposicion. <br>
-     * @param periodo Es el periodo con el cual se verifica la superposicion. <br>
-     * @param dia Es el dia con el cual se verifica la superposicion. <br>
+     * @param cursada La cursada con la cual se verifica la superposicion. <br>
+     * @param horaInicio La hora inicial con la cual se verifica la superposicion. <br>
+     * @param horaFin La hora final con la cual se verifica la superposicion. <br>
+     * @param periodo El periodo con el cual se verifica la superposicion. <br>
+     * @param dia El dia con el cual se verifica la superposicion. <br>
      * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(Cursada cursada, String horaInicio, String horaFin, String periodo, String dia) {
@@ -222,7 +222,8 @@ public class Cursada {
     
     /**
      * Comprueba si esta cursada se superpone con otra lista de cursadas. <br>
-     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada. <br>
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada 
+     * en la lista, la cual sera ignorada. <br>
      * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(ArrayList<Cursada> cursadas) {
@@ -231,7 +232,8 @@ public class Cursada {
     
     /**
      * Comprueba si esta cursada se superpone con otra lista de cursadas en un horario especifico. <br>
-     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada en la lista, la cual sera ignorada. <br>
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada 
+     * en la lista, la cual sera ignorada. <br>
      * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(ArrayList<Cursada> cursadas, String horaInicio, String horaFin, String periodo, String dia) {
