@@ -8,11 +8,7 @@ import pga_modelo.Alumno;
 import pga_modelo.Profesor;
 import pga_modelo.Asignatura;
 import pga_modelo.Cursada;
-import pga_controlador.ControladorListener;
 
-import pga_controlador.ControladorListener.Cambios;
-
-import pga_modelo.Asignatura;
 import pga_modelo.Persona;
 
 public class Controlador {
@@ -62,6 +58,14 @@ public class Controlador {
         }
     }
     
+    /**
+     * Valida que los atributos de una persona sean validos. <br>
+     * @param legajo El legajo a validar.
+     * @param nombre El nombre a validar.
+     * @param domicilio El domicilio a validar.
+     * @param mail El mail a validar.
+     * @throws IllegalArgumentException Se lanza si algun parametro no es valido.
+     */
     private void personaValidarDatos(String legajo, String nombre, String domicilio, String mail) throws IllegalArgumentException {
         if (!Persona.legajoEsValido(legajo)) {
             throw new IllegalArgumentException("El legajo no es valido. No debe ser vacio.");
@@ -77,6 +81,15 @@ public class Controlador {
         }
     }
     
+    /**
+     * Valida que los parametros sean validos. <br>
+     * @param legajo El legajo a validar.
+     * @param nombre El nombre a validar.
+     * @param domicilio El domicilio a validar.
+     * @param mail El mail a validar. 
+     * @param aprobadas La lista de asignaturas aprobadas a validar.
+     * @throws IllegalArgumentException Se lanza si algun parametro no es valido.
+     */
     private void alumnoValidarDatos(String legajo, String nombre, String domicilio, String mail, ArrayList<Asignatura> aprobadas) throws IllegalArgumentException {
         personaValidarDatos(legajo, nombre, domicilio, mail);
         
@@ -88,6 +101,15 @@ public class Controlador {
         }
     }
     
+
+    /**
+     * Verifica si el alumno puede mantenerse en las cursadas en que se encuentra si se utiliza esta nueva lista de 
+     * aprobadas. Si no puede se pregunta si debe eliminarse de las cursadas en las que no se puede mantener y si se 
+     * confirma la accion, se elimina de dichas cursadas.
+     * @param alumno El alumno a modificar su lista de aprobadas.
+     * @param aprobadas La nueva lista de aprobadas del alumno.
+     * @return True si el alumno utiliza la lista nueva de aprobadas, False en caso contrario.
+     */
     private boolean alumnoValidarModificacion(Alumno alumno, ArrayList<Asignatura> aprobadas) {
         // Verificar si el alumno puede mantenerse en las cursadas en que se encuentra si se utiliza esta nueva lista de aprobadas.
         ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumno);
@@ -110,6 +132,13 @@ public class Controlador {
         return entradaValida;
     }
     
+    /**
+     * Se verifica que el alumno no este cursando asignaturas. En caso de que este cursando alguna asignatura se
+     * pregunta si se desea eliminar al alumno de las cursadas en las que esta anotado.
+     * @param alumno El alumno a validar su baja en las cursadas.
+     * @return True si el alumno puede ser dado de baja y si esta anotado en alguna cursada, que se confirme la baja
+     * del alumno en dichas cursadas, False en caso contrario.
+     */
     private boolean alumnoValidarBaja(Alumno alumno) {
         boolean bajaValida = true;
         boolean corregirCursadas = false;
@@ -129,6 +158,15 @@ public class Controlador {
         return bajaValida;
     }
     
+    /**
+     * Valida que los parametros sean validos.
+     * @param legajo El legajo a validar.
+     * @param nombre El nombre a validar.
+     * @param domicilio El domicilio a validar.
+     * @param mail El mail a validar.
+     * @param telefono El telefono a validar.
+     * @throws IllegalArgumentException
+     */
     private void profesorValidarDatos(String legajo, String nombre, String domicilio, String mail, String telefono) throws IllegalArgumentException {
         personaValidarDatos(legajo, nombre, domicilio, mail);
         
@@ -140,6 +178,14 @@ public class Controlador {
         }
     }
     
+    /**
+     * Verifica si el profesor puede mantenerse en las cursadas en las que participa si se utiliza esta nueva lista 
+     * de habilitadas. Si no puede se pregunta si debe eliminarse de las cursadas en las que no se puede mantener y si se 
+     * confirma la accion, se elimina de dichas cursadas.
+     * @param profesor El profesor a modificar su lista de habilitadas.
+     * @param habilitadas La nueva lista de habilitadas del profesor.
+     * @return True si el profesor utiliza la lista nueva de habilitadas, False en caso contrario.
+     */
     private boolean profesorValidarModificacion(Profesor profesor, ArrayList<Asignatura> habilitadas) {
         // Verificar si el profesor puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de habilitadas.
         ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(profesor);
@@ -162,6 +208,13 @@ public class Controlador {
         return entradaValida;
     }
     
+    /**
+     * Se verifica que el profesor no este participando en cursadas. En caso de que este participando en alguna 
+     * cursadas se pregunta si se desea eliminar al profesor de las cursadas en las que esta anotado.
+     * @param profesor El profesor a validar su baja en las cursadas.
+     * @return True si el profesor puede ser dado de baja y si esta anotado en alguna cursada, que se confirme la baja
+     * del profesor en dichas cursadas, False en caso contrario.
+     */
     private boolean profesorValidarBaja(Profesor profesor) {
         boolean bajaValida = true;
         boolean corregirCursadas = false;
@@ -181,6 +234,12 @@ public class Controlador {
         return bajaValida;
     }
     
+    /**
+     * Valida que los parametros sean validos.
+     * @param id El id a validar.
+     * @param nombre El nombre a validar.
+     * @throws IllegalArgumentException Si algun parametro no es valido.
+     */
     private void asignaturaValidarDatos(String id, String nombre) throws IllegalArgumentException {
         boolean entradaValida = true;
         if (!Asignatura.idEsValido(id)) {
@@ -191,6 +250,16 @@ public class Controlador {
         }
     }
     
+    /**
+     * Verifica si los alumnos pueden mantenerse en las cursadas de esta asignatura con las nuevas correlativas. Si no 
+     * pueden se pregunta si deben eliminarse los alumnos de las cursadas en las que no se pueden mantener y si se 
+     * confirma la accion, se eliminan de dichas cursadas.
+     * @param asignatura La asignatura a modificar correlativas.
+     * @param correlativas Las nuevas correlativas de la asignatura.
+     * @return True en caso de que se confirme la accion de eliminar a los alumnos de las cursadas en caso de que se 
+     * deba hacer, False en caso contrario.
+     * @throws IllegalArgumentException Si la lista de correlativas nueva no es valida.
+     */
     private boolean asignaturaValidarModificacion(Asignatura asignatura, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
         if (correlativas.contains(asignatura)) {
             throw new IllegalArgumentException("La lista de correlativas de la asignatura contiene a la asignatura misma.");
@@ -245,6 +314,15 @@ public class Controlador {
         return entradaValida;
     }
     
+    /**
+     * Si ningun alumno, profesor o cursada interactua con la asignatura, esta es borrada. En cambio si alguna entidad
+     * interactua con la asignatura, se pregunta si se desea que las entidades que la incluyen borren su interaccion 
+     * antes de que la asignatura pueda ser borrada. Si se responde afirmativamente, se borran las interacciones de la
+     * asignatura en las entidades y luego se borra la asignatura.
+     * @param asignaturaBaja La asignatura a ser dada de baja.
+     * @return True en caso de que la asignatura sea dada de baja y ninguna entidad interactue con ella, False en caso
+     * contrario.
+     */
     private boolean asignaturaValidarBaja(Asignatura asignaturaBaja) {
         boolean bajaValida = true;
         ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaBaja);
@@ -310,6 +388,19 @@ public class Controlador {
         return bajaValida;
     }
     
+    /**
+     * Valida que los parametros sean validos.
+     * @param id El id a validar.
+     * @param asignatura La asignatura a validar.
+     * @param periodo El periodo a validar.
+     * @param dia El dia a validar.
+     * @param horaInicio La hora de inicio a validar.
+     * @param horaFin La hora de fin a validar.
+     * @param alumnos La lista de alumnos a validar
+     * @param profesores La lista de profesores a validar.
+     * @param cursadaIgnorada 
+     * @throws IllegalArgumentException Se lanza si algun parametro no es valido.
+     */
     private void cursadaValidarDatos(String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, ArrayList<Alumno> alumnos, ArrayList<Profesor> profesores, Cursada cursadaIgnorada) throws IllegalArgumentException {
         if (!Cursada.idEsValido(id)) {
             throw new IllegalArgumentException("El Id no cumple con la mascara de formato requerida.");
@@ -377,8 +468,9 @@ public class Controlador {
      */
     
     /**
-    *  Crea un nuevo alumno vacio.
-    */
+     * Crea un nuevo alumno vacio.
+     * @return El alumno vacio.
+     */
     public Alumno crearAlumnoVacio() {
         Alumno alumno = new Alumno();
         alumno.setLegajo(entidades.nuevoLegajoAlumno());
@@ -387,7 +479,9 @@ public class Controlador {
     }
     
     /**
-     * Da de alta el alumno.
+     * RF01 alumno. <br>
+     * Da de alta el alumno en la coleccion de alumnos.
+     * @return El alumno que se agrega a la coleccion.
      */
     public Alumno altaAlumno(String legajo, String nombre, String domicilio, String mail, ArrayList<Asignatura> aprobadas) throws IllegalArgumentException {
         if (entidades.buscaAlumnoPorLegajo(legajo) != null) {
@@ -401,7 +495,9 @@ public class Controlador {
     }
     
     /**
-     * Modifica al alumno.
+     * RF03 alumno. <br>
+     * Modifica al alumno en la coleccion de alumnos.
+     * @return True si la modificacion fue valida, False en caso contrario.
      */
     public boolean modificarAlumno(Alumno alumno, String legajo, String nombre, String domicilio, String mail, ArrayList<Asignatura> aprobadas) throws IllegalArgumentException {
         alumnoValidarDatos(legajo, nombre, domicilio, mail, aprobadas);
@@ -424,7 +520,9 @@ public class Controlador {
     }
     
     /**
-     * Da de baja el alumno.
+     * RF02 alumno. <br>
+     * Da de baja el alumno de la coleccion de alumnos.
+     * @return True si la baja fue valida, False en caso contrario.
      */
     public boolean bajaAlumno(Alumno alumno) {
         if (!entidades.getAlumnos().contains(alumno)) {
@@ -440,7 +538,8 @@ public class Controlador {
     }
     
     /**
-    *  Crea un nuevo profesor vacio.
+    * Crea un nuevo profesor vacio.
+    * @return El profesor vacio.
     */
     public Profesor crearProfesorVacio() {
         Profesor profesor = new Profesor();
@@ -450,7 +549,9 @@ public class Controlador {
     }
     
     /**
-     * Da de alta al profesor.
+     * RF01 profesor. <br>
+     * Da de alta al profesor en la coleccion de profesores.
+     * @return El profesor que se agrega a la coleccion.
      */
     public Profesor altaProfesor(String legajo, String nombre, String domicilio, String mail, String telefono, ArrayList<Asignatura> habilitadas) throws IllegalArgumentException {
         if (entidades.buscaProfesorPorLegajo(legajo) != null) {
@@ -464,7 +565,9 @@ public class Controlador {
     }
     
     /**
-     * Modifica al profesor.
+     * RF03 profesor. <br>
+     * Modifica al profesor en la coleccion de profesores.
+     * @return True si la modificacion fue valida, False en caso contrario.
      */
     public boolean modificarProfesor(Profesor profesor, String legajo, String nombre, String domicilio, String mail, String telefono, ArrayList<Asignatura> habilitadas) throws IllegalArgumentException {
         profesorValidarDatos(legajo, nombre, domicilio, mail, telefono);
@@ -488,7 +591,9 @@ public class Controlador {
     }
     
     /**
-     * Da de baja al profesor.
+     * RF02 profesor. <br>
+     * Da de baja el profesor de la coleccion de profesores.
+     * @return True si la baja fue valida, False en caso contrario.
      */
     public boolean bajaProfesor(Profesor profesor) {
         if (!entidades.getProfesores().contains(profesor)) {
@@ -504,7 +609,8 @@ public class Controlador {
     }
     
     /**
-    *  Crea una nueva asignatura vacia.
+    * Crea una nueva asignatura vacia.
+    * @return La cursada vacia.
     */
     public Asignatura crearAsignaturaVacia() {
         Asignatura asignatura = new Asignatura();
@@ -514,7 +620,9 @@ public class Controlador {
     }
     
     /**
-     * Da de alta a la asignatura.
+     * RF01 asignatura. <br>
+     * Da de alta la asignatura en la coleccion de asignaturas.
+     * @return La asignatura que se agrega a la coleccion.
      */
     public Asignatura altaAsignatura(String id, String nombre, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
         if (entidades.buscaAsignaturaPorId(id) != null) {
@@ -528,7 +636,9 @@ public class Controlador {
     }
     
     /**
-     * Modifica a la asignatura.
+     * RF03 asignatura. <br>
+     * Modifica la asignatura en la coleccion de asignaturas.
+     * @return True si la modificacion fue valida, False en caso contrario.
      */
     public boolean modificarAsignatura(Asignatura asignatura, String id, String nombre, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
         asignaturaValidarDatos(id, nombre);
@@ -549,7 +659,9 @@ public class Controlador {
     }
     
     /**
-     * Da de baja la asignatura.
+     * RF02 asignatura. <br>
+     * Da de baja la asignatura de la coleccion de asignaturas.
+     * @return True si la baja fue valida, False en caso contrario.
      */
     public boolean bajaAsignatura(Asignatura asignatura) {
         if (!entidades.getAsignaturas().contains(asignatura)) {
@@ -565,7 +677,8 @@ public class Controlador {
     }
     
     /**
-    *  Crea una nueva cursada vacia.
+    * Crea una nueva cursada vacia.
+    * @return La cursada vacia.
     */
     public Cursada crearCursadaVacia() throws IllegalStateException {
         ArrayList<Asignatura> asignaturas = entidades.getAsignaturas();
@@ -581,7 +694,9 @@ public class Controlador {
     }
     
     /**
-     * Da de alta a la cursada.
+     * RF06. <br>
+     * Da de alta la cursada en la coleccion de cursadas.
+     * @return La cursada que se agrega a la coleccion.
      */
     public Cursada altaCursada(String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, ArrayList<Alumno> alumnos, ArrayList<Profesor> profesores) throws IllegalArgumentException {
         if (entidades.buscaCursadaPorId(id) != null) {
@@ -596,7 +711,8 @@ public class Controlador {
     }
     
     /**
-     * Modifica a la cursada.
+     * RF08. <br>
+     * Modifica la cursada en la coleccion de cursadas.
      */
     public void modificarCursada(Cursada cursada, String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin, ArrayList<Alumno> alumnos, ArrayList<Profesor> profesores) throws IllegalArgumentException {
         cursadaValidarDatos(id, asignatura, periodo, dia, horaInicio, horaFin, alumnos, profesores, cursada);
@@ -612,7 +728,8 @@ public class Controlador {
     }
     
     /**
-     * Da de baja la cursada.
+     * RF07. <br>
+     * Da de baja la cursada de la coleccion de cursadas.
      */
     public void bajaCursada(Cursada cursada) {
         if (!entidades.getCursadas().contains(cursada)) {
