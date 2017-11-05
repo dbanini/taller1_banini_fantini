@@ -32,6 +32,11 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import pga_controlador.Controlador;
+import pga_controlador.ControladorListener;
+
+import pga_controlador.ControladorListener.Cambios;
+
 import pga_modelo.Persona;
 
 import pga_xml.SerializadorXML;
@@ -40,7 +45,7 @@ import pga_xml.SerializadorXML;
  *
  * @author Dario
  */
-public class Principal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JFrame implements ControladorListener {
     private static final String BANCO_DE_DATOS_PATH = "pga_datos.xml";
 
     /** Creates new form Principal */
@@ -1628,6 +1633,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-END:initComponents
 
     private Entidades entidades;
+    private Controlador controlador;
     private Alumno alumnoActual;
     private Profesor profesorActual;
     private Asignatura asignaturaActual;
@@ -1943,6 +1949,8 @@ public class Principal extends javax.swing.JFrame {
             entidades = new Entidades();
         }
         
+        controlador = new Controlador(entidades, this);
+        
         // Setup inicial de las tablas de entidades.
         setupAlumnosTabla();
         setupProfesoresTabla();
@@ -1976,13 +1984,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
         profesoresFiltro.setText("");
-        
-        // Crear nuevo profesor en banco de datos.
-        Profesor nuevoProfesor = new Profesor();
-        nuevoProfesor.setLegajo(entidades.nuevoLegajoProfesor());
-        entidades.addProfesor(nuevoProfesor);
-        
-        // Agregar y seleccionar en tabla.
+        Profesor nuevoProfesor = controlador.crearProfesorVacio();
         agregarProfesorTabla(nuevoProfesor);
         int lastIndex = profesoresTabla.convertRowIndexToView(profesoresTabla.getRowCount() - 1);
         profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
@@ -1990,37 +1992,22 @@ public class Principal extends javax.swing.JFrame {
 
     private void asignaturasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasNuevoBotonActionPerformed
         asignaturasFiltro.setText("");
-    
-        // Crear nueva asignatura en banco de datos.
-        Asignatura nuevaAsignatura = new Asignatura();
-        nuevaAsignatura.setId(entidades.nuevoIdAsignatura());
-        entidades.addAsignatura(nuevaAsignatura);
-        
-        // Agregar y seleccionar en tabla.
+        Asignatura nuevaAsignatura = controlador.crearAsignaturaVacia();
         agregarAsignaturaTabla(nuevaAsignatura);
         int lastIndex = asignaturasTabla.convertRowIndexToView(asignaturasTabla.getRowCount() - 1);
         asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_asignaturasNuevoBotonActionPerformed
 
     private void cursadasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasNuevoBotonActionPerformed
-        ArrayList<Asignatura> asignaturas = entidades.getAsignaturas();
-        if (!asignaturas.isEmpty()) {
+        try {
             cursadasFiltro.setText("");
-            
-            // Crear nueva cursada en banco de datos.
-            Cursada nuevaCursada = new Cursada();
-            nuevaCursada.setId(entidades.nuevoIdCursada());
-            nuevaCursada.setAsignatura(asignaturas.get(0));
-            
-            entidades.addCursada(nuevaCursada);
-                
-            // Agregar y seleccionar en tabla.
+            Cursada nuevaCursada = controlador.crearCursadaVacia();
             agregarCursadaTabla(nuevaCursada);
             int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
             cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
         }
-        else {
-            mostrarError("Debe existir al menos una asignatura para poder crear una cursada.");
+        catch (IllegalStateException e) {
+            mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_cursadasNuevoBotonActionPerformed
     
@@ -2032,81 +2019,11 @@ public class Principal extends javax.swing.JFrame {
             String id = (String)cursadasTabla.getModel().getValueAt(selectedRow, 0);
             Cursada cursada = entidades.buscaCursadaPorId(id);
             assert cursada != null : "La tabla tiene un id que no existe en el modelo.";
-            entidades.removeCursada(cursada);
+            controlador.bajaCursada(cursada);
             DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();
             modelo.removeRow(selectedRow);
         }
     }//GEN-LAST:event_cursadasBorrarBotonActionPerformed
-
-    private boolean asignaturaValidarBaja(Asignatura asignaturaBaja) {
-        boolean bajaValida = true;
-        ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaBaja);
-        ArrayList<Profesor> profesores = entidades.buscaProfesoresConAsignatura(asignaturaBaja);
-        ArrayList<Asignatura> asignaturas = entidades.buscaAsignaturasConCorrelativa(asignaturaBaja);
-        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaBaja);
-        Iterator<Alumno> ita = alumnos.iterator();
-        Iterator<Profesor> itp = profesores.iterator();
-        Iterator<Asignatura> itas = asignaturas.iterator();
-        Iterator<Cursada> itc = cursadas.iterator();
-        Alumno alumno = null;
-        Profesor profesor = null;
-        Asignatura asignatura = null;
-        Cursada cursada = null;
-        boolean corregirAlumnos = false;
-        boolean corregirProfesores = false;
-        boolean corregirAsignaturas = false;
-        boolean corregirCursadas = false;
-        while (ita.hasNext() && bajaValida) {
-            alumno = ita.next();
-            corregirAlumnos = corregirAlumnos || mostrarPregunta("No puede borrarse la asignatura porque hay alumnos que la tienen en su lista de aprobadas. ¿Desea quitar la aprobacion de dichos alumnos?");
-            bajaValida = corregirAlumnos;
-            if (corregirAlumnos) {
-                alumno.getAprobadas().remove(asignaturaBaja);
-                if (alumno == alumnoActual) {
-                    setupAlumnoAprobadas();
-                }
-            }
-        }
-        
-        while (itp.hasNext() && bajaValida) {
-            profesor = itp.next();
-            corregirProfesores = corregirProfesores || mostrarPregunta("No puede borrarse la asignatura porque hay profesores que la tienen en su lista de habilitadas. ¿Desea quitar la habilitacion de dichos profesores?");
-            bajaValida = corregirProfesores;
-            if (corregirProfesores) {
-                profesor.getHabilitadas().remove(asignaturaBaja);
-                if (profesor == profesorActual) {
-                    setupProfesorHabilitadas();
-                }
-            }
-        }
-        
-        while (itas.hasNext() && bajaValida) {
-            asignatura = itas.next();
-            corregirAsignaturas = corregirAsignaturas || mostrarPregunta("No puede borrarse la asignatura porque hay asignaturas que la tienen en su lista de correlativas. ¿Desea quitar la correlatividad de dichas asignaturas?");
-            bajaValida = corregirAsignaturas;
-            if (corregirAsignaturas) {
-                asignatura.getCorrelativas().remove(asignaturaBaja);
-                if (asignatura == asignaturaActual) {
-                    setupAsignaturaCorrelativas();
-                }
-            }
-        }
-        
-        while (itc.hasNext() && bajaValida) {
-            cursada = itc.next();
-            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse la asignatura porque existen cursadas de ella. ¿Desea borrar dichas cursadas?");
-            bajaValida = corregirCursadas;
-            if (corregirCursadas) {
-                entidades.removeCursada(cursada);
-            }
-        }
-        
-        if (corregirCursadas) {
-            setupCursadas();
-        }
-        
-        return bajaValida;
-    }
 
     private void asignaturasBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasBorrarBotonActionPerformed
         ListSelectionModel lsm = asignaturasTabla.getSelectionModel();
@@ -2116,36 +2033,12 @@ public class Principal extends javax.swing.JFrame {
             String id = (String)asignaturasTabla.getModel().getValueAt(selectedRow, 0);
             Asignatura asignatura = entidades.buscaAsignaturaPorId(id);
             assert asignatura != null : "La tabla tiene un id que no existe en el modelo.";
-            
-            boolean operacionValida = asignaturaValidarBaja(asignatura);
-            if (operacionValida) {
-                entidades.removeAsignatura(asignatura);
+            if (controlador.bajaAsignatura(asignatura)) {
                 DefaultTableModel modelo = (DefaultTableModel) asignaturasTabla.getModel();
                 modelo.removeRow(selectedRow);
             }
         }
     }//GEN-LAST:event_asignaturasBorrarBotonActionPerformed
-
-    private boolean profesorValidarBaja(Profesor profesor) {
-        boolean bajaValida = true;
-        boolean corregirCursadas = false;
-        ArrayList<Cursada> cursadas = entidades.buscaCursadasConProfesor(profesor);
-        Iterator<Cursada> itc = cursadas.iterator();
-        Cursada cursada = null;
-        while (itc.hasNext() && bajaValida) {
-            cursada = itc.next();
-            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse el profesor porque existen cursadas en las que esta participando. ¿Desea quitar al profesor de dichas cursadas?");
-            bajaValida = corregirCursadas;
-            if (corregirCursadas) {
-                cursada.getProfesores().remove(profesor);
-                if (cursada == cursadaActual) {
-                    setupCursadaProfesores();
-                }
-            }
-        }
-        
-        return bajaValida;
-    }
 
     private void profesoresBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresBorrarBotonActionPerformed
         ListSelectionModel lsm = profesoresTabla.getSelectionModel();
@@ -2155,39 +2048,13 @@ public class Principal extends javax.swing.JFrame {
             String legajo = (String)profesoresTabla.getModel().getValueAt(selectedRow, 0);
             Profesor profesor = entidades.buscaProfesorPorLegajo(legajo);
             assert profesor != null : "La tabla tiene un legajo que no existe en el modelo.";
-            
-            boolean operacionValida = profesorValidarBaja(profesor);
-            if (operacionValida) {
-                entidades.removeProfesor(profesor);
+            if (controlador.bajaProfesor(profesor)) {
                 DefaultTableModel modelo = (DefaultTableModel) profesoresTabla.getModel();
                 modelo.removeRow(selectedRow);
             }
         }
     }//GEN-LAST:event_profesoresBorrarBotonActionPerformed
 
-    private boolean verificarPrecondicionesPersona(String legajo, String nombre, String domicilio, String mail) {
-        boolean entradaValida = true;
-        if (!Persona.legajoEsValido(legajo)) {
-            mostrarError("El legajo no es valido. No debe ser vacio.");
-            entradaValida = false;
-        }
-        else if (!Persona.nombreEsValido(nombre)) {
-            mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
-            entradaValida = false;
-        }
-        else if (!Persona.domicilioEsValido(domicilio)) {
-            mostrarError("El domicilio no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
-            entradaValida = false;
-        }
-        else if (!Persona.mailEsValido(mail)) {
-            mostrarError("El mail no es valido. Debe respetar la mascara de mail.");
-            entradaValida = false;
-            
-        }
-        
-        return entradaValida;
-    }
-    
     private boolean reemplazarEnTabla(JTable tabla, String claveVieja, String claveNueva, String valorNuevo) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         int rowCount = modelo.getRowCount();
@@ -2209,75 +2076,24 @@ public class Principal extends javax.swing.JFrame {
         setProfesorEditable(true);
     }//GEN-LAST:event_profesorEditarBotonActionPerformed
 
-    private boolean profesorValidarEntrada(String oldLegajo, String nuevoLegajo, String nuevoNombre, String nuevoDomicilio, String nuevoMail, String nuevoTelefono, ArrayList<Asignatura> nuevasHabilitadas) {
-        boolean entradaValida = true;
-        if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
-            entradaValida = false;
-        }
-        else if (!Profesor.telefonoEsValido(nuevoTelefono)) {
-            mostrarError("El telefono no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
-            entradaValida = false;
-        }
-        else if (!nuevoLegajo.equals(oldLegajo) && !Profesor.legajoEsValido(nuevoLegajo)) {
-            mostrarError("El legajo no cumple con la mascara de formato requerida.");
-            entradaValida = false;
-        }
-        else if (!nuevoLegajo.equals(oldLegajo) && entidades.buscaProfesorPorLegajo(nuevoLegajo) != null) {
-            mostrarError("El legajo ya esta en uso por otro profesor.");
-            entradaValida = false;
-        }
-        else {
-            // Verificar si el profesor puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de habilitadas.
-            ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(profesorActual);
-            Iterator<Cursada> it = cursadasProfesor.iterator();
-            Cursada cursada = null;
-            boolean corregirCursadas = false;
-            while (it.hasNext() && entradaValida) {
-                cursada = it.next();
-                if (!nuevasHabilitadas.contains(cursada.getAsignatura())) {
-                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra. ¿Desea quitar al profesor de las cursadas en las que ya no podria participar?");
-                    entradaValida = corregirCursadas;
-                    if (corregirCursadas) {
-                        cursada.getProfesores().remove(profesorActual);
-                        if (cursadaActual == cursada) {
-                            setupCursadaProfesores();
-                        }
-                    }
-                }
-            }
-        }
-        
-        return entradaValida;
-    }
-
     private void profesorAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
         String oldLegajo = profesorActual.getLegajo();
         String oldNombre = profesorActual.getNombre();
         String nuevoLegajo = profesorLegajoText.getText();
         String nuevoNombre = profesorNombreText.getText();
-        String nuevoDomicilio = profesorDomicilioText.getText();
-        String nuevoMail = profesorMailText.getText();
-        String nuevoTelefono = profesorTelefonoText.getText();
-        ArrayList<Asignatura> nuevasHabilitadas = asignaturasDeTabla(profesorAsigTabla);
-        boolean entradaValida = profesorValidarEntrada(oldLegajo, nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail, nuevoTelefono, nuevasHabilitadas);
+        try {
+            if (controlador.modificarProfesor(profesorActual, nuevoLegajo, nuevoNombre, profesorDomicilioText.getText(), profesorMailText.getText(), profesorTelefonoText.getText(), asignaturasDeTabla(profesorAsigTabla))) {
+                // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+                if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                    reemplazarEnTabla(profesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                    reemplazarEnTabla(cursadaProfesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                }
         
-        // Copiar los datos si las precondiciones se han cumplido.
-        if (entradaValida) {
-            profesorActual.setLegajo(nuevoLegajo);
-            profesorActual.setNombre(nuevoNombre);
-            profesorActual.setDomicilio(nuevoDomicilio);
-            profesorActual.setMail(nuevoMail);
-            profesorActual.setTelefono(nuevoTelefono);
-            profesorActual.setHabilitadas(nuevasHabilitadas);
-            
-            // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
-            if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
-                reemplazarEnTabla(profesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
-                reemplazarEnTabla(cursadaProfesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                setProfesorEditable(false);
             }
-            
-            setProfesorEditable(false);
+        }
+        catch (IllegalArgumentException e) {
+            mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_profesorAceptarBotonActionPerformed
 
@@ -2289,111 +2105,40 @@ public class Principal extends javax.swing.JFrame {
         setAsignaturaEditable(true);
     }//GEN-LAST:event_asignaturaEditarBotonActionPerformed
 
-    private boolean validarAsignaturaEntrada(String oldId, String nuevoId, String nuevoNombre, ArrayList<Asignatura> nuevasCorrelativas) {
-        boolean entradaValida = true;
-        if (!Asignatura.nombreEsValido(nuevoNombre)) {
-            mostrarError("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
-            entradaValida = false;
-        }
-        else if (!nuevoId.equals(oldId) && !Asignatura.idEsValido(nuevoId)) {
-            mostrarError("El Id no cumple con la mascara de formato requerida.");
-            entradaValida = false;
-        }
-        else if (!nuevoId.equals(oldId) && entidades.buscaAsignaturaPorId(nuevoId) != null) {
-            mostrarError("El Id ya esta en uso por otra asignatura.");
-            entradaValida = false;
-        }
-        else {
-            // Verificar si los alumnos pueden mantenerse en las cursadas de esta asignatura con las nuevas correlativas.
-            ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
-            Iterator<Cursada> itc = cursadas.iterator();
-            ArrayList<Alumno> alumnosQuitados = new ArrayList<Alumno>();
-            Cursada cursada = null;
-            boolean corregirCursadas = false;
-            while (itc.hasNext() && entradaValida) {
-                alumnosQuitados.clear();
-                cursada = itc.next();
-                Iterator<Alumno> ita = cursada.getAlumnos().iterator();
-                Alumno alumno = null;
-                while (ita.hasNext() && entradaValida) {
-                    alumno = ita.next();
-                    if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                        corregirCursadas = corregirCursadas || mostrarPregunta("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas. ¿Desea quitar la participacion de estos alumnos de dichas cursadas?");
-                        entradaValida = corregirCursadas;
-                        if (corregirCursadas) {
-                            alumnosQuitados.add(alumno);
-                        }
-                    }
-                }
-                
-                if (!alumnosQuitados.isEmpty()) {
-                    cursada.getAlumnos().removeAll(alumnosQuitados);
-                    if (cursada == cursadaActual) {
-                        setupCursadaAlumnos();
-                    }
-                }
-            }
-            
-            // Verificar si los alumnos pueden seguir teniendo esta asignatura como aprobada con las nuevas correlativas.
-            ArrayList<Alumno> alumnos = entidades.buscaAlumnosConAsignatura(asignaturaActual);
-            Iterator<Alumno> ita = alumnos.iterator();
-            Alumno alumno = null;
-            boolean corregirAlumnos = false;
-            while (ita.hasNext() && entradaValida) {
-                alumno = ita.next();
-                if (!alumno.getAprobadas().containsAll(nuevasCorrelativas)) {
-                    corregirAlumnos = corregirAlumnos || mostrarPregunta("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas. ¿Desea quitar la aprobacion de esta asignatura de dichos alumnos?");
-                    entradaValida = corregirAlumnos;
-                    if (corregirAlumnos) {
-                        alumno.getAprobadas().remove(asignaturaActual);
-                        if (alumno == alumnoActual) {
-                            setupAlumnoAprobadas();
-                        }
-                    }
-                }
-            }
-        }
-        
-        return entradaValida;
-    }
-
     private void asignaturaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaAceptarBotonActionPerformed
         // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
         String oldId = asignaturaActual.getId();
         String oldNombre = asignaturaActual.getNombre();
         String nuevoId = asignaturaIdText.getText();
         String nuevoNombre = asignaturaNombreText.getText();
-        ArrayList<Asignatura> nuevasCorrelativas = asignaturasDeTabla(asignaturaCorrTabla);
-        boolean entradaValida = validarAsignaturaEntrada(oldId, nuevoId, nuevoNombre, nuevasCorrelativas);
+        try {
+            if (controlador.modificarAsignatura(asignaturaActual, nuevoId, nuevoNombre, asignaturasDeTabla(asignaturaCorrTabla))) {
+                // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
+                if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
+                    reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
+                    reemplazarEnTabla(alumnoAsigTabla, oldId, nuevoId, nuevoNombre);
+                    reemplazarEnTabla(profesorAsigTabla, oldId, nuevoId, nuevoNombre);
+                        
+                    if (cursadaActual != null && cursadaActual.getAsignatura() == asignaturaActual) {
+                        cursadaAsignaturaText.setText(nombreDeAsignatura(asignaturaActual));
+                    }
+                        
+                    // FIXME Es un doble loop medio ineficiente, pero no es una operacion frecuente. Necesario porque el
+                    // nombre de la cursada es autogenerado a partir del de la asignatura.
+                    ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
+                    Iterator<Cursada> it = cursadas.iterator();
+                    Cursada cursada = null;
+                    while (it.hasNext()) {
+                        cursada = it.next();
+                        reemplazarEnTabla(cursadasTabla, cursada.getId(), cursada.getId(), nombreDeCursada(cursada));
+                    }
+                }
         
-        // Copiar los datos si las condiciones se han cumplido.
-        if (entradaValida) {
-            asignaturaActual.setId(nuevoId);
-            asignaturaActual.setNombre(nuevoNombre);
-            asignaturaActual.setCorrelativas(nuevasCorrelativas);
-            
-            // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
-            if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
-                reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
-                reemplazarEnTabla(alumnoAsigTabla, oldId, nuevoId, nuevoNombre);
-                reemplazarEnTabla(profesorAsigTabla, oldId, nuevoId, nuevoNombre);
-                
-                if (cursadaActual != null && cursadaActual.getAsignatura() == asignaturaActual) {
-                    cursadaAsignaturaText.setText(nombreDeAsignatura(asignaturaActual));
-                }
-                
-                // FIXME Es un doble loop medio ineficiente, pero no es una operacion frecuente. Necesario porque el
-                // nombre de la cursada es autogenerado a partir del de la asignatura.
-                ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
-                Iterator<Cursada> it = cursadas.iterator();
-                Cursada cursada = null;
-                while (it.hasNext()) {
-                    cursada = it.next();
-                    reemplazarEnTabla(cursadasTabla, cursada.getId(), cursada.getId(), nombreDeCursada(cursada));
-                }
+                setAsignaturaEditable(false);
             }
-            
-            setAsignaturaEditable(false);
+        }
+        catch (IllegalArgumentException e) {
+            mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_asignaturaAceptarBotonActionPerformed
 
@@ -2405,85 +2150,7 @@ public class Principal extends javax.swing.JFrame {
         setCursadaEditable(true);
     }//GEN-LAST:event_cursadaEditarBotonActionPerformed
 
-    private boolean cursadaValidarEntrada(String oldId, String nuevoId, Asignatura nuevaAsignatura, String nuevoPeriodo, String nuevoDia, String nuevaHoraInicio, String nuevaHoraFin, ArrayList<Alumno> nuevosAlumnos, ArrayList<Profesor> nuevosProfesores) {
-        boolean entradaValida = true;
-        if (!nuevoId.equals(oldId) && !Cursada.idEsValido(nuevoId)) {
-            mostrarError("El Id no cumple con la mascara de formato requerida.");
-            entradaValida = false;
-        }
-        else if (!nuevoId.equals(oldId) && entidades.buscaCursadaPorId(nuevoId) != null) {
-            mostrarError("El Id ya esta en uso por otra cursada.");
-            entradaValida = false;
-        }
-        else if (!Cursada.periodoEsValido(nuevoPeriodo)) {
-            mostrarError("El periodo no cumple con la mascara de formato requerida.");
-            entradaValida = false;
-        }
-        else if (!Cursada.diaEsValido(nuevoDia)) {
-            mostrarError("El dia no es valido. No corresponde con los valores permitidos.");
-            entradaValida = false;
-        }
-        else if (!Cursada.horaEsValido(nuevaHoraInicio)) {
-            mostrarError("La hora de inicio no es valida. No corresponde con los valores permitidos.");
-            entradaValida = false;
-        }
-        else if (!Cursada.horaEsValido(nuevaHoraFin)) {
-            mostrarError("La hora de inicio no es valida. No corresponde con los valores permitidos.");
-            entradaValida = false;
-        }
-        else if (!Cursada.horaMayorA(nuevaHoraFin, nuevaHoraInicio)) {
-            mostrarError("La hora de fin no es valida. Debe ser mayor a la hora de inicio.");
-            entradaValida = false;
-        }
-        else {
-            // Verificar si los nuevos alumnos estan aprobados para esta cursada.
-            Iterator<Alumno> ita = nuevosAlumnos.iterator();
-            Alumno alumno = null;
-            while (ita.hasNext() && entradaValida) {
-                alumno = ita.next();
-                if (!alumno.getAprobadas().containsAll(nuevaAsignatura.getCorrelativas())) {
-                    mostrarError("Los alumnos no tienen las correlativas aprobadas para cursar esta asignatura.");
-                    entradaValida = false;
-                }
-            }
-            
-            // Verificar si los nuevos profesores estan habilitados para esta cursada.
-            Iterator<Profesor> itp = nuevosProfesores.iterator();
-            Profesor profesor = null;
-            while (itp.hasNext() && entradaValida) {
-                profesor = itp.next();
-                if (!profesor.getHabilitadas().contains(nuevaAsignatura)) {
-                    mostrarError("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
-                    entradaValida = false;
-                }
-            }
-            
-            // Verificar superposicion para los alumnos.
-            ita = nuevosAlumnos.iterator();
-            while (ita.hasNext() && entradaValida) {
-                ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(ita.next());
-                if (cursadaActual.seSuperponeCon(cursadasAlumno, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
-                    mostrarError("No puede ubicarse la cursada en el plazo elegido. Causa superposicion para los alumnos con otras cursadas.");
-                    entradaValida = false;
-                }
-            }
-            
-            // Verificar superposicion para los profesores.
-            itp = nuevosProfesores.iterator();
-            while (itp.hasNext() && entradaValida) {
-                ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(itp.next());
-                if (cursadaActual.seSuperponeCon(cursadasProfesor, nuevaHoraInicio, nuevaHoraFin, nuevoPeriodo, nuevoDia)) {
-                    mostrarError("No puede ubicarse la cursada en el plazo elegido. Causa superposicion para los profesores con otras cursadas.");
-                    entradaValida = false;
-                }
-            }
-        }
-        
-        return entradaValida;
-    }
-
     private void cursadaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
         String oldId = cursadaActual.getId();
         String nuevoId = cursadaIdText.getText();
         String nuevaAsignaturaId = cursadaAsignaturaText.getText().substring(0, 7);
@@ -2491,22 +2158,16 @@ public class Principal extends javax.swing.JFrame {
         assert nuevaAsignatura != null : "El texto contiene una asignatura inexistente.";
         String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
         String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
-        String nuevaHoraInicio = cursadaHoraInicioText.getText();
-        String nuevaHoraFin = cursadaHoraFinText.getText();
-        ArrayList<Alumno> nuevosAlumnos = alumnosDeTabla(cursadaAlumnosTabla);
-        ArrayList<Profesor> nuevosProfesores = profesoresDeTabla(cursadaProfesoresTabla);
-        boolean entradaValida = cursadaValidarEntrada(oldId, nuevoId, nuevaAsignatura, nuevoPeriodo, nuevoDia, nuevaHoraInicio, nuevaHoraFin, nuevosAlumnos, nuevosProfesores);
-
-        // Copiar los datos si las precondiciones se han cumplido.
-        if (entradaValida) {
-            cursadaActual.setId(nuevoId);
-            cursadaActual.configurar(nuevaAsignatura, nuevoPeriodo, nuevoDia, nuevaHoraInicio, nuevaHoraFin, nuevosAlumnos, nuevosProfesores);
+        try {
+            controlador.modificarCursada(cursadaActual, nuevoId, nuevaAsignatura, nuevoPeriodo, nuevoDia, cursadaHoraInicioText.getText(), cursadaHoraFinText.getText(), alumnosDeTabla(cursadaAlumnosTabla), profesoresDeTabla(cursadaProfesoresTabla));
             
             // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
             // FIXME Deberia chequear los parametros de los cuales depende el nombre para saber si hace falta actualizar la tabla o no.
             reemplazarEnTabla(cursadasTabla, oldId, nuevoId, nombreDeCursada(cursadaActual));
-            
             setCursadaEditable(false);
+        }
+        catch (IllegalArgumentException e) {
+            mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_cursadaAceptarBotonActionPerformed
 
@@ -2518,69 +2179,25 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_panelTabsMouseClicked
 
-    private boolean alumnoValidarEntrada(String oldLegajo, String nuevoLegajo, String nuevoNombre, String nuevoDomicilio, String nuevoMail, ArrayList<Asignatura> nuevasAprobadas) {
-        boolean entradaValida = true;
-        if (!verificarPrecondicionesPersona(nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail)) {
-            entradaValida = false;
-        }
-        else if (!nuevoLegajo.equals(oldLegajo) && !Alumno.legajoEsValido(nuevoLegajo)) {
-            mostrarError("El legajo no cumple con la mascara de formato requerida.");
-            entradaValida = false;
-        }
-        else if (!nuevoLegajo.equals(oldLegajo) && entidades.buscaAlumnoPorLegajo(nuevoLegajo) != null) {
-            mostrarError("El legajo ya esta en uso por otro alumno.");
-            entradaValida = false;
-        }
-        else {
-            // Verificar si el alumno puede mantenerse en las cursadas que esta si se utiliza esta nueva lista de aprobadas.
-            ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(alumnoActual);
-            Iterator<Cursada> it = cursadasAlumno.iterator();
-            Cursada cursada = null;
-            boolean corregirCursadas = false;
-            while (it.hasNext() && entradaValida) {
-                cursada = it.next();
-                if (!nuevasAprobadas.containsAll(cursada.getAsignatura().getCorrelativas())) {
-                    corregirCursadas = corregirCursadas || mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. ¿Desea quitar al alumno de las cursadas en las que ya no podria participar?");
-                    entradaValida = corregirCursadas;
-                    if (corregirCursadas) {
-                        cursada.getAlumnos().remove(alumnoActual);
-                        if (cursadaActual == cursada) {
-                            setupCursadaAlumnos();
-                        }
-                    }
-                }
-            }
-        }
-        
-        return entradaValida;
-    }
-
     private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
         // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
         String oldLegajo = alumnoActual.getLegajo();
         String oldNombre = alumnoActual.getNombre();
         String nuevoLegajo = alumnoLegajoText.getText();
         String nuevoNombre = alumnoNombreText.getText();
-        String nuevoDomicilio = alumnoDomicilioText.getText();
-        String nuevoMail = alumnoMailText.getText();
-        ArrayList<Asignatura> nuevasAprobadas = asignaturasDeTabla(alumnoAsigTabla);
-        boolean entradaValida = alumnoValidarEntrada(oldLegajo, nuevoLegajo, nuevoNombre, nuevoDomicilio, nuevoMail, nuevasAprobadas);
-        
-        // Copiar los datos si las precondiciones se han cumplido.
-        if (entradaValida) {
-            alumnoActual.setLegajo(nuevoLegajo);
-            alumnoActual.setNombre(nuevoNombre);
-            alumnoActual.setDomicilio(nuevoDomicilio);
-            alumnoActual.setMail(nuevoMail);
-            alumnoActual.setAprobadas(nuevasAprobadas);
-
-            // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
-            if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
-                reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
-                reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+        try {
+            if (controlador.modificarAlumno(alumnoActual, nuevoLegajo, nuevoNombre, alumnoDomicilioText.getText(), alumnoMailText.getText(), asignaturasDeTabla(alumnoAsigTabla))) {
+                // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+                if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                    reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                    reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                }
+    
+                setAlumnoEditable(false);
             }
-
-            setAlumnoEditable(false);
+        }
+        catch (IllegalArgumentException e) {
+            mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
 
@@ -2592,27 +2209,6 @@ public class Principal extends javax.swing.JFrame {
         setAlumnoEditable(true);
     }//GEN-LAST:event_alumnoEditarBotonActionPerformed
 
-    private boolean alumnoValidarBaja(Alumno alumno) {
-        boolean bajaValida = true;
-        boolean corregirCursadas = false;
-        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAlumno(alumno);
-        Iterator<Cursada> itc = cursadas.iterator();
-        Cursada cursada = null;
-        while (itc.hasNext() && bajaValida) {
-            cursada = itc.next();
-            corregirCursadas = corregirCursadas || mostrarPregunta("No puede borrarse el alumno porque existen cursadas en las que esta participando. ¿Desea quitar al alumno de dichas cursadas?");
-            bajaValida = corregirCursadas;
-            if (corregirCursadas) {
-                cursada.getAlumnos().remove(alumno);
-                if (cursada == cursadaActual) {
-                    setupCursadaAlumnos();
-                }
-            }
-        }
-        
-        return bajaValida;
-    }
-
     private void alumnosBorrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosBorrarBotonActionPerformed
         ListSelectionModel lsm = alumnosTabla.getSelectionModel();
         int selectedRow = lsm.getMinSelectionIndex();
@@ -2621,11 +2217,7 @@ public class Principal extends javax.swing.JFrame {
             String legajo = (String)alumnosTabla.getModel().getValueAt(selectedRow, 0);
             Alumno alumno = entidades.buscaAlumnoPorLegajo(legajo);
             assert alumno != null : "La tabla tiene un legajo que no existe en el modelo.";
-            
-            // Verificamos que el alumno no se encuentre actualmente en una cursada.
-            boolean operacionValida = alumnoValidarBaja(alumno);
-            if (operacionValida) {
-                entidades.removeAlumno(alumno);
+            if (controlador.bajaAlumno(alumno)) {
                 DefaultTableModel modelo = (DefaultTableModel) alumnosTabla.getModel();
                 modelo.removeRow(selectedRow);
             }
@@ -2634,13 +2226,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
         alumnosFiltro.setText("");
-        
-        // Crear nuevo alumno en banco de datos.
-        Alumno nuevoAlumno = new Alumno();
-        nuevoAlumno.setLegajo(entidades.nuevoLegajoAlumno());
-        entidades.addAlumno(nuevoAlumno);
-
-        // Agregar y seleccionar en tabla.
+        Alumno nuevoAlumno = controlador.crearAlumnoVacio();
         agregarAlumnoTabla(nuevoAlumno);
         int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
         alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
@@ -3111,6 +2697,78 @@ public class Principal extends javax.swing.JFrame {
         if (editable == false) {
             cursadaAlumQuitarBoton.setEnabled(editable);
             cursadaProfQuitarBoton.setEnabled(editable);
+        }
+    }
+    
+    @Override
+    public boolean confirmarAccion(ControladorListener.Accion accion) {
+        switch (accion) {
+        case AlumnoBorrarRefsCursadasBaja:
+            return mostrarPregunta("No puede borrarse el alumno porque existen cursadas en las que esta participando. ¿Desea quitar al alumno de dichas cursadas?");
+        case AlumnoBorrarRefsCursadasModificacion:
+            return mostrarPregunta("La nueva lista de asignaturas aprobadas no es compatible con las cursadas en las que el alumno se encuentra. ¿Desea quitar al alumno de las cursadas en las que ya no podria participar?");
+        case ProfesorBorrarRefsCursadasBaja:
+            return mostrarPregunta("No puede borrarse el profesor porque existen cursadas en las que esta participando. ¿Desea quitar al profesor de dichas cursadas?");
+        case ProfesorBorrarRefsCursadasModificacion:
+            return mostrarPregunta("La nueva lista de asignaturas habilitadas no es compatible con las cursadas en las que el profesor se encuentra. ¿Desea quitar al profesor de las cursadas en las que ya no podria participar?");
+        case AsignaturaBorrarRefsAlumnosBaja:
+            return mostrarPregunta("No puede borrarse la asignatura porque hay alumnos que la tienen en su lista de aprobadas. ¿Desea quitar la aprobacion de dichos alumnos?");
+        case AsignaturaBorrarRefsAlumnosModificacion:
+            return mostrarPregunta("Los alumnos que aprobaron esta asignatura no tienen aprobadas las nuevas correlativas. ¿Desea quitar la aprobacion de esta asignatura de dichos alumnos?");
+        case AsignaturaBorrarRefsProfesores:
+            return mostrarPregunta("No puede borrarse la asignatura porque hay profesores que la tienen en su lista de habilitadas. ¿Desea quitar la habilitacion de dichos profesores?");
+        case AsignaturaBorrarRefsAsignaturas:
+            return mostrarPregunta("No puede borrarse la asignatura porque hay asignaturas que la tienen en su lista de correlativas. ¿Desea quitar la correlatividad de dichas asignaturas?");
+        case AsignaturaBorrarRefsCursadaAlumnos:
+            return mostrarPregunta("Los alumnos que participan en cursadas de esta asignatura no pueden seguir cursando con las nuevas correlativas. ¿Desea quitar la participacion de estos alumnos de dichas cursadas?");
+        case AsignaturaBorrarCursadas:
+            return mostrarPregunta("No puede borrarse la asignatura porque existen cursadas de ella. ¿Desea borrar dichas cursadas?");
+        default:
+            return false;
+        }
+    }
+
+    @Override
+    public void notificarCambios(ControladorListener.Cambios cambio, Object primero, Object segundo) {
+        switch (cambio) {
+        case CursadaAlumnoBorrado:
+            if ((Cursada)primero == cursadaActual) {
+                setupCursadaAlumnos();
+            }
+            break;
+        case CursadaAlumnosBorrados:
+            if ((Cursada)primero == cursadaActual) {
+                setupCursadaAlumnos();
+            }
+            break;
+        case CursadaProfesorBorrado:
+            if ((Cursada)primero == cursadaActual) {
+                setupCursadaProfesores();
+            }
+            break;
+        case AlumnoAprobadaBorrada:
+            if ((Alumno)primero == alumnoActual) {
+                setupAlumnoAprobadas();
+            }
+            break;
+        case ProfesorHabilitadaBorrada:
+            if ((Profesor)primero == profesorActual) {
+                setupProfesorHabilitadas();
+            }
+            break;
+        case AsignaturaCorrelativaBorrada:
+            if ((Asignatura)primero == asignaturaActual) {
+                setupAsignaturaCorrelativas();
+            }
+            break;
+        case CursadaBorrada:
+            /* No manejado */
+            break;
+        case CursadasBorradas:
+            setupCursadas();
+            break;
+        default:
+            break;
         }
     }
 

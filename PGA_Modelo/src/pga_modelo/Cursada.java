@@ -208,7 +208,7 @@ public class Cursada {
      * @param dia El dia con el cual se verifica la superposicion. <br>
      * @return true si existe una superposicion, false en caso contrario.
      */
-    public boolean seSuperponeCon(Cursada cursada, String horaInicio, String horaFin, String periodo, String dia) {
+    static public boolean seSuperponeCon(Cursada cursada, String horaInicio, String horaFin, String periodo, String dia) {
         if (cursada.getPeriodo().equals(periodo) && cursada.getDia().equals(dia)) {
             if (!horaInicio.equals(cursada.getHoraFin()) && !horaFin.equals(cursada.getHoraInicio()) && 
                 !horaMayorA(horaInicio, cursada.getHoraFin()) && !horaMayorA(cursada.getHoraInicio(), horaFin)) 
@@ -227,22 +227,22 @@ public class Cursada {
      * @return true si existe una superposicion, false en caso contrario.
      */
     public boolean seSuperponeCon(ArrayList<Cursada> cursadas) {
-        return seSuperponeCon(cursadas, horaInicio, horaFin, periodo, dia);
+        return seSuperponeCon(cursadas, horaInicio, horaFin, periodo, dia, this);
     }
     
     /**
      * Comprueba si esta cursada se superpone con otra lista de cursadas en un horario especifico. <br>
-     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. Puede incluirse esta cursada 
-     * en la lista, la cual sera ignorada. <br>
+     * @param cursadas Lista de cursadas con la cual se verifica la superposicion. <br>
+     * @param cursadaIgnorada Una cursada opcional que puede ser ignorada de la lista. <br>
      * @return true si existe una superposicion, false en caso contrario.
      */
-    public boolean seSuperponeCon(ArrayList<Cursada> cursadas, String horaInicio, String horaFin, String periodo, String dia) {
+    static public boolean seSuperponeCon(ArrayList<Cursada> cursadas, String horaInicio, String horaFin, String periodo, String dia, Cursada cursadaIgnorada) {
         boolean conSuperposicion = false;
         Iterator<Cursada> it = cursadas.iterator();
         Cursada cursada = null;
         while (it.hasNext() && !conSuperposicion) {
             cursada = it.next();
-            if (cursada != this && seSuperponeCon(cursada, horaInicio, horaFin, periodo, dia)) {
+            if ((cursada != cursadaIgnorada) && seSuperponeCon(cursada, horaInicio, horaFin, periodo, dia)) {
                 conSuperposicion = true;   
             }
         }

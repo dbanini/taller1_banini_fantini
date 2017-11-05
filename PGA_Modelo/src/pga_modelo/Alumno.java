@@ -134,7 +134,7 @@ public class Alumno extends Persona {
      * Comprueba que la lista de asignaturas aprobadas no tenga asignaturas para las cuales no se cumplen las correlativas. <br>
      * @return True si la lista de aprobadas esta compuesta correctamente, false en caso contrario.
      */
-    private boolean aprobadasConCorrelativas() {
+    static public boolean aprobadasConCorrelativas(ArrayList<Asignatura> aprobadas) {
         boolean correlativasAprobadas = true;
         Iterator<Asignatura> it = aprobadas.iterator();
         Asignatura asignatura = null;
@@ -158,6 +158,6 @@ public class Alumno extends Persona {
     private void verificarInvariante(){
         assert legajoEsValido(getLegajo()) : "La mascara del legajo es invalida.";
         assert aprobadasEsValido() : "La lista de aprobadas es invalida.";
-        assert aprobadasConCorrelativas() : "La lista de aprobadas contiene asignaturas que no tienen correlativas aprobadas.";
+        assert aprobadasConCorrelativas(aprobadas) : "La lista de aprobadas contiene asignaturas que no tienen correlativas aprobadas.";
     }
 }

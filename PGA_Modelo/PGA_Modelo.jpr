@@ -117,6 +117,16 @@
                   <url path="../PGA_Interfaz/src/"/>
                </list>
             </hash>
+            <hash>
+               <url n="content-folder-url" path="../PGA_Controlador/src/pga_controlador/"/>
+               <list n="pattern-filters">
+                  <string v="+pga_controlador/ControladorListener.java"/>
+                  <string v="+pga_controlador/Controlador.java"/>
+               </list>
+               <list n="url-path">
+                  <url path="../PGA_Controlador/src/"/>
+               </list>
+            </hash>
          </list>
          <list n="url-path"/>
       </hash>
