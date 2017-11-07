@@ -12,8 +12,17 @@ import pga_modelo.Cursada;
 import pga_modelo.Persona;
 
 public class Controlador {
+    
+    // -----------------------------------------------------------------
+    // Atributos
+    // -----------------------------------------------------------------
+    
     private Entidades entidades;
     private ControladorListener listener;
+    
+    // -----------------------------------------------------------------
+    // Constructores
+    // -----------------------------------------------------------------
     
     /**
      * Construye un controlador para las entidades.
@@ -34,6 +43,22 @@ public class Controlador {
         this.entidades = entidades;
         this.listener = listener;
     }
+    
+    // -----------------------------------------------------------------
+    // Getters y setters
+    // -----------------------------------------------------------------
+    
+    public Entidades getEntidades() {
+        return entidades;
+    }
+    
+    public void setEntidades(Entidades entidades){
+        this.entidades=entidades;
+    }
+    
+    // -----------------------------------------------------------------
+    // Metodos
+    // -----------------------------------------------------------------
     
     private boolean confirmarAccion(ControladorListener.Accion a) {
         if (listener != null) {

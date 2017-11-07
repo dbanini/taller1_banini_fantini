@@ -109,7 +109,6 @@
                </list>
             </hash>
             <hash>
-               <url n="content-folder-url" path="../PGA_Interfaz/src/"/>
                <list n="pattern-filters">
                   <string v="+Main.java"/>
                </list>
@@ -127,6 +126,24 @@
                   <url path="../PGA_Controlador/src/"/>
                </list>
             </hash>
+            <hash>
+               <url n="content-folder-url" path="../PGA_Controlador/src/pga_junit/"/>
+               <list n="pattern-filters">
+                  <string v="+pga_junit/"/>
+               </list>
+               <list n="url-path">
+                  <url path="../PGA_Controlador/src/"/>
+               </list>
+            </hash>
+            <hash>
+               <url n="content-folder-url" path="../PGA_JUnit/src/pga_junit/"/>
+               <list n="pattern-filters">
+                  <string v="+pga_junit/"/>
+               </list>
+               <list n="url-path">
+                  <url path="../PGA_JUnit/src/"/>
+               </list>
+            </hash>
          </list>
          <list n="url-path"/>
       </hash>
@@ -140,6 +157,20 @@
             <value n="targetURL"/>
          </hash>
       </hash>
+   </hash>
+   <hash n="oracle.jdevimpl.config.JProjectLibraries">
+      <list n="exportedReferences">
+         <hash>
+            <value n="id" v="JUnit 4 Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+      </list>
+      <list n="libraryReferences">
+         <hash>
+            <value n="id" v="JUnit 4 Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+      </list>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectPaths">
       <url n="outputDirectory" path="classes/"/>
