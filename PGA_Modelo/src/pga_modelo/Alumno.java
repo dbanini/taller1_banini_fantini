@@ -47,6 +47,21 @@ public class Alumno extends Persona {
         verificarInvariante();
     }
     
+    /** TODO
+     * Crea un alumno con sus atributos. <br>
+     * <b>post: </b> Se crea un Alumno con sus datos correspondientes y una coleccion vacia de asignaturas aprobadas. <br>
+     * @param legajo El legajo debe cumplir la mascara de legajo del alumno (ALUXXXX (X 0-9)) <br>
+     * @param nombre El nombre es alfanumerico, distinto de null y de vacio. <br>
+     * @param domicilio El domicilio es alfanumerico, distinto de null y de vacio. <br>
+     * @param mail El mail debe cumplir la mascara de mail (AAAAA@AAAAAA)
+     * @para aprobadas
+     */
+    public Alumno(String legajo, String nombre, String domicilio, String mail,ArrayList<Asignatura> aprobadas) {
+        super(legajo, nombre, domicilio, mail);
+        this.aprobadas=aprobadas;
+        verificarInvariante();
+    }
+    
     // -----------------------------------------------------------------
     // Getters y setters
     // -----------------------------------------------------------------

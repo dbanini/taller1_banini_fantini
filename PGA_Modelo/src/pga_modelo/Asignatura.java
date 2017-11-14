@@ -49,6 +49,19 @@ public class Asignatura {
         correlativas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
+    
+    /** TODO
+     * Crea una asignatura con sus atributos. <br>
+     * <b>post: </b> Se crea una asignatura. <br>
+     * @param id El id debe cumplir la mascara de identificacion de la asignatura (ASIXXXX (X 0-9)) <br>
+     * @param nombre El nombre de la asignatura. Debe ser alfanumerico y no vacio.
+     */
+    public Asignatura(String id, String nombre, ArrayList<Asignatura> correlativas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correlativas = correlativas;
+        verificarInvariante();
+    }
 
     // -----------------------------------------------------------------
     // Getters y setters

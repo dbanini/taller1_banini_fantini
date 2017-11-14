@@ -509,13 +509,14 @@ public class Controlador {
      * @return El alumno que se agrega a la coleccion.
      */
     public Alumno altaAlumno(String legajo, String nombre, String domicilio, String mail, ArrayList<Asignatura> aprobadas) throws IllegalArgumentException {
+        
         if (entidades.buscaAlumnoPorLegajo(legajo) != null) {
             throw new IllegalArgumentException("El legajo ya esta en uso por otro alumno.");
         }
         
         alumnoValidarDatos(legajo, nombre, domicilio, mail, aprobadas);
-        Alumno alumno = new Alumno(legajo, nombre, domicilio, mail);
-        alumno.setAprobadas(aprobadas);
+        Alumno alumno = new Alumno(legajo, nombre, domicilio, mail,aprobadas);
+        entidades.addAlumno(alumno);
         return alumno;
     }
     
@@ -584,8 +585,8 @@ public class Controlador {
         }
         
         profesorValidarDatos(legajo, nombre, domicilio, mail, telefono);
-        Profesor profesor = new Profesor(legajo, nombre, domicilio, mail, telefono);
-        profesor.setHabilitadas(habilitadas);
+        Profesor profesor = new Profesor(legajo, nombre, domicilio, mail, telefono,habilitadas);
+        entidades.addProfesor(profesor);
         return profesor;
     }
     
@@ -655,8 +656,8 @@ public class Controlador {
         }
         
         asignaturaValidarDatos(id, nombre);
-        Asignatura asignatura = new Asignatura(id, nombre);
-        asignatura.setCorrelativas(correlativas);
+        Asignatura asignatura = new Asignatura(id, nombre,correlativas);
+        entidades.addAsignatura(asignatura);
         return asignatura;
     }
     
@@ -729,9 +730,8 @@ public class Controlador {
         }
         
         cursadaValidarDatos(id, asignatura, periodo, dia, horaInicio, horaFin, alumnos, profesores, null);
-        Cursada cursada = new Cursada(id, asignatura, periodo, dia, horaInicio, horaFin);
-        cursada.setAlumnos(alumnos);
-        cursada.setProfesores(profesores);
+        Cursada cursada = new Cursada(id, asignatura, periodo, dia, horaInicio, horaFin, profesores, alumnos);
+        entidades.addCursada(cursada);
         return cursada;
     }
     

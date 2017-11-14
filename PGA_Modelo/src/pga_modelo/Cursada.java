@@ -72,6 +72,26 @@ public class Cursada {
         alumnos = new ArrayList<Alumno>();
         verificarInvariante();
     }
+    
+    /** TODO
+     * Crea una cursada con sus atributos. <br>
+     * @param id El id debe cumplir la mascara de cursada (CURXXXX (X 0-9)) y debe ser unica. <br>
+     * @param asignatura La asignatura debe existir. <br>
+     * @param periodo El periodo debe cumplir con la mascara de Periodo (CC-AAAA (CC cursada : 01 o 02) y AAAA (AAAA>1900 && AAAA<2100)) <br>
+     * @param dia El dia debe pertenecer a Lun, Mar, Mie, Jue, Vie, Sab o Dom. <br>
+     * @param hora La hora debe cumplir con la mascada de Hora (99:99 (9 : 0-9))
+     */
+    public Cursada(String id, Asignatura asignatura, String periodo, String dia, String horaInicio, String horaFin,ArrayList<Profesor> profesores,ArrayList<Alumno> alumnos) {
+        this.id = id;
+        this.asignatura = asignatura;
+        this.periodo = periodo;
+        this.dia = dia;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.profesores = profesores;
+        this.alumnos = alumnos;
+        verificarInvariante();
+    }
 
     // -----------------------------------------------------------------
     // Getters y setters
