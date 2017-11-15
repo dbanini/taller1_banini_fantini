@@ -242,9 +242,33 @@ public class ControladorTest {
     }
     
     /**
-     * Escenarios combinados.
-     * Deberiamos buscar de separarlos en operaciones distintas solo cuando terminemos todos los casos de prueba.
+     * Nuevo formato de escenarios.
      */
+    private void setupEscenario_7() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+    }
+    
+    private void setupEscenario_8() {
+        Asignatura fisica = new Asignatura("ASI0123", "Fisica"); 
+        entidades.addAsignatura(fisica);
+    }
+    
+    private void setupEscenario_9() {
+        // Asignaturas = { }
+    }
+    
     private void setupEscenario_7_10() {
         // Agregar asignaturas.
         Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
@@ -502,7 +526,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testAltaAlumno1_1_VL1(){
+    public void testAltaAlumno1_1_VL(){
         setupEscenario3();
         String legajo="ALU0123";
         String nombre="Maria";
@@ -550,7 +574,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_4_VL1(){
+    public void testAltaAlumno1_4_VL(){
         setupEscenario1();
         String legajo="ALU012";
         String nombre="Maria";
@@ -574,7 +598,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_5_VL1(){
+    public void testAltaAlumno1_5_VL(){
         setupEscenario1();
         String legajo="ALU01234";
         String nombre="Maria";
@@ -610,7 +634,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testAltaAlumno2_1_VL1(){
+    public void testAltaAlumno2_1_VL(){
         setupEscenario1();
         String legajo="ALU0123";
         String nombre="M";
@@ -646,7 +670,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testAltaAlumno3_1_VL1(){
+    public void testAltaAlumno3_1_VL(){
         setupEscenario1();
         String legajo="ALU0123";
         String nombre="Maria";
@@ -682,7 +706,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testAltaAlumno4_1_VL1(){
+    public void testAltaAlumno4_1_VL(){
         setupEscenario1();
         String legajo="ALU0123";
         String nombre="Maria";
@@ -766,7 +790,7 @@ public class ControladorTest {
     }
     
     @Test 
-    public void testBajaAlumno1_1_VL1(){
+    public void testBajaAlumno1_1_VL(){
         setupEscenario2();
         Alumno alumnoBaja=entidades.getAlumnos().get(0);
         
@@ -782,7 +806,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testBajaAlumno1_2_VL1(){
+    public void testBajaAlumno1_2_VL(){
         setupEscenario3();
         Alumno alumnoBaja=new Alumno();
         
@@ -854,7 +878,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_4_VL1(){
+    public void testModificarAlumno1_4_VL(){
         setupEscenario2();
         
         Alumno testAlumno=entidades.getAlumnos().get(0);
@@ -884,7 +908,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_5_VL1(){
+    public void testModificarAlumno1_5_VL(){
         setupEscenario2();
         
         Alumno testAlumno=entidades.getAlumnos().get(0);
@@ -929,7 +953,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testModificarAlumno2_1_VL1(){
+    public void testModificarAlumno2_1_VL(){
         setupEscenario2();
         
         Alumno testAlumno=entidades.getAlumnos().get(0);
@@ -974,7 +998,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testModificarAlumno3_1_VL1(){
+    public void testModificarAlumno3_1_VL(){
         setupEscenario2();
         
         Alumno testAlumno=entidades.getAlumnos().get(0);
@@ -1019,7 +1043,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testModificarAlumno4_1_VL1(){
+    public void testModificarAlumno4_1_VL(){
         setupEscenario2();
         
         Alumno testAlumno=entidades.getAlumnos().get(0);
@@ -1151,7 +1175,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testModificarAlumno5_1_VL1(){
+    public void testModificarAlumno5_1_VL(){
         setupEscenario1();
         
         Alumno testAlumno=entidades.getAlumnos().get(0);
@@ -1381,11 +1405,6 @@ public class ControladorTest {
         setupEscenario6();
         
     }
-    
-    @Test
-    public void testCrearProfesorVacio(){
-        //TODO:
-    }
             
     @Test
     public void testAltaProfesor(){
@@ -1429,56 +1448,352 @@ public class ControladorTest {
     }
     
     @Test
-    public void testCrearAsignaturaVacia(){
-        /*
-        setupEscenario1();
-        Assert.assertNotNull(controlador.crearAsignaturaVacia());
-        */
+    public void testAltaAsignatura1_1(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura asignatura = controlador.altaAsignatura("ASI0123", "Fisica", correlativas);
+        assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
     }
-            
+    
+    /***************
+     * ASIGNATURAS *
+     ***************/
+    
     @Test
-    public void testAltaAsignatura(){
-        //TODO:
+    public void testAltaAsignatura1_1_VL(){
+        setupEscenario_9();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura asignatura = controlador.altaAsignatura("ASI0123", "Fisica", correlativas);
+        assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_2(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("CUR0123", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_3(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASIFISI", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_4(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASI", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_4_VL(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASI012", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_5(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASI01234567", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_5_VL(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASI01234", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura1_6(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura(null, "Fisica", correlativas);
     }
     
     @Test
-    public void testBajaAsignatura(){
-        /*
-        setupEscenario1();
-        Asignatura asignatura = new Asignatura();
-        controlador.getEntidades().addAsignatura(asignatura);
-        
-        assertTrue (controlador.bajaAsignatura(asignatura));
-        */
+    public void testAltaAsignatura2_1_VL(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura asignatura = controlador.altaAsignatura("ASI0123", "F", correlativas);
+        assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura2_2(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASI0123", "", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAsignatura2_3(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.altaAsignatura("ASI0123", null, correlativas);
     }
     
     @Test
-    public void testModificarAsignatura(){
-        /*
-        setupEscenario1();
-        String id="";
-        String nombre="";
-        ArrayList<Asignatura> correlativas;
-        
-        String idNuevo="";
-        String nombreNuevo="";
-        ArrayList<Asignatura> correlativasNuevo;      
-        
-        Asignatura testAsignatura = new Asignatura(id,nombre);
-        testAsignatura.setCorrelativas(correlativas);
-        
-        Assert.assertTrue(controlador.modificarAsignatura(testAsignatura,idNuevo,nombreNuevo,correlativasNuevo));
-        */
+    public void testBajaAsignatura1_1() {
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI1234");
+        controlador.bajaAsignatura(asignatura);
+        assertFalse(entidades.getAsignaturas().contains(asignatura));
     }
     
     @Test
-    public void testCrearCursadaVacia(){
-        /*
-        setupEscenario1();
-        Assert.assertNotNull(controlador.crearCursadaVacia());
-        */
+    public void testBajaAsignatura1_1_VL() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        controlador.bajaAsignatura(asignatura);
+        assertFalse(entidades.getAsignaturas().contains(asignatura));
     }
-            
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaAsignatura1_2() {
+        setupEscenario_7();
+        Asignatura asignatura = new Asignatura("ASI0123", "Fisica");
+        controlador.bajaAsignatura(asignatura);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaAsignatura1_2_VL() {
+        setupEscenario_9();
+        Asignatura asignatura = new Asignatura("ASI0123", "Fisica");
+        controlador.bajaAsignatura(asignatura);
+    }
+    
+    @Test
+    public void testModificarAsignatura1_1(){
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI2345", "Quimica", correlativas);
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI2345"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("Quimica"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_2() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "CUR0123", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_3() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASIFISI", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_4() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_4_VL() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI012", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_5() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI01234567", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_5_VL() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI01234", "Fisica", correlativas);
+    }
+    
+    /**
+     * CASO ERRONEO: Espera error por Id duplicado pero el escenario no es correcto para que eso pase.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_6() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI1234", "Fisica", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura1_7() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, null, "Fisica", correlativas);
+    }
+    
+    @Test
+    public void testModificarAsignatura2_1_VL(){
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI0123", "F", correlativas);
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI0123"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("F"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura2_2() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI0123", "", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura2_3() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        controlador.modificarAsignatura(asignatura, "ASI0123", null, correlativas);
+    }
+    
+    @Test
+    public void testModificarAsignatura3_1(){
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI4567");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura asignaturaQuimica = entidades.buscaAsignaturaPorId("ASI2345");
+        Asignatura asignaturaMatematica = entidades.buscaAsignaturaPorId("ASI1234");
+        correlativas.add(asignaturaQuimica);
+        correlativas.add(asignaturaMatematica);
+        controlador.modificarAsignatura(asignatura, "ASI4567", "Laboratorio", correlativas);
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI4567"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("Laboratorio"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().containsAll(correlativas));
+    }
+    
+    @Test
+    public void testModificarAsignatura3_1_VL(){
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI2345");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura asignaturaMatematica = entidades.buscaAsignaturaPorId("ASI1234");
+        correlativas.add(asignaturaMatematica);
+        controlador.modificarAsignatura(asignatura, "ASI2345", "Quimica", correlativas);
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI2345"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("Quimica"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().containsAll(correlativas));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura3_2() {
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI4567");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura fisica = new Asignatura("ASI0123", "Fisica");
+        correlativas.add(entidades.buscaAsignaturaPorId("ASI2345"));
+        correlativas.add(fisica);
+        controlador.modificarAsignatura(asignatura, "ASI0123", "Laboratorio", correlativas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAsignatura3_3() {
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI4567");
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        correlativas.add(entidades.buscaAsignaturaPorId("ASI2345"));
+        correlativas.add(null);
+        controlador.modificarAsignatura(asignatura, "ASI0123", "Laboratorio", correlativas);
+    }
+    
+    @Test
+    public void testConsultaAsignatura1_1() {
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI2345");
+        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI2345"));
+        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Quimica"));
+        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test
+    public void testConsultaAsignatura1_1_VL() {
+        setupEscenario_8();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI0123"));
+        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Fisica"));
+        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test
+    public void testConsultaAsignatura1_2() {
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        assertNull("Se encontro una asignatura.", asignatura);
+    }
+    
+    @Test
+    public void testConsultaAsignatura1_2_VL() {
+        setupEscenario_9();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        assertNull("Se encontro una asignatura.", asignatura);
+    }
+    
+    @Test
+    public void testUbicarAsignatura1_1() {
+        setupEscenario_7();
+        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Quimica");
+        assertFalse("No se encontraron asignaturas con ese nombre.", asignaturas.isEmpty());
+        Asignatura asignatura = asignaturas.get(0);
+        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI2345"));
+        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Quimica"));
+        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test
+    public void testUbicarAsignatura1_1_VL() {
+        setupEscenario_8();
+        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
+        assertFalse("No se encontraron asignaturas con ese nombre.", asignaturas.isEmpty());
+        Asignatura asignatura = asignaturas.get(0);
+        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI0123"));
+        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Fisica"));
+        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test
+    public void testUbicarAsignatura1_2() {
+        setupEscenario_7();
+        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
+        assertTrue("Se encontro al menos una asignatura con ese nombre.", asignaturas.isEmpty());
+    }
+    
+    @Test
+    public void testUbicarAsignatura1_2_VL() {
+        setupEscenario_9();
+        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
+        assertTrue("Se encontro al menos una asignatura con ese nombre.", asignaturas.isEmpty());
+    }
+   
+   
+    /***************
+     *  CURSADAS   *
+     ***************/            
     @Test
     public void testAltaCursada1_1(){
         setupEscenario_7_10();
@@ -1488,7 +1803,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testAltaCursada1_1_VL1(){
+    public void testAltaCursada1_1_VL(){
         setupEscenario_7_12();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         Cursada nuevaCursada = controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1517,7 +1832,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada1_4_VL1(){
+    public void testAltaCursada1_4_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR012", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1531,7 +1846,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada1_5_VL1(){
+    public void testAltaCursada1_5_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR01234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1587,7 +1902,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada3_5_VL1(){
+    public void testAltaCursada3_5_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-201", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1601,7 +1916,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada3_6_VL1(){
+    public void testAltaCursada3_6_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-20177", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1636,7 +1951,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada4_5_VL1(){
+    public void testAltaCursada4_5_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "24:00", "24:01", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1650,7 +1965,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada4_6_VL1(){
+    public void testAltaCursada4_6_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:60", "11:60", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1664,7 +1979,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada4_7_VL1(){
+    public void testAltaCursada4_7_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:0", "11:0", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1678,7 +1993,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada4_8_VL1(){
+    public void testAltaCursada4_8_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:000", "11:000", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1692,7 +2007,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaCursada4_9_VL1(){
+    public void testAltaCursada4_9_VL(){
         setupEscenario_7_10();
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "11:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -1721,7 +2036,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testBajaCursada1_1_VL1() {
+    public void testBajaCursada1_1_VL() {
         setupEscenario_7_11();
         Cursada cursadaQuimica = entidades.buscaCursadaPorId("CUR0123");
         controlador.bajaCursada(cursadaQuimica);
@@ -1737,7 +2052,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testBajaCursada1_2_VL1() {
+    public void testBajaCursada1_2_VL() {
         setupEscenario_7_12();
         Asignatura quimica = new Asignatura("ASI2345", "Quimica");
         Cursada cursadaQuimica = new Cursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00");
@@ -1785,7 +2100,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada1_4_VL1(){
+    public void testModificarCursada1_4_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1801,7 +2116,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada1_5_VL1(){
+    public void testModificarCursada1_5_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1868,7 +2183,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada3_5_VL1(){
+    public void testModificarCursada3_5_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1884,7 +2199,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada3_6_VL1(){
+    public void testModificarCursada3_6_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1895,7 +2210,7 @@ public class ControladorTest {
      * CASO ERRONEO: La bateria de pruebas indica que deberia devolver error cuando esta en una clase correcta.
      */
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada4_1_VL1(){
+    public void testModificarCursada4_1_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1935,7 +2250,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada4_5_VL1(){
+    public void testModificarCursada4_5_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1951,7 +2266,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada4_6_VL1(){
+    public void testModificarCursada4_6_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1967,7 +2282,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada4_7_VL1(){
+    public void testModificarCursada4_7_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1983,7 +2298,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada4_8_VL1(){
+    public void testModificarCursada4_8_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -1999,7 +2314,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarCursada4_9_VL1(){
+    public void testModificarCursada4_9_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
@@ -2040,7 +2355,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testConsultaCursada1_1_VL1() {
+    public void testConsultaCursada1_1_VL() {
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR0123"));
@@ -2061,7 +2376,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testConsultaCursada1_2_VL1(){
+    public void testConsultaCursada1_2_VL(){
         setupEscenario_7_12();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         assertNull("Se encontro una cursada.", cursada);
@@ -2087,7 +2402,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testUbicarCursada1_1_VL1() {
+    public void testUbicarCursada1_1_VL() {
         setupEscenario_7_11();
         ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
         assertFalse("No se encontro ninguna cursada por el nombre.", cursadas.isEmpty());
@@ -2110,7 +2425,7 @@ public class ControladorTest {
     }
     
     @Test
-    public void testUbicarCursada1_2_VL1() {
+    public void testUbicarCursada1_2_VL() {
         setupEscenario_7_11();
         ArrayList<Cursada> cursadas = entidades.buscaCursada("Fisica");
         assertTrue("Se encontro al menos una cursada con ese nombre.", cursadas.isEmpty());
@@ -2174,7 +2489,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testBajaAlumnoCursada_1_2_VL1() {
+    public void testBajaAlumnoCursada_1_2_VL() {
         setupEscenario_1_7_10();
         Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
         Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
@@ -2239,7 +2554,7 @@ public class ControladorTest {
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testBajaProfesorCursada_1_2_VL1() {
+    public void testBajaProfesorCursada_1_2_VL() {
         setupEscenario_4_7_10();
         Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
         Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
