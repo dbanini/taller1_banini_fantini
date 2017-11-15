@@ -764,4 +764,60 @@ public class Controlador {
         // No se requiere validar la operacion.
         entidades.removeCursada(cursada);
     }
+    
+    /**
+     * Da de alta a un alumno a una cursada.
+     */
+    public void altaCursadaAlumno(Cursada cursada, Alumno alumno) {
+        if (cursada.getAlumnos().contains(alumno)) {
+            throw new IllegalArgumentException("La cursada ya tiene al alumno inscripto.");
+        }
+        else if (!alumno.getAprobadas().containsAll(cursada.getAsignatura().getCorrelativas())) {
+            throw new IllegalArgumentException("El alumno no tiene las correlativas aprobadas para cursar esta asignatura.");
+        }
+        else if (cursada.seSuperponeCon(entidades.buscaCursadasConAlumno(alumno))) {
+            throw new IllegalArgumentException("El alumno esta ocupado en el horario de la cursada.");
+        }
+        
+        cursada.getAlumnos().add(alumno);
+    }
+    
+    /**
+     * Da de baja a un alumno de una cursada.
+     */
+    public void bajaCursadaAlumno(Cursada cursada, Alumno alumno) {
+        if (!cursada.getAlumnos().contains(alumno)) {
+            throw new IllegalArgumentException("La cursada no contiene al alumno.");
+        }
+        
+        cursada.getAlumnos().remove(alumno);
+    }
+    
+    /**
+     * Da de alta a un profesor a una cursada.
+     */
+    public void altaCursadaProfesor(Cursada cursada, Profesor profesor) {
+        if (cursada.getProfesores().contains(profesor)) {
+            throw new IllegalArgumentException("La cursada ya tiene al profesor inscripto.");
+        }
+        else if (!profesor.getHabilitadas().contains(cursada.getAsignatura())) {
+            throw new IllegalArgumentException("El profesor no tiene las asignatura de esta cursada habilitada.");
+        }
+        else if (cursada.seSuperponeCon(entidades.buscaCursadasConProfesor(profesor))) {
+            throw new IllegalArgumentException("El profesor esta ocupado en el horario de la cursada.");
+        }
+        
+        cursada.getProfesores().add(profesor);
+    }
+    
+    /**
+     * Da de baja a un profesor de una cursada.
+     */
+    public void bajaCursadaProfesor(Cursada cursada, Profesor profesor) {
+        if (!cursada.getProfesores().contains(profesor)) {
+            throw new IllegalArgumentException("La cursada no contiene al profesor.");
+        }
+        
+        cursada.getProfesores().remove(profesor);
+    }
 }

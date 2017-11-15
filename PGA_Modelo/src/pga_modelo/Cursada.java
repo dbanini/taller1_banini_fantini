@@ -161,7 +161,7 @@ public class Cursada {
     }
 
     /**
-     * Se permite la manipulacion directa de la coleccion.
+     * Se permite la manipulacion directa de la coleccion desde el controlador.
      * @return La lista de profesores que participan en la materia.
      */
     public ArrayList<Profesor> getProfesores() {
@@ -178,7 +178,7 @@ public class Cursada {
     }
 
     /**
-     * Se permite la manipulacion directa de la coleccion.
+     * Se permite la manipulacion directa de la coleccion desde el controlador.
      * @return La lista de alumnos que estan anotados en la cursada.
      */
     public ArrayList<Alumno> getAlumnos() {

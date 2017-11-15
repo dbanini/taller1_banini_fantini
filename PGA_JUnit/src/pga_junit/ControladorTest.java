@@ -241,6 +241,10 @@ public class ControladorTest {
         
     }
     
+    /**
+     * Escenarios combinados.
+     * Deberiamos buscar de separarlos en operaciones distintas solo cuando terminemos todos los casos de prueba.
+     */
     private void setupEscenario_7_10() {
         // Agregar asignaturas.
         Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
@@ -318,6 +322,157 @@ public class ControladorTest {
         laboratorio.getCorrelativas().add(quimica);
         
         // Cursadas = {}
+    }
+    
+    private void setupEscenario_1_7_10() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar alumnos y profesores (Que los necesita cursadas)
+        Alumno alumnoMartin = new Alumno("ALU1234", "Martin", "Mitre 1234", "martin@mitre");
+        Alumno alumnoJose = new Alumno("ALU2345", "Jose", "Colon 2345", "jose@colon");
+        Alumno alumnoJuan = new Alumno("ALU3456", "Juan", "Salta 3456", "juan@salta");
+        Alumno alumnoPedro = new Alumno("ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy");
+        alumnoJuan.getAprobadas().add(quimica);
+        alumnoPedro.getAprobadas().add(matematica);
+        Profesor profesorJuan = new Profesor("PRO3456", "Juan", "Salta 3456", "34567890", "juan@salta");
+        profesorJuan.getHabilitadas().add(quimica);
+        profesorJuan.getHabilitadas().add(laboratorio);
+        entidades.addAlumno(alumnoMartin);
+        entidades.addAlumno(alumnoJose);
+        entidades.addAlumno(alumnoJuan);
+        entidades.addAlumno(alumnoPedro);
+        entidades.addProfesor(profesorJuan);
+        
+        // Agregar cursadas.
+        Cursada cursadaMatematica1  = new Cursada("CUR1234", matematica,  "01-2017", "Lun", "12:00", "14:00");
+        Cursada cursadaQuimica1     = new Cursada("CUR2345", quimica,     "01-2017", "Lun", "13:00", "15:00");
+        Cursada cursadaMatematica2  = new Cursada("CUR3456", matematica,  "02-2017", "Jue", "16:00", "18:00");
+        Cursada cursadaLaboratorio  = new Cursada("CUR4567", laboratorio, "02-2017", "Mié", "17:00", "19:00");
+        Cursada cursadaComputacion  = new Cursada("CUR5678", computacion, "02-2017", "Jue", "15:00", "17:00");
+        Cursada cursadaQuimica2     = new Cursada("CUR6789", quimica,     "02-2017", "Mié", "16:00", "18:00");
+        cursadaLaboratorio.getProfesores().add(profesorJuan);
+        cursadaComputacion.getAlumnos().add(alumnoJuan);
+        entidades.addCursada(cursadaMatematica1);
+        entidades.addCursada(cursadaQuimica1);
+        entidades.addCursada(cursadaMatematica2);
+        entidades.addCursada(cursadaLaboratorio);
+        entidades.addCursada(cursadaComputacion);
+        entidades.addCursada(cursadaQuimica2);
+    }
+    
+    private void setupEscenario_4_7_10() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar alumnos y profesores (Que los necesita cursadas)
+        Alumno alumnoJuan = new Alumno("ALU3456", "Juan", "Salta 3456", "juan@salta");
+        alumnoJuan.getAprobadas().add(quimica);
+        Profesor profesorMartin = new Profesor("PRO1234", "Martin", "Mitre 1234", "12345678", "martin@mitre");
+        Profesor profesorJose = new Profesor("PRO2345", "Jose", "Colon 2345", "23456789", "jose@colon");
+        Profesor profesorJuan = new Profesor("PRO3456", "Juan", "Salta 3456", "34567890", "juan@salta");
+        Profesor profesorPedro = new Profesor("PRO4567", "Pedro", "Jujuy 4567", "45678901", "pedro@jujuy");
+        profesorJuan.getHabilitadas().add(quimica);
+        profesorJuan.getHabilitadas().add(laboratorio);
+        profesorPedro.getHabilitadas().add(matematica);
+        entidades.addAlumno(alumnoJuan);
+        entidades.addProfesor(profesorMartin);
+        entidades.addProfesor(profesorJose);
+        entidades.addProfesor(profesorJuan);
+        entidades.addProfesor(profesorPedro);
+        
+        // Agregar cursadas.
+        Cursada cursadaMatematica1  = new Cursada("CUR1234", matematica,  "01-2017", "Lun", "12:00", "14:00");
+        Cursada cursadaQuimica1     = new Cursada("CUR2345", quimica,     "01-2017", "Lun", "13:00", "15:00");
+        Cursada cursadaMatematica2  = new Cursada("CUR3456", matematica,  "02-2017", "Jue", "16:00", "18:00");
+        Cursada cursadaLaboratorio  = new Cursada("CUR4567", laboratorio, "02-2017", "Mié", "17:00", "19:00");
+        Cursada cursadaComputacion  = new Cursada("CUR5678", computacion, "02-2017", "Jue", "15:00", "17:00");
+        Cursada cursadaQuimica2     = new Cursada("CUR6789", quimica,     "02-2017", "Mié", "16:00", "18:00");
+        cursadaLaboratorio.getProfesores().add(profesorJuan);
+        cursadaComputacion.getAlumnos().add(alumnoJuan);
+        entidades.addCursada(cursadaMatematica1);
+        entidades.addCursada(cursadaQuimica1);
+        entidades.addCursada(cursadaMatematica2);
+        entidades.addCursada(cursadaLaboratorio);
+        entidades.addCursada(cursadaComputacion);
+        entidades.addCursada(cursadaQuimica2);
+    }
+    
+    private void setupEscenario_1_4_7_10() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar alumnos y profesores (Que los necesita cursadas)
+        Alumno alumnoMartin = new Alumno("ALU1234", "Martin", "Mitre 1234", "martin@mitre");
+        Alumno alumnoJose = new Alumno("ALU2345", "Jose", "Colon 2345", "jose@colon");
+        Alumno alumnoJuan = new Alumno("ALU3456", "Juan", "Salta 3456", "juan@salta");
+        Alumno alumnoPedro = new Alumno("ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy");
+        alumnoJuan.getAprobadas().add(quimica);
+        alumnoPedro.getAprobadas().add(matematica);
+        Profesor profesorMartin = new Profesor("PRO1234", "Martin", "Mitre 1234", "12345678", "martin@mitre");
+        Profesor profesorJose = new Profesor("PRO2345", "Jose", "Colon 2345", "23456789", "jose@colon");
+        Profesor profesorJuan = new Profesor("PRO3456", "Juan", "Salta 3456", "34567890", "juan@salta");
+        Profesor profesorPedro = new Profesor("PRO4567", "Pedro", "Jujuy 4567", "45678901", "pedro@jujuy");
+        profesorJuan.getHabilitadas().add(quimica);
+        profesorJuan.getHabilitadas().add(laboratorio);
+        profesorPedro.getHabilitadas().add(matematica);
+        entidades.addAlumno(alumnoMartin);
+        entidades.addAlumno(alumnoJose);
+        entidades.addAlumno(alumnoJuan);
+        entidades.addAlumno(alumnoPedro);
+        entidades.addProfesor(profesorMartin);
+        entidades.addProfesor(profesorJose);
+        entidades.addProfesor(profesorJuan);
+        entidades.addProfesor(profesorPedro);
+        
+        // Agregar cursadas.
+        Cursada cursadaMatematica1  = new Cursada("CUR1234", matematica,  "01-2017", "Lun", "12:00", "14:00");
+        Cursada cursadaQuimica1     = new Cursada("CUR2345", quimica,     "01-2017", "Lun", "13:00", "15:00");
+        Cursada cursadaMatematica2  = new Cursada("CUR3456", matematica,  "02-2017", "Jue", "16:00", "18:00");
+        Cursada cursadaLaboratorio  = new Cursada("CUR4567", laboratorio, "02-2017", "Mié", "17:00", "19:00");
+        Cursada cursadaComputacion  = new Cursada("CUR5678", computacion, "02-2017", "Jue", "15:00", "17:00");
+        Cursada cursadaQuimica2     = new Cursada("CUR6789", quimica,     "02-2017", "Mié", "16:00", "18:00");
+        cursadaLaboratorio.getProfesores().add(profesorJuan);
+        cursadaComputacion.getAlumnos().add(alumnoJuan);
+        entidades.addCursada(cursadaMatematica1);
+        entidades.addCursada(cursadaQuimica1);
+        entidades.addCursada(cursadaMatematica2);
+        entidades.addCursada(cursadaLaboratorio);
+        entidades.addCursada(cursadaComputacion);
+        entidades.addCursada(cursadaQuimica2);
     }
     
     // -----------------------------------------------------------------
@@ -1653,6 +1808,9 @@ public class ControladorTest {
         controlador.modificarCursada(cursada, "CUR01234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
+    /**
+     * CASO ERRONEO: Modifica el Id el escenario en el que es la unica cursada del sistema esperando que haya duplicados.
+     */
     @Test (expected = IllegalArgumentException.class)
     public void testModificarCursada1_6(){
         setupEscenario_7_11();
@@ -1731,6 +1889,17 @@ public class ControladorTest {
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.modificarCursada(cursada, "CUR0123", quimica, "02-20177", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    /**
+     * CASO ERRONEO: La bateria de pruebas indica que deberia devolver error cuando esta en una clase correcta.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_1_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "23:58", "23:59", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -1851,5 +2020,229 @@ public class ControladorTest {
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", null, "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    /**
+     * CASO ERRONEO: Los horarios de la cursada no corresponden con el escenario.
+     */
+    @Test
+    public void testConsultaCursada1_1() {
+        setupEscenario_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR2345"));
+        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
+        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("01-2017"));
+        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Lun"));
+        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("12:00"));
+        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("14:00"));
+        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
+        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getAlumnos().isEmpty());
+    }
+    
+    @Test
+    public void testConsultaCursada1_1_VL1() {
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR0123"));
+        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
+        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("02-2017"));
+        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Sab"));
+        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("08:00"));
+        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("11:00"));
+        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
+        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getProfesores().isEmpty());
+    }
+    
+    @Test
+    public void testConsultaCursada1_2(){
+        setupEscenario_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        assertNull("Se encontro una cursada.", cursada);
+    }
+    
+    @Test
+    public void testConsultaCursada1_2_VL1(){
+        setupEscenario_7_12();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        assertNull("Se encontro una cursada.", cursada);
+    }
+    
+    /**
+     * CASO ERRONEO: Deberia devolver dos cursadas. Los horarios de la primera cursada no corresponden con el escenario.
+     */
+    @Test
+    public void testUbicarCursada1_1() {
+        setupEscenario_7_10();
+        ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
+        assertFalse("No se encontro ninguna cursada por el nombre.", cursadas.isEmpty());
+        Cursada cursada = cursadas.get(0);
+        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR2345"));
+        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
+        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("01-2017"));
+        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Lun"));
+        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("12:00"));
+        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("14:00"));
+        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
+        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getProfesores().isEmpty());
+    }
+    
+    @Test
+    public void testUbicarCursada1_1_VL1() {
+        setupEscenario_7_11();
+        ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
+        assertFalse("No se encontro ninguna cursada por el nombre.", cursadas.isEmpty());
+        Cursada cursada = cursadas.get(0);
+        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR0123"));
+        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
+        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("02-2017"));
+        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Sab"));
+        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("08:00"));
+        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("11:00"));
+        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
+        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getAlumnos().isEmpty());
+    }
+    
+    @Test
+    public void testUbicarCursada1_2() {
+        setupEscenario_7_10();
+        ArrayList<Cursada> cursadas = entidades.buscaCursada("Fisica");
+        assertTrue("Se encontro al menos una cursada con ese nombre.", cursadas.isEmpty());
+    }
+    
+    @Test
+    public void testUbicarCursada1_2_VL1() {
+        setupEscenario_7_11();
+        ArrayList<Cursada> cursadas = entidades.buscaCursada("Fisica");
+        assertTrue("Se encontro al menos una cursada con ese nombre.", cursadas.isEmpty());
+    }
+    
+    @Test
+    public void testAltaAlumnoCursada_1_1() {
+        setupEscenario_1_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR4567");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
+        controlador.altaCursadaAlumno(cursada, alumno);
+        assertTrue("El alumno no fue agregado a la cursada.", cursada.getAlumnos().contains(alumno));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAlumnoCursada_1_2() {
+        setupEscenario_1_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR4567");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU4567");
+        controlador.altaCursadaAlumno(cursada, alumno);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAlumnoCursada_1_3() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR5678");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
+        controlador.altaCursadaAlumno(cursada, alumno);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAlumnoCursada_1_4() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR3456");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
+        controlador.altaCursadaAlumno(cursada, alumno);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaAlumnoCursada_1_5() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        controlador.altaCursadaAlumno(cursada, null);
+    }
+    
+    @Test
+    public void testBajaAlumnoCursada_1_1() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR5678");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
+        controlador.bajaCursadaAlumno(cursada, alumno);
+        assertFalse("El alumno no fue quitado a la cursada.", cursada.getAlumnos().contains(alumno));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaAlumnoCursada_1_2() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR5678");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU1234");
+        controlador.bajaCursadaAlumno(cursada, alumno);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaAlumnoCursada_1_2_VL1() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
+        controlador.bajaCursadaAlumno(cursada, alumno);
+    }
+    
+    @Test
+    public void testAltaProfesorCursada_1_1() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO3456");
+        controlador.altaCursadaProfesor(cursada, profesor);
+        assertTrue("El profesor no fue agregado a la cursada.", cursada.getProfesores().contains(profesor));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesorCursada_1_2() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO4567");
+        controlador.altaCursadaProfesor(cursada, profesor);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesorCursada_1_3() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR4567");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO3456");
+        controlador.altaCursadaProfesor(cursada, profesor);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesorCursada_1_4() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR6789");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO3456");
+        controlador.altaCursadaProfesor(cursada, profesor);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesorCursada_1_5() {
+        setupEscenario_1_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        controlador.altaCursadaProfesor(cursada, null);
+    }
+    
+    @Test
+    public void testBajaProfesorCursada_1_1() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR4567");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO3456");
+        controlador.bajaCursadaProfesor(cursada, profesor);
+        assertFalse("El profesor no fue quitado a la cursada.", cursada.getAlumnos().contains(profesor));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaProfesorCursada_1_2() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR4567");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        controlador.bajaCursadaProfesor(cursada, profesor);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaProfesorCursada_1_2_VL1() {
+        setupEscenario_4_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        controlador.bajaCursadaProfesor(cursada, profesor);
     }
 }
