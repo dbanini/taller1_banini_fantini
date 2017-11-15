@@ -30,26 +30,22 @@ public class ControladorTest {
     }
 	
     private void setupEscenario1(){
-	
-        //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura1 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura2 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> aprobadasAlumno1 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> aprobadasAlumno2 = new ArrayList<Asignatura>();
+        
+        //Colecciones entidades
         ArrayList<Asignatura> aprobadasAlumno3 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> aprobadasAlumno4 = new ArrayList<Asignatura>();
         
         //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI2345","Quimica",correlativasAsignatura1);
-        Asignatura asignatura2 = new Asignatura("ASI1234","Matematica",correlativasAsignatura2);
+        Asignatura asignatura1 = new Asignatura("ASI2345","Quimica");
+        Asignatura asignatura2 = new Asignatura("ASI1234","Matematica");
         
         //Agrega a colecciones
         aprobadasAlumno3.add(asignatura1);
         aprobadasAlumno4.add(asignatura2);
         
         //Alumnos
-        Alumno alumno1 = new Alumno("ALU1234","Martin","Mitre 1234","martin@mitre",aprobadasAlumno1);
-        Alumno alumno2 = new Alumno("ALU2345","Jose","Color 2345","jose@colon",aprobadasAlumno2);
+        Alumno alumno1 = new Alumno("ALU1234","Martin","Mitre 1234","martin@mitre");
+        Alumno alumno2 = new Alumno("ALU2345","Jose","Color 2345","jose@colon");
         Alumno alumno3 = new Alumno("ALU3456","Juan","Salta 3456","juan@salta",aprobadasAlumno3);
         Alumno alumno4 = new Alumno("ALU4567","Pedro","Jujuy 4567","pedro@jujuy",aprobadasAlumno4);
         
@@ -67,35 +63,28 @@ public class ControladorTest {
     }
     
     private void setupEscenario2(){
-	
-        //Colecciones Entidades
-        ArrayList<Asignatura> aprobadasAlumno1 = new ArrayList<Asignatura>();
         
         //Alumnos
-        Alumno alumno1 = new Alumno("ALU0123","Maria","Estrada 123","maria@estrada",aprobadasAlumno1);
+        Alumno alumno1 = new Alumno("ALU0123","Maria","Estrada 123","maria@estrada");
         
         //Agregar a entidades
         entidades.addAlumno(alumno1);
     }
     
     private void setupEscenario3(){
+        
     }
     
     private void setupEscenario4() {
 	
         //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura1 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura2 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> habilitadasProfesor1 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> habilitadasProfesor2 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> habilitadasProfesor3 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> habilitadasProfesor4 = new ArrayList<Asignatura>();
         
         //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI2345","Quimica",correlativasAsignatura1);
-        Asignatura asignatura2 = new Asignatura("ASI1234","Matematica",correlativasAsignatura2);
-        Asignatura asignatura3 = new Asignatura("ASI4567","Laboratorio",correlativasAsignatura3);
+        Asignatura asignatura1 = new Asignatura("ASI2345","Quimica");
+        Asignatura asignatura2 = new Asignatura("ASI1234","Matematica");
+        Asignatura asignatura3 = new Asignatura("ASI4567","Laboratorio");
         
         //Agrega a colecciones
         habilitadasProfesor3.add(asignatura1);
@@ -105,8 +94,8 @@ public class ControladorTest {
         //Alumnos
         
         //Profesores
-        Profesor profesor1 = new Profesor("PRO1234","Martin","Mitre 1234","12345678","martin@mitre",habilitadasProfesor1);
-        Profesor profesor2 = new Profesor("PRO2345","Jose","Color 2345","23456789","jose@colon",habilitadasProfesor2);
+        Profesor profesor1 = new Profesor("PRO1234","Martin","Mitre 1234","12345678","martin@mitre");
+        Profesor profesor2 = new Profesor("PRO2345","Jose","Color 2345","23456789","jose@colon");
         Profesor profesor3 = new Profesor("PRO3456","Juan","Salta 3456","34567890","juan@salta",habilitadasProfesor3);
         Profesor profesor4 = new Profesor("PRO4567","Pedro","Jujuy 4567","45678901","pedro@jujuy",habilitadasProfesor4);
         
@@ -123,40 +112,34 @@ public class ControladorTest {
     }
     
     private void setupEscenario5(){
-		
-        //Colecciones Entidades
-        ArrayList<Asignatura> habilitadasProfesor1 = new ArrayList<Asignatura>();
         
         //Profesores
-        Profesor profesor1 = new Profesor("PRO0123","Maria","Estrada 123","01234567","maria@estrada",habilitadasProfesor1);
+        Profesor profesor1 = new Profesor("PRO0123","Maria","Estrada 123","01234567","maria@estrada");
         
         //Agregar a entidades
         entidades.addProfesor(profesor1);
     }
     
     private void setupEscenario6(){
-        setupEscenario();
+        
     }
 
     private void setupEscenario7(){
 	
         //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura1 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura2 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> correlativasAsignatura3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura4 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura5 = new ArrayList<Asignatura>();        
+        ArrayList<Asignatura> correlativasAsignatura4 = new ArrayList<Asignatura>();     
         
         //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI1234","Matematica",correlativasAsignatura1);
-        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica",correlativasAsignatura2);
+        Asignatura asignatura1 = new Asignatura("ASI1234","Matematica");
+        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica");
         
         correlativasAsignatura3.add(asignatura1);
         correlativasAsignatura4.add(asignatura2);
         
         Asignatura asignatura3 = new Asignatura("ASI3456","Estadistica",correlativasAsignatura3);
         Asignatura asignatura4 = new Asignatura("ASI4567","Laboratorio",correlativasAsignatura4);
-        Asignatura asignatura5 = new Asignatura("ASI5678","Computacion",correlativasAsignatura5);
+        Asignatura asignatura5 = new Asignatura("ASI5678","Computacion");
         
         //Agregar a entidades
         entidades.addAsignatura(asignatura1);
@@ -167,12 +150,9 @@ public class ControladorTest {
     }
     
     private void setupEscenario8(){
-	
-        //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura1 = new ArrayList<Asignatura>();
         
         //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI0123","Fisica",correlativasAsignatura1);
+        Asignatura asignatura1 = new Asignatura("ASI0123","Fisica");
         
         //Agregar a entidades
         entidades.addAsignatura(asignatura1);
@@ -185,29 +165,18 @@ public class ControladorTest {
     private void setupEscenario10(){
 	
         //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura1 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura2 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> correlativasAsignatura3 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> correlativasAsignatura4 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura5 = new ArrayList<Asignatura>();
-        ArrayList<Profesor> profesoresCursada1 = new ArrayList<Profesor>();
-        ArrayList<Profesor> profesoresCursada2 = new ArrayList<Profesor>();
-        ArrayList<Profesor> profesoresCursada3 = new ArrayList<Profesor>();
         ArrayList<Profesor> profesoresCursada4 = new ArrayList<Profesor>();
         ArrayList<Profesor> profesoresCursada5 = new ArrayList<Profesor>();
-        ArrayList<Profesor> profesoresCursada6 = new ArrayList<Profesor>();
-        ArrayList<Alumno> alumnosCursada1 = new ArrayList<Alumno>();
-        ArrayList<Alumno> alumnosCursada2 = new ArrayList<Alumno>();
-        ArrayList<Alumno> alumnosCursada3 = new ArrayList<Alumno>();
         ArrayList<Alumno> alumnosCursada4 = new ArrayList<Alumno>();
         ArrayList<Alumno> alumnosCursada5 = new ArrayList<Alumno>();
-        ArrayList<Alumno> alumnosCursada6 = new ArrayList<Alumno>();
         ArrayList<Asignatura> habilitadasProfesor3 = new ArrayList<Asignatura>();
         ArrayList<Asignatura> aprobadasAlumno3 = new ArrayList<Asignatura>();
         
         //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI1234","Matematica",correlativasAsignatura1);
-        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica",correlativasAsignatura2);
+        Asignatura asignatura1 = new Asignatura("ASI1234","Matematica");
+        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica");
         
         correlativasAsignatura3.add(asignatura1);
         correlativasAsignatura4.add(asignatura2);
@@ -215,7 +184,7 @@ public class ControladorTest {
         Asignatura asignatura3 = new Asignatura("ASI3456","Estadistica",correlativasAsignatura3);
         
         Asignatura asignatura4 = new Asignatura("ASI4567","Laboratorio",correlativasAsignatura4);
-        Asignatura asignatura5 = new Asignatura("ASI5678","Computacion",correlativasAsignatura5);
+        Asignatura asignatura5 = new Asignatura("ASI5678","Computacion");
         
         habilitadasProfesor3.add(asignatura1);
         habilitadasProfesor3.add(asignatura3);
@@ -234,12 +203,12 @@ public class ControladorTest {
         profesoresCursada4.add(profesor3);
         alumnosCursada5.add(alumno3);
         
-        Cursada cursada1 = new Cursada("CUR1234",asignatura1,"01-2017","Lun","12:00","14:00",profesoresCursada1,alumnosCursada1);
-        Cursada cursada2 = new Cursada("CUR2345",asignatura2,"01-2017","Lun","13:00","15:00",profesoresCursada2,alumnosCursada2);
-        Cursada cursada3 = new Cursada("CUR3456",asignatura1,"02-2017","Jue","16:00","18:00",profesoresCursada3,alumnosCursada3);
+        Cursada cursada1 = new Cursada("CUR1234",asignatura1,"01-2017","Lun","12:00","14:00");
+        Cursada cursada2 = new Cursada("CUR2345",asignatura2,"01-2017","Lun","13:00","15:00");
+        Cursada cursada3 = new Cursada("CUR3456",asignatura1,"02-2017","Jue","16:00","18:00");
         Cursada cursada4 = new Cursada("CUR4567",asignatura4,"02-2017","Mie","17:00","19:00",profesoresCursada4,alumnosCursada4);
         Cursada cursada5 = new Cursada("CUR5678",asignatura5,"02-2017","Jue","15:00","17:00",profesoresCursada5,alumnosCursada5);
-        Cursada cursada6 = new Cursada("CUR6789",asignatura2,"02-2017","Mie","16:00","18:00",profesoresCursada6,alumnosCursada6);
+        Cursada cursada6 = new Cursada("CUR6789",asignatura2,"02-2017","Mie","16:00","18:00");
         
         //Agregar a entidades
         entidades.addAsignatura(asignatura1);
@@ -257,17 +226,15 @@ public class ControladorTest {
     }
     
     private void setupEscenario11(){
-		
-        //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura2 = new ArrayList<Asignatura>();
-        ArrayList<Profesor> profesoresCursada1 = new ArrayList<Profesor>();
-        ArrayList<Alumno> alumnosCursada1 = new ArrayList<Alumno>();
         
         //Asignaturas
-        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica",correlativasAsignatura2);
+        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica");
         
         //Cursadas
-        Cursada cursada1 = new Cursada("CUR0123",asignatura2,"02-2017","Sab","08:00","11:00",profesoresCursada1,alumnosCursada1);
+        Cursada cursada1 = new Cursada("CUR0123",asignatura2,"02-2017","Sab","08:00","11:00");
+        
+        //Agregar a entidades
+        entidades.addCursada(cursada1);
     }
     
     private void setupEscenario12(){
