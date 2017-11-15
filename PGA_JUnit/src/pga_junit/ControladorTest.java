@@ -237,8 +237,87 @@ public class ControladorTest {
         entidades.addCursada(cursada1);
     }
     
-    private void setupEscenario12(){
+    private void setupEscenario12() {
         
+    }
+    
+    private void setupEscenario_7_10() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar alumnos y profesores (Que los necesita cursadas)
+        Alumno alumnoJuan = new Alumno("ALU3456", "Juan", "Salta 3456", "juan@salta");
+        alumnoJuan.getAprobadas().add(quimica);
+        Profesor profesorJuan = new Profesor("PRO3456", "Juan", "Salta 3456", "34567890", "juan@salta");
+        profesorJuan.getHabilitadas().add(quimica);
+        profesorJuan.getHabilitadas().add(laboratorio);
+        entidades.addAlumno(alumnoJuan);
+        entidades.addProfesor(profesorJuan);
+        
+        // Agregar cursadas.
+        Cursada cursadaMatematica1  = new Cursada("CUR1234", matematica,  "01-2017", "Lun", "12:00", "14:00");
+        Cursada cursadaQuimica1     = new Cursada("CUR2345", quimica,     "01-2017", "Lun", "13:00", "15:00");
+        Cursada cursadaMatematica2  = new Cursada("CUR3456", matematica,  "02-2017", "Jue", "16:00", "18:00");
+        Cursada cursadaLaboratorio  = new Cursada("CUR4567", laboratorio, "02-2017", "Mié", "17:00", "19:00");
+        Cursada cursadaComputacion  = new Cursada("CUR5678", computacion, "02-2017", "Jue", "15:00", "17:00");
+        Cursada cursadaQuimica2     = new Cursada("CUR6789", quimica,     "02-2017", "Mié", "16:00", "18:00");
+        cursadaLaboratorio.getProfesores().add(profesorJuan);
+        cursadaComputacion.getAlumnos().add(alumnoJuan);
+        entidades.addCursada(cursadaMatematica1);
+        entidades.addCursada(cursadaQuimica1);
+        entidades.addCursada(cursadaMatematica2);
+        entidades.addCursada(cursadaLaboratorio);
+        entidades.addCursada(cursadaComputacion);
+        entidades.addCursada(cursadaQuimica2);
+    }
+    
+    private void setupEscenario_7_11() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar cursadas.
+        Cursada cursadaQuimica = new Cursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00");
+        entidades.addCursada(cursadaQuimica);
+    }
+    
+    private void setupEscenario_7_12() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Cursadas = {}
     }
     
     // -----------------------------------------------------------------
@@ -1246,57 +1325,531 @@ public class ControladorTest {
     }
             
     @Test
-    public void testAltaCursada(){
-        //TODO:
+    public void testAltaCursada1_1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        Cursada nuevaCursada = controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+        assertTrue("No se dio de alta la cursada.", entidades.getCursadas().contains(nuevaCursada));
     }
     
     @Test
-    public void testBajaCursada(){
-        /*
-        setupEscenario1();
-        Asignatura asignatura = new Asignatura();
-        Cursada cursada = new Cursada();
-        cursada.setAsignatura(asignatura);
-        controlador.getEntidades().addAsignatura(asignatura);
-        controlador.getEntidades().addCursada(cursada);
-        
-        controlador.bajaCursada(cursada);
-        
-        Assert.assertFalse(controlador.getEntidades().getCursadas().contains(cursada));
-        */
+    public void testAltaCursada1_1_VL1(){
+        setupEscenario_7_12();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        Cursada nuevaCursada = controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+        assertTrue("No se dio de alta la cursada.", entidades.getCursadas().contains(nuevaCursada));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_2(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("ASI0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_3(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CURFISI", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_4(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_4_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR012", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_5(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR01234567", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_5_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR01234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_6(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR1234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada1_7(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada(null, quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada2_2(){
+        setupEscenario_7_10();
+        Asignatura fisica = new Asignatura("ASI0123", "Fisica");
+        controlador.altaCursada("CUR0123", fisica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_2(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "55-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_3(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02+2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_4(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-ANIO", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_5(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_5_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-201", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_6(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-20172017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada3_6_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-20177", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_2(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "HH:00", "HH:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_3(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:MM", "11:MM", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_4(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08/00", "11/00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_5(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "30:00", "40:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_5_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "24:00", "24:01", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_6(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:90", "11:90", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_6_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:60", "11:60", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_7(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08", "11", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_7_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:0", "11:0", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_8(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:00:00", "11:00:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_8_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:000", "11:000", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_9(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "13:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada4_9_VL1(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "11:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada6_2(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", "Dia", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaCursada6_3(){
+        setupEscenario_7_10();
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.altaCursada("CUR0123", quimica, "02-2017", null, "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
     @Test
-    public void testModificarCursada(){
-        /*
-        setupEscenario1();
-        String id="";
-        String nombre="";
-        ArrayList<Asignatura> correlativas;
-        Asignatura asignatura = new Asignatura(id,nombre);
-        asignatura.setCorrelativas(correlativas);
-        
-        id="";
-        String periodo="";
-        String dia="";
-        String horaInicio="";
-        String horaFin="";
-        ArrayList<Profesor> profesores;
-        ArrayList<Alumno> alumnos;
-        
-        Cursada testCursada= new Cursada (id,asignatura,periodo,dia,horaInicio,horaFin);
-        testCursada.setProfesores(profesores);
-        testCursada.setAlumnos(alumnos);
-        
-        String idNuevo="";
-        String periodoNuevo="";
-        String diaNuevo="";
-        String horaInicioNuevo="";
-        String horaFinNuevo="";
-        ArrayList<Profesor> profesoresNuevo;
-        ArrayList<Alumno> alumnosNuevo;
-        
-        controlador.modificarCursada(testCursada,idNuevo,asignatura,periodoNuevo,diaNuevo, horaInicioNuevo,horaFinNuevo, alumnosNuevo,profesoresNuevo);
-        */
+    public void testBajaCursada1_1() {
+        setupEscenario_7_10();
+        Cursada cursadaQuimica = entidades.buscaCursadaPorId("CUR2345");
+        controlador.bajaCursada(cursadaQuimica);
+        assertFalse(entidades.getCursadas().contains(cursadaQuimica));
+    }
+    
+    @Test
+    public void testBajaCursada1_1_VL1() {
+        setupEscenario_7_11();
+        Cursada cursadaQuimica = entidades.buscaCursadaPorId("CUR0123");
+        controlador.bajaCursada(cursadaQuimica);
+        assertFalse(entidades.getCursadas().contains(cursadaQuimica));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaCursada1_2() {
+        setupEscenario_7_10();
+        Asignatura quimica = new Asignatura("ASI2345", "Quimica");
+        Cursada cursadaQuimica = new Cursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00");
+        controlador.bajaCursada(cursadaQuimica);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaCursada1_2_VL1() {
+        setupEscenario_7_12();
+        Asignatura quimica = new Asignatura("ASI2345", "Quimica");
+        Cursada cursadaQuimica = new Cursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00");
+        controlador.bajaCursada(cursadaQuimica);
+    }
+    
+    @Test
+    public void testModificarCursada1_1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        controlador.modificarCursada(cursada, "CUR1234", matematica, "01-2017", "Lun", "12:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+        assertTrue("No se modifico el Id.", cursada.getId().equals("CUR1234"));
+        assertTrue("No se modifico la asignatura.", cursada.getAsignatura() == matematica);
+        assertTrue("No se modifico el periodo.", cursada.getPeriodo().equals("01-2017"));
+        assertTrue("No se modifico el dia.", cursada.getDia().equals("Lun"));
+        assertTrue("No se modifico la hora inicio.", cursada.getHoraInicio().equals("12:00"));
+        assertTrue("No se modifico la hora fin.", cursada.getHoraFin().equals("14:00"));
+        assertTrue("No se modifico la lista de alumnos.", cursada.getAlumnos().isEmpty());
+        assertTrue("No se modifico la lista de profesores.", cursada.getProfesores().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_2(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "ASI0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_3(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CURFISI", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_4(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_4_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR012", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_5(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR01234567", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_5_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR01234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_6(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR1234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada1_7(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, null, quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada2_2(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura fisica = new Asignatura("ASI0123", "Fisica");
+        controlador.modificarCursada(cursada, "CUR0123", fisica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_2(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "55-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_3(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02+2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_4(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-ANIO", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_5(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_5_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-201", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_6(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-20172017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada3_6_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-20177", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_2(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "HH:00", "HH:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_3(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08:MM", "11:MM", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_4(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08/00", "11/00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_5(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "30:00", "40:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_5_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "24:00", "24:01", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_6(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08:90", "11:90", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_6_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08:60", "11:60", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_7(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08", "11", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_7_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08:0", "11:0", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_8(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08:00:00", "11:00:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_8_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "08:000", "11:000", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_9(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "13:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada4_9_VL1(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "11:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada6_2(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Dia", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarCursada6_3(){
+        setupEscenario_7_11();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", null, "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
 }
