@@ -25,233 +25,33 @@ public class ControladorTest {
     
     @Before
     public void setupEscenario() {
-            entidades = new Entidades();
-            controlador = new Controlador(entidades);
+        entidades = new Entidades();
+        controlador = new Controlador(entidades);
     }
     
-    /*
-    private void setupEscenario1(){
-        
-        //Colecciones entidades
-        ArrayList<Asignatura> aprobadasAlumno3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> aprobadasAlumno4 = new ArrayList<Asignatura>();
-        
-        //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI2345","Quimica");
-        Asignatura asignatura2 = new Asignatura("ASI1234","Matematica");
-        
-        //Agrega a colecciones
-        aprobadasAlumno3.add(asignatura1);
-        aprobadasAlumno4.add(asignatura2);
-        
-        //Alumnos
-        Alumno alumno1 = new Alumno("ALU1234","Martin","Mitre 1234","martin@mitre");
-        Alumno alumno2 = new Alumno("ALU2345","Jose","Color 2345","jose@colon");
-        Alumno alumno3 = new Alumno("ALU3456","Juan","Salta 3456","juan@salta",aprobadasAlumno3);
-        Alumno alumno4 = new Alumno("ALU4567","Pedro","Jujuy 4567","pedro@jujuy",aprobadasAlumno4);
-        
-        //Profesores
-
-        //Cursadas
-        
-        //Agregar a entidades
-        entidades.addAsignatura(asignatura1);
-        entidades.addAsignatura(asignatura2);
-        entidades.addAlumno(alumno1);
-        entidades.addAlumno(alumno2);
-        entidades.addAlumno(alumno3);
-        entidades.addAlumno(alumno4);
-    }
-    
-    private void setupEscenario2(){
-        
-        //Alumnos
-        Alumno alumno1 = new Alumno("ALU0123","Maria","Estrada 123","maria@estrada");
-        
-        //Agregar a entidades
-        entidades.addAlumno(alumno1);
-    }
-    
-    private void setupEscenario3(){
-        
-    }
-    
-    private void setupEscenario4() {
-	
-        //Colecciones Entidades
-        ArrayList<Asignatura> habilitadasProfesor3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> habilitadasProfesor4 = new ArrayList<Asignatura>();
-        
-        //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI2345","Quimica");
-        Asignatura asignatura2 = new Asignatura("ASI1234","Matematica");
-        Asignatura asignatura3 = new Asignatura("ASI4567","Laboratorio");
-        
-        //Agrega a colecciones
-        habilitadasProfesor3.add(asignatura1);
-        habilitadasProfesor3.add(asignatura3);
-        habilitadasProfesor4.add(asignatura2);
-        
-        //Alumnos
-        
-        //Profesores
-        Profesor profesor1 = new Profesor("PRO1234","Martin","Mitre 1234","12345678","martin@mitre");
-        Profesor profesor2 = new Profesor("PRO2345","Jose","Color 2345","23456789","jose@colon");
-        Profesor profesor3 = new Profesor("PRO3456","Juan","Salta 3456","34567890","juan@salta",habilitadasProfesor3);
-        Profesor profesor4 = new Profesor("PRO4567","Pedro","Jujuy 4567","45678901","pedro@jujuy",habilitadasProfesor4);
-        
-        //Cursadas
-        
-        //Agregar a entidades
-        entidades.addAsignatura(asignatura1);
-        entidades.addAsignatura(asignatura2);
-        entidades.addAsignatura(asignatura3);
-        entidades.addProfesor(profesor1);
-        entidades.addProfesor(profesor2);
-        entidades.addProfesor(profesor3);
-        entidades.addProfesor(profesor4);
-    }
-    
-    private void setupEscenario5(){
-        
-        //Profesores
-        Profesor profesor1 = new Profesor("PRO0123","Maria","Estrada 123","01234567","maria@estrada");
-        
-        //Agregar a entidades
-        entidades.addProfesor(profesor1);
-    }
-    
-    private void setupEscenario6(){
-        
-    }
-
-    private void setupEscenario7(){
-	
-        //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura4 = new ArrayList<Asignatura>();     
-        
-        //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI1234","Matematica");
-        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica");
-        
-        correlativasAsignatura3.add(asignatura1);
-        correlativasAsignatura4.add(asignatura2);
-        
-        Asignatura asignatura3 = new Asignatura("ASI3456","Estadistica",correlativasAsignatura3);
-        Asignatura asignatura4 = new Asignatura("ASI4567","Laboratorio",correlativasAsignatura4);
-        Asignatura asignatura5 = new Asignatura("ASI5678","Computacion");
-        
-        //Agregar a entidades
-        entidades.addAsignatura(asignatura1);
-        entidades.addAsignatura(asignatura2);
-        entidades.addAsignatura(asignatura3);
-        entidades.addAsignatura(asignatura4);
-        entidades.addAsignatura(asignatura5);
-    }
-    
-    private void setupEscenario8(){
-        
-        //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI0123","Fisica");
-        
-        //Agregar a entidades
-        entidades.addAsignatura(asignatura1);
-    }
-    
-    private void setupEscenario9(){
-        
-    }
-
-    private void setupEscenario10(){
-	
-        //Colecciones Entidades
-        ArrayList<Asignatura> correlativasAsignatura3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> correlativasAsignatura4 = new ArrayList<Asignatura>();
-        ArrayList<Profesor> profesoresCursada4 = new ArrayList<Profesor>();
-        ArrayList<Profesor> profesoresCursada5 = new ArrayList<Profesor>();
-        ArrayList<Alumno> alumnosCursada4 = new ArrayList<Alumno>();
-        ArrayList<Alumno> alumnosCursada5 = new ArrayList<Alumno>();
-        ArrayList<Asignatura> habilitadasProfesor3 = new ArrayList<Asignatura>();
-        ArrayList<Asignatura> aprobadasAlumno3 = new ArrayList<Asignatura>();
-        
-        //Asignaturas
-        Asignatura asignatura1 = new Asignatura("ASI1234","Matematica");
-        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica");
-        
-        correlativasAsignatura3.add(asignatura1);
-        correlativasAsignatura4.add(asignatura2);
-        
-        Asignatura asignatura3 = new Asignatura("ASI3456","Estadistica",correlativasAsignatura3);
-        
-        Asignatura asignatura4 = new Asignatura("ASI4567","Laboratorio",correlativasAsignatura4);
-        Asignatura asignatura5 = new Asignatura("ASI5678","Computacion");
-        
-        habilitadasProfesor3.add(asignatura1);
-        habilitadasProfesor3.add(asignatura3);
-        aprobadasAlumno3.add(asignatura2);
-        
-        //Agrega a colecciones
-        aprobadasAlumno3.add(asignatura1);
-        
-        //Alumnos
-        Alumno alumno3 = new Alumno("ALU3456","Juan","Salta 3456","juan@salta",aprobadasAlumno3);
-        
-        //Profesores
-        Profesor profesor3 = new Profesor("PRO3456","Juan","Salta 3456","34567890","juan@salta",habilitadasProfesor3);
-
-        //Cursadas
-        profesoresCursada4.add(profesor3);
-        alumnosCursada5.add(alumno3);
-        
-        Cursada cursada1 = new Cursada("CUR1234",asignatura1,"01-2017","Lun","12:00","14:00");
-        Cursada cursada2 = new Cursada("CUR2345",asignatura2,"01-2017","Lun","13:00","15:00");
-        Cursada cursada3 = new Cursada("CUR3456",asignatura1,"02-2017","Jue","16:00","18:00");
-        Cursada cursada4 = new Cursada("CUR4567",asignatura4,"02-2017","Mie","17:00","19:00",profesoresCursada4,alumnosCursada4);
-        Cursada cursada5 = new Cursada("CUR5678",asignatura5,"02-2017","Jue","15:00","17:00",profesoresCursada5,alumnosCursada5);
-        Cursada cursada6 = new Cursada("CUR6789",asignatura2,"02-2017","Mie","16:00","18:00");
-        
-        //Agregar a entidades
-        entidades.addAsignatura(asignatura1);
-        entidades.addAsignatura(asignatura2);
-        entidades.addAsignatura(asignatura4);
-        entidades.addAsignatura(asignatura5);
-        entidades.addProfesor(profesor3);
-        entidades.addAlumno(alumno3);
-        entidades.addCursada(cursada1);
-        entidades.addCursada(cursada2);
-        entidades.addCursada(cursada3);
-        entidades.addCursada(cursada4);
-        entidades.addCursada(cursada5);
-        entidades.addCursada(cursada6);
-    }
-    
-    private void setupEscenario11(){
-        
-        //Asignaturas
-        Asignatura asignatura2 = new Asignatura("ASI2345","Quimica");
-        
-        //Cursadas
-        Cursada cursada1 = new Cursada("CUR0123",asignatura2,"02-2017","Sab","08:00","11:00");
-        
-        //Agregar a entidades
-        entidades.addCursada(cursada1);
-    }
-    
-    private void setupEscenario12() {
-        
-    }
-*/
-    
-    /**
-     * Nuevo formato de escenarios.
-     */
     private void setupEscenario_1() {
-        // todo
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        
+        // Agregar alumnos.
+        Alumno alumnoMartin = new Alumno("ALU1234", "Martin", "Mitre 1234", "martin@mitre");
+        Alumno alumnoJose = new Alumno("ALU2345", "Jose", "Colon 2345", "jose@colon");
+        Alumno alumnoJuan = new Alumno("ALU3456", "Juan", "Salta 3456", "juan@salta");
+        Alumno alumnoPedro = new Alumno("ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy");
+        alumnoJuan.getAprobadas().add(quimica);
+        alumnoPedro.getAprobadas().add(matematica);
+        entidades.addAlumno(alumnoMartin);
+        entidades.addAlumno(alumnoJose);
+        entidades.addAlumno(alumnoJuan);
+        entidades.addAlumno(alumnoPedro);
     }
     
     private void setupEscenario_2() {
-        // todo
+        Alumno alumnoMaria = new Alumno("ALU0123", "Maria", "Estrada 123", "maria@estrada");
+        entidades.addAlumno(alumnoMaria);
     }
     
     private void setupEscenario_3() {
@@ -313,6 +113,34 @@ public class ControladorTest {
     
     private void setupEscenario_9() {
         // Asignaturas = { }
+    }
+    
+    private void setupEscenario_1_7() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar alumnos.
+        Alumno alumnoMartin = new Alumno("ALU1234", "Martin", "Mitre 1234", "martin@mitre");
+        Alumno alumnoJose = new Alumno("ALU2345", "Jose", "Colon 2345", "jose@colon");
+        Alumno alumnoJuan = new Alumno("ALU3456", "Juan", "Salta 3456", "juan@salta");
+        Alumno alumnoPedro = new Alumno("ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy");
+        alumnoJuan.getAprobadas().add(quimica);
+        alumnoPedro.getAprobadas().add(matematica);
+        entidades.addAlumno(alumnoMartin);
+        entidades.addAlumno(alumnoJose);
+        entidades.addAlumno(alumnoJuan);
+        entidades.addAlumno(alumnoPedro);
     }
     
     private void setupEscenario_4_7() {
@@ -574,914 +402,576 @@ public class ControladorTest {
         entidades.addCursada(cursadaQuimica2);
     }
     
-    // -----------------------------------------------------------------
-    // Metodos
-    // -----------------------------------------------------------------
+    /***********
+     * ALUMNOS *
+     ***********/
     
-    /*
     @Test
-    public void testCrearAlumnoVacio(){
-        setupEscenario1();
-        Assert.assertNotNull(controlador.crearAlumnoVacio());
-    }
-    
-    // -----------------------------------------------------------------
-    // Alta alumnos (22)
-    // -----------------------------------------------------------------
-            
-    @Test
-    public void testAltaAlumno1_1(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_1() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        assertTrue(entidades.getAlumnos().contains(alumnoAgregado));
+        Alumno alumno = controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "maria@estrada", aprobadas);
+        assertTrue("No se dio de alta al alumno.", entidades.getAlumnos().contains(alumno));
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test
-    public void testAltaAlumno1_1_VL(){
-        setupEscenario3();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_1_VL() {
+        setupEscenario_3();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        assertTrue(entidades.getAlumnos().contains(alumnoAgregado));
+        Alumno alumno = controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "maria@estrada", aprobadas);
+        assertTrue("No se dio de alta al alumno.", entidades.getAlumnos().contains(alumno));
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_2(){
-        setupEscenario1();
-        String legajo="PRO0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_2() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("PRO0123", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_3(){
-        setupEscenario1();
-        String legajo="ALUMARI";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_3() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALUMARI", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_4(){
-        setupEscenario1();
-        String legajo="ALU";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_4() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_4_VL(){
-        setupEscenario1();
-        String legajo="ALU012";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_4_VL() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU012", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_5(){
-        setupEscenario1();
-        String legajo="ALU01234567";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_5() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU01234567", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_5_VL(){
-        setupEscenario1();
-        String legajo="ALU01234";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_5_VL() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU01234", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_6(){
-        setupEscenario1();
-        String legajo="ALU1234";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_6() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU1234", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno1_7(){
-        setupEscenario1();
-        String legajo=null;
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno1_7() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno(null, "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test
-    public void testAltaAlumno2_1_VL(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="M";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno2_1_VL() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        assertTrue(entidades.getAlumnos().contains(alumnoAgregado));
+        Alumno alumno = controlador.altaAlumno("ALU0123", "M", "Estrada 123", "maria@estrada", aprobadas);
+        assertTrue("No se dio de alta al alumno.", entidades.getAlumnos().contains(alumno));
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("M"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno2_2(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="";
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno2_2() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno2_3(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre=null;
-        String domicilio="Estrada 123";
-        String mail="maria@estrada";
+    public void testAltaAlumno2_3() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", null, "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test
-    public void testAltaAlumno3_1_VL(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="E";
-        String mail="maria@estrada";
+    public void testAltaAlumno3_1_VL() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        assertTrue(entidades.getAlumnos().contains(alumnoAgregado));
+        Alumno alumno = controlador.altaAlumno("ALU0123", "Maria", "E", "maria@estrada", aprobadas);
+        assertTrue("No se dio de alta al alumno.", entidades.getAlumnos().contains(alumno));
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("E"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno3_2(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="";
-        String mail="maria@estrada";
+    public void testAltaAlumno3_2() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "Maria", "", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno3_3(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio=null;
-        String mail="maria@estrada";
+    public void testAltaAlumno3_3() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "Maria", null, "maria@estrada", aprobadas);
     }
     
     @Test
-    public void testAltaAlumno4_1_VL(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="m@e";
+    public void testAltaAlumno4_1_VL() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        assertTrue(entidades.getAlumnos().contains(alumnoAgregado));
+        Alumno alumno = controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "m@e", aprobadas);
+        assertTrue("No se dio de alta al alumno.", entidades.getAlumnos().contains(alumno));
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("E"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno4_2(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="@estrada";
+    public void testAltaAlumno4_2() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno4_3(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="maria@";
+    public void testAltaAlumno4_3() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "maria@", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno4_4(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="mariaestrada";
+    public void testAltaAlumno4_4() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "mariaestrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno4_5(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail="";
+    public void testAltaAlumno4_5() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
+        controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", "", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testAltaAlumno4_6(){
-        setupEscenario1();
-        String legajo="ALU0123";
-        String nombre="Maria";
-        String domicilio="Estrada 123";
-        String mail=null;
+    public void testAltaAlumno4_6() {
+        setupEscenario_1();
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        Alumno alumnoAgregado=controlador.altaAlumno(legajo, nombre, domicilio, mail, aprobadas);
-        entidades.getAlumnos().contains(alumnoAgregado);
-    }
-    
-    // -----------------------------------------------------------------
-    // Baja alumnos (4)
-    // -----------------------------------------------------------------
-    
-    @Test
-    public void testBajaAlumno1_1(){
-        setupEscenario1();
-        Alumno alumnoBaja=entidades.getAlumnos().get(0);
-        
-        assertTrue (controlador.bajaAlumno(alumnoBaja));
-    }
-    
-    @Test 
-    public void testBajaAlumno1_1_VL(){
-        setupEscenario2();
-        Alumno alumnoBaja=entidades.getAlumnos().get(0);
-        
-        assertTrue (controlador.bajaAlumno(alumnoBaja));
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testBajaAlumno1_2(){
-        setupEscenario1();
-        Alumno alumnoBaja=new Alumno();
-        
-        controlador.bajaAlumno(alumnoBaja);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testBajaAlumno1_2_VL(){
-        setupEscenario3();
-        Alumno alumnoBaja=new Alumno();
-        
-        controlador.bajaAlumno(alumnoBaja);
-    }
-    
-    // -----------------------------------------------------------------
-    // Modificar alumno (31)
-    // -----------------------------------------------------------------
-    
-    @Test
-    public void testModificarAlumno1_1(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_2(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="PRO123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_3(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALUMARI";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_4(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_4_VL(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU012";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_5(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU01234567";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_5_VL(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU01234";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_6(){
-        setupEscenario1();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU2345";
-        String nombreNuevo="Martin";
-        String domicilioNuevo="Mitre 1234";
-        String mailNuevo="martin@mitre";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno1_7(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo=null;
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+        controlador.altaAlumno("ALU0123", "Maria", "Estrada 123", null, aprobadas);
     }
     
     @Test
-    public void testModificarAlumno2_1_VL(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="M";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno2_2(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno2_3(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo=null;
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testBajaAlumno_1_1() {
+        setupEscenario_1();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU1234");
+        controlador.bajaAlumno(alumno);
+        assertNotNull("No se encontro el alumno en la coleccion.", alumno);
+        assertFalse("No se dio de baja al alumno.", entidades.getAlumnos().contains(alumno));
     }
     
     @Test
-    public void testModificarAlumno3_1_VL(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="E";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
+    public void testBajaAlumno_1_1_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        controlador.bajaAlumno(alumno);
+        assertNotNull("No se encontro el alumno en la coleccion.", alumno);
+        assertFalse("No se dio de baja al alumno.", entidades.getAlumnos().contains(alumno));
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno3_2(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="";
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testBajaAlumno_1_2() {
+        setupEscenario_1();
+        Alumno alumno = new Alumno("ALU0123", "Maria", "Estrada 123", "maria@estrada");
+        controlador.bajaAlumno(alumno);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno3_3(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo=null;
-        String mailNuevo="maria@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testBajaAlumno_1_2_VL() {
+        setupEscenario_3();
+        Alumno alumno = new Alumno("ALU0123", "Maria", "Estrada 123", "maria@estrada");
+        controlador.bajaAlumno(alumno);
     }
     
     @Test
-    public void testModificarAlumno4_1_VL(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="m@e";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
+    public void testModificarAlumno1_1() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "maria@estrada", aprobadas);
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno4_2(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="@estrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_2() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "PRO0123", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno4_3(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="maria@";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_3() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALUMARI", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno4_4(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="mariaestrada";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_4() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno4_5(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo="";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_4_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU012", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno4_6(){
-        setupEscenario2();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        
-        String legajoNuevo="ALU0123";
-        String nombreNuevo="Maria";
-        String domicilioNuevo="Estrada 123";
-        String mailNuevo=null;
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();        
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
-    }
-    
-    @Test
-    public void testModificarAlumno5_1_1(){
-        setupEscenario1();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        Asignatura asignatura2= entidades.buscaAsignaturaPorId("3456");
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
-    }
-    
-    @Test
-    public void testModificarAlumno5_1_2(){
-        setupEscenario7();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        Asignatura asignatura2= entidades.buscaAsignaturaPorId("3456");
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
-    }
-    
-    @Test
-    public void testModificarAlumno5_1_VL(){
-        setupEscenario1();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU1234";
-        String nombreNuevo="Martin";
-        String domicilioNuevo="Mitre 1234";
-        String mailNuevo="martin@mitre";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        
-        aprobadasNuevo.add(asignatura1);
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
-    }
-    
-    @Test
-    public void testModificarAlumno5_1_VL2(){
-        setupEscenario7();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU1234";
-        String nombreNuevo="Martin";
-        String domicilioNuevo="Mitre 1234";
-        String mailNuevo="martin@mitre";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        
-        aprobadasNuevo.add(asignatura1);
-        
-        Assert.assertTrue(controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo));
+    public void testModificarAlumno1_5() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU01234567", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno5_2_1(){
-        setupEscenario1();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        
-        //No esta en el sistema, debo crearla o buscarla?
-        Asignatura asignatura2= new Asignatura("ASI0123","Fisica");
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_5_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU01234", "Maria", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno5_2_2(){
-        setupEscenario7();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        
-        //No esta en el sistema, debo crearla o buscarla?
-        Asignatura asignatura2= new Asignatura("ASI0123","Fisica");
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_6() {
+        setupEscenario_1();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU1234");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU2345", "Martin", "Mitre 1234", "martin@mitre", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno5_3_1(){
-        setupEscenario1();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        
-        //No esta en el sistema, debo crearla o buscarla?
-        Asignatura asignatura2= new Asignatura("ASI4567","Laboratorio");
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno1_7() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, null, "Maria", "Estrada 123", "maria@estrada", aprobadas);
+    }
+    
+    @Test
+    public void testModificarAlumno2_1_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "M", "Estrada 123", "maria@estrada", aprobadas);
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("M"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno5_3_2(){
-        setupEscenario7();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        
-        //No esta en el sistema, debo crearla o buscarla?
-        Asignatura asignatura2= new Asignatura("ASI4567","Laboratorio");
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno2_2() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "", "Estrada 123", "maria@estrada", aprobadas);
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno5_4_1(){
-        setupEscenario1();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        Asignatura asignatura2= null;
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno2_3() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", null, "Estrada 123", "maria@estrada", aprobadas);
+    }
+    
+    @Test
+    public void testModificarAlumno3_1_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "E", "maria@estrada", aprobadas);
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("E"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
-    public void testModificarAlumno5_4_2(){
-        setupEscenario7();
-        
-        Alumno testAlumno=entidades.getAlumnos().get(0);
-        //TODO que alumno se modifica?
-        String legajoNuevo="ALU4567";
-        String nombreNuevo="Pedro";
-        String domicilioNuevo="Jujuy 4567";
-        String mailNuevo="pedro@jujuy";
-        ArrayList<Asignatura> aprobadasNuevo= new ArrayList<Asignatura>();
-        
-        Asignatura asignatura1= entidades.buscaAsignaturaPorId("1234");
-        Asignatura asignatura2= null;
-        
-        aprobadasNuevo.add(asignatura1);
-        aprobadasNuevo.add(asignatura2);
-        
-        controlador.modificarAlumno(testAlumno, legajoNuevo, nombreNuevo, domicilioNuevo, mailNuevo, aprobadasNuevo);
+    public void testModificarAlumno3_2() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "", "maria@estrada", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno3_3() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", null, "maria@estrada", aprobadas);
     }
     
     @Test
-    public void testConsultarAlumno1_1(){
-        setupEscenario1();
-        
-        Alumno alumnoEncontrado=entidades.buscaAlumnoPorLegajo("ALU1234");
-        Alumno alumnoEsperado=entidades.getAlumnos().get(0);
-        Assert.assertEquals(alumnoEsperado,alumnoEncontrado);
+    public void testModificarAlumno4_1_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "m@e", aprobadas);
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("m@e"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno4_2() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "@estrada", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno4_3() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "maria@", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno4_4() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "mariaestrada", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno4_5() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno4_6() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", null, aprobadas);
     }
     
     @Test
-    public void testConsultarAlumno1_1_V1(){
-        setupEscenario2();
-        
-        Alumno alumnoEncontrado=entidades.buscaAlumnoPorLegajo("ALU0123");
-        Alumno alumnoEsperado=entidades.getAlumnos().get(0);
-        Assert.assertEquals(alumnoEsperado,alumnoEncontrado);
+    public void testModificarAlumno5_1() {
+        setupEscenario_1_7();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU4567");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        Asignatura estadistica = entidades.buscaAsignaturaPorId("ASI3456");
+        assertNotNull(matematica);
+        assertNotNull(estadistica);
+        aprobadas.add(matematica);
+        aprobadas.add(estadistica);
+        controlador.modificarAlumno(alumno, "ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy", aprobadas);
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU4567"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Pedro"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Jujuy 4567"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("pedro@jujuy"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().containsAll(aprobadas));
     }
     
     @Test
-    public void testConsultarAlumno1_2(){
-        setupEscenario1();
-        
-        Alumno alumnoEncontrado=entidades.buscaAlumnoPorLegajo("ALU0123");
-        Alumno alumnoEsperado=entidades.getAlumnos().get(0);
-        Assert.assertNotEquals(alumnoEsperado,alumnoEncontrado);
+    public void testModificarAlumno5_1_VL() {
+        setupEscenario_1_7();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU1234");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        assertNotNull(matematica);
+        aprobadas.add(matematica);
+        controlador.modificarAlumno(alumno, "ALU1234", "Martin", "Mitre 1234", "martin@mitre", aprobadas);
+        assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU1234"));
+        assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Martin"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Mitre 1234"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("martin@mitre"));
+        assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().containsAll(aprobadas));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno5_2() {
+        setupEscenario_1_7();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU4567");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        assertNotNull(matematica);
+        aprobadas.add(matematica);
+        aprobadas.add(new Asignatura("ASI0123", "Fisica"));
+        controlador.modificarAlumno(alumno, "ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno5_3() {
+        setupEscenario_1_7();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU4567");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        Asignatura laboratorio = entidades.buscaAsignaturaPorId("ASI4567");
+        assertNotNull(matematica);
+        assertNotNull(laboratorio);
+        aprobadas.add(matematica);
+        aprobadas.add(laboratorio);
+        controlador.modificarAlumno(alumno, "ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy", aprobadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarAlumno5_4() {
+        setupEscenario_1_7();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU4567");
+        ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        assertNotNull(matematica);
+        aprobadas.add(matematica);
+        aprobadas.add(null);
+        controlador.modificarAlumno(alumno, "ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy", aprobadas);
     }
     
     @Test
-    public void testConsultarAlumno1_2_V1(){
-        setupEscenario3();
-        
-        Alumno alumnoEncontrado=entidades.buscaAlumnoPorLegajo("ALU0123");
-        Alumno alumnoEsperado= new Alumno("ALU0123","Maria","Estrada 123","maria@estrada");
-        Assert.assertNotEquals(alumnoEsperado,alumnoEncontrado);
+    public void testConsultaAlumno1_1() {
+        setupEscenario_1();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU1234");
+        assertNotNull(alumno);
+        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU1234"));
+        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Martin"));
+        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Mitre 1234"));
+        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("martin@mitre"));
+        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
     }
     
     @Test
-    public void testBuscarAlumno1_1(){
-        setupEscenario4();
-        
+    public void testConsultaAlumno1_1_VL() {
+        setupEscenario_2();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        assertNotNull(alumno);
+        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Maria"));
+        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
     }
     
     @Test
-    public void testBuscarAlumno1_1_V1(){
-        setupEscenario5();
-        
+    public void testConsultaAlumno1_2() {
+        setupEscenario_1();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        assertNull("Se encontro un alumno.", alumno);
     }
     
     @Test
-    public void testBuscarAlumno1_2(){
-        setupEscenario4();
-        
+    public void testConsultaAlumno1_2_VL() {
+        setupEscenario_3();
+        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
+        assertNull("Se encontro un alumno.", alumno);
     }
     
+    /**
+     * CASO ERRONEO: El escenario no describe los alumnos.
+     */
     @Test
-    public void testBuscarAlumno1_2_V1(){
-        setupEscenario6();
-        
+    public void testUbicarAlumno1_1() {
+        setupEscenario_4();
+        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Martin");
+        assertFalse("No se encontraron alumnos con ese nombre.", alumnos.isEmpty());
+        Alumno alumno = alumnos.get(0);
+        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU1234"));
+        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Martin"));
+        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Mitre 1234"));
+        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("martin@mitre"));
+        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
     }
-    */
+    
+    /**
+     * CASO ERRONEO: El escenario no describe los alumnos.
+     */
+    @Test
+    public void testUbicarAlumno1_1_VL() {
+        setupEscenario_5();
+        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
+        assertFalse("No se encontraron alumnos con ese nombre.", alumnos.isEmpty());
+        Alumno alumno = alumnos.get(0);
+        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU0123"));
+        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Maria"));
+        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
+    }
+    
+    /**
+     * CASO ERRONEO: El escenario no describe los alumnos.
+     */
+    @Test
+    public void testUbicarAlumno1_2() {
+        setupEscenario_4();
+        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
+        assertTrue("Se encontro al menos un alumno con ese nombre.", alumnos.isEmpty());
+    }
+    
+    /**
+     * CASO ERRONEO: El escenario no describe los alumnos.
+     */
+    @Test
+    public void testUbicarAlumno1_2_VL() {
+        setupEscenario_6();
+        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
+        assertTrue("Se encontro al menos un alumno con ese nombre.", alumnos.isEmpty());
+    }
     
     /**************
      * PROFESORES *
@@ -2029,6 +1519,7 @@ public class ControladorTest {
         assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Mitre 1234"));
         assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("martin@mitre"));
         assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("12345678"));
+        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
     }
     
     @Test
@@ -2041,6 +1532,7 @@ public class ControladorTest {
         assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Estrada 123"));
         assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("maria@estrada"));
         assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("01234567"));
+        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
     }
     
     @Test
@@ -2068,6 +1560,7 @@ public class ControladorTest {
         assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Mitre 1234"));
         assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("martin@mitre"));
         assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("12345678"));
+        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
     }
     
     @Test
@@ -2081,6 +1574,7 @@ public class ControladorTest {
         assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Estrada 123"));
         assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("maria@estrada"));
         assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("01234567"));
+        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
     }
     
     @Test
