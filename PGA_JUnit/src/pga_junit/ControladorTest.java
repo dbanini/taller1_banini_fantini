@@ -28,7 +28,8 @@ public class ControladorTest {
             entidades = new Entidades();
             controlador = new Controlador(entidades);
     }
-	
+    
+    /*
     private void setupEscenario1(){
         
         //Colecciones entidades
@@ -240,10 +241,55 @@ public class ControladorTest {
     private void setupEscenario12() {
         
     }
+*/
     
     /**
      * Nuevo formato de escenarios.
      */
+    private void setupEscenario_1() {
+        // todo
+    }
+    
+    private void setupEscenario_2() {
+        // todo
+    }
+    
+    private void setupEscenario_3() {
+        // Alumnos = { }
+    }
+    
+    private void setupEscenario_4() {
+        // Agregar asignaturas habilitadas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(laboratorio);
+        
+        // Agregar profesores.
+        Profesor profesorMartin = new Profesor("PRO1234", "Martin", "Mitre 1234", "12345678", "martin@mitre");
+        Profesor profesorJose = new Profesor("PRO2345", "Jose", "Colon 2345", "23456789", "jose@colon");
+        Profesor profesorJuan = new Profesor("PRO3456", "Juan", "Salta 3456", "34567890", "juan@salta");
+        Profesor profesorPedro = new Profesor("PRO4567", "Pedro", "Jujuy 4567", "45678901", "pedro@jujuy");
+        profesorJuan.getHabilitadas().add(quimica);
+        profesorJuan.getHabilitadas().add(laboratorio);
+        profesorPedro.getHabilitadas().add(matematica);
+        entidades.addProfesor(profesorMartin);
+        entidades.addProfesor(profesorJose);
+        entidades.addProfesor(profesorJuan);
+        entidades.addProfesor(profesorPedro);
+    }
+    
+    private void setupEscenario_5() {
+        Profesor profesorMaria = new Profesor("PRO0123", "Maria", "Estrada 123", "01234567", "maria@estrada");
+        entidades.addProfesor(profesorMaria);
+    }
+    
+    private void setupEscenario_6() {
+        // Profesores = { }
+    }
+    
     private void setupEscenario_7() {
         // Agregar asignaturas.
         Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
@@ -267,6 +313,35 @@ public class ControladorTest {
     
     private void setupEscenario_9() {
         // Asignaturas = { }
+    }
+    
+    private void setupEscenario_4_7() {
+        // Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI1234", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI2345", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI3456", "Estadistica");
+        Asignatura laboratorio  = new Asignatura("ASI4567", "Laboratorio");
+        Asignatura computacion  = new Asignatura("ASI5678", "Computacion"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        entidades.addAsignatura(laboratorio);
+        entidades.addAsignatura(computacion);
+        estadistica.getCorrelativas().add(matematica);
+        laboratorio.getCorrelativas().add(quimica);
+        
+        // Agregar profesores.
+        Profesor profesorMartin = new Profesor("PRO1234", "Martin", "Mitre 1234", "12345678", "martin@mitre");
+        Profesor profesorJose = new Profesor("PRO2345", "Jose", "Colon 2345", "23456789", "jose@colon");
+        Profesor profesorJuan = new Profesor("PRO3456", "Juan", "Salta 3456", "34567890", "juan@salta");
+        Profesor profesorPedro = new Profesor("PRO4567", "Pedro", "Jujuy 4567", "45678901", "pedro@jujuy");
+        profesorJuan.getHabilitadas().add(quimica);
+        profesorJuan.getHabilitadas().add(laboratorio);
+        profesorPedro.getHabilitadas().add(matematica);
+        entidades.addProfesor(profesorMartin);
+        entidades.addProfesor(profesorJose);
+        entidades.addProfesor(profesorJuan);
+        entidades.addProfesor(profesorPedro);
     }
     
     private void setupEscenario_7_10() {
@@ -503,6 +578,7 @@ public class ControladorTest {
     // Metodos
     // -----------------------------------------------------------------
     
+    /*
     @Test
     public void testCrearAlumnoVacio(){
         setupEscenario1();
@@ -1405,54 +1481,620 @@ public class ControladorTest {
         setupEscenario6();
         
     }
-            
+    */
+    
+    /**************
+     * PROFESORES *
+     **************/
+    
     @Test
-    public void testAltaProfesor(){
-        setupEscenario1();
+    public void testAltaProfesor1_1() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Profesor profesor = controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se dio de alta al profesor.", entidades.getProfesores().contains(profesor));
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
     }
     
     @Test
-    public void testBajaProfesor(){
-        /*
-        setupEscenario1();
-        Profesor profesor = new Profesor();
-        controlador.getEntidades().addProfesor(profesor);
-        
-        assertTrue (controlador.bajaProfesor(profesor));
-        */
+    public void testAltaProfesor1_1_VL() {
+        setupEscenario_6();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Profesor profesor = controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se dio de alta al profesor.", entidades.getProfesores().contains(profesor));
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_2() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("ALU0123", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_3() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PROMARI", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_4() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_4_VL() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO012", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_5() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO01234567", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_5_VL() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO01234", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_6() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO1234", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor1_7() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor(null, "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
     }
     
     @Test
-    public void testModificarProfesor(){
-        /*
-        setupEscenario1();
-        String legajo="";
-        String nombre="";
-        String domicilio="";
-        String telefono="";
-        String mail="";
-        ArrayList<Asignatura> habilitadas= new ArrayList<Asignatura>();
-        
-        String legajoNuevo="";
-        String nombreNuevo="";
-        String domicilioNuevo="";
-        String telefonoNuevo="";
-        String mailNuevo="";
-        ArrayList<Asignatura> habilitadasNuevo= new ArrayList<Asignatura>();        
-        
-        Profesor testProfesor= new Profesor (legajo,nombre,domicilio,telefono,mail);
-        testProfesor.setHabilitadas(habilitadas);
-        
-        Assert.assertTrue(controlador.modificarProfesor(testProfesor, legajoNuevo, nombreNuevo, domicilioNuevo, telefonoNuevo, mailNuevo, habilitadasNuevo));
-        */
+    public void testAltaProfesor2_1_VL() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Profesor profesor = controlador.altaProfesor("PRO0123", "M", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se dio de alta al profesor.", entidades.getProfesores().contains(profesor));
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("M"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor2_2() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor2_3() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", null, "Estrada 123", "maria@estrada", "01234567", habilitadas);
     }
     
     @Test
-    public void testAltaAsignatura1_1(){
-        setupEscenario_7();
-        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
-        Asignatura asignatura = controlador.altaAsignatura("ASI0123", "Fisica", correlativas);
-        assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
+    public void testAltaProfesor3_1_VL() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Profesor profesor = controlador.altaProfesor("PRO0123", "Maria", "E", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se dio de alta al profesor.", entidades.getProfesores().contains(profesor));
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("E"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor3_2() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor3_3() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", null, "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test
+    public void testAltaProfesor4_1_VL() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Profesor profesor = controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "m@e", "01234567", habilitadas);
+        assertTrue("No se dio de alta al profesor.", entidades.getProfesores().contains(profesor));
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("m@e"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor4_2() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor4_3() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "maria@", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor4_4() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "mariaestrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor4_5() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor4_6() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", null, "01234567", habilitadas);
+    }
+    
+    @Test
+    public void testAltaProfesor5_1_VL() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Profesor profesor = controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "maria@estrada", "0", habilitadas);
+        assertTrue("No se dio de alta al profesor.", entidades.getProfesores().contains(profesor));
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("0"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor5_2() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "maria@estrada", "", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAltaProfesor5_3() {
+        setupEscenario_4();
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.altaProfesor("PRO0123", "Maria", "Estrada 123", "maria@estrada", null, habilitadas);
+    }
+    
+    @Test
+    public void testBajaProfesor_1_1() {
+        setupEscenario_4();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        controlador.bajaProfesor(profesor);
+        assertNotNull("No se encontro el profesor en la coleccion.", profesor);
+        assertFalse("No se dio de baja al profesor.", entidades.getProfesores().contains(profesor));
+    }
+    
+    @Test
+    public void testBajaProfesor_1_1_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        controlador.bajaProfesor(profesor);
+        assertNotNull("No se encontro el profesor en la coleccion.", profesor);
+        assertFalse("No se dio de baja al profesor.", entidades.getProfesores().contains(profesor));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaProfesor_1_2() {
+        setupEscenario_4();
+        Profesor profesor = new Profesor("PRO0123", "Maria", "Estrada 123", "01234567", "maria@estrada");
+        controlador.bajaProfesor(profesor);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testBajaProfesor_1_2_VL() {
+        setupEscenario_6();
+        Profesor profesor = new Profesor("PRO0123", "Maria", "Estrada 123", "01234567", "maria@estrada");
+        controlador.bajaProfesor(profesor);
+    }
+    
+    @Test
+    public void testModificarProfesor1_1() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_2() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "ALU0123", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_3() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PROMARI", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_4() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_4_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO012", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_5() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO01234567", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_5_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO01234", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_6() {
+        setupEscenario_4();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO2345", "Martin", "Mitre 1234", "martin@mitre", "12345678", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor1_7() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, null, "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test
+    public void testModificarProfesor2_1_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "M", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("M"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor2_2() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor2_3() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", null, "Estrada 123", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test
+    public void testModificarProfesor3_1_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "E", "maria@estrada", "01234567", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("E"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor3_2() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "", "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor3_3() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", null, "maria@estrada", "01234567", habilitadas);
+    }
+    
+    @Test
+    public void testModificarProfesor4_1_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "m@e", "01234567", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("m@e"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor4_2() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "@estrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor4_3() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor4_4() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "mariaestrada", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor4_5() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "", "01234567", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor4_6() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", null, "01234567", habilitadas);
+    }
+    
+    @Test
+    public void testModificarProfesor5_1_VL() {
+        setupEscenario_4();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@estrada", "0", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("0"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor5_2() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@estrada", "", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor5_3() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@estrada", null, habilitadas);
+    }
+    
+    @Test
+    public void testModificarProfesor6_1() {
+        setupEscenario_4_7();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO4567");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
+        assertNotNull(matematica);
+        assertNotNull(quimica);
+        habilitadas.add(matematica);
+        habilitadas.add(quimica);
+        controlador.modificarProfesor(profesor, "PRO4567", "Pedro", "Jujuy 4567", "pedro@jujuy", "45678901", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO4567"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Pedro"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Jujuy 4567"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("pedro@jujuy"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("45678901"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().containsAll(habilitadas));
+    }
+    
+    @Test
+    public void testModificarProfesor6_1_VL() {
+        setupEscenario_4_7();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        assertNotNull(matematica);
+        habilitadas.add(matematica);
+        controlador.modificarProfesor(profesor, "PRO1234", "Martin", "Mitre 1234", "martin@mitre", "12345678", habilitadas);
+        assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO1234"));
+        assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Martin"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Mitre 1234"));
+        assertTrue("No se modifico el mail.", profesor.getMail().equals("martin@mitre"));
+        assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("12345678"));
+        assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().containsAll(habilitadas));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor6_2() {
+        setupEscenario_4_7();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO4567");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        assertNotNull(matematica);
+        habilitadas.add(matematica);
+        habilitadas.add(new Asignatura("ASI0123", "Fisica"));
+        controlador.modificarProfesor(profesor, "PRO4567", "Pedro", "Jujuy 4567", "pedro@jujuy", "45678901", habilitadas);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testModificarProfesor6_3() {
+        setupEscenario_4_7();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO4567");
+        ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        assertNotNull(matematica);
+        habilitadas.add(matematica);
+        habilitadas.add(null);
+        controlador.modificarProfesor(profesor, "PRO4567", "Pedro", "Jujuy 4567", "pedro@jujuy", "45678901", habilitadas);
+    }
+    
+    @Test
+    public void testConsultaProfesor1_1() {
+        setupEscenario_4();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        assertNotNull(profesor);
+        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO1234"));
+        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Martin"));
+        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Mitre 1234"));
+        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("martin@mitre"));
+        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("12345678"));
+    }
+    
+    @Test
+    public void testConsultaProfesor1_1_VL() {
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        assertNotNull(profesor);
+        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Maria"));
+        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("01234567"));
+    }
+    
+    @Test
+    public void testConsultaProfesor1_2() {
+        setupEscenario_4();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        assertNull("Se encontro un profesor.", profesor);
+    }
+    
+    @Test
+    public void testConsultaProfesor1_2_VL() {
+        setupEscenario_6();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
+        assertNull("Se encontro un profesor.", profesor);
+    }
+    
+    @Test
+    public void testUbicarProfesor1_1() {
+        setupEscenario_4();
+        ArrayList<Profesor> profesores = entidades.buscaProfesor("Martin");
+        assertFalse("No se encontraron profesores con ese nombre.", profesores.isEmpty());
+        Profesor profesor = profesores.get(0);
+        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO1234"));
+        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Martin"));
+        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Mitre 1234"));
+        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("martin@mitre"));
+        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("12345678"));
+    }
+    
+    @Test
+    public void testUbicarProfesor1_1_VL() {
+        setupEscenario_5();
+        ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
+        assertFalse("No se encontraron profesores con ese nombre.", profesores.isEmpty());
+        Profesor profesor = profesores.get(0);
+        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO0123"));
+        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Maria"));
+        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("maria@estrada"));
+        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("01234567"));
+    }
+    
+    @Test
+    public void testUbicarProfesor1_2() {
+        setupEscenario_4();
+        ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
+        assertTrue("Se encontro al menos un profesor con ese nombre.", profesores.isEmpty());
+    }
+    
+    @Test
+    public void testUbicarProfesor1_2_VL() {
+        setupEscenario_6();
+        ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
+        assertTrue("Se encontro al menos un profesor con ese nombre.", profesores.isEmpty());
     }
     
     /***************
@@ -1460,11 +2102,25 @@ public class ControladorTest {
      ***************/
     
     @Test
+    public void testAltaAsignatura1_1(){
+        setupEscenario_7();
+        ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+        Asignatura asignatura = controlador.altaAsignatura("ASI0123", "Fisica", correlativas);
+        assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI0123"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("Fisica"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().isEmpty());
+    }
+    
+    @Test
     public void testAltaAsignatura1_1_VL(){
         setupEscenario_9();
         ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
         Asignatura asignatura = controlador.altaAsignatura("ASI0123", "Fisica", correlativas);
         assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI0123"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("Fisica"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -1522,6 +2178,9 @@ public class ControladorTest {
         ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
         Asignatura asignatura = controlador.altaAsignatura("ASI0123", "F", correlativas);
         assertTrue("No se dio de alta la asignatura.", entidades.getAsignaturas().contains(asignatura));
+        assertTrue("No se modifico el Id.", asignatura.getId().equals("ASI0123"));
+        assertTrue("No se modifico el nombre.", asignatura.getNombre().equals("F"));
+        assertTrue("No se modificaron las correlativas.", asignatura.getCorrelativas().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -1543,6 +2202,7 @@ public class ControladorTest {
         setupEscenario_7();
         Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI1234");
         controlador.bajaAsignatura(asignatura);
+        assertNotNull(asignatura);
         assertFalse(entidades.getAsignaturas().contains(asignatura));
     }
     
@@ -1551,6 +2211,7 @@ public class ControladorTest {
         setupEscenario_8();
         Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
         controlador.bajaAsignatura(asignatura);
+        assertNotNull(asignatura);
         assertFalse(entidades.getAsignaturas().contains(asignatura));
     }
     
@@ -1800,6 +2461,14 @@ public class ControladorTest {
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         Cursada nuevaCursada = controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
         assertTrue("No se dio de alta la cursada.", entidades.getCursadas().contains(nuevaCursada));
+        assertTrue("No se asigno el Id.", nuevaCursada.getId().equals("CUR0123"));
+        assertTrue("No se asigno la asignatura.", nuevaCursada.getAsignatura() == quimica);
+        assertTrue("No se asigno el periodo.", nuevaCursada.getPeriodo().equals("02-2017"));
+        assertTrue("No se asigno el dia.", nuevaCursada.getDia().equals("Sab"));
+        assertTrue("No se asigno la hora inicio.", nuevaCursada.getHoraInicio().equals("08:00"));
+        assertTrue("No se asigno la hora fin.", nuevaCursada.getHoraFin().equals("11:00"));
+        assertTrue("No se asigno la lista de alumnos.", nuevaCursada.getAlumnos().isEmpty());
+        assertTrue("No se asigno la lista de profesores.", nuevaCursada.getProfesores().isEmpty());
     }
     
     @Test
@@ -1808,6 +2477,14 @@ public class ControladorTest {
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         Cursada nuevaCursada = controlador.altaCursada("CUR0123", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
         assertTrue("No se dio de alta la cursada.", entidades.getCursadas().contains(nuevaCursada));
+        assertTrue("No se asigno el Id.", nuevaCursada.getId().equals("CUR0123"));
+        assertTrue("No se asigno la asignatura.", nuevaCursada.getAsignatura() == quimica);
+        assertTrue("No se asigno el periodo.", nuevaCursada.getPeriodo().equals("02-2017"));
+        assertTrue("No se asigno el dia.", nuevaCursada.getDia().equals("Sab"));
+        assertTrue("No se asigno la hora inicio.", nuevaCursada.getHoraInicio().equals("08:00"));
+        assertTrue("No se asigno la hora fin.", nuevaCursada.getHoraFin().equals("11:00"));
+        assertTrue("No se asigno la lista de alumnos.", nuevaCursada.getAlumnos().isEmpty());
+        assertTrue("No se asigno la lista de profesores.", nuevaCursada.getProfesores().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -2032,6 +2709,7 @@ public class ControladorTest {
         setupEscenario_7_10();
         Cursada cursadaQuimica = entidades.buscaCursadaPorId("CUR2345");
         controlador.bajaCursada(cursadaQuimica);
+        assertNotNull(cursadaQuimica);
         assertFalse(entidades.getCursadas().contains(cursadaQuimica));
     }
     
@@ -2040,6 +2718,7 @@ public class ControladorTest {
         setupEscenario_7_11();
         Cursada cursadaQuimica = entidades.buscaCursadaPorId("CUR0123");
         controlador.bajaCursada(cursadaQuimica);
+        assertNotNull(cursadaQuimica);
         assertFalse(entidades.getCursadas().contains(cursadaQuimica));
     }
     
@@ -2477,6 +3156,8 @@ public class ControladorTest {
         Cursada cursada = entidades.buscaCursadaPorId("CUR5678");
         Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU3456");
         controlador.bajaCursadaAlumno(cursada, alumno);
+        assertNotNull(cursada);
+        assertNotNull(alumno);
         assertFalse("El alumno no fue quitado a la cursada.", cursada.getAlumnos().contains(alumno));
     }
     
@@ -2542,6 +3223,8 @@ public class ControladorTest {
         Cursada cursada = entidades.buscaCursadaPorId("CUR4567");
         Profesor profesor = entidades.buscaProfesorPorLegajo("PRO3456");
         controlador.bajaCursadaProfesor(cursada, profesor);
+        assertNotNull(cursada);
+        assertNotNull(profesor);
         assertFalse("El profesor no fue quitado a la cursada.", cursada.getAlumnos().contains(profesor));
     }
     

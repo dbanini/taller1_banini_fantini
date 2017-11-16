@@ -49,20 +49,6 @@ public class Profesor extends Persona {
         habilitadas = new ArrayList<Asignatura>();
         verificarInvariante();
     }
-    
-    /** TODO
-     * Crea un profesor con sus atributos. <br>
-     * @param legajo El legajo del profesor. Debe cumplir la mascara de legajo del profesor PROXXXX (X 0-9) <br>
-     * @param domicilio El domicilio del profesor. Debe ser alfanumerico y no vacio. <br>
-     * @param telefono El telefono del profesor. Debe ser alfanumerico y no vacio. <br>
-     * @param mail El mail del profesor. Debe cumplir la mascara de mail AAAAA@AAAAAA
-     */
-    public Profesor(String legajo, String nombre, String domicilio, String telefono, String mail,ArrayList<Asignatura> habilitadas) {
-        super(legajo, nombre, domicilio, mail);
-        this.telefono = telefono;
-        this.habilitadas = habilitadas;
-        verificarInvariante();
-    }
 
     // -----------------------------------------------------------------
     // Getters y setters

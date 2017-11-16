@@ -515,7 +515,8 @@ public class Controlador {
         }
         
         alumnoValidarDatos(legajo, nombre, domicilio, mail, aprobadas);
-        Alumno alumno = new Alumno(legajo, nombre, domicilio, mail,aprobadas);
+        Alumno alumno = new Alumno(legajo, nombre, domicilio, mail);
+        alumno.setAprobadas(aprobadas);
         entidades.addAlumno(alumno);
         return alumno;
     }
@@ -585,7 +586,8 @@ public class Controlador {
         }
         
         profesorValidarDatos(legajo, nombre, domicilio, mail, telefono);
-        Profesor profesor = new Profesor(legajo, nombre, domicilio, mail, telefono,habilitadas);
+        Profesor profesor = new Profesor(legajo, nombre, domicilio, telefono, mail);
+        profesor.setHabilitadas(habilitadas);
         entidades.addProfesor(profesor);
         return profesor;
     }
@@ -656,7 +658,8 @@ public class Controlador {
         }
         
         asignaturaValidarDatos(id, nombre);
-        Asignatura asignatura = new Asignatura(id, nombre,correlativas);
+        Asignatura asignatura = new Asignatura(id, nombre);
+        asignatura.setCorrelativas(correlativas);
         entidades.addAsignatura(asignatura);
         return asignatura;
     }
@@ -730,7 +733,9 @@ public class Controlador {
         }
         
         cursadaValidarDatos(id, asignatura, periodo, dia, horaInicio, horaFin, alumnos, profesores, null);
-        Cursada cursada = new Cursada(id, asignatura, periodo, dia, horaInicio, horaFin, profesores, alumnos);
+        Cursada cursada = new Cursada(id, asignatura, periodo, dia, horaInicio, horaFin);
+        cursada.setAlumnos(alumnos);
+        cursada.setProfesores(profesores);
         entidades.addCursada(cursada);
         return cursada;
     }
