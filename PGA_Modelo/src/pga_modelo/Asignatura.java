@@ -131,19 +131,16 @@ public class Asignatura {
     static public boolean idEsValido(String id) {
         int numeroId;
         String auxId;
-        if (id != null) {
-            if(id.startsWith("ASI")) {
-                auxId = id;
-                auxId = auxId.substring(3);
-                try{
-                    numeroId=Integer.parseInt(auxId);
-                    if (numeroId >= 0 && numeroId <= 9999) {
-                        return true;
-                    }
-                } 
-                catch (NumberFormatException e){
-                    return false;
+        if (id != null && id.startsWith("ASI") && (id.length() == 7)) {
+            auxId = id;
+            auxId = auxId.substring(3);
+            try {
+                numeroId = Integer.parseInt(auxId);
+                if (numeroId >= 0 && numeroId <= 9999) {
+                    return true;
                 }
+            } catch (NumberFormatException e) {
+                 return false;
             }
         }
         

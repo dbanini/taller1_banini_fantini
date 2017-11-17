@@ -550,8 +550,8 @@ public class ControladorTest {
         assertTrue("No se dio de alta al alumno.", entidades.getAlumnos().contains(alumno));
         assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
         assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
-        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("E"));
-        assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el mail.", alumno.getMail().equals("m@e"));
         assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
     
@@ -921,12 +921,9 @@ public class ControladorTest {
         assertNull("Se encontro un alumno.", alumno);
     }
     
-    /**
-     * CASO ERRONEO: El escenario no describe los alumnos.
-     */
     @Test
     public void testUbicarAlumno1_1() {
-        setupEscenario_4();
+        setupEscenario_1();
         ArrayList<Alumno> alumnos = entidades.buscaAlumno("Martin");
         assertFalse("No se encontraron alumnos con ese nombre.", alumnos.isEmpty());
         Alumno alumno = alumnos.get(0);
@@ -937,12 +934,9 @@ public class ControladorTest {
         assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
     }
     
-    /**
-     * CASO ERRONEO: El escenario no describe los alumnos.
-     */
     @Test
     public void testUbicarAlumno1_1_VL() {
-        setupEscenario_5();
+        setupEscenario_2();
         ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
         assertFalse("No se encontraron alumnos con ese nombre.", alumnos.isEmpty());
         Alumno alumno = alumnos.get(0);
@@ -953,22 +947,16 @@ public class ControladorTest {
         assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
     }
     
-    /**
-     * CASO ERRONEO: El escenario no describe los alumnos.
-     */
     @Test
     public void testUbicarAlumno1_2() {
-        setupEscenario_4();
+        setupEscenario_1();
         ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
         assertTrue("Se encontro al menos un alumno con ese nombre.", alumnos.isEmpty());
     }
     
-    /**
-     * CASO ERRONEO: El escenario no describe los alumnos.
-     */
     @Test
     public void testUbicarAlumno1_2_VL() {
-        setupEscenario_6();
+        setupEscenario_3();
         ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
         assertTrue("Se encontro al menos un alumno con ese nombre.", alumnos.isEmpty());
     }
@@ -1782,15 +1770,12 @@ public class ControladorTest {
         controlador.modificarAsignatura(asignatura, "ASI01234", "Fisica", correlativas);
     }
     
-    /**
-     * CASO ERRONEO: Espera error por Id duplicado pero el escenario no es correcto para que eso pase.
-     */
     @Test (expected = IllegalArgumentException.class)
     public void testModificarAsignatura1_6() {
-        setupEscenario_8();
-        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
+        setupEscenario_7();
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI1234");
         ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
-        controlador.modificarAsignatura(asignatura, "ASI1234", "Fisica", correlativas);
+        controlador.modificarAsignatura(asignatura, "ASI2345", "Matematica", correlativas);
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -2296,15 +2281,12 @@ public class ControladorTest {
         controlador.modificarCursada(cursada, "CUR01234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
-    /**
-     * CASO ERRONEO: Modifica el Id el escenario en el que es la unica cursada del sistema esperando que haya duplicados.
-     */
     @Test (expected = IllegalArgumentException.class)
     public void testModificarCursada1_6(){
-        setupEscenario_7_11();
-        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
-        Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
-        controlador.modificarCursada(cursada, "CUR1234", quimica, "02-2017", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+        setupEscenario_7_10();
+        Cursada cursada = entidades.buscaCursadaPorId("CUR1234");
+        Asignatura matematica = entidades.buscaAsignaturaPorId("ASI1234");
+        controlador.modificarCursada(cursada, "CUR2345", matematica, "01-2017", "Lun", "12:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -2557,23 +2539,30 @@ public class ControladorTest {
         assertNull("Se encontro una cursada.", cursada);
     }
     
-    /**
-     * CASO ERRONEO: Deberia devolver dos cursadas. Los horarios de la primera cursada no corresponden con el escenario.
-     */
     @Test
     public void testUbicarCursada1_1() {
         setupEscenario_7_10();
         ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
-        assertFalse("No se encontro ninguna cursada por el nombre.", cursadas.isEmpty());
-        Cursada cursada = cursadas.get(0);
-        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR2345"));
-        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
-        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("01-2017"));
-        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Lun"));
-        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("12:00"));
-        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("14:00"));
-        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
-        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getProfesores().isEmpty());
+        assertTrue("No se encontraron las dos cursadas por el nombre.", cursadas.size() == 2);
+        Cursada cursadaA = cursadas.get(0);
+        Cursada cursadaB = cursadas.get(1);
+        assertTrue("La cursada A retornada no tiene el Id correcto.", cursadaA.getId().equals("CUR2345"));
+        assertTrue("La cursada A retornada no tiene la asignatura correcta.", cursadaA.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
+        assertTrue("La cursada A retornada no tiene el periodo correcto.", cursadaA.getPeriodo().equals("01-2017"));
+        assertTrue("La cursada A retornada no tiene el dia correcto.", cursadaA.getDia().equals("Lun"));
+        assertTrue("La cursada A retornada no tiene la hora inicio correcta.", cursadaA.getHoraInicio().equals("13:00"));
+        assertTrue("La cursada A retornada no tiene la hora fin correcta.", cursadaA.getHoraFin().equals("15:00"));
+        assertTrue("La cursada A retornada no tiene la lista de alumnos correcta.", cursadaA.getAlumnos().isEmpty());
+        assertTrue("La cursada A retornada no tiene la lista de profesores correcta.", cursadaA.getProfesores().isEmpty());
+        
+        assertTrue("La cursada B retornada no tiene el Id correcto.", cursadaB.getId().equals("CUR6789"));
+        assertTrue("La cursada B retornada no tiene la asignatura correcta.", cursadaB.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
+        assertTrue("La cursada B retornada no tiene el periodo correcto.", cursadaB.getPeriodo().equals("02-2017"));
+        assertTrue("La cursada B retornada no tiene el dia correcto.", cursadaB.getDia().equals("Mié"));
+        assertTrue("La cursada B retornada no tiene la hora inicio correcta.", cursadaB.getHoraInicio().equals("16:00"));
+        assertTrue("La cursada B retornada no tiene la hora fin correcta.", cursadaB.getHoraFin().equals("18:00"));
+        assertTrue("La cursada B retornada no tiene la lista de alumnos correcta.", cursadaB.getAlumnos().isEmpty());
+        assertTrue("La cursada B retornada no tiene la lista de profesores correcta.", cursadaB.getProfesores().isEmpty());
     }
     
     @Test
