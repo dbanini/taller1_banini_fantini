@@ -2379,15 +2379,20 @@ public class ControladorTest {
         controlador.modificarCursada(cursada, "CUR0123", quimica, "02-20177", "Sab", "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
-    /**
-     * CASO ERRONEO: La bateria de pruebas indica que deberia devolver error cuando esta en una clase correcta.
-     */
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void testModificarCursada4_1_VL(){
         setupEscenario_7_11();
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", "Sab", "23:58", "23:59", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+        assertTrue("No se modifico el Id.", cursada.getId().equals("CUR0123"));
+        assertTrue("No se modifico la asignatura.", cursada.getAsignatura() == quimica);
+        assertTrue("No se modifico el periodo.", cursada.getPeriodo().equals("02-2017"));
+        assertTrue("No se modifico el dia.", cursada.getDia().equals("Sab"));
+        assertTrue("No se modifico la hora inicio.", cursada.getHoraInicio().equals("23:58"));
+        assertTrue("No se modifico la hora fin.", cursada.getHoraFin().equals("23:59"));
+        assertTrue("No se modifico la lista de alumnos.", cursada.getAlumnos().isEmpty());
+        assertTrue("No se modifico la lista de profesores.", cursada.getProfesores().isEmpty());
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -2510,9 +2515,6 @@ public class ControladorTest {
         controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", null, "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     }
     
-    /**
-     * CASO ERRONEO: Los horarios de la cursada no corresponden con el escenario.
-     */
     @Test
     public void testConsultaCursada1_1() {
         setupEscenario_7_10();
@@ -2521,8 +2523,8 @@ public class ControladorTest {
         assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
         assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("01-2017"));
         assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Lun"));
-        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("12:00"));
-        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("14:00"));
+        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("13:00"));
+        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("15:00"));
         assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
         assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getAlumnos().isEmpty());
     }

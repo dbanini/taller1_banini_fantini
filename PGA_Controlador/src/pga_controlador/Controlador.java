@@ -121,6 +121,12 @@ public class Controlador {
         if (!Alumno.legajoEsValido(legajo)) {
             throw new IllegalArgumentException("El legajo no cumple con la mascara de formato requerida.");
         }
+        else if (aprobadas.contains(null)) {
+            throw new IllegalArgumentException("La lista de aprobadas contiene asignaturas nulas.");
+        }
+        else if (!entidades.getAsignaturas().containsAll(aprobadas)) {
+            throw new IllegalArgumentException("La lista de aprobadas contiene asignaturas que no se encuentran en el sistema.");
+        }
         else if (!Alumno.aprobadasConCorrelativas(aprobadas)) {
             throw new IllegalArgumentException("La lista de aprobadas contiene asignaturas que no tienen correlativas aprobadas.");
         }
@@ -190,9 +196,10 @@ public class Controlador {
      * @param domicilio El domicilio a validar.
      * @param mail El mail a validar.
      * @param telefono El telefono a validar.
+     * @param habilitadas La lista de asignaturas habilitadas a validar.
      * @throws IllegalArgumentException
      */
-    private void profesorValidarDatos(String legajo, String nombre, String domicilio, String mail, String telefono) throws IllegalArgumentException {
+    private void profesorValidarDatos(String legajo, String nombre, String domicilio, String mail, String telefono, ArrayList<Asignatura> habilitadas) throws IllegalArgumentException {
         personaValidarDatos(legajo, nombre, domicilio, mail);
         
         if (!Profesor.legajoEsValido(legajo)) {
@@ -200,6 +207,12 @@ public class Controlador {
         }
         else if (!Profesor.telefonoEsValido(telefono)) {
             throw new IllegalArgumentException("El telefono no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
+        }
+        else if (habilitadas.contains(null)) {
+            throw new IllegalArgumentException("La lista de habilitadas contiene asignaturas nulas.");
+        }
+        else if (!entidades.getAsignaturas().containsAll(habilitadas)) {
+            throw new IllegalArgumentException("La lista de habilitadas contiene asignaturas que no se encuentran en el sistema.");
         }
     }
     
@@ -263,15 +276,22 @@ public class Controlador {
      * Valida que los parametros sean validos.
      * @param id El id a validar.
      * @param nombre El nombre a validar.
+     * @param correlativas La lista de asignaturas correlativas a validar.
      * @throws IllegalArgumentException Si algun parametro no es valido.
      */
-    private void asignaturaValidarDatos(String id, String nombre) throws IllegalArgumentException {
+    private void asignaturaValidarDatos(String id, String nombre, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
         boolean entradaValida = true;
         if (!Asignatura.idEsValido(id)) {
             throw new IllegalArgumentException("El Id no cumple con la mascara de formato requerida.");
         }
         else if (!Asignatura.nombreEsValido(nombre)) {
             throw new IllegalArgumentException("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
+        }
+        else if (correlativas.contains(null)) {
+            throw new IllegalArgumentException("La lista de correlativas contiene asignaturas nulas.");
+        }
+        else if (!entidades.getAsignaturas().containsAll(correlativas)) {
+            throw new IllegalArgumentException("La lista de correlativas contiene asignaturas que no se encuentran en el sistema.");
         }
     }
     
@@ -445,7 +465,26 @@ public class Controlador {
         else if (!Cursada.horaMayorA(horaFin, horaInicio)) {
             throw new IllegalArgumentException("La hora de fin no es valida. Debe ser mayor a la hora de inicio.");
         }
+        else if (asignatura == null) {
+            throw new IllegalArgumentException("La asignatura es nula.");
+        }
+        else if (!entidades.getAsignaturas().contains(asignatura)) {
+            throw new IllegalArgumentException("La asignatura no se encuentra en el sistema.");
+        }
         else {
+            if (alumnos.contains(null)) {
+                throw new IllegalArgumentException("Los alumnos contienen alumnos nulos.");
+            }
+            else if (!entidades.getAlumnos().containsAll(alumnos)) {
+                throw new IllegalArgumentException("Los alumnos contienen alumnos que no se encuentran en el sistema.");
+            }
+            else if (profesores.contains(null)) {
+                throw new IllegalArgumentException("Los profesores contienen profesores nulos.");
+            }
+            else if (!entidades.getProfesores().containsAll(profesores)) {
+                throw new IllegalArgumentException("Los profesores contienen profesores que no se encuentran en el sistema.");
+            }
+            
             // Verificar si los nuevos alumnos estan aprobados para esta cursada.
             Iterator<Alumno> ita = alumnos.iterator();
             Alumno alumno = null;
@@ -585,7 +624,7 @@ public class Controlador {
             throw new IllegalArgumentException("El legajo ya esta en uso por otro profesor.");
         }
         
-        profesorValidarDatos(legajo, nombre, domicilio, mail, telefono);
+        profesorValidarDatos(legajo, nombre, domicilio, mail, telefono, habilitadas);
         Profesor profesor = new Profesor(legajo, nombre, domicilio, telefono, mail);
         profesor.setHabilitadas(habilitadas);
         entidades.addProfesor(profesor);
@@ -598,7 +637,7 @@ public class Controlador {
      * @return True si la modificacion fue valida, False en caso contrario.
      */
     public boolean modificarProfesor(Profesor profesor, String legajo, String nombre, String domicilio, String mail, String telefono, ArrayList<Asignatura> habilitadas) throws IllegalArgumentException {
-        profesorValidarDatos(legajo, nombre, domicilio, mail, telefono);
+        profesorValidarDatos(legajo, nombre, domicilio, mail, telefono, habilitadas);
         
         // Si el legajo fue cambiado, verificar que no este en uso por otro profesor.
         if (!legajo.equals(profesor.getLegajo()) && entidades.buscaProfesorPorLegajo(legajo) != null) {
@@ -657,7 +696,7 @@ public class Controlador {
             throw new IllegalArgumentException("El Id ya esta en uso por otra asignatura.");
         }
         
-        asignaturaValidarDatos(id, nombre);
+        asignaturaValidarDatos(id, nombre, correlativas);
         Asignatura asignatura = new Asignatura(id, nombre);
         asignatura.setCorrelativas(correlativas);
         entidades.addAsignatura(asignatura);
@@ -670,11 +709,14 @@ public class Controlador {
      * @return True si la modificacion fue valida, False en caso contrario.
      */
     public boolean modificarAsignatura(Asignatura asignatura, String id, String nombre, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
-        asignaturaValidarDatos(id, nombre);
+        asignaturaValidarDatos(id, nombre, correlativas);
         
         // Si el id fue cambiado, verificar que no este en uso por otra asignatura.
         if (!id.equals(asignatura.getId()) && entidades.buscaAsignaturaPorId(id) != null) {
             throw new IllegalArgumentException("El Id ya esta en uso por otra asignatura.");
+        }
+        else if (correlativas.contains(asignatura)) {
+            throw new IllegalArgumentException("La lista de correlativas contiene a la asignatura en si misma.");
         }
         
         boolean modificacionValida = asignaturaValidarModificacion(asignatura, correlativas);
@@ -774,7 +816,13 @@ public class Controlador {
      * Da de alta a un alumno a una cursada.
      */
     public void altaCursadaAlumno(Cursada cursada, Alumno alumno) {
-        if (cursada.getAlumnos().contains(alumno)) {
+        if (alumno == null) {
+            throw new IllegalArgumentException("El alumno es nulo.");
+        }
+        else if (!entidades.getAlumnos().contains(alumno)) {
+            throw new IllegalArgumentException("El alumno no se encuentra en el sistema.");
+        }
+        else if (cursada.getAlumnos().contains(alumno)) {
             throw new IllegalArgumentException("La cursada ya tiene al alumno inscripto.");
         }
         else if (!alumno.getAprobadas().containsAll(cursada.getAsignatura().getCorrelativas())) {
@@ -802,7 +850,13 @@ public class Controlador {
      * Da de alta a un profesor a una cursada.
      */
     public void altaCursadaProfesor(Cursada cursada, Profesor profesor) {
-        if (cursada.getProfesores().contains(profesor)) {
+        if (profesor == null) {
+            throw new IllegalArgumentException("El profesor es nulo.");
+        }
+        else if (!entidades.getProfesores().contains(profesor)) {
+            throw new IllegalArgumentException("El profesor no se encuentra en el sistema.");
+        }
+        else if (cursada.getProfesores().contains(profesor)) {
             throw new IllegalArgumentException("La cursada ya tiene al profesor inscripto.");
         }
         else if (!profesor.getHabilitadas().contains(cursada.getAsignatura())) {
