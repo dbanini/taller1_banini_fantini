@@ -532,17 +532,6 @@ public class Controlador {
      */
     
     /**
-     * Crea un nuevo alumno vacio.
-     * @return El alumno vacio.
-     */
-    public Alumno crearAlumnoVacio() {
-        Alumno alumno = new Alumno();
-        alumno.setLegajo(entidades.nuevoLegajoAlumno());
-        entidades.addAlumno(alumno);
-        return alumno;
-    }
-    
-    /**
      * RF01 alumno. <br>
      * Da de alta el alumno en la coleccion de alumnos.
      * @return El alumno que se agrega a la coleccion.
@@ -601,17 +590,6 @@ public class Controlador {
         }
         
         return operacionValida;
-    }
-    
-    /**
-    * Crea un nuevo profesor vacio.
-    * @return El profesor vacio.
-    */
-    public Profesor crearProfesorVacio() {
-        Profesor profesor = new Profesor();
-        profesor.setLegajo(entidades.nuevoLegajoProfesor());
-        entidades.addProfesor(profesor);
-        return profesor;
     }
     
     /**
@@ -676,17 +654,6 @@ public class Controlador {
     }
     
     /**
-    * Crea una nueva asignatura vacia.
-    * @return La cursada vacia.
-    */
-    public Asignatura crearAsignaturaVacia() {
-        Asignatura asignatura = new Asignatura();
-        asignatura.setId(entidades.nuevoIdAsignatura());
-        entidades.addAsignatura(asignatura);
-        return asignatura;
-    }
-    
-    /**
      * RF01 asignatura. <br>
      * Da de alta la asignatura en la coleccion de asignaturas.
      * @return La asignatura que se agrega a la coleccion.
@@ -745,23 +712,6 @@ public class Controlador {
         }
         
         return operacionValida;
-    }
-    
-    /**
-    * Crea una nueva cursada vacia.
-    * @return La cursada vacia.
-    */
-    public Cursada crearCursadaVacia() throws IllegalStateException {
-        ArrayList<Asignatura> asignaturas = entidades.getAsignaturas();
-        if (asignaturas.isEmpty()) {
-            throw new IllegalStateException("Debe existir al menos una asignatura para poder crear una cursada.");
-        }
-        
-        Cursada cursada = new Cursada();
-        cursada.setId(entidades.nuevoIdCursada());
-        cursada.setAsignatura(asignaturas.get(0));
-        entidades.addCursada(cursada);
-        return cursada;
     }
     
     /**
