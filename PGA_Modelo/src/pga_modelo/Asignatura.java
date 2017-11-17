@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * <b>inv:</b> <br>
  * El legajo cumple con la mascara de asignatura. <br>
  * El nombre es distinto de null y de vacio. <br>
- * La lista de correlativas es distinta de null. <br>
+ * La lista de correlativas es distinta de null y no contiene asignaturas nulas. <br>
  * La lista de correlativas no contiene a la asignatura misma.
  */
 public class Asignatura {
@@ -169,11 +169,11 @@ public class Asignatura {
 
     /**
      * Comprueba que la lista sea valida. <br>
-     * La lista de correlativas debe ser distinta de null.<br>
+     * La lista de correlativas debe ser distinta de null y no contener asignaturas nulas.<br>
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean correlativasEsValido() {
-        return correlativas != null;
+        return correlativas != null && !correlativas.contains(null);
     }
     
     /**
@@ -181,7 +181,7 @@ public class Asignatura {
      * <b>inv:</b> <br>
      * El legajo cumple con la mascara de asignatura. <br>
      * El nombre es distinto de null y de vacio. <br>
-     * La lista de correlativas es distinta de null. <br>
+     * La lista de correlativas es distinta de null y no contiene asignaturas nulas. <br>
      * La lista de correlativas no contiene a la asignatura misma.
      */
     private void verificarInvariante(){

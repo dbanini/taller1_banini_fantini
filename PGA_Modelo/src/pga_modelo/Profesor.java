@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * <b>inv:</b> <br>
  * El legajo cumple con la mascara de profesor. <br>
  * El telefono es alfanumerico, distinto de null y de vacio.<br>
- * La lista de asignaturas habilitadas en las que el profesor puede participar es distinta de null.
+ * La lista de asignaturas habilitadas es distinta de null y no contiene asignaturas nulas.
  */
 public class Profesor extends Persona {
     
@@ -152,11 +152,11 @@ public class Profesor extends Persona {
     
     /**
      * Comprueba que la lista sea valida. <br>
-     * La lista de asignaturas habilitadas debe ser distinta de null.<br>
+     * La lista de asignaturas habilitadas debe ser distinta de null y no contener asignaturas nulas.<br>
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean habilitadasEsValido(){
-        return habilitadas != null;
+        return habilitadas != null && !habilitadas.contains(null);
     }
     
     /**
@@ -164,7 +164,7 @@ public class Profesor extends Persona {
      * <b>inv:</b> <br>
      * El legajo cumple con la mascara de profesor. <br>
      * El telefono es alfanumerico, distinto de null y de vacio.<br>
-     * La lista de asignaturas habilitadas es distinta de null.
+     * La lista de asignaturas habilitadas es distinta de null y no contiene asignaturas nulas.
      */
     private void verificarInvariante(){
         assert legajoEsValido(getLegajo()): "La mascara del legajo es invalida.";

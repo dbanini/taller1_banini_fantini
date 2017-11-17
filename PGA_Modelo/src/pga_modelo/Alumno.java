@@ -8,7 +8,7 @@ import java.util.TreeSet;
  * Representa un Alumno junto con sus datos. <br>
  * <b>inv:</b> <br>
  * El legajo cumple con la mascara de alumno. <br>
- * La lista de asignaturas aprobadas es distinta de null. <br>
+ * La lista de asignaturas aprobadas es distinta de null y no contiene asignaturas nulas. <br>
  * El alumno no posee asignaturas aprobadas para las cuales no cumple con las correlativas correspondientes.
  */
 public class Alumno extends Persona {
@@ -123,11 +123,11 @@ public class Alumno extends Persona {
     }
     
     /**
-     * Comprueba que la lista de asignaturas aprobadas sea distinta de null. <br>
+     * Comprueba que la lista de asignaturas aprobadas sea distinta de null y que no contenga asignaturas nulas. <br>
      * @return True si la lista es valida, false en caso contrario.
      */
     private boolean aprobadasEsValido() {
-        return aprobadas != null;
+        return aprobadas != null && !aprobadas.contains(null);
     }
     
     /**
@@ -152,7 +152,7 @@ public class Alumno extends Persona {
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
      * <b>inv:</b> <br>
      * El legajo cumple con la mascara de alumno. <br>
-     * La lista de asignaturas aprobadas es distinta de null. <br>
+     * La lista de asignaturas aprobadas es distinta de null y no contiene asignaturas nulas. <br>
      * El alumno no posee asignaturas aprobadas para las cuales no cumple con las correlativas correspondientes.
      */
     private void verificarInvariante(){
