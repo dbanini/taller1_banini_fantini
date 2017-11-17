@@ -16,8 +16,8 @@ import pga_modelo.Asignatura;
 import pga_modelo.Cursada;
 
 public class ControladorTest {
-    Entidades entidades;
-    Controlador controlador;
+    private Entidades entidades;
+    private Controlador controlador;
     
     // -----------------------------------------------------------------
     // Escenarios
@@ -883,84 +883,6 @@ public class ControladorTest {
         controlador.modificarAlumno(alumno, "ALU4567", "Pedro", "Jujuy 4567", "pedro@jujuy", aprobadas);
     }
     
-    @Test
-    public void testConsultaAlumno1_1() {
-        setupEscenario_1();
-        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU1234");
-        assertNotNull(alumno);
-        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU1234"));
-        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Martin"));
-        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Mitre 1234"));
-        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("martin@mitre"));
-        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaAlumno1_1_VL() {
-        setupEscenario_2();
-        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
-        assertNotNull(alumno);
-        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU0123"));
-        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Maria"));
-        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Estrada 123"));
-        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("maria@estrada"));
-        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaAlumno1_2() {
-        setupEscenario_1();
-        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
-        assertNull("Se encontro un alumno.", alumno);
-    }
-    
-    @Test
-    public void testConsultaAlumno1_2_VL() {
-        setupEscenario_3();
-        Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
-        assertNull("Se encontro un alumno.", alumno);
-    }
-    
-    @Test
-    public void testUbicarAlumno1_1() {
-        setupEscenario_1();
-        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Martin");
-        assertTrue("No se encontro el alumno con ese nombre.", alumnos.size() == 1);
-        Alumno alumno = alumnos.get(0);
-        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU1234"));
-        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Martin"));
-        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Mitre 1234"));
-        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("martin@mitre"));
-        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarAlumno1_1_VL() {
-        setupEscenario_2();
-        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
-        assertTrue("No se encontro el alumno con ese nombre.", alumnos.size() == 1);
-        Alumno alumno = alumnos.get(0);
-        assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU0123"));
-        assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Maria"));
-        assertTrue("El alumno retornado no tiene el domicilio correcto.", alumno.getDomicilio().equals("Estrada 123"));
-        assertTrue("El alumno retornado no tiene el mail correcto.", alumno.getMail().equals("maria@estrada"));
-        assertTrue("El alumno retornado no tiene la lista de aprobadas correcta.", alumno.getAprobadas().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarAlumno1_2() {
-        setupEscenario_1();
-        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
-        assertTrue("Se encontro al menos un alumno con ese nombre.", alumnos.isEmpty());
-    }
-    
-    @Test
-    public void testUbicarAlumno1_2_VL() {
-        setupEscenario_3();
-        ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
-        assertTrue("Se encontro al menos un alumno con ese nombre.", alumnos.isEmpty());
-    }
-    
     /**************
      * PROFESORES *
      **************/
@@ -1497,88 +1419,6 @@ public class ControladorTest {
         controlador.modificarProfesor(profesor, "PRO4567", "Pedro", "Jujuy 4567", "pedro@jujuy", "45678901", habilitadas);
     }
     
-    @Test
-    public void testConsultaProfesor1_1() {
-        setupEscenario_4();
-        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
-        assertNotNull(profesor);
-        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO1234"));
-        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Martin"));
-        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Mitre 1234"));
-        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("martin@mitre"));
-        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("12345678"));
-        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaProfesor1_1_VL() {
-        setupEscenario_5();
-        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
-        assertNotNull(profesor);
-        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO0123"));
-        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Maria"));
-        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Estrada 123"));
-        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("maria@estrada"));
-        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("01234567"));
-        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaProfesor1_2() {
-        setupEscenario_4();
-        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
-        assertNull("Se encontro un profesor.", profesor);
-    }
-    
-    @Test
-    public void testConsultaProfesor1_2_VL() {
-        setupEscenario_6();
-        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
-        assertNull("Se encontro un profesor.", profesor);
-    }
-    
-    @Test
-    public void testUbicarProfesor1_1() {
-        setupEscenario_4();
-        ArrayList<Profesor> profesores = entidades.buscaProfesor("Martin");
-        assertTrue("No se encontro el profesor con ese nombre.", profesores.size() == 1);
-        Profesor profesor = profesores.get(0);
-        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO1234"));
-        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Martin"));
-        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Mitre 1234"));
-        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("martin@mitre"));
-        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("12345678"));
-        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarProfesor1_1_VL() {
-        setupEscenario_5();
-        ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
-        assertTrue("No se encontro el profesor con ese nombre.", profesores.size() == 1);
-        Profesor profesor = profesores.get(0);
-        assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO0123"));
-        assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Maria"));
-        assertTrue("El profesor retornado no tiene el domicilio correcto.", profesor.getDomicilio().equals("Estrada 123"));
-        assertTrue("El profesor retornado no tiene el mail correcto.", profesor.getMail().equals("maria@estrada"));
-        assertTrue("El profesor retornado no tiene el telefono correcto.", profesor.getTelefono().equals("01234567"));
-        assertTrue("El profesor retornado no tiene la lista de habilitadas correcta.", profesor.getHabilitadas().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarProfesor1_2() {
-        setupEscenario_4();
-        ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
-        assertTrue("Se encontro al menos un profesor con ese nombre.", profesores.isEmpty());
-    }
-    
-    @Test
-    public void testUbicarProfesor1_2_VL() {
-        setupEscenario_6();
-        ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
-        assertTrue("Se encontro al menos un profesor con ese nombre.", profesores.isEmpty());
-    }
-    
     /***************
      * ASIGNATURAS *
      ***************/
@@ -1862,75 +1702,6 @@ public class ControladorTest {
         controlador.modificarAsignatura(asignatura, "ASI0123", "Laboratorio", correlativas);
     }
     
-    @Test
-    public void testConsultaAsignatura1_1() {
-        setupEscenario_7();
-        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI2345");
-        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI2345"));
-        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Quimica"));
-        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaAsignatura1_1_VL() {
-        setupEscenario_8();
-        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
-        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI0123"));
-        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Fisica"));
-        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaAsignatura1_2() {
-        setupEscenario_7();
-        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
-        assertNull("Se encontro una asignatura.", asignatura);
-    }
-    
-    @Test
-    public void testConsultaAsignatura1_2_VL() {
-        setupEscenario_9();
-        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI0123");
-        assertNull("Se encontro una asignatura.", asignatura);
-    }
-    
-    @Test
-    public void testUbicarAsignatura1_1() {
-        setupEscenario_7();
-        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Quimica");
-        assertTrue("No se encontro la asignatura con ese nombre.", asignaturas.size() == 1);
-        Asignatura asignatura = asignaturas.get(0);
-        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI2345"));
-        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Quimica"));
-        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarAsignatura1_1_VL() {
-        setupEscenario_8();
-        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
-        assertTrue("No se encontro la asignatura con ese nombre.", asignaturas.size() == 1);
-        Asignatura asignatura = asignaturas.get(0);
-        assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI0123"));
-        assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Fisica"));
-        assertTrue("La asignatura retornada no tiene la lista de correlativas correcta.", asignatura.getCorrelativas().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarAsignatura1_2() {
-        setupEscenario_7();
-        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
-        assertTrue("Se encontro al menos una asignatura con ese nombre.", asignaturas.isEmpty());
-    }
-    
-    @Test
-    public void testUbicarAsignatura1_2_VL() {
-        setupEscenario_9();
-        ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
-        assertTrue("Se encontro al menos una asignatura con ese nombre.", asignaturas.isEmpty());
-    }
-   
-   
     /***************
      *  CURSADAS   *
      ***************/            
@@ -2495,104 +2266,6 @@ public class ControladorTest {
         Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
         Asignatura quimica = entidades.buscaAsignaturaPorId("ASI2345");
         controlador.modificarCursada(cursada, "CUR0123", quimica, "02-2017", null, "08:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
-    }
-    
-    @Test
-    public void testConsultaCursada1_1() {
-        setupEscenario_7_10();
-        Cursada cursada = entidades.buscaCursadaPorId("CUR2345");
-        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR2345"));
-        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
-        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("01-2017"));
-        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Lun"));
-        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("13:00"));
-        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("15:00"));
-        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
-        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getAlumnos().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaCursada1_1_VL() {
-        setupEscenario_7_11();
-        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
-        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR0123"));
-        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
-        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("02-2017"));
-        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Sab"));
-        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("08:00"));
-        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("11:00"));
-        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
-        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getProfesores().isEmpty());
-    }
-    
-    @Test
-    public void testConsultaCursada1_2(){
-        setupEscenario_7_10();
-        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
-        assertNull("Se encontro una cursada.", cursada);
-    }
-    
-    @Test
-    public void testConsultaCursada1_2_VL(){
-        setupEscenario_7_12();
-        Cursada cursada = entidades.buscaCursadaPorId("CUR0123");
-        assertNull("Se encontro una cursada.", cursada);
-    }
-    
-    @Test
-    public void testUbicarCursada1_1() {
-        setupEscenario_7_10();
-        ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
-        assertTrue("No se encontraron las dos cursadas por el nombre.", cursadas.size() == 2);
-        Cursada cursadaA = cursadas.get(0);
-        Cursada cursadaB = cursadas.get(1);
-        assertTrue("La cursada A retornada no tiene el Id correcto.", cursadaA.getId().equals("CUR2345"));
-        assertTrue("La cursada A retornada no tiene la asignatura correcta.", cursadaA.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
-        assertTrue("La cursada A retornada no tiene el periodo correcto.", cursadaA.getPeriodo().equals("01-2017"));
-        assertTrue("La cursada A retornada no tiene el dia correcto.", cursadaA.getDia().equals("Lun"));
-        assertTrue("La cursada A retornada no tiene la hora inicio correcta.", cursadaA.getHoraInicio().equals("13:00"));
-        assertTrue("La cursada A retornada no tiene la hora fin correcta.", cursadaA.getHoraFin().equals("15:00"));
-        assertTrue("La cursada A retornada no tiene la lista de alumnos correcta.", cursadaA.getAlumnos().isEmpty());
-        assertTrue("La cursada A retornada no tiene la lista de profesores correcta.", cursadaA.getProfesores().isEmpty());
-        
-        assertTrue("La cursada B retornada no tiene el Id correcto.", cursadaB.getId().equals("CUR6789"));
-        assertTrue("La cursada B retornada no tiene la asignatura correcta.", cursadaB.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
-        assertTrue("La cursada B retornada no tiene el periodo correcto.", cursadaB.getPeriodo().equals("02-2017"));
-        assertTrue("La cursada B retornada no tiene el dia correcto.", cursadaB.getDia().equals("Mié"));
-        assertTrue("La cursada B retornada no tiene la hora inicio correcta.", cursadaB.getHoraInicio().equals("16:00"));
-        assertTrue("La cursada B retornada no tiene la hora fin correcta.", cursadaB.getHoraFin().equals("18:00"));
-        assertTrue("La cursada B retornada no tiene la lista de alumnos correcta.", cursadaB.getAlumnos().isEmpty());
-        assertTrue("La cursada B retornada no tiene la lista de profesores correcta.", cursadaB.getProfesores().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarCursada1_1_VL() {
-        setupEscenario_7_11();
-        ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
-        assertTrue("No se encontro la cursada por el nombre.", cursadas.size() == 1);
-        Cursada cursada = cursadas.get(0);
-        assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR0123"));
-        assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
-        assertTrue("La cursada retornada no tiene el periodo correcto.", cursada.getPeriodo().equals("02-2017"));
-        assertTrue("La cursada retornada no tiene el dia correcto.", cursada.getDia().equals("Sab"));
-        assertTrue("La cursada retornada no tiene la hora inicio correcta.", cursada.getHoraInicio().equals("08:00"));
-        assertTrue("La cursada retornada no tiene la hora fin correcta.", cursada.getHoraFin().equals("11:00"));
-        assertTrue("La cursada retornada no tiene la lista de alumnos correcta.", cursada.getAlumnos().isEmpty());
-        assertTrue("La cursada retornada no tiene la lista de profesores correcta.", cursada.getAlumnos().isEmpty());
-    }
-    
-    @Test
-    public void testUbicarCursada1_2() {
-        setupEscenario_7_10();
-        ArrayList<Cursada> cursadas = entidades.buscaCursada("Fisica");
-        assertTrue("Se encontro al menos una cursada con ese nombre.", cursadas.isEmpty());
-    }
-    
-    @Test
-    public void testUbicarCursada1_2_VL() {
-        setupEscenario_7_11();
-        ArrayList<Cursada> cursadas = entidades.buscaCursada("Fisica");
-        assertTrue("Se encontro al menos una cursada con ese nombre.", cursadas.isEmpty());
     }
     
     @Test
