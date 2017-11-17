@@ -12,8 +12,17 @@ import pga_modelo.Cursada;
 import pga_modelo.Persona;
 
 public class Controlador {
+    
+    // -----------------------------------------------------------------
+    // Atributos
+    // -----------------------------------------------------------------
+    
     private Entidades entidades;
     private ControladorListener listener;
+    
+    // -----------------------------------------------------------------
+    // Constructores
+    // -----------------------------------------------------------------
     
     /**
      * Construye un controlador para las entidades.
@@ -34,6 +43,22 @@ public class Controlador {
         this.entidades = entidades;
         this.listener = listener;
     }
+    
+    // -----------------------------------------------------------------
+    // Getters y setters
+    // -----------------------------------------------------------------
+    
+    public Entidades getEntidades() {
+        return entidades;
+    }
+    
+    public void setEntidades(Entidades entidades){
+        this.entidades=entidades;
+    }
+    
+    // -----------------------------------------------------------------
+    // Metodos
+    // -----------------------------------------------------------------
     
     private boolean confirmarAccion(ControladorListener.Accion a) {
         if (listener != null) {
@@ -484,6 +509,7 @@ public class Controlador {
      * @return El alumno que se agrega a la coleccion.
      */
     public Alumno altaAlumno(String legajo, String nombre, String domicilio, String mail, ArrayList<Asignatura> aprobadas) throws IllegalArgumentException {
+        
         if (entidades.buscaAlumnoPorLegajo(legajo) != null) {
             throw new IllegalArgumentException("El legajo ya esta en uso por otro alumno.");
         }
@@ -491,6 +517,7 @@ public class Controlador {
         alumnoValidarDatos(legajo, nombre, domicilio, mail, aprobadas);
         Alumno alumno = new Alumno(legajo, nombre, domicilio, mail);
         alumno.setAprobadas(aprobadas);
+        entidades.addAlumno(alumno);
         return alumno;
     }
     
@@ -559,8 +586,9 @@ public class Controlador {
         }
         
         profesorValidarDatos(legajo, nombre, domicilio, mail, telefono);
-        Profesor profesor = new Profesor(legajo, nombre, domicilio, mail, telefono);
+        Profesor profesor = new Profesor(legajo, nombre, domicilio, telefono, mail);
         profesor.setHabilitadas(habilitadas);
+        entidades.addProfesor(profesor);
         return profesor;
     }
     
@@ -632,6 +660,7 @@ public class Controlador {
         asignaturaValidarDatos(id, nombre);
         Asignatura asignatura = new Asignatura(id, nombre);
         asignatura.setCorrelativas(correlativas);
+        entidades.addAsignatura(asignatura);
         return asignatura;
     }
     
@@ -707,6 +736,7 @@ public class Controlador {
         Cursada cursada = new Cursada(id, asignatura, periodo, dia, horaInicio, horaFin);
         cursada.setAlumnos(alumnos);
         cursada.setProfesores(profesores);
+        entidades.addCursada(cursada);
         return cursada;
     }
     
@@ -738,5 +768,61 @@ public class Controlador {
         
         // No se requiere validar la operacion.
         entidades.removeCursada(cursada);
+    }
+    
+    /**
+     * Da de alta a un alumno a una cursada.
+     */
+    public void altaCursadaAlumno(Cursada cursada, Alumno alumno) {
+        if (cursada.getAlumnos().contains(alumno)) {
+            throw new IllegalArgumentException("La cursada ya tiene al alumno inscripto.");
+        }
+        else if (!alumno.getAprobadas().containsAll(cursada.getAsignatura().getCorrelativas())) {
+            throw new IllegalArgumentException("El alumno no tiene las correlativas aprobadas para cursar esta asignatura.");
+        }
+        else if (cursada.seSuperponeCon(entidades.buscaCursadasConAlumno(alumno))) {
+            throw new IllegalArgumentException("El alumno esta ocupado en el horario de la cursada.");
+        }
+        
+        cursada.getAlumnos().add(alumno);
+    }
+    
+    /**
+     * Da de baja a un alumno de una cursada.
+     */
+    public void bajaCursadaAlumno(Cursada cursada, Alumno alumno) {
+        if (!cursada.getAlumnos().contains(alumno)) {
+            throw new IllegalArgumentException("La cursada no contiene al alumno.");
+        }
+        
+        cursada.getAlumnos().remove(alumno);
+    }
+    
+    /**
+     * Da de alta a un profesor a una cursada.
+     */
+    public void altaCursadaProfesor(Cursada cursada, Profesor profesor) {
+        if (cursada.getProfesores().contains(profesor)) {
+            throw new IllegalArgumentException("La cursada ya tiene al profesor inscripto.");
+        }
+        else if (!profesor.getHabilitadas().contains(cursada.getAsignatura())) {
+            throw new IllegalArgumentException("El profesor no tiene las asignatura de esta cursada habilitada.");
+        }
+        else if (cursada.seSuperponeCon(entidades.buscaCursadasConProfesor(profesor))) {
+            throw new IllegalArgumentException("El profesor esta ocupado en el horario de la cursada.");
+        }
+        
+        cursada.getProfesores().add(profesor);
+    }
+    
+    /**
+     * Da de baja a un profesor de una cursada.
+     */
+    public void bajaCursadaProfesor(Cursada cursada, Profesor profesor) {
+        if (!cursada.getProfesores().contains(profesor)) {
+            throw new IllegalArgumentException("La cursada no contiene al profesor.");
+        }
+        
+        cursada.getProfesores().remove(profesor);
     }
 }
