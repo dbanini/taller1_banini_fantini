@@ -20,24 +20,24 @@ import java.util.TreeSet;
  * Cada profesor de la coleccion no participa en cursadas que se superponen.
  */
 public class Entidades {
-    
+
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
-    
+
     private ArrayList<Alumno> alumnos;
     private ArrayList<Profesor> profesores;
     private ArrayList<Asignatura> asignaturas;
     private ArrayList<Cursada> cursadas;
-    
+
     // -----------------------------------------------------------------
     // Constructores
     // -----------------------------------------------------------------
-    
+
     /**
      * Constructor vacio utilizado al serializar y al crear una neueva entidad.
      */
-    public Entidades() {        
+    public Entidades() {
         alumnos = new ArrayList<Alumno>();
         profesores = new ArrayList<Profesor>();
         asignaturas = new ArrayList<Asignatura>();
@@ -62,7 +62,7 @@ public class Entidades {
     public ArrayList<Alumno> getAlumnos() {
         return alumnos;
     }
-    
+
     /**
      * Setter de profesores. Acceso publico solo para el serializador. NO USAR.
      */
@@ -108,7 +108,7 @@ public class Entidades {
     // -----------------------------------------------------------------
     // Metodos
     // -----------------------------------------------------------------
-    
+
     /**
      * Agrega un alumno a la lista de alumnos. <br>
      * <b>pre: </b> El alumno no existe en la lista de alumnos.
@@ -121,7 +121,7 @@ public class Entidades {
         assert alumnos.contains(alumno) : "El alumno no fue agregado a la lista de alumnos.";
         verificarInvariante();
     }
-    
+
     /**
      * Elimina un alumno de la lista de alumnos. <br>
      * <b>pre: </b> El alumno existe en la lista de alumnos.
@@ -136,7 +136,7 @@ public class Entidades {
         assert !alumnos.contains(alumno) : "El alumno no fue eliminado de la lista de alumnos.";
         verificarInvariante();
     }
-    
+
     /**
      * Agrega un profesor a la lista de profesores. <br>
      * <b>pre: </b> El profesor no existe en la lista de profesores.
@@ -149,22 +149,22 @@ public class Entidades {
         assert profesores.contains(profesor) : "El profesor no fue agregado a la lista de profesores.";
         verificarInvariante();
     }
-    
-     /**
-      * Elimina un profesor de la lista de profesores. <br>
-      * <b>pre: </b> El profesor existe en la lista de profesores.
-      * <b>pre: </b> El profesor no debe estar en la lista de profesores de ninguna cursada.
-      * <b>post: </b> Se elimina un profesor de la lista de profesores.
-      *  @param profesor El profesor a eliminar de la coleccion.
-      */
-    public void removeProfesor(Profesor profesor){
+
+    /**
+     * Elimina un profesor de la lista de profesores. <br>
+     * <b>pre: </b> El profesor existe en la lista de profesores.
+     * <b>pre: </b> El profesor no debe estar en la lista de profesores de ninguna cursada.
+     * <b>post: </b> Se elimina un profesor de la lista de profesores.
+     *  @param profesor El profesor a eliminar de la coleccion.
+     */
+    public void removeProfesor(Profesor profesor) {
         assert profesores.contains(profesor) : "El profesor no existe en la lista de profesores.";
         assert buscaCursadasConProfesor(profesor).isEmpty() : "Hay cursadas que contienen referencias al profesor.";
         profesores.remove(profesor);
         assert !profesores.contains(profesor) : "El profesor no fue eliminado de la lista de profesores.";
         verificarInvariante();
     }
-    
+
     /**
      * Agrega una asignatura a la lista de asignaturas. <br>
      * <b>pre: </b> La asignatura no existe en la lista de asignaturas.
@@ -177,7 +177,7 @@ public class Entidades {
         assert asignaturas.contains(asignatura) : "La asignatura no fue agregada a la lista de asignaturas.";
         verificarInvariante();
     }
-    
+
     /**
      * Elimina una asignatura de la lista de asignaturas.
      * <b>pre: </b> La asignatura existe en la lista de asignaturas.
@@ -190,16 +190,19 @@ public class Entidades {
      */
     public void removeAsignatura(Asignatura asignatura) {
         assert asignaturas.contains(asignatura) : "La asignatura no existe en la lista de asignaturas.";
-        assert buscaAlumnosConAsignatura(asignatura).isEmpty() : "Hay alumnos que contienen referencias a la asignatura.";
-        assert buscaProfesoresConAsignatura(asignatura).isEmpty() : "Hay profesores que contienen referencias a la asignatura.";
-        assert buscaAsignaturasConCorrelativa(asignatura).isEmpty() : "Hay asignaturas que tienen como correlativa a esta asignatura.";
+        assert buscaAlumnosConAsignatura(asignatura).isEmpty() :
+               "Hay alumnos que contienen referencias a la asignatura.";
+        assert buscaProfesoresConAsignatura(asignatura).isEmpty() :
+               "Hay profesores que contienen referencias a la asignatura.";
+        assert buscaAsignaturasConCorrelativa(asignatura).isEmpty() :
+               "Hay asignaturas que tienen como correlativa a esta asignatura.";
         assert buscaCursadasConAsignatura(asignatura).isEmpty() : "Hay cursadas que refieren a la asignatura.";
         asignaturas.remove(asignatura);
         assert !asignaturas.contains(asignatura) : "La asignatura no ha sido eliminada.";
         verificarInvariante();
     }
-    
-    /** 
+
+    /**
      * Agrega una cursada a la lista de cursadas. <br>
      * <b>pre: </b> La cursada no existe en la lista de cursadas. <br>
      * <b>post: </b> Se agrega una cursada a la lista de cursadas. <br>
@@ -211,7 +214,7 @@ public class Entidades {
         assert cursadas.contains(cursada) : "La cursada no fue agregada a la lista de cursadas.";
         verificarInvariante();
     }
-    
+
     /**
      * Elimina una cursada de la lista de cursadas. <br>
      * <b>pre: </b> La cursada existe en la lista de cursadas. <br>
@@ -230,62 +233,62 @@ public class Entidades {
      * @param nombre El nombre del alumno a buscar. <br>
      * @return Retorna en un ArrayList los alumnos con el nombre especificado.
      */
-    public ArrayList<Alumno> buscaAlumno(String nombre){
-        Iterator it;
+    public ArrayList<Alumno> buscaAlumno(String nombre) {
+        Iterator<Alumno> it;
         Alumno alumnoAux;
         ArrayList<Alumno> alumnosEncontrados = new ArrayList<Alumno>();
-        
-        it=alumnos.iterator();
-        while (it.hasNext()){
-            alumnoAux=(Alumno) it.next();
-            if (alumnoAux.getNombre().equalsIgnoreCase(nombre)){
+
+        it = alumnos.iterator();
+        while (it.hasNext()) {
+            alumnoAux = it.next();
+            if (alumnoAux.getNombre().equalsIgnoreCase(nombre)) {
                 alumnosEncontrados.add(alumnoAux);
             }
         }
-        
+
         return alumnosEncontrados;
     }
-    
-     /**
-      * Busca un alumno en la lista mediante su legajo. <br>
-      * @param legajo El legajo del alumno a buscar. <br>
-      * @return El alumno si fue encontrado, null en caso contrario.
-      */
+
+    /**
+     * Busca un alumno en la lista mediante su legajo. <br>
+     * @param legajo El legajo del alumno a buscar. <br>
+     * @return El alumno si fue encontrado, null en caso contrario.
+     */
     public Alumno buscaAlumnoPorLegajo(String legajo) {
         Alumno alumno = null;
         boolean encontrado = false;
-        
+
         // Iteramos en el set y verificamos que el alumno tenga el legajo buscado.
         Iterator<Alumno> it = alumnos.iterator();
         while (it.hasNext() && !encontrado) {
             alumno = it.next();
             encontrado = alumno.getLegajo().equals(legajo);
         }
-        
+
         return encontrado ? alumno : null;
     }
-    
+
     /**
      * Busqueda de profesores con determinado nombre. <br>
      * @param nombre El nombre del profesor a buscar. <br>
      * @return Retorna en un ArrayList los profesores con el nombre especificado.
      */
-    public ArrayList<Profesor> buscaProfesor(String nombre){
-        Iterator it;
+    public ArrayList<Profesor> buscaProfesor(String nombre) {
+        Iterator<Profesor> it;
         Profesor profesoresAux;
         ArrayList<Profesor> ProfesoresEncontrados = new ArrayList<Profesor>();
-        
-        it=alumnos.iterator();
-        while (it.hasNext()){
-            profesoresAux=(Profesor) it.next();
-            if (profesoresAux.getNombre().equalsIgnoreCase(nombre)){
+
+        it = profesores.iterator();
+        while (it.hasNext()) {
+            profesoresAux = it.next();
+            if (profesoresAux.getNombre().equalsIgnoreCase(nombre)) {
                 ProfesoresEncontrados.add(profesoresAux);
-            }   
+            }
         }
-        
+
         return ProfesoresEncontrados;
     }
-    
+
     /**
      * Busca un profesor en la lista mediante su legajo. <br>
      * @param legajo El legajo del profesor a buscar. <br>
@@ -294,38 +297,38 @@ public class Entidades {
     public Profesor buscaProfesorPorLegajo(String legajo) {
         Profesor profesor = null;
         boolean encontrado = false;
-        
+
         // Iteramos en el set y verificamos que el alumno tenga el legajo buscado.
         Iterator<Profesor> it = profesores.iterator();
         while (it.hasNext() && !encontrado) {
             profesor = it.next();
             encontrado = profesor.getLegajo().equals(legajo);
         }
-        
+
         return encontrado ? profesor : null;
     }
-    
+
     /**
      * Busqueda de asignaturas con determinado nombre. <br>
      * @param nombre El nombre de la asignatura a buscar. <br>
      * @return Retorna en un ArrayList las asignaturas con el nombre especificado.
      */
-    public ArrayList<Asignatura> buscaAsignatura(String nombre){
-        Iterator it;
+    public ArrayList<Asignatura> buscaAsignatura(String nombre) {
+        Iterator<Asignatura> it;
         Asignatura asignaturaAux;
         ArrayList<Asignatura> asignaturaEncontrados = new ArrayList<Asignatura>();
-        
-        it=alumnos.iterator();
-        while (it.hasNext()){
-            asignaturaAux=(Asignatura) it.next();
-            if (asignaturaAux.getNombre().equalsIgnoreCase(nombre)){
+
+        it = asignaturas.iterator();
+        while (it.hasNext()) {
+            asignaturaAux = it.next();
+            if (asignaturaAux.getNombre().equalsIgnoreCase(nombre)) {
                 asignaturaEncontrados.add(asignaturaAux);
             }
         }
-        
+
         return asignaturaEncontrados;
     }
-    
+
     /**
      * Busca una asignatura en la lista mediante su id. <br>
      * @param id El id de la asignatura a buscar. <br>
@@ -334,57 +337,57 @@ public class Entidades {
     public Asignatura buscaAsignaturaPorId(String id) {
         Asignatura asignatura = null;
         boolean encontrado = false;
-        
+
         // Iteramos en el set y verificamos que el alumno tenga el id buscado.
         Iterator<Asignatura> it = asignaturas.iterator();
         while (it.hasNext() && !encontrado) {
             asignatura = it.next();
             encontrado = asignatura.getId().equals(id);
         }
-        
+
         return encontrado ? asignatura : null;
     }
-    
+
     /**
      * Busqueda de cursadas con determinado nombre de asignatura. <br>
      * @param nombre El nombre de la cursada a buscar. <br>
      * @return Retorna en un ArrayList las cursadas cuya asignatura coincide con el nombre pasado por parametro.
      */
-    public ArrayList<Cursada> buscaCursada(String nombre){
-        Iterator it;
+    public ArrayList<Cursada> buscaCursada(String nombre) {
+        Iterator<Cursada> it;
         Cursada cursadaAux;
         ArrayList<Cursada> cursadaEncontrados = new ArrayList<Cursada>();
-        
-        it=alumnos.iterator();
-        while (it.hasNext()){
-            cursadaAux=(Cursada) it.next();
-            if (cursadaAux.getAsignatura().getNombre().equalsIgnoreCase(nombre)){
+
+        it = cursadas.iterator();
+        while (it.hasNext()) {
+            cursadaAux = it.next();
+            if (cursadaAux.getAsignatura().getNombre().equalsIgnoreCase(nombre)) {
                 cursadaEncontrados.add(cursadaAux);
             }
         }
-        
+
         return cursadaEncontrados;
     }
-    
-     /**
-      * Busca una cursada en la lista mediante su id. <br>
-      * @param id El id de la cursada a buscar. <br>
-      * @return La cursada si fue encontrada, null en caso contrario.
-      */
+
+    /**
+     * Busca una cursada en la lista mediante su id. <br>
+     * @param id El id de la cursada a buscar. <br>
+     * @return La cursada si fue encontrada, null en caso contrario.
+     */
     public Cursada buscaCursadaPorId(String id) {
         Cursada cursada = null;
         boolean encontrado = false;
-        
+
         // Iteramos en el set y verificamos que el alumno tenga el id buscado.
         Iterator<Cursada> it = cursadas.iterator();
         while (it.hasNext() && !encontrado) {
             cursada = it.next();
             encontrado = cursada.getId().equals(id);
         }
-        
+
         return encontrado ? cursada : null;
     }
-    
+
     /**
      * Devuelve una lista de los alumnos que tienen la asignatura buscada aprobada. <br>
      * @param asignatura La asignatura a buscar. <br>
@@ -400,10 +403,10 @@ public class Entidades {
                 lista.add(alumno);
             }
         }
-        
+
         return lista;
     }
-    
+
     /**
      * Devuelve una lista de los profesores que tienen la asignatura buscada habilitada. <br>
      * @param asignatura La asignatura a buscar. <br>
@@ -419,10 +422,10 @@ public class Entidades {
                 lista.add(profesor);
             }
         }
-        
+
         return lista;
     }
-    
+
     /**
      * Devuelve una lista de asignaturas que tienen la asignatura como correlativa. <br>
      * @param correlativa La asignatura correlativa a buscar. <br>
@@ -438,10 +441,10 @@ public class Entidades {
                 lista.add(asignatura);
             }
         }
-        
+
         return lista;
     }
-    
+
     /**
      * Devuelve una lista de las cursadas que tienen la asignatura buscada asignada. <br>
      * @param asignatura La asignatura a buscar. <br>
@@ -457,10 +460,10 @@ public class Entidades {
                 lista.add(cursada);
             }
         }
-        
+
         return lista;
     }
-    
+
     /**
      * Devuelve una lista de las cursadas que tienen al alumno buscado. <br>
      * @param alumno El alumno a buscar. <br>
@@ -476,10 +479,10 @@ public class Entidades {
                 lista.add(cursada);
             }
         }
-        
+
         return lista;
     }
-    
+
     /**
      * Devuelve una lista de las cursadas que tienen al profesor buscado. <br>
      * @param profesor El profesor a buscar. <br>
@@ -495,10 +498,10 @@ public class Entidades {
                 lista.add(cursada);
             }
         }
-        
+
         return lista;
     }
-    
+
     /**
      * Genera un nuevo legajo unico para un nuevo alumno. <br>
      * @return El nuevo legajo.
@@ -513,7 +516,7 @@ public class Entidades {
         }
         return legajo;
     }
-    
+
     /**
      * Genera un nuevo legajo unico para un nuevo profesor. <br>
      * @return El nuevo legajo.
@@ -528,7 +531,7 @@ public class Entidades {
         }
         return legajo;
     }
-    
+
     /**
      * Genera un nuevo legajo unico para una nueva asignatura.
      * @return El nuevo Id.
@@ -543,7 +546,7 @@ public class Entidades {
         }
         return id;
     }
-    
+
     /**
      * Genera un nuevo legajo unico para una nueva cursada.
      * @return El nuevo Id.
@@ -558,46 +561,46 @@ public class Entidades {
         }
         return id;
     }
-    
+
     // -----------------------------------------------------------------
     // Invariante
     // -----------------------------------------------------------------
-    
+
     /**
      * Comprueba si la lista profesores es valida. <br>
-     * @return True si la lista de profesores es valida, false en caso contrario. 
-     */ 
-    private boolean profesoresEsValido(){
+     * @return True si la lista de profesores es valida, false en caso contrario.
+     */
+    private boolean profesoresEsValido() {
         return profesores != null;
     }
-    
+
     /**
      * Comprueba si la lista alumnos es valida. <br>
-     * @return True si la lista de alumnos es valida, false en caso contrario. 
+     * @return True si la lista de alumnos es valida, false en caso contrario.
      */
-    private boolean alumnosEsValido(){
+    private boolean alumnosEsValido() {
         return alumnos != null;
     }
-    
+
     /**
      * Comprueba si la lista asignaturas es valida. <br>
-     * @return True si la lista de asignaturas es valida, false en caso contrario. 
+     * @return True si la lista de asignaturas es valida, false en caso contrario.
      */
-    private boolean asignaturasEsValido(){
+    private boolean asignaturasEsValido() {
         return asignaturas != null;
     }
-    
+
     /**
      * Comprueba si la lista cursadas es valida. <br>
-     * @return True si la lista de cursadas es valida, false en caso contrario. 
+     * @return True si la lista de cursadas es valida, false en caso contrario.
      */
-    private boolean cursadasEsValido(){
+    private boolean cursadasEsValido() {
         return cursadas != null;
     }
-    
+
     /**
      * Verifica que los legajos de todos los profesores sean únicos.
-     * @return True si la lista de profesores no contiene legajos duplicados, false en caso contrario. 
+     * @return True si la lista de profesores no contiene legajos duplicados, false en caso contrario.
      */
     private boolean profesoresSinDuplicados() {
         boolean sinDuplicados = true;
@@ -608,19 +611,18 @@ public class Entidades {
             legajo = it.next().getLegajo();
             if (legajos.contains(legajo)) {
                 sinDuplicados = false;
-            }
-            else {
+            } else {
                 legajos.add(legajo);
             }
         }
-        
+
         return sinDuplicados;
     }
-    
+
     /**
-    * Verifica que los legajos de todos los alumnos sean únicos.
-    * @return True si la lista de alumnos no contiene legajos duplicados, false en caso contrario. 
-    */
+     * Verifica que los legajos de todos los alumnos sean únicos.
+     * @return True si la lista de alumnos no contiene legajos duplicados, false en caso contrario.
+     */
     private boolean alumnosSinDuplicados() {
         boolean sinDuplicados = true;
         TreeSet<String> legajos = new TreeSet<String>();
@@ -630,19 +632,18 @@ public class Entidades {
             legajo = it.next().getLegajo();
             if (legajos.contains(legajo)) {
                 sinDuplicados = false;
-            }
-            else {
+            } else {
                 legajos.add(legajo);
             }
         }
-        
+
         return sinDuplicados;
     }
-        
+
     /**
-    * Verifica que los ids de todas las asignaturas sean únicos.
-    * @return True si la lista de asignaturas no contiene ids duplicados, false en caso contrario. 
-    */
+     * Verifica que los ids de todas las asignaturas sean únicos.
+     * @return True si la lista de asignaturas no contiene ids duplicados, false en caso contrario.
+     */
     private boolean asignaturasSinDuplicados() {
         boolean sinDuplicados = true;
         TreeSet<String> ids = new TreeSet<String>();
@@ -652,19 +653,18 @@ public class Entidades {
             id = it.next().getId();
             if (ids.contains(id)) {
                 sinDuplicados = false;
-            }
-            else {
+            } else {
                 ids.add(id);
             }
         }
-        
+
         return sinDuplicados;
     }
-        
+
     /**
-    * Verifica que los ids de todas los cursadas sean únicos.
-    * @return True si la lista de cursadas no contiene ids duplicados, false en caso contrario. 
-    */
+     * Verifica que los ids de todas los cursadas sean únicos.
+     * @return True si la lista de cursadas no contiene ids duplicados, false en caso contrario.
+     */
     private boolean cursadasSinDuplicados() {
         boolean sinDuplicados = true;
         TreeSet<String> ids = new TreeSet<String>();
@@ -674,15 +674,14 @@ public class Entidades {
             id = it.next().getId();
             if (ids.contains(id)) {
                 sinDuplicados = false;
-            }
-            else {
+            } else {
                 ids.add(id);
             }
         }
-        
+
         return sinDuplicados;
     }
-    
+
     /**
      * Comprueba que las cursadas de una lista de cursadas no se superpongan. <br>
      * @param cursadasLista Lista de cursadas a verificar. <br>
@@ -699,10 +698,10 @@ public class Entidades {
                 sinSuperposicion = false;
             }
         }
-        
+
         return sinSuperposicion;
     }
-    
+
     /**
      * Comprueba que los alumnos no participen de cursadas superpuestas. <br>
      * @return True si no existen superposiciones, false en caso contrario.
@@ -713,34 +712,34 @@ public class Entidades {
         Alumno alumno = null;
         while (ita.hasNext() && sinSuperposicion) {
             alumno = ita.next();
-            
+
             // Buscar todas las cursadas en las que participa este alumno.
             ArrayList<Cursada> cursadasEncontradas = buscaCursadasConAlumno(alumno);
             sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
         }
-        
+
         return sinSuperposicion;
     }
-    
-     /**
-      * Comprueba que los profesores no participen de cursadas superpuestas. <br>
-      * @return True si no existen superposiciones, false en caso contrario.
-      */
+
+    /**
+     * Comprueba que los profesores no participen de cursadas superpuestas. <br>
+     * @return True si no existen superposiciones, false en caso contrario.
+     */
     private boolean cursadaProfesoresSinSuperposicion() {
         boolean sinSuperposicion = true;
         Iterator<Profesor> itp = profesores.iterator();
         Profesor profesor = null;
         while (itp.hasNext() && sinSuperposicion) {
             profesor = itp.next();
-            
+
             // Buscar todas las cursadas en las que participa este profesor.
             ArrayList<Cursada> cursadasEncontradas = buscaCursadasConProfesor(profesor);
             sinSuperposicion = cursadasSinSuperposicion(cursadasEncontradas);
         }
-        
+
         return sinSuperposicion;
     }
-    
+
     /**
      * Verifica que el invariante de la clase se cumpla. Si algo falla, lanza un AssertionError. <br>
      * <b>inv: </b>
@@ -755,11 +754,11 @@ public class Entidades {
      * Cada alumno de la coleccion no participa en cursadas que se superponen. <br>
      * Cada profesor de la coleccion no participa en cursadas que se superponen.
      */
-    private void verificarInvariante(){
-        assert profesoresEsValido(): "La lista de profesores es invalida.";
-        assert alumnosEsValido(): "La lista de alumnos es invalida.";
-        assert asignaturasEsValido(): "La lista de asignaturas es invalida.";
-        assert cursadasEsValido(): "La lista de cursadas es invalida.";
+    private void verificarInvariante() {
+        assert profesoresEsValido() : "La lista de profesores es invalida.";
+        assert alumnosEsValido() : "La lista de alumnos es invalida.";
+        assert asignaturasEsValido() : "La lista de asignaturas es invalida.";
+        assert cursadasEsValido() : "La lista de cursadas es invalida.";
         assert profesoresSinDuplicados() : "La lista de profesores contiene legajos duplicados.";
         assert alumnosSinDuplicados() : "La lista de alumnos contiene legajos duplicados.";
         assert asignaturasSinDuplicados() : "La lista de asignaturas contiene ids duplicados.";

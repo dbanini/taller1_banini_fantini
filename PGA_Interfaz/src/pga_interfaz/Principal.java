@@ -1984,30 +1984,32 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
 
     private void profesoresNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesoresNuevoBotonActionPerformed
         profesoresFiltro.setText("");
-        Profesor nuevoProfesor = controlador.crearProfesorVacio();
-        agregarProfesorTabla(nuevoProfesor);
-        int lastIndex = profesoresTabla.convertRowIndexToView(profesoresTabla.getRowCount() - 1);
-        profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+        profesoresTabla.getSelectionModel().clearSelection();
+        setupProfesor(null);
+        profesorLegajoText.setText(entidades.nuevoLegajoProfesor());
+        setProfesorEditable(true);
     }//GEN-LAST:event_profesoresNuevoBotonActionPerformed
 
     private void asignaturasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturasNuevoBotonActionPerformed
         asignaturasFiltro.setText("");
-        Asignatura nuevaAsignatura = controlador.crearAsignaturaVacia();
-        agregarAsignaturaTabla(nuevaAsignatura);
-        int lastIndex = asignaturasTabla.convertRowIndexToView(asignaturasTabla.getRowCount() - 1);
-        asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+        asignaturasTabla.getSelectionModel().clearSelection();
+        setupAsignatura(null);
+        asignaturaIdText.setText(entidades.nuevoIdAsignatura());
+        setAsignaturaEditable(true);
     }//GEN-LAST:event_asignaturasNuevoBotonActionPerformed
 
     private void cursadasNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadasNuevoBotonActionPerformed
-        try {
+        if (!entidades.getAsignaturas().isEmpty()) {
+            Asignatura asignatura = entidades.getAsignaturas().get(0);
             cursadasFiltro.setText("");
-            Cursada nuevaCursada = controlador.crearCursadaVacia();
-            agregarCursadaTabla(nuevaCursada);
-            int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
-            cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+            cursadasTabla.getSelectionModel().clearSelection();
+            setupCursada(null);
+            cursadaIdText.setText(entidades.nuevoIdCursada());
+            cursadaAsignaturaText.setText(nombreDeAsignatura(asignatura));
+            setCursadaEditable(true);
         }
-        catch (IllegalStateException e) {
-            mostrarError(e.getMessage());
+        else {
+            mostrarError("Debe existir al menos una asignatura para poder crear una cursada.");
         }
     }//GEN-LAST:event_cursadasNuevoBotonActionPerformed
     
@@ -2077,19 +2079,29 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     }//GEN-LAST:event_profesorEditarBotonActionPerformed
 
     private void profesorAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profesorAceptarBotonActionPerformed
-        String oldLegajo = profesorActual.getLegajo();
-        String oldNombre = profesorActual.getNombre();
-        String nuevoLegajo = profesorLegajoText.getText();
-        String nuevoNombre = profesorNombreText.getText();
         try {
-            if (controlador.modificarProfesor(profesorActual, nuevoLegajo, nuevoNombre, profesorDomicilioText.getText(), profesorMailText.getText(), profesorTelefonoText.getText(), asignaturasDeTabla(profesorAsigTabla))) {
-                // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
-                if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
-                    reemplazarEnTabla(profesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
-                    reemplazarEnTabla(cursadaProfesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+            String nuevoLegajo = profesorLegajoText.getText();
+            String nuevoNombre = profesorNombreText.getText();
+            if (profesorActual != null) {
+                String oldLegajo = profesorActual.getLegajo();
+                String oldNombre = profesorActual.getNombre();
+                if (controlador.modificarProfesor(profesorActual, nuevoLegajo, nuevoNombre, profesorDomicilioText.getText(), profesorMailText.getText(), profesorTelefonoText.getText(), asignaturasDeTabla(profesorAsigTabla))) {
+                    // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+                    if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                        reemplazarEnTabla(profesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                        reemplazarEnTabla(cursadaProfesoresTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                    }
+                    
+                     setProfesorEditable(false);
                 }
-        
+            }
+            else {
+                Profesor nuevoProfesor = controlador.altaProfesor(nuevoLegajo, nuevoNombre, profesorDomicilioText.getText(), profesorMailText.getText(), profesorTelefonoText.getText(), asignaturasDeTabla(profesorAsigTabla));
                 setProfesorEditable(false);
+                profesoresFiltro.setText("");
+                agregarProfesorTabla(nuevoProfesor);
+                int lastIndex = profesoresTabla.convertRowIndexToView(profesoresTabla.getRowCount() - 1);
+                profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
         catch (IllegalArgumentException e) {
@@ -2106,35 +2118,44 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     }//GEN-LAST:event_asignaturaEditarBotonActionPerformed
 
     private void asignaturaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
-        String oldId = asignaturaActual.getId();
-        String oldNombre = asignaturaActual.getNombre();
-        String nuevoId = asignaturaIdText.getText();
-        String nuevoNombre = asignaturaNombreText.getText();
         try {
-            if (controlador.modificarAsignatura(asignaturaActual, nuevoId, nuevoNombre, asignaturasDeTabla(asignaturaCorrTabla))) {
-                // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
-                if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
-                    reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
-                    reemplazarEnTabla(alumnoAsigTabla, oldId, nuevoId, nuevoNombre);
-                    reemplazarEnTabla(profesorAsigTabla, oldId, nuevoId, nuevoNombre);
-                        
-                    if (cursadaActual != null && cursadaActual.getAsignatura() == asignaturaActual) {
-                        cursadaAsignaturaText.setText(nombreDeAsignatura(asignaturaActual));
+            String nuevoId = asignaturaIdText.getText();
+            String nuevoNombre = asignaturaNombreText.getText();
+            if (asignaturaActual != null) {
+                String oldId = asignaturaActual.getId();
+                String oldNombre = asignaturaActual.getNombre();
+                if (controlador.modificarAsignatura(asignaturaActual, nuevoId, nuevoNombre, asignaturasDeTabla(asignaturaCorrTabla))) {
+                    // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
+                    if (!nuevoId.equals(oldId) || !nuevoNombre.equals(oldNombre)) {
+                        reemplazarEnTabla(asignaturasTabla, oldId, nuevoId, nuevoNombre);
+                        reemplazarEnTabla(alumnoAsigTabla, oldId, nuevoId, nuevoNombre);
+                        reemplazarEnTabla(profesorAsigTabla, oldId, nuevoId, nuevoNombre);
+                                
+                        if (cursadaActual != null && cursadaActual.getAsignatura() == asignaturaActual) {
+                            cursadaAsignaturaText.setText(nombreDeAsignatura(asignaturaActual));
+                        }
+                                
+                        // FIXME Es un doble loop medio ineficiente, pero no es una operacion frecuente. Necesario porque el
+                        // nombre de la cursada es autogenerado a partir del de la asignatura.
+                        ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
+                        Iterator<Cursada> it = cursadas.iterator();
+                        Cursada cursada = null;
+                        while (it.hasNext()) {
+                            cursada = it.next();
+                            reemplazarEnTabla(cursadasTabla, cursada.getId(), cursada.getId(), nombreDeCursada(cursada));
+                        }
                     }
-                        
-                    // FIXME Es un doble loop medio ineficiente, pero no es una operacion frecuente. Necesario porque el
-                    // nombre de la cursada es autogenerado a partir del de la asignatura.
-                    ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignaturaActual);
-                    Iterator<Cursada> it = cursadas.iterator();
-                    Cursada cursada = null;
-                    while (it.hasNext()) {
-                        cursada = it.next();
-                        reemplazarEnTabla(cursadasTabla, cursada.getId(), cursada.getId(), nombreDeCursada(cursada));
-                    }
+                    
+                    setAsignaturaEditable(false);
                 }
-        
+            }
+            else {
+                Asignatura nuevaAsignatura = controlador.altaAsignatura(nuevoId, nuevoNombre, asignaturasDeTabla(asignaturaCorrTabla));
                 setAsignaturaEditable(false);
+                asignaturasFiltro.setText("");
+                agregarAsignaturaTabla(nuevaAsignatura);
+                int lastIndex = asignaturasTabla.convertRowIndexToView(asignaturasTabla.getRowCount() - 1);
+                asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
         catch (IllegalArgumentException e) {
@@ -2151,20 +2172,30 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     }//GEN-LAST:event_cursadaEditarBotonActionPerformed
 
     private void cursadaAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursadaAceptarBotonActionPerformed
-        String oldId = cursadaActual.getId();
-        String nuevoId = cursadaIdText.getText();
-        String nuevaAsignaturaId = cursadaAsignaturaText.getText().substring(0, 7);
-        Asignatura nuevaAsignatura = entidades.buscaAsignaturaPorId(nuevaAsignaturaId);
-        assert nuevaAsignatura != null : "El texto contiene una asignatura inexistente.";
-        String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
-        String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
         try {
-            controlador.modificarCursada(cursadaActual, nuevoId, nuevaAsignatura, nuevoPeriodo, nuevoDia, cursadaHoraInicioText.getText(), cursadaHoraFinText.getText(), alumnosDeTabla(cursadaAlumnosTabla), profesoresDeTabla(cursadaProfesoresTabla));
-            
-            // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
-            // FIXME Deberia chequear los parametros de los cuales depende el nombre para saber si hace falta actualizar la tabla o no.
-            reemplazarEnTabla(cursadasTabla, oldId, nuevoId, nombreDeCursada(cursadaActual));
-            setCursadaEditable(false);
+            String nuevoId = cursadaIdText.getText();
+            String nuevaAsignaturaId = cursadaAsignaturaText.getText().substring(0, 7);
+            Asignatura nuevaAsignatura = entidades.buscaAsignaturaPorId(nuevaAsignaturaId);
+            assert nuevaAsignatura != null : "El texto contiene una asignatura inexistente.";
+            String nuevoPeriodo = (String) cursadaPeriodoACombo.getSelectedItem() + "-" + cursadaPeriodoBText.getText();
+            String nuevoDia = (String) cursadaDiaCombo.getSelectedItem();
+            if (cursadaActual != null) {
+                String oldId = cursadaActual.getId();
+                controlador.modificarCursada(cursadaActual, nuevoId, nuevaAsignatura, nuevoPeriodo, nuevoDia, cursadaHoraInicioText.getText(), cursadaHoraFinText.getText(), alumnosDeTabla(cursadaAlumnosTabla), profesoresDeTabla(cursadaProfesoresTabla));
+                
+                // Reemplazar id y nombre en tablas en las que esta entidad pueda encontrarse.
+                // FIXME Deberia chequear los parametros de los cuales depende el nombre para saber si hace falta actualizar la tabla o no.
+                reemplazarEnTabla(cursadasTabla, oldId, nuevoId, nombreDeCursada(cursadaActual));
+                setCursadaEditable(false);
+            }
+            else {
+                Cursada nuevaCursada = controlador.altaCursada(nuevoId, nuevaAsignatura, nuevoPeriodo, nuevoDia, cursadaHoraInicioText.getText(), cursadaHoraFinText.getText(), alumnosDeTabla(cursadaAlumnosTabla), profesoresDeTabla(cursadaProfesoresTabla));
+                setCursadaEditable(false);
+                cursadasFiltro.setText("");
+                agregarCursadaTabla(nuevaCursada);
+                int lastIndex = cursadasTabla.convertRowIndexToView(cursadasTabla.getRowCount() - 1);
+                cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+            }
         }
         catch (IllegalArgumentException e) {
             mostrarError(e.getMessage());
@@ -2180,20 +2211,29 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     }//GEN-LAST:event_panelTabsMouseClicked
 
     private void alumnoAceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoAceptarBotonActionPerformed
-        // Verificar todas las precondiciones antes de ingresar los datos en la entrada.
-        String oldLegajo = alumnoActual.getLegajo();
-        String oldNombre = alumnoActual.getNombre();
-        String nuevoLegajo = alumnoLegajoText.getText();
-        String nuevoNombre = alumnoNombreText.getText();
         try {
-            if (controlador.modificarAlumno(alumnoActual, nuevoLegajo, nuevoNombre, alumnoDomicilioText.getText(), alumnoMailText.getText(), asignaturasDeTabla(alumnoAsigTabla))) {
-                // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
-                if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
-                    reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
-                    reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+            String nuevoLegajo = alumnoLegajoText.getText();
+            String nuevoNombre = alumnoNombreText.getText();
+            if (alumnoActual != null) {
+                String oldLegajo = alumnoActual.getLegajo();
+                String oldNombre = alumnoActual.getNombre();
+                if (controlador.modificarAlumno(alumnoActual, nuevoLegajo, nuevoNombre, alumnoDomicilioText.getText(), alumnoMailText.getText(), asignaturasDeTabla(alumnoAsigTabla))) {
+                    // Reemplazar legajo y nombre en tablas en las que esta entidad pueda encontrarse.
+                    if (!nuevoLegajo.equals(oldLegajo) || !nuevoNombre.equals(oldNombre)) {
+                        reemplazarEnTabla(alumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                        reemplazarEnTabla(cursadaAlumnosTabla, oldLegajo, nuevoLegajo, nuevoNombre);
+                    }
+        
+                    setAlumnoEditable(false);
                 }
-    
+            }
+            else {
+                Alumno nuevoAlumno = controlador.altaAlumno(nuevoLegajo, nuevoNombre, alumnoDomicilioText.getText(), alumnoMailText.getText(), asignaturasDeTabla(alumnoAsigTabla));
                 setAlumnoEditable(false);
+                alumnosFiltro.setText("");
+                agregarAlumnoTabla(nuevoAlumno);
+                int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
+                alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
         catch (IllegalArgumentException e) {
@@ -2226,10 +2266,10 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
 
     private void alumnosNuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnosNuevoBotonActionPerformed
         alumnosFiltro.setText("");
-        Alumno nuevoAlumno = controlador.crearAlumnoVacio();
-        agregarAlumnoTabla(nuevoAlumno);
-        int lastIndex = alumnosTabla.convertRowIndexToView(alumnosTabla.getRowCount() - 1);
-        alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
+        alumnosTabla.getSelectionModel().clearSelection();
+        setupAlumno(null);
+        alumnoLegajoText.setText(entidades.nuevoLegajoAlumno());
+        setAlumnoEditable(true);
     }//GEN-LAST:event_alumnosNuevoBotonActionPerformed
 
     private void alumnoLegajoTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumnoLegajoTextActionPerformed
