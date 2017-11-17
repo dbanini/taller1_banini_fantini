@@ -627,10 +627,10 @@ public class ControladorTest {
         setupEscenario_2();
         Alumno alumno = entidades.buscaAlumnoPorLegajo("ALU0123");
         ArrayList<Asignatura> aprobadas = new ArrayList<Asignatura>();
-        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 123", "maria@estrada", aprobadas);
+        controlador.modificarAlumno(alumno, "ALU0123", "Maria", "Estrada 456", "maria@estrada", aprobadas);
         assertTrue("No se modifico el legajo.", alumno.getLegajo().equals("ALU0123"));
         assertTrue("No se modifico el nombre.", alumno.getNombre().equals("Maria"));
-        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el domicilio.", alumno.getDomicilio().equals("Estrada 456"));
         assertTrue("No se modifico el mail.", alumno.getMail().equals("maria@estrada"));
         assertTrue("No se modificaron las aprobadas.", alumno.getAprobadas().isEmpty());
     }
@@ -925,7 +925,7 @@ public class ControladorTest {
     public void testUbicarAlumno1_1() {
         setupEscenario_1();
         ArrayList<Alumno> alumnos = entidades.buscaAlumno("Martin");
-        assertFalse("No se encontraron alumnos con ese nombre.", alumnos.isEmpty());
+        assertTrue("No se encontro el alumno con ese nombre.", alumnos.size() == 1);
         Alumno alumno = alumnos.get(0);
         assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU1234"));
         assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Martin"));
@@ -938,7 +938,7 @@ public class ControladorTest {
     public void testUbicarAlumno1_1_VL() {
         setupEscenario_2();
         ArrayList<Alumno> alumnos = entidades.buscaAlumno("Maria");
-        assertFalse("No se encontraron alumnos con ese nombre.", alumnos.isEmpty());
+        assertTrue("No se encontro el alumno con ese nombre.", alumnos.size() == 1);
         Alumno alumno = alumnos.get(0);
         assertTrue("El alumno retornado no tiene el legajo correcto.", alumno.getLegajo().equals("ALU0123"));
         assertTrue("El alumno retornado no tiene el nombre correcto.", alumno.getNombre().equals("Maria"));
@@ -1219,10 +1219,10 @@ public class ControladorTest {
         setupEscenario_5();
         Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
         ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
-        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@estrada", "01234567", habilitadas);
+        controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 456", "maria@estrada", "01234567", habilitadas);
         assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
         assertTrue("No se modifico el nombre.", profesor.getNombre().equals("Maria"));
-        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 123"));
+        assertTrue("No se modifico el domicilio.", profesor.getDomicilio().equals("Estrada 456"));
         assertTrue("No se modifico el mail.", profesor.getMail().equals("maria@estrada"));
         assertTrue("No se modifico el telefono.", profesor.getTelefono().equals("01234567"));
         assertTrue("No se modificaron las habilitadas.", profesor.getHabilitadas().isEmpty());
@@ -1408,8 +1408,8 @@ public class ControladorTest {
     
     @Test
     public void testModificarProfesor5_1_VL() {
-        setupEscenario_4();
-        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO1234");
+        setupEscenario_5();
+        Profesor profesor = entidades.buscaProfesorPorLegajo("PRO0123");
         ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
         controlador.modificarProfesor(profesor, "PRO0123", "Maria", "Estrada 123", "maria@estrada", "0", habilitadas);
         assertTrue("No se modifico el legajo.", profesor.getLegajo().equals("PRO0123"));
@@ -1541,7 +1541,7 @@ public class ControladorTest {
     public void testUbicarProfesor1_1() {
         setupEscenario_4();
         ArrayList<Profesor> profesores = entidades.buscaProfesor("Martin");
-        assertFalse("No se encontraron profesores con ese nombre.", profesores.isEmpty());
+        assertTrue("No se encontro el profesor con ese nombre.", profesores.size() == 1);
         Profesor profesor = profesores.get(0);
         assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO1234"));
         assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Martin"));
@@ -1555,7 +1555,7 @@ public class ControladorTest {
     public void testUbicarProfesor1_1_VL() {
         setupEscenario_5();
         ArrayList<Profesor> profesores = entidades.buscaProfesor("Maria");
-        assertFalse("No se encontraron profesores con ese nombre.", profesores.isEmpty());
+        assertTrue("No se encontro el profesor con ese nombre.", profesores.size() == 1);
         Profesor profesor = profesores.get(0);
         assertTrue("El profesor retornado no tiene el legajo correcto.", profesor.getLegajo().equals("PRO0123"));
         assertTrue("El profesor retornado no tiene el nombre correcto.", profesor.getNombre().equals("Maria"));
@@ -1898,7 +1898,7 @@ public class ControladorTest {
     public void testUbicarAsignatura1_1() {
         setupEscenario_7();
         ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Quimica");
-        assertFalse("No se encontraron asignaturas con ese nombre.", asignaturas.isEmpty());
+        assertTrue("No se encontro la asignatura con ese nombre.", asignaturas.size() == 1);
         Asignatura asignatura = asignaturas.get(0);
         assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI2345"));
         assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Quimica"));
@@ -1909,7 +1909,7 @@ public class ControladorTest {
     public void testUbicarAsignatura1_1_VL() {
         setupEscenario_8();
         ArrayList<Asignatura> asignaturas = entidades.buscaAsignatura("Fisica");
-        assertFalse("No se encontraron asignaturas con ese nombre.", asignaturas.isEmpty());
+        assertTrue("No se encontro la asignatura con ese nombre.", asignaturas.size() == 1);
         Asignatura asignatura = asignaturas.get(0);
         assertTrue("La asignatura retornada no tiene el Id correcto.", asignatura.getId().equals("ASI0123"));
         assertTrue("La asignatura retornada no tiene el nombre correcto.", asignatura.getNombre().equals("Fisica"));
@@ -2569,7 +2569,7 @@ public class ControladorTest {
     public void testUbicarCursada1_1_VL() {
         setupEscenario_7_11();
         ArrayList<Cursada> cursadas = entidades.buscaCursada("Quimica");
-        assertFalse("No se encontro ninguna cursada por el nombre.", cursadas.isEmpty());
+        assertTrue("No se encontro la cursada por el nombre.", cursadas.size() == 1);
         Cursada cursada = cursadas.get(0);
         assertTrue("La cursada retornada no tiene el Id correcto.", cursada.getId().equals("CUR0123"));
         assertTrue("La cursada retornada no tiene la asignatura correcta.", cursada.getAsignatura() == entidades.buscaAsignaturaPorId("ASI2345"));
