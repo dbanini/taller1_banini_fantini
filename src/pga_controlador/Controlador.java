@@ -65,7 +65,7 @@ public class Controlador {
             return listener.confirmarAccion(a);
         }
         else {
-            return true;
+            return false;
         }
     }
     

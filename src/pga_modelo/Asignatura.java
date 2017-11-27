@@ -30,7 +30,7 @@ public class Asignatura {
     /**
      * Constructor vacio utilizado al serializar y al crear una nueva asignatura.
      */
-    public Asignatura (){
+    public Asignatura () {
         this.id = "ASI0000";
         this.nombre = "Nombre";
         correlativas = new ArrayList<Asignatura>();

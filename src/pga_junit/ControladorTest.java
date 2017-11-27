@@ -1522,7 +1522,7 @@ public class ControladorTest {
     @Test
     public void testBajaAsignatura1_1() {
         setupEscenario_7();
-        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI1234");
+        Asignatura asignatura = entidades.buscaAsignaturaPorId("ASI3456");
         controlador.bajaAsignatura(asignatura);
         assertNotNull(asignatura);
         assertFalse(entidades.getAsignaturas().contains(asignatura));
