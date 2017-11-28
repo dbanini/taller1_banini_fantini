@@ -34,7 +34,7 @@ public class PersistenciaTest {
         entidades.addProfesor(profesorPedro);
         
         // Agregar cursadas.
-        Cursada cursadaMatematica  = new Cursada("CUR1234", matematica,  "01-2017", "Lun", "12:00", "14:00");
+        Cursada cursadaMatematica  = new Cursada("CUR1234", matematica,  "02-2017", "Vie", "12:00", "14:00");
         cursadaMatematica.getProfesores().add(profesorPedro);
         cursadaMatematica.getAlumnos().add(alumnoMartin);
         entidades.addCursada(cursadaMatematica);

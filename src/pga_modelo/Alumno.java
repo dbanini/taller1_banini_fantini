@@ -103,7 +103,7 @@ public class Alumno extends Persona {
      * @param legajo Es el legajo a validar.
      * @return True si el legajo es valido, false en caso contrario. 
      */
-    static public boolean legajoEsValido(String legajo){
+    static public boolean legajoEsValido(String legajo) {
         int numeroLegajo;
         String auxLegajo;
         
@@ -126,7 +126,7 @@ public class Alumno extends Persona {
      * Comprueba que la lista de asignaturas aprobadas sea distinta de null y que no contenga asignaturas nulas. <br>
      * @return True si la lista es valida, false en caso contrario.
      */
-    private boolean aprobadasEsValido() {
+    static public boolean aprobadasEsValido(ArrayList<Asignatura> aprobadas) {
         return aprobadas != null && !aprobadas.contains(null);
     }
     
@@ -155,9 +155,9 @@ public class Alumno extends Persona {
      * La lista de asignaturas aprobadas es distinta de null y no contiene asignaturas nulas. <br>
      * El alumno no posee asignaturas aprobadas para las cuales no cumple con las correlativas correspondientes.
      */
-    private void verificarInvariante(){
+    private void verificarInvariante() {
         assert legajoEsValido(getLegajo()) : "La mascara del legajo es invalida.";
-        assert aprobadasEsValido() : "La lista de aprobadas es invalida.";
+        assert aprobadasEsValido(aprobadas) : "La lista de aprobadas es invalida.";
         assert aprobadasConCorrelativas(aprobadas) : "La lista de aprobadas contiene asignaturas que no tienen correlativas aprobadas.";
     }
 }

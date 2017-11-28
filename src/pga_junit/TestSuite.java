@@ -8,4 +8,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses( { CoberturaTest.class, ControladorTest.class, EntidadesTest.class, PersistenciaTest.class } )
 public class TestSuite 
 {
+	
 }

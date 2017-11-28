@@ -122,13 +122,14 @@ public class Profesor extends Persona {
         int numeroLegajo;
         String auxLegajo;
         
-        if(legajo.startsWith("PRO") && legajo.length()==7){
+        if (legajo.startsWith("PRO") && legajo.length()==7) {
             auxLegajo = legajo;
             auxLegajo = auxLegajo.substring(3);
             try{
                 numeroLegajo=Integer.parseInt(auxLegajo);
-                if (numeroLegajo>=0 && numeroLegajo<=9999)
+                if (numeroLegajo >= 0 && numeroLegajo <= 9999) {
                     return true;
+                }
             } catch (NumberFormatException e){
                 return false;
             }
@@ -155,7 +156,7 @@ public class Profesor extends Persona {
      * La lista de asignaturas habilitadas debe ser distinta de null y no contener asignaturas nulas.<br>
      * @return True si la lista es valida, false en caso contrario.
      */
-    private boolean habilitadasEsValido(){
+    static public boolean habilitadasEsValido(ArrayList<Asignatura> habilitadas){
         return habilitadas != null && !habilitadas.contains(null);
     }
     
@@ -169,6 +170,6 @@ public class Profesor extends Persona {
     private void verificarInvariante(){
         assert legajoEsValido(getLegajo()): "La mascara del legajo es invalida.";
         assert telefonoEsValido(telefono): "El telefono es invalido.";
-        assert habilitadasEsValido(): "La lista de asignaturas habilitadas es invalida.";
+        assert habilitadasEsValido(habilitadas): "La lista de asignaturas habilitadas es invalida.";
     }
 }

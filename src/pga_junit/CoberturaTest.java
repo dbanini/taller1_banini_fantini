@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pga_controlador.Controlador;
+import pga_controlador.ControladorListenerConfirmador;
 
 import pga_modelo.Entidades;
 import pga_modelo.Alumno;
@@ -79,6 +80,19 @@ public class CoberturaTest {
     	controlador.altaCursadaAlumno(cursada, alumno);
     	boolean resultado = controlador.modificarAlumno(alumno, "ALU0002", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
     	assertFalse("Se modifico al alumno.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.modificarAlumno(alumno, "ALU0002", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
+    	assertTrue("No se modifico al alumno luego de confirmar la accion.", resultado);
+    }
+    
+    @Test
+    public void testMAL5() {
+    	Alumno alumno = controlador.altaAlumno("ALU0001", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
+    	Asignatura fisica1 = controlador.altaAsignatura("ASI0001", "Fisica 1", new ArrayList<Asignatura>());
+    	Cursada cursada = controlador.altaCursada("CUR0001", fisica1, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    	controlador.altaCursadaAlumno(cursada, alumno);
+    	boolean resultado = controlador.modificarAlumno(alumno, "ALU0002", "Jose", "Alvear 123", "jose@alvear", new ArrayList<Asignatura>());
+    	assertTrue("No se modifico el alumno.", resultado);
     }
     
     @Test
@@ -136,6 +150,9 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", alumnos, new ArrayList<Profesor>());
     	boolean resultado = controlador.bajaAlumno(alumno);
     	assertFalse("El alumno se dio de baja.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.bajaAlumno(alumno);
+    	assertTrue("No se dio de baja al alumno luego de confirmar la accion.", resultado);
     }
     
     /**************
@@ -185,6 +202,21 @@ public class CoberturaTest {
     	controlador.altaCursadaProfesor(cursada, profesor);
     	boolean resultado = controlador.modificarProfesor(profesor, "PRO0001", "Maria", "Estrada 123", "maria@estrada", "4324324", new ArrayList<Asignatura>());
     	assertFalse("Se modifico el profesor.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.modificarProfesor(profesor, "PRO0001", "Maria", "Estrada 123", "maria@estrada", "4324324", new ArrayList<Asignatura>());
+    	assertTrue("No se modifico al profesor al confirmar la accion.", resultado);
+    }
+    
+    @Test
+    public void testMP5() {
+    	Asignatura a1 = controlador.altaAsignatura("ASI0001", "Matematica", new ArrayList<Asignatura>());
+    	Cursada cursada = controlador.altaCursada("CUR0001", a1, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    	ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+    	habilitadas.add(a1);
+    	Profesor profesor = controlador.altaProfesor("PRO0001", "Maria", "Estrada 123", "maria@estrada", "4324324", habilitadas);
+    	controlador.altaCursadaProfesor(cursada, profesor);
+    	boolean resultado = controlador.modificarProfesor(profesor, "PRO0001", "Jose", "Alvear 123", "jose@alvear", "4354324", habilitadas);
+    	assertTrue("No se modifico el profesor.", resultado);
     }
     
     @Test
@@ -202,7 +234,7 @@ public class CoberturaTest {
     
     @Test
     public void testUP3() {
-    	Profesor profesor = controlador.altaProfesor("PRO0001", "Martin Perez", "Alvear 2343", "martin@alvear", "432434", new ArrayList<Asignatura>());
+    	controlador.altaProfesor("PRO0001", "Martin Perez", "Alvear 2343", "martin@alvear", "432434", new ArrayList<Asignatura>());
     	ArrayList<Profesor> profesores = entidades.buscaProfesor("Martin Gomez");
     	assertTrue("Se encontro al menos un profesor.", profesores.isEmpty());
     }
@@ -244,6 +276,9 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", new ArrayList<Alumno>(), profesores);
     	boolean resultado = controlador.bajaProfesor(profesor);
     	assertFalse("El profesor se dio de baja.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.bajaProfesor(profesor);
+    	assertTrue("El profesor no se dio de baja al confirmar la accion.", resultado);
     }
     
     /***************
@@ -293,15 +328,43 @@ public class CoberturaTest {
     
     @Test
     public void testMAS5() {
+    	ArrayList<Asignatura> alu2_aprobadas = new ArrayList<Asignatura>();
     	Asignatura a1 = controlador.altaAsignatura("ASI0001", "Matematica", new ArrayList<Asignatura>());
     	Asignatura a2 = controlador.altaAsignatura("ASI0002", "Quimica", new ArrayList<Asignatura>());
+    	alu2_aprobadas.add(a2);
+    	controlador.altaCursada("CUR0000", a2, "01-2017", "Mar", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     	Cursada cursada = controlador.altaCursada("CUR0001", a1, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
-    	Alumno alumno = controlador.altaAlumno("ALU0001", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
-    	controlador.altaCursadaAlumno(cursada, alumno);
+    	Alumno alu1 = controlador.altaAlumno("ALU0001", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
+    	Alumno alu2 = controlador.altaAlumno("ALU0003", "Jose", "Alvear 123", "jose@alvear", alu2_aprobadas);
+    	controlador.altaCursadaAlumno(cursada, alu1);
+    	controlador.altaCursadaAlumno(cursada, alu2);
     	ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
     	correlativas.add(a2);
     	boolean resultado = controlador.modificarAsignatura(a1, "ASI0003", "Matematica", correlativas);
     	assertFalse("Se modifico la asignatura.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.modificarAsignatura(a1, "ASI0003", "Matematica", correlativas);
+    	assertTrue("No se modifico la asignatura al confirmar la accion.", resultado);
+    }
+    
+    @Test
+    public void testMAS6() {
+    	Asignatura a1 = controlador.altaAsignatura("ASI0001", "Matematica", new ArrayList<Asignatura>());
+    	Asignatura a2 = controlador.altaAsignatura("ASI0002", "Quimica", new ArrayList<Asignatura>());
+    	ArrayList<Asignatura> alu1_aprobadas = new ArrayList<Asignatura>();
+    	ArrayList<Asignatura> alu2_aprobadas = new ArrayList<Asignatura>();
+    	alu1_aprobadas.add(a1);
+    	alu2_aprobadas.add(a1);
+    	alu2_aprobadas.add(a2);
+    	controlador.altaAlumno("ALU0001", "Maria", "Estrada 123", "maria@estrada", alu1_aprobadas);
+    	controlador.altaAlumno("ALU0003", "Jose", "Alvear 123", "jose@alvear", alu2_aprobadas);
+    	ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+    	correlativas.add(a2);
+    	boolean resultado = controlador.modificarAsignatura(a1, "ASI0003", "Matematica", correlativas);
+    	assertFalse("Se modifico la asignatura.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.modificarAsignatura(a1, "ASI0003", "Matematica", correlativas);
+    	assertTrue("No se modifico la asignatura al confirmar la accion.", resultado);
     }
     
     @Test
@@ -358,6 +421,46 @@ public class CoberturaTest {
     	controlador.altaAlumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com", aprobadas);
     	boolean resultado = controlador.bajaAsignatura(asignatura);
     	assertFalse("La asignatura se dio de baja.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.bajaAsignatura(asignatura);
+    	assertTrue("No se dio de baja la asignatura al confirmar la accion.", resultado);
+    }
+    
+    @Test
+    public void testBAS5() {
+    	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
+    	ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
+    	habilitadas.add(asignatura);
+    	controlador.altaProfesor("PRO0001", "Leonel Guccione", "Calle 123", "mail@gmail.com", "2235555555", habilitadas);
+    	boolean resultado = controlador.bajaAsignatura(asignatura);
+    	assertFalse("La asignatura se dio de baja.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.bajaAsignatura(asignatura);
+    	assertTrue("No se dio de baja la asignatura al confirmar la accion.", resultado);
+    }
+    
+    @Test
+    public void testBAS6() {
+    	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
+    	ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+    	correlativas.add(asignatura);
+    	controlador.altaAsignatura("ASI0002", "Mate B", correlativas);
+    	boolean resultado = controlador.bajaAsignatura(asignatura);
+    	assertFalse("La asignatura se dio de baja.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.bajaAsignatura(asignatura);
+    	assertTrue("No se dio de baja la asignatura al confirmar la accion.", resultado);
+    }
+    
+    @Test
+    public void testBAS7() {
+    	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
+    	controlador.altaCursada("CUR0001", asignatura, "02-2017", "Jue", "09:00", "11:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
+    	boolean resultado = controlador.bajaAsignatura(asignatura);
+    	assertFalse("La asignatura se dio de baja.", resultado);
+    	controlador.setListener(new ControladorListenerConfirmador());
+    	resultado = controlador.bajaAsignatura(asignatura);
+    	assertTrue("No se dio de baja la asignatura al confirmar la accion.", resultado);
     }
     
     /***************
@@ -376,6 +479,69 @@ public class CoberturaTest {
     	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
     	Cursada cursada = controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     	assertNotNull("No se dio de alta la cursada.", cursada);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAC3() {
+    	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+    	Asignatura programacion1 = controlador.altaAsignatura("ASI3432", "Programacion 1", new ArrayList<Asignatura>());
+    	ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
+    	correlativas.add(programacion1);
+    	Asignatura programacion2 = controlador.altaAsignatura("ASI3433", "Programacion 2", correlativas);
+    	Alumno alumno = controlador.altaAlumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com", new ArrayList<Asignatura>());
+    	alumnos.add(alumno);
+    	controlador.altaCursada("CUR0001", programacion2, "01-2017", "Lun", "10:00", "14:00", alumnos, new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAC4() {
+    	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
+    	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+    	alumnos.add(new Alumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com"));
+    	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", alumnos, new ArrayList<Profesor>());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAC5() {
+    	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
+    	ArrayList<Profesor> profesores = new ArrayList<Profesor>();
+    	profesores.add(new Profesor("PRO0001", "Leonel Guccione", "Calle 123", "2235555555", "mail@gmail.com"));
+    	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), profesores);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAC6() {
+    	ArrayList<Profesor> profesores = new ArrayList<Profesor>();
+    	Asignatura programacion1 = controlador.altaAsignatura("ASI3432", "Programacion 1", new ArrayList<Asignatura>());
+    	Profesor profesor = controlador.altaProfesor("PRO0001", "Leonel Guccione", "Calle 123", "mail@gmail.com", "2235555555", new ArrayList<Asignatura>());
+    	profesores.add(profesor);
+    	controlador.altaCursada("CUR0001", programacion1, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), profesores);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAC7() {
+    	ArrayList<Profesor> profesores1 = new ArrayList<Profesor>();
+    	ArrayList<Profesor> profesores2 = new ArrayList<Profesor>();
+    	ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
+    	Asignatura programacion1 = controlador.altaAsignatura("ASI3432", "Programacion 1", new ArrayList<Asignatura>());
+    	asignaturas.add(programacion1);
+    	Profesor profesor = controlador.altaProfesor("PRO0001", "Leonel Guccione", "Calle 123", "mail@gmail.com", "2235555555", asignaturas);
+    	profesores1.add(profesor);
+    	profesores2.add(profesor);
+    	controlador.altaCursada("CUR0001", programacion1, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), profesores1);
+    	controlador.altaCursada("CUR0002", programacion1, "01-2017", "Lun", "12:00", "16:00", new ArrayList<Alumno>(), profesores2);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testAC8() {
+    	ArrayList<Alumno> alumnos1 = new ArrayList<Alumno>();
+    	ArrayList<Alumno> alumnos2 = new ArrayList<Alumno>();
+    	Asignatura programacion1 = controlador.altaAsignatura("ASI3432", "Programacion 1", new ArrayList<Asignatura>());
+    	Alumno alumno = controlador.altaAlumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com", new ArrayList<Asignatura>());
+    	alumnos1.add(alumno);
+    	alumnos2.add(alumno);
+    	controlador.altaCursada("CUR0001", programacion1, "01-2017", "Lun", "10:00", "14:00", alumnos1, new ArrayList<Profesor>());
+    	controlador.altaCursada("CUR0002", programacion1, "01-2017", "Lun", "12:00", "16:00", alumnos2, new ArrayList<Profesor>());
     }
     
     @Test (expected = IllegalArgumentException.class)

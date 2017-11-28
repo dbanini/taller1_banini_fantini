@@ -190,12 +190,9 @@ public class Entidades {
      */
     public void removeAsignatura(Asignatura asignatura) {
         assert asignaturas.contains(asignatura) : "La asignatura no existe en la lista de asignaturas.";
-        assert buscaAlumnosConAsignatura(asignatura).isEmpty() :
-               "Hay alumnos que contienen referencias a la asignatura.";
-        assert buscaProfesoresConAsignatura(asignatura).isEmpty() :
-               "Hay profesores que contienen referencias a la asignatura.";
-        assert buscaAsignaturasConCorrelativa(asignatura).isEmpty() :
-               "Hay asignaturas que tienen como correlativa a esta asignatura.";
+        assert buscaAlumnosConAsignatura(asignatura).isEmpty() : "Hay alumnos que contienen referencias a la asignatura.";
+        assert buscaProfesoresConAsignatura(asignatura).isEmpty() : "Hay profesores que contienen referencias a la asignatura.";
+        assert buscaAsignaturasConCorrelativa(asignatura).isEmpty() : "Hay asignaturas que tienen como correlativa a esta asignatura.";
         assert buscaCursadasConAsignatura(asignatura).isEmpty() : "Hay cursadas que refieren a la asignatura.";
         asignaturas.remove(asignatura);
         assert !asignaturas.contains(asignatura) : "La asignatura no ha sido eliminada.";
