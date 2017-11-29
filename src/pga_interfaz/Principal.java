@@ -36,7 +36,7 @@ import pga_controlador.Controlador;
 import pga_controlador.ControladorListener;
 
 import pga_controlador.ControladorListener.Cambios;
-
+import pga_exception.ControladorException;
 import pga_modelo.Persona;
 
 import pga_xml.SerializadorXML;
@@ -2104,8 +2104,8 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
-            mostrarError(e.getMessage());
+        catch (ControladorException e) {
+        	mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_profesorAceptarBotonActionPerformed
 
@@ -2158,7 +2158,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
+        catch (ControladorException e) {
             mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_asignaturaAceptarBotonActionPerformed
@@ -2197,7 +2197,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
+        catch (ControladorException e) {
             mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_cursadaAceptarBotonActionPerformed
@@ -2236,8 +2236,8 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
-            mostrarError(e.getMessage());
+        catch (ControladorException e) {
+        	mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
 
