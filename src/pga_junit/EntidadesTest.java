@@ -532,4 +532,46 @@ public class EntidadesTest {
         ArrayList<Cursada> cursadas = entidades.buscaCursada("Fisica");
         assertTrue("Se encontro al menos una cursada con ese nombre.", cursadas.isEmpty());
     }
+    
+    /***************
+     *  NUEVO ID   *
+     ***************/  
+    @Test
+    public void testNuevoIds() {
+    	// Agregar asignaturas.
+        Asignatura matematica   = new Asignatura("ASI0000", "Matematica");
+        Asignatura quimica      = new Asignatura("ASI0001", "Quimica");
+        Asignatura estadistica  = new Asignatura("ASI0003", "Estadistica"); 
+        entidades.addAsignatura(matematica);
+        entidades.addAsignatura(quimica);
+        entidades.addAsignatura(estadistica);
+        assertTrue("El nuevo Id de asignatura sugerido no es correcto.", entidades.nuevoIdAsignatura().equals("ASI0002"));
+        
+        // Agregar alumnos.
+        Alumno alumnoMartin = new Alumno("ALU0000", "Martin", "Mitre 1234", "martin@mitre");
+        Alumno alumnoJose = new Alumno("ALU0001", "Jose", "Colon 2345", "jose@colon");
+        Alumno alumnoJuan = new Alumno("ALU0003", "Juan", "Salta 3456", "juan@salta");
+        entidades.addAlumno(alumnoMartin);
+        entidades.addAlumno(alumnoJose);
+        entidades.addAlumno(alumnoJuan);
+        assertTrue("El nuevo legajo de alumno sugerido no es correcto.", entidades.nuevoLegajoAlumno().equals("ALU0002"));
+        
+        // Agregar profesores.
+        Profesor profesorMartin = new Profesor("PRO0000", "Martin", "Mitre 1234", "12345678", "martin@mitre");
+        Profesor profesorJose = new Profesor("PRO0001", "Jose", "Colon 2345", "23456789", "jose@colon");
+        Profesor profesorJuan = new Profesor("PRO0003", "Juan", "Salta 3456", "34567890", "juan@salta");
+        entidades.addProfesor(profesorMartin);
+        entidades.addProfesor(profesorJose);
+        entidades.addProfesor(profesorJuan);
+        assertTrue("El nuevo legajo de profesor sugerido no es correcto.", entidades.nuevoLegajoProfesor().equals("PRO0002"));
+        
+        // Agregar cursadas.
+        Cursada cursadaMatematica1  = new Cursada("CUR0000", matematica,  "01-2017", "Lun", "12:00", "14:00");
+        Cursada cursadaQuimica1     = new Cursada("CUR0001", quimica,     "01-2017", "Lun", "13:00", "15:00");
+        Cursada cursadaMatematica2  = new Cursada("CUR0003", matematica,  "02-2017", "Jue", "16:00", "18:00");
+        entidades.addCursada(cursadaMatematica1);
+        entidades.addCursada(cursadaQuimica1);
+        entidades.addCursada(cursadaMatematica2);
+        assertTrue("El nuevo Id de cursada sugerido no es correcto.", entidades.nuevoIdCursada().equals("CUR0002"));
+    }
 }

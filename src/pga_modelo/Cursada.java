@@ -288,7 +288,7 @@ public class Cursada {
      * El atributo asignatura debe ser distinto de null y de vacio. <br>
      * @return true si la asignatura es valida, false en caso contrario.
      */
-    private boolean asignaturaEsValido() {
+    static public boolean asignaturaEsValido(Asignatura asignatura) {
         return asignatura != null;
     }
 
@@ -308,8 +308,9 @@ public class Cursada {
                 auxPeriodo = auxPeriodo.substring(1);
                 try {
                     anio = Integer.parseInt(auxPeriodo);
-                    if (anio > 1900 && anio < 2100)
+                    if (anio > 1900 && anio < 2100) {
                         return true;
+                    }
                 } catch (NumberFormatException e) {
                     return false;
                 }
@@ -359,8 +360,9 @@ public class Cursada {
                 minutos = Integer.parseInt(auxHora);
                 auxHora = hora.substring(0, 2);
                 horas = Integer.parseInt(auxHora);
-                if (horas >= 0 && horas < 24 && minutos >= 0 && minutos < 60)
+                if (horas >= 0 && horas < 24 && minutos >= 0 && minutos < 60) {
                     return true;
+                }
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -386,7 +388,7 @@ public class Cursada {
      * La lista de profesores es distinta de null. <br>
      * @return true si la lista es valida, false en caso contrario.
      */
-    private boolean profesoresEsValido() {
+    public static boolean profesoresEsValido(ArrayList<Profesor> profesores) {
         return profesores != null && !profesores.contains(null);
     }
 
@@ -395,7 +397,7 @@ public class Cursada {
      * La lista de alumnos es distinta de null. <br>
      * @return true si la lista es valida, false en caso contrario.
      */
-    private boolean alumnosEsValido() {
+    public static boolean alumnosEsValido(ArrayList<Alumno> alumnos) {
         return alumnos != null && !alumnos.contains(null);
     }
 
@@ -403,7 +405,7 @@ public class Cursada {
      * Comprueba que los alumnos que participan cumplan con las correlatividades de la asignatura. <br>
      * @return true si estan todos los alumnos habilitados, false en caso contrario.
      */
-    private boolean alumnosHabilitados() {
+    static public boolean alumnosHabilitados(Asignatura asignatura, ArrayList<Alumno> alumnos) {
         boolean habilitados = true;
         Iterator<Alumno> it = alumnos.iterator();
         Alumno alumno = null;
@@ -423,7 +425,7 @@ public class Cursada {
      * Comprueba que los profesores que participan esten habilitados a dar la cursada. <br>
      * @return True si estan todos los profesores habilitados, false en caso contrario.
      */
-    private boolean profesoresHabilitados() {
+    static public boolean profesoresHabilitados(Asignatura asignatura, ArrayList<Profesor> profesores) {
         boolean habilitados = true;
         Iterator<Profesor> it = profesores.iterator();
         Profesor profesor = null;
@@ -456,15 +458,15 @@ public class Cursada {
      */
     private void verificarInvariante() {
         assert idEsValido(id) : "El id es invalido.";
-        assert asignaturaEsValido() : "La asignatura es invalida.";
+        assert asignaturaEsValido(asignatura) : "La asignatura es invalida.";
         assert periodoEsValido(periodo) : "El periodo es invalido.";
         assert diaEsValido(dia) : "El dia es invalido.";
         assert horaEsValido(horaInicio) : "La hora inicio es invalida.";
         assert horaEsValido(horaFin) : "La hora fin es invalida.";
         assert horaMayorA(horaFin, horaInicio) : "La hora fin no es mayor a la hora inicio.";
-        assert profesoresEsValido() : "La lista de profesores es invalida.";
-        assert alumnosEsValido() : "La lista de alumnos es invalida.";
-        assert alumnosHabilitados() : "Existen alumnos que no estan habilitados a participar en la cursada.";
-        assert profesoresHabilitados() : "Existen profesores que no estan habilitados a dar la cursada.";
+        assert profesoresEsValido(profesores) : "La lista de profesores es invalida.";
+        assert alumnosEsValido(alumnos) : "La lista de alumnos es invalida.";
+        assert alumnosHabilitados(asignatura, alumnos) : "Existen alumnos que no estan habilitados a participar en la cursada.";
+        assert profesoresHabilitados(asignatura, profesores) : "Existen profesores que no estan habilitados a dar la cursada.";
     }
 }

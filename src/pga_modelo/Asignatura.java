@@ -30,7 +30,7 @@ public class Asignatura {
     /**
      * Constructor vacio utilizado al serializar y al crear una nueva asignatura.
      */
-    public Asignatura (){
+    public Asignatura() {
         this.id = "ASI0000";
         this.nombre = "Nombre";
         correlativas = new ArrayList<Asignatura>();
@@ -169,7 +169,7 @@ public class Asignatura {
      * La lista de correlativas debe ser distinta de null y no contener asignaturas nulas.<br>
      * @return True si la lista es valida, false en caso contrario.
      */
-    private boolean correlativasEsValido() {
+    static public boolean correlativasEsValido(ArrayList<Asignatura> correlativas) {
         return correlativas != null && !correlativas.contains(null);
     }
     
@@ -184,7 +184,7 @@ public class Asignatura {
     private void verificarInvariante(){
         assert idEsValido(id) : "El id es invalido.";
         assert nombreEsValido(nombre) : "El nombre de la asignatura es invalido.";
-        assert correlativasEsValido() : "La lista de correlativas de la asignatura es invalida.";
+        assert correlativasEsValido(correlativas) : "La lista de correlativas de la asignatura es invalida.";
         assert !correlativas.contains(this) : "La lista de correlativas de la asignatura contiene a la asignatura misma.";
     }
 }

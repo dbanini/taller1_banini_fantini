@@ -29,7 +29,7 @@ public class Controlador {
      * @param entidades Las entidades a controlar.
      */
     public Controlador(Entidades entidades) {
-        this(entidades, null);
+        this(entidades, new ControladorListenerCancelador());
     }
     
     /**
@@ -53,7 +53,11 @@ public class Controlador {
     }
     
     public void setEntidades(Entidades entidades){
-        this.entidades=entidades;
+        this.entidades = entidades;
+    }
+    
+    public void setListener(ControladorListener listener) {
+    	this.listener = listener;
     }
     
     // -----------------------------------------------------------------
@@ -61,12 +65,7 @@ public class Controlador {
     // -----------------------------------------------------------------
     
     private boolean confirmarAccion(ControladorListener.Accion a) {
-        if (listener != null) {
-            return listener.confirmarAccion(a);
-        }
-        else {
-            return true;
-        }
+        return listener.confirmarAccion(a);
     }
     
     private void notificarCambios(ControladorListener.Cambios cambio) {
@@ -78,9 +77,7 @@ public class Controlador {
     }
     
     private void notificarCambios(ControladorListener.Cambios cambio, Object primero, Object segundo) {
-        if (listener != null) {
-            listener.notificarCambios(cambio, primero, segundo);
-        }
+        listener.notificarCambios(cambio, primero, segundo);
     }
     
     /**
@@ -121,8 +118,8 @@ public class Controlador {
         if (!Alumno.legajoEsValido(legajo)) {
             throw new IllegalArgumentException("El legajo no cumple con la mascara de formato requerida.");
         }
-        else if (aprobadas.contains(null)) {
-            throw new IllegalArgumentException("La lista de aprobadas contiene asignaturas nulas.");
+        else if (!Alumno.aprobadasEsValido(aprobadas)) {
+            throw new IllegalArgumentException("La lista de aprobadas no es valida.");
         }
         else if (!entidades.getAsignaturas().containsAll(aprobadas)) {
             throw new IllegalArgumentException("La lista de aprobadas contiene asignaturas que no se encuentran en el sistema.");
@@ -208,8 +205,8 @@ public class Controlador {
         else if (!Profesor.telefonoEsValido(telefono)) {
             throw new IllegalArgumentException("El telefono no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
         }
-        else if (habilitadas.contains(null)) {
-            throw new IllegalArgumentException("La lista de habilitadas contiene asignaturas nulas.");
+        else if (!Profesor.habilitadasEsValido(habilitadas)) {
+            throw new IllegalArgumentException("La lista de habilitadas no es valida.");
         }
         else if (!entidades.getAsignaturas().containsAll(habilitadas)) {
             throw new IllegalArgumentException("La lista de habilitadas contiene asignaturas que no se encuentran en el sistema.");
@@ -287,8 +284,8 @@ public class Controlador {
         else if (!Asignatura.nombreEsValido(nombre)) {
             throw new IllegalArgumentException("El nombre no es valido. No debe ser vacio y solo debe contener caracteres alfanumericos.");
         }
-        else if (correlativas.contains(null)) {
-            throw new IllegalArgumentException("La lista de correlativas contiene asignaturas nulas.");
+        else if (!Asignatura.correlativasEsValido(correlativas)) {
+            throw new IllegalArgumentException("La lista de correlativas no es valida.");
         }
         else if (!entidades.getAsignaturas().containsAll(correlativas)) {
             throw new IllegalArgumentException("La lista de correlativas contiene asignaturas que no se encuentran en el sistema.");
@@ -306,6 +303,7 @@ public class Controlador {
      * @throws IllegalArgumentException Si la lista de correlativas nueva no es valida.
      */
     private boolean asignaturaValidarModificacion(Asignatura asignatura, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
+    	// fixme: borrar
         if (correlativas.contains(asignatura)) {
             throw new IllegalArgumentException("La lista de correlativas de la asignatura contiene a la asignatura misma.");
         }
@@ -460,53 +458,39 @@ public class Controlador {
             throw new IllegalArgumentException("La hora de inicio no es valida. No corresponde con los valores permitidos.");
         }
         else if (!Cursada.horaEsValido(horaFin)) {
-            throw new IllegalArgumentException("La hora de inicio no es valida. No corresponde con los valores permitidos.");
+            throw new IllegalArgumentException("La hora de fin no es valida. No corresponde con los valores permitidos.");
         }
         else if (!Cursada.horaMayorA(horaFin, horaInicio)) {
             throw new IllegalArgumentException("La hora de fin no es valida. Debe ser mayor a la hora de inicio.");
         }
-        else if (asignatura == null) {
-            throw new IllegalArgumentException("La asignatura es nula.");
+        else if (!Cursada.asignaturaEsValido(asignatura)) {
+            throw new IllegalArgumentException("La asignatura no es valida.");
         }
         else if (!entidades.getAsignaturas().contains(asignatura)) {
             throw new IllegalArgumentException("La asignatura no se encuentra en el sistema.");
         }
         else {
-            if (alumnos.contains(null)) {
-                throw new IllegalArgumentException("Los alumnos contienen alumnos nulos.");
+            if (!Cursada.alumnosEsValido(alumnos)) {
+                throw new IllegalArgumentException("La lista de alumnos no es valida.");
             }
             else if (!entidades.getAlumnos().containsAll(alumnos)) {
-                throw new IllegalArgumentException("Los alumnos contienen alumnos que no se encuentran en el sistema.");
+                throw new IllegalArgumentException("La lista de alumnos contiene alumnos que no se encuentran en el sistema.");
             }
-            else if (profesores.contains(null)) {
-                throw new IllegalArgumentException("Los profesores contienen profesores nulos.");
+            else if (!Cursada.profesoresEsValido(profesores)) {
+                throw new IllegalArgumentException("La lista de profesores no es valida.");
             }
             else if (!entidades.getProfesores().containsAll(profesores)) {
-                throw new IllegalArgumentException("Los profesores contienen profesores que no se encuentran en el sistema.");
+                throw new IllegalArgumentException("La lista de profesores contiene profesores que no se encuentran en el sistema.");
             }
-            
-            // Verificar si los nuevos alumnos estan aprobados para esta cursada.
-            Iterator<Alumno> ita = alumnos.iterator();
-            Alumno alumno = null;
-            while (ita.hasNext()) {
-                alumno = ita.next();
-                if (!alumno.getAprobadas().containsAll(asignatura.getCorrelativas())) {
-                    throw new IllegalArgumentException("Los alumnos no tienen las correlativas aprobadas para cursar esta asignatura.");
-                }
+            else if (!Cursada.alumnosHabilitados(asignatura, alumnos)) {
+            	throw new IllegalArgumentException("Los alumnos no tienen las correlativas aprobadas para cursar esta asignatura.");
             }
-            
-            // Verificar si los nuevos profesores estan habilitados para esta cursada.
-            Iterator<Profesor> itp = profesores.iterator();
-            Profesor profesor = null;
-            while (itp.hasNext()) {
-                profesor = itp.next();
-                if (!profesor.getHabilitadas().contains(asignatura)) {
-                    throw new IllegalArgumentException("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
-                }
+            else if (!Cursada.profesoresHabilitados(asignatura, profesores)) {
+            	throw new IllegalArgumentException("Los profesores no tienen la asignatura habilitada para poder participar de esta cursada.");
             }
             
             // Verificar superposicion para los alumnos.
-            ita = alumnos.iterator();
+            Iterator<Alumno> ita = alumnos.iterator();
             while (ita.hasNext()) {
                 ArrayList<Cursada> cursadasAlumno = entidades.buscaCursadasConAlumno(ita.next());
                 if (Cursada.seSuperponeCon(cursadasAlumno, horaInicio, horaFin, periodo, dia, cursadaIgnorada)) {
@@ -515,7 +499,7 @@ public class Controlador {
             }
             
             // Verificar superposicion para los profesores.
-            itp = profesores.iterator();
+            Iterator<Profesor> itp = profesores.iterator();
             while (itp.hasNext()) {
                 ArrayList<Cursada> cursadasProfesor = entidades.buscaCursadasConProfesor(itp.next());
                 if (Cursada.seSuperponeCon(cursadasProfesor, horaInicio, horaFin, periodo, dia, cursadaIgnorada)) {
