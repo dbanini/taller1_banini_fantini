@@ -88,23 +88,6 @@ public abstract class Persona {
     }
 
     // -----------------------------------------------------------------
-    // Metodos
-    // -----------------------------------------------------------------
-
-    /**
-     * Genera una descripcion textual de la persona que se utiliza en la interfaz. <br>
-     * @return La descripcion generada.
-     */
-    public String getDescripcion() {
-        String string = "";
-        string += "Legajo: " + legajo + "\n";
-        string += "Nombre: " + nombre + "\n";
-        string += "Domicilio: " + domicilio + "\n";
-        string += "Mail: " + mail;
-        return string;
-    }
-
-    // -----------------------------------------------------------------
     // Invariante
     // -----------------------------------------------------------------
 

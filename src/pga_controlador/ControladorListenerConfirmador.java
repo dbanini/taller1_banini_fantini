@@ -1,7 +1,5 @@
 package pga_controlador;
 
-import pga_controlador.ControladorListener.Accion;
-
 public class ControladorListenerConfirmador implements ControladorListener {
 	@Override
     public boolean confirmarAccion(Accion accion) {

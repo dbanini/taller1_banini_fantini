@@ -81,33 +81,6 @@ public class Profesor extends Persona {
     }
 
     // -----------------------------------------------------------------
-    // Metodos
-    // -----------------------------------------------------------------
-    
-     /**
-      * Genera una descripcion textual del profesor que se utiliza en la interfaz. <br>
-      * @return La descripcion generada.
-      */
-     public String getDescripcion() {
-         String string = super.getDescripcion();
-         string += "\nTelefono: " + telefono + "\n";
-         string += "Habilitadas:";
-         if (!habilitadas.isEmpty()) {
-             Iterator<Asignatura> it = habilitadas.iterator();
-             Asignatura habilitada = null;
-             while (it.hasNext()) {
-                 habilitada = it.next();
-                 string += "\n * " + habilitada.getId() + "-" + habilitada.getNombre();
-             }
-         }
-         else {
-             string += " Ninguna";
-         }
-         
-         return string;
-     }
-    
-    // -----------------------------------------------------------------
     // Invariante
     // -----------------------------------------------------------------
     
@@ -127,7 +100,7 @@ public class Profesor extends Persona {
             auxLegajo = auxLegajo.substring(3);
             try{
                 numeroLegajo=Integer.parseInt(auxLegajo);
-                if (numeroLegajo >= 0 && numeroLegajo <= 9999) {
+                if (numeroLegajo >= 0) {
                     return true;
                 }
             } catch (NumberFormatException e){

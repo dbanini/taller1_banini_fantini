@@ -804,4 +804,15 @@ public class CoberturaTest {
     	controlador.bajaCursadaProfesor(cursada, profesor);
     	assertFalse("El profesor no fue dado de baja de la cursada.", cursada.getProfesores().contains(profesor));
     }
+    
+    /**************
+     * CONTENEDOR *
+     **************/
+    @Test 
+    public void testContenedor() {
+    	entidades.setAlumnos(new ArrayList<Alumno>());
+    	entidades.setProfesores(new ArrayList<Profesor>());
+    	entidades.setAsignaturas(new ArrayList<Asignatura>());
+    	entidades.setCursadas(new ArrayList<Cursada>());
+    }
 }

@@ -90,34 +90,6 @@ public class Asignatura {
     }
     
     // -----------------------------------------------------------------
-    // Metodos
-    // -----------------------------------------------------------------
-    
-    /**
-     * Genera una descripcion textual de la asignatura que se utiliza en la interfaz.. <br>
-     * @return La descripcion generada.
-     */
-    public String getDescripcion() {
-        String string = "";
-        string += "Id: " + id + "\n";
-        string += "Nombre: " + nombre + "\n";
-        string += "Correlativas:";
-        if (!correlativas.isEmpty()) {
-            Iterator<Asignatura> it = correlativas.iterator();
-            Asignatura correlativa = null;
-            while (it.hasNext()) {
-                correlativa = it.next();
-                string += "\n * " + correlativa.getId() + "-" + correlativa.getNombre();
-            }
-        }
-        else {
-            string += " Ninguna";
-        }
-        
-        return string;
-    }
-    
-    // -----------------------------------------------------------------
     // Invariante
     // -----------------------------------------------------------------
     
@@ -136,7 +108,7 @@ public class Asignatura {
             auxId = auxId.substring(3);
             try {
                 numeroId = Integer.parseInt(auxId);
-                if (numeroId >= 0 && numeroId <= 9999) {
+                if (numeroId >= 0) {
                     return true;
                 }
             } catch (NumberFormatException e) {

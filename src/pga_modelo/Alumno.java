@@ -66,31 +66,6 @@ public class Alumno extends Persona {
     public ArrayList<Asignatura> getAprobadas() {
         return aprobadas;
     }
-
-    // -----------------------------------------------------------------
-    // Metodos
-    // -----------------------------------------------------------------
-     /**
-      * Genera una descripcion textual del alumno que se utiliza en la interfaz. <br>
-      * @return La descripcion generada.
-      */
-     public String getDescripcion() {
-         String string = super.getDescripcion();
-         string += "\nAprobadas:";
-         if (!aprobadas.isEmpty()) {
-             Iterator<Asignatura> it = aprobadas.iterator();
-             Asignatura aprobada = null;
-             while (it.hasNext()) {
-                 aprobada = it.next();
-                 string += "\n * " + aprobada.getId() + "-" + aprobada.getNombre();
-             }
-         }
-         else {
-             string += " Ninguna";
-         }
-         
-         return string;
-    }
     
     // -----------------------------------------------------------------
     // Invariante
@@ -112,7 +87,7 @@ public class Alumno extends Persona {
             auxLegajo = auxLegajo.substring(3);
             try{
                 numeroLegajo=Integer.parseInt(auxLegajo);
-                if (numeroLegajo >= 0 && numeroLegajo <= 9999) {
+                if (numeroLegajo >= 0) {
                     return true;
                 }
             } catch (NumberFormatException e) {

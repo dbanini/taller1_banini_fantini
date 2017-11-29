@@ -48,14 +48,6 @@ public class Controlador {
     // Getters y setters
     // -----------------------------------------------------------------
     
-    public Entidades getEntidades() {
-        return entidades;
-    }
-    
-    public void setEntidades(Entidades entidades){
-        this.entidades = entidades;
-    }
-    
     public void setListener(ControladorListener listener) {
     	this.listener = listener;
     }
@@ -303,11 +295,6 @@ public class Controlador {
      * @throws IllegalArgumentException Si la lista de correlativas nueva no es valida.
      */
     private boolean asignaturaValidarModificacion(Asignatura asignatura, ArrayList<Asignatura> correlativas) throws IllegalArgumentException {
-    	// fixme: borrar
-        if (correlativas.contains(asignatura)) {
-            throw new IllegalArgumentException("La lista de correlativas de la asignatura contiene a la asignatura misma.");
-        }
-        
         // Verificar si los alumnos pueden mantenerse en las cursadas de esta asignatura con las nuevas correlativas.
         ArrayList<Cursada> cursadas = entidades.buscaCursadasConAsignatura(asignatura);
         Iterator<Cursada> itc = cursadas.iterator();
