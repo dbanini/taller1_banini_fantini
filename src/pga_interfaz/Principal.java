@@ -1,7 +1,10 @@
 
 package pga_interfaz;
 
+import java.io.File;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -1942,10 +1945,16 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
         });
         
         // Cargamos el banco de datos o creamos uno vacio si no es posible.
-        try {
-            entidades = (Entidades) SerializadorXML.lee(BANCO_DE_DATOS_PATH);
-        } catch (Exception e) {
-            mostrarError(e.getMessage());
+        File f = new File(BANCO_DE_DATOS_PATH);
+        if (f.exists()) {
+            try {
+                entidades = (Entidades) SerializadorXML.lee(BANCO_DE_DATOS_PATH);
+            } catch (Exception e) {
+                mostrarError(e.getMessage());
+                entidades = new Entidades();
+            }
+        }
+        else {
             entidades = new Entidades();
         }
         
@@ -2788,10 +2797,11 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
             cursadaHoraFinText.setText(cursadaActual.getHoraFin());
         }
         else {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
             cursadaIdText.setText("CUR0000");
             cursadaAsignaturaText.setText("");
             cursadaPeriodoACombo.setSelectedIndex(0);
-            cursadaPeriodoBText.setText("");
+            cursadaPeriodoBText.setText(String.valueOf(year));
             cursadaHoraInicioText.setText("00:00");
             cursadaHoraFinText.setText("00:00");
             cursadaDiaCombo.setSelectedIndex(0);
