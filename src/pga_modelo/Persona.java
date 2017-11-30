@@ -139,10 +139,12 @@ public abstract class Persona {
      * @return True si el mail es valido, false en caso contrario.
      */
     static public boolean mailEsValido(String mail) {
-        if ((mail != null) && !mail.equals("")) {
-            int indice = mail.indexOf("@");
-            if ((indice > 0) && ((indice + 1) < mail.length())) {
-                return true;
+        if (mail!=null){
+            int indice = 1;
+            while (indice<mail.length()-1){
+                if (mail.charAt(indice)=='@')
+                    return true;
+                indice++;
             }
         }
         return false;

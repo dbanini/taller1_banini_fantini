@@ -1909,16 +1909,16 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
             public void stateChanged(ChangeEvent e) {
                 // Cancelar la edicion de la entidad si es distinto del nuevo tab y la edicion esta activa.
                 int selectedIndex = panelTabs.getSelectedIndex();
-                if ((selectedIndex != 0) && (alumnoActual != null) && !alumnoEditarBoton.isEnabled()) {
+                if ((selectedIndex != 0) && alumnoAceptarBoton.isEnabled()) {
                     setupAlumno(alumnoActual);
                 }
-                else if ((selectedIndex != 1) && (profesorActual != null) && !profesorEditarBoton.isEnabled()) {
+                if ((selectedIndex != 1) && profesorAceptarBoton.isEnabled()) {
                     setupProfesor(profesorActual);
                 }
-                else if ((selectedIndex != 2) && (asignaturaActual != null) && !asignaturaEditarBoton.isEnabled()) {
+                if ((selectedIndex != 2) && asignaturaAceptarBoton.isEnabled()) {
                     setupAsignatura(asignaturaActual);
                 }
-                else if ((selectedIndex != 3) && (cursadaActual != null) && !cursadaEditarBoton.isEnabled()) {
+                if ((selectedIndex != 3) && cursadaAceptarBoton.isEnabled()) {
                     setupCursada(cursadaActual);
                 }
             }
