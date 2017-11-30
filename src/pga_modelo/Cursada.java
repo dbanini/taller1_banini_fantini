@@ -192,15 +192,6 @@ public class Cursada {
     }
 
     /**
-     * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin. <br>
-     * @param cursada El parametro con el cual se verifica la superposicion de la cursada. <br>
-     * @return True si existe una superposicion, false en caso contrario.
-     */
-    public boolean seSuperponeCon(Cursada cursada) {
-        return seSuperponeCon(cursada, horaInicio, horaFin, periodo, dia);
-    }
-
-    /**
      * Comprueba si esta cursada se superpone con otra en base al periodo, dia y hora de inicio y fin, para un horario especifico. <br>
      * @param cursada La cursada con la cual se verifica la superposicion. <br>
      * @param horaInicio La hora inicial con la cual se verifica la superposicion. <br>
@@ -272,7 +263,7 @@ public class Cursada {
             auxId = auxId.substring(3);
             try {
                 numeroId = Integer.parseInt(auxId);
-                if (numeroId >= 0 && numeroId <= 9999) {
+                if (numeroId >= 0) {
                     return true;
                 }
             } catch (NumberFormatException e) {

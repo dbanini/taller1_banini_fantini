@@ -36,7 +36,7 @@ import pga_controlador.Controlador;
 import pga_controlador.ControladorListener;
 
 import pga_controlador.ControladorListener.Cambios;
-
+import pga_exception.ControladorException;
 import pga_modelo.Persona;
 
 import pga_xml.SerializadorXML;
@@ -1673,7 +1673,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
             asignatura = it.next();
             claves.add(asignatura.getId());
             nombres.add(asignatura.getNombre());
-            descripciones.add(asignatura.getDescripcion());
+            descripciones.add(descripcionDeAsignatura(asignatura));
         }
         dialogo.setupTabla(claves, nombres, descripciones);
         
@@ -1718,7 +1718,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
             alumno = it.next();
             claves.add(alumno.getLegajo());
             nombres.add(alumno.getNombre());
-            descripciones.add(alumno.getDescripcion());
+            descripciones.add(descripcionDeAlumno(alumno));
         }
         dialogo.setupTabla(claves, nombres, descripciones);
         
@@ -1763,7 +1763,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
             profesor = it.next();
             claves.add(profesor.getLegajo());
             nombres.add(profesor.getNombre());
-            descripciones.add(profesor.getDescripcion());
+            descripciones.add(descripcionDeProfesor(profesor));
         }
         dialogo.setupTabla(claves, nombres, descripciones);
         
@@ -2104,8 +2104,8 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 profesoresTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
-            mostrarError(e.getMessage());
+        catch (ControladorException e) {
+        	mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_profesorAceptarBotonActionPerformed
 
@@ -2158,7 +2158,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 asignaturasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
+        catch (ControladorException e) {
             mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_asignaturaAceptarBotonActionPerformed
@@ -2197,7 +2197,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 cursadasTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
+        catch (ControladorException e) {
             mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_cursadaAceptarBotonActionPerformed
@@ -2236,8 +2236,8 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                 alumnosTabla.getSelectionModel().setSelectionInterval(lastIndex, lastIndex);
             }
         }
-        catch (IllegalArgumentException e) {
-            mostrarError(e.getMessage());
+        catch (ControladorException e) {
+        	mostrarError(e.getMessage());
         }
     }//GEN-LAST:event_alumnoAceptarBotonActionPerformed
 
@@ -2658,6 +2658,88 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     private String nombreDeCursada(Cursada cursada) {
         return nombreDeAsignatura(cursada.getAsignatura()) + " (" + cursada.getPeriodo() + ")";
     }
+    
+    /**
+     * Genera una descripcion textual de la persona que se utiliza en la interfaz. <br>
+     * @return La descripcion generada.
+     */
+    private String descripcionDePersona(Persona persona) {
+    	String string = "";
+        string += "Legajo: " + persona.getLegajo() + "\n";
+        string += "Nombre: " + persona.getNombre() + "\n";
+        string += "Domicilio: " + persona.getDomicilio() + "\n";
+        string += "Mail: " + persona.getMail();
+        return string;
+    }
+    
+    /**
+     * Genera una descripcion textual del alumno que se utiliza en la interfaz. <br>
+     * @return La descripcion generada.
+     */
+	private String descripcionDeAlumno(Alumno alumno) {
+		String string = descripcionDePersona(alumno);
+        string += "\nAprobadas:";
+        if (!alumno.getAprobadas().isEmpty()) {
+            Iterator<Asignatura> it = alumno.getAprobadas().iterator();
+            Asignatura aprobada = null;
+            while (it.hasNext()) {
+                aprobada = it.next();
+                string += "\n * " + aprobada.getId() + "-" + aprobada.getNombre();
+            }
+        }
+        else {
+            string += " Ninguna";
+        }
+        
+        return string;
+	}
+
+	/**
+     * Genera una descripcion textual del profesor que se utiliza en la interfaz. <br>
+     * @return La descripcion generada.
+     */
+	private String descripcionDeProfesor(Profesor profesor) {
+		String string = descripcionDePersona(profesor);
+        string += "\nTelefono: " + profesor.getTelefono() + "\n";
+        string += "Habilitadas:";
+        if (!profesor.getHabilitadas().isEmpty()) {
+            Iterator<Asignatura> it = profesor.getHabilitadas().iterator();
+            Asignatura habilitada = null;
+            while (it.hasNext()) {
+                habilitada = it.next();
+                string += "\n * " + habilitada.getId() + "-" + habilitada.getNombre();
+            }
+        }
+        else {
+            string += " Ninguna";
+        }
+        
+        return string;
+	}
+
+	/**
+     * Genera una descripcion textual de la asignatura que se utiliza en la interfaz. <br>
+     * @return La descripcion generada.
+     */
+	private String descripcionDeAsignatura(Asignatura asignatura) {
+		String string = "";
+        string += "Id: " + asignatura.getId() + "\n";
+        string += "Nombre: " + asignatura.getNombre() + "\n";
+        string += "Correlativas:";
+        if (!asignatura.getCorrelativas().isEmpty()) {
+            Iterator<Asignatura> it = asignatura.getCorrelativas().iterator();
+            Asignatura correlativa = null;
+            while (it.hasNext()) {
+                correlativa = it.next();
+                string += "\n * " + correlativa.getId() + "-" + correlativa.getNombre();
+            }
+        }
+        else {
+            string += " Ninguna";
+        }
+        
+        return string;
+	}
     
     private void agregarCursadaTabla(Cursada cursada) {
         DefaultTableModel modelo = (DefaultTableModel) cursadasTabla.getModel();

@@ -10,6 +10,43 @@ import org.junit.Test;
 import pga_controlador.Controlador;
 import pga_controlador.ControladorListenerConfirmador;
 
+import pga_exception.ControladorException;
+import pga_exception.LegajoInvalidoException;
+import pga_exception.NombreInvalidoException;
+import pga_exception.DomicilioInvalidoException;
+import pga_exception.MailInvalidoException;
+import pga_exception.AprobadasInvalidaException;
+import pga_exception.AprobadasSinCorrelativasException;
+import pga_exception.TelefonoInvalidoException;
+import pga_exception.HabilitadasInvalidaException;
+import pga_exception.IdInvalidoException;
+import pga_exception.CorrelativasInvalidaException;
+import pga_exception.PeriodoInvalidoException;
+import pga_exception.DiaInvalidoException;
+import pga_exception.HoraInicioInvalidaException;
+import pga_exception.HoraFinInvalidaException;
+import pga_exception.HoraFinMenorException;
+import pga_exception.AsignaturaInvalidaException;
+import pga_exception.AsignaturaFueraDeSistemaException;
+import pga_exception.AlumnosInvalidoException;
+import pga_exception.AlumnoFueraDeSistemaException;
+import pga_exception.ProfesoresInvalidoException;
+import pga_exception.ProfesorFueraDeSistemaException;
+import pga_exception.AlumnoInhabilitadoException;
+import pga_exception.ProfesorInhabilitadoException;
+import pga_exception.AlumnoOcupadoException;
+import pga_exception.ProfesorOcupadoException;
+import pga_exception.LegajoEnUsoException;
+import pga_exception.IdEnUsoException;
+import pga_exception.AsignaturaEnCorrelativasException;
+import pga_exception.CursadaFueraDeSistemaException;
+import pga_exception.AlumnoNuloException;
+import pga_exception.AlumnoYaInscriptoException;
+import pga_exception.AlumnoNoInscriptoException;
+import pga_exception.ProfesorNuloException;
+import pga_exception.ProfesorYaInscriptoException;
+import pga_exception.ProfesorNoInscriptoException;
+
 import pga_modelo.Entidades;
 import pga_modelo.Alumno;
 import pga_modelo.Profesor;
@@ -34,7 +71,7 @@ public class CoberturaTest {
      * ALUMNOS *
      ***********/
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = LegajoEnUsoException.class)
     public void testAAL1() {
     	controlador.altaAlumno("ALU0001", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
     	controlador.altaAlumno("ALU0001", "Jose", "Alvear 123", "jose@alvear", new ArrayList<Asignatura>());
@@ -46,7 +83,7 @@ public class CoberturaTest {
     	assertNotNull("No se dio de alta al alumno.", alumno);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = LegajoEnUsoException.class)
     public void testMAL1() {
     	controlador.altaAlumno("ALU0001", "Maria", "Estrada 123", "maria@estrada", new ArrayList<Asignatura>());
     	Alumno alumno = controlador.altaAlumno("ALU0002", "Jose", "Alvear 123", "jose@alvear", new ArrayList<Asignatura>());
@@ -128,7 +165,7 @@ public class CoberturaTest {
     	assertTrue("No se encontro el alumno.", encontrado == alumno);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoFueraDeSistemaException.class)
     public void testBA1() {
     	Alumno alumno = new Alumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com");
     	controlador.bajaAlumno(alumno);
@@ -159,7 +196,7 @@ public class CoberturaTest {
      * PROFESORES *
      **************/
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = LegajoEnUsoException.class)
     public void testAP1() {
     	controlador.altaProfesor("PRO0001", "Maria", "Estrada 123", "maria@estrada", "34325432", new ArrayList<Asignatura>());
     	controlador.altaProfesor("PRO0001", "Jose", "Alvear 123", "jose@alvear", "4323564", new ArrayList<Asignatura>());
@@ -171,7 +208,7 @@ public class CoberturaTest {
     	assertNotNull("No se dio de alta al profesor.", profesor);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = LegajoEnUsoException.class)
     public void testMP1() {
     	controlador.altaProfesor("PRO0001", "Maria", "Estrada 123", "maria@estrada", "4324324", new ArrayList<Asignatura>());
     	Profesor profesor = controlador.altaProfesor("PRO0002", "Jose", "Alvear 123", "jose@alvear", "432435", new ArrayList<Asignatura>());
@@ -252,7 +289,7 @@ public class CoberturaTest {
     	assertTrue("No se encontro el profesor.", encontrado == profesor);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorFueraDeSistemaException.class)
     public void testBP1() {
     	Profesor profesor = new Profesor("PRO0001", "Leonel Guccione", "Calle 123", "2235555555", "mail@gmail.com");
     	controlador.bajaProfesor(profesor);
@@ -285,7 +322,7 @@ public class CoberturaTest {
      * ASIGNATURAS *
      ***************/
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = IdEnUsoException.class)
     public void testAAS1() {
     	controlador.altaAsignatura("ASI0001", "Matematica", new ArrayList<Asignatura>());
     	controlador.altaAsignatura("ASI0001", "Quimica", new ArrayList<Asignatura>());
@@ -297,14 +334,14 @@ public class CoberturaTest {
     	assertNotNull("No se dio de alta la asignatura.", asignatura);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = IdEnUsoException.class)
     public void testMAS1() {
     	controlador.altaAsignatura("ASI0001", "Matematica", new ArrayList<Asignatura>());
     	Asignatura asignatura = controlador.altaAsignatura("ASI0002", "Quimica", new ArrayList<Asignatura>());
     	controlador.modificarAsignatura(asignatura, "ASI0001", "Quimica", new ArrayList<Asignatura>());
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AsignaturaEnCorrelativasException.class)
     public void testMAS2() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Matematica", new ArrayList<Asignatura>());
     	ArrayList<Asignatura> correlativas = new ArrayList<Asignatura>();
@@ -400,7 +437,7 @@ public class CoberturaTest {
     	assertTrue("No se encontro la asignatura.", encontrado == asignatura);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AsignaturaFueraDeSistemaException.class)
     public void testBAS1() {
     	Asignatura asignatura = new Asignatura("ASI0001", "Mate A");
     	controlador.bajaAsignatura(asignatura);
@@ -467,7 +504,7 @@ public class CoberturaTest {
      *  CURSADAS   *
      ***************/
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = IdEnUsoException.class)
     public void testAC1() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
     	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -481,7 +518,7 @@ public class CoberturaTest {
     	assertNotNull("No se dio de alta la cursada.", cursada);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoInhabilitadoException.class)
     public void testAC3() {
     	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
     	Asignatura programacion1 = controlador.altaAsignatura("ASI3432", "Programacion 1", new ArrayList<Asignatura>());
@@ -493,7 +530,7 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0001", programacion2, "01-2017", "Lun", "10:00", "14:00", alumnos, new ArrayList<Profesor>());
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoFueraDeSistemaException.class)
     public void testAC4() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
     	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
@@ -501,7 +538,7 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", alumnos, new ArrayList<Profesor>());
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorFueraDeSistemaException.class)
     public void testAC5() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
     	ArrayList<Profesor> profesores = new ArrayList<Profesor>();
@@ -509,7 +546,7 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), profesores);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorInhabilitadoException.class)
     public void testAC6() {
     	ArrayList<Profesor> profesores = new ArrayList<Profesor>();
     	Asignatura programacion1 = controlador.altaAsignatura("ASI3432", "Programacion 1", new ArrayList<Asignatura>());
@@ -518,7 +555,7 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0001", programacion1, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), profesores);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorOcupadoException.class)
     public void testAC7() {
     	ArrayList<Profesor> profesores1 = new ArrayList<Profesor>();
     	ArrayList<Profesor> profesores2 = new ArrayList<Profesor>();
@@ -532,7 +569,7 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0002", programacion1, "01-2017", "Lun", "12:00", "16:00", new ArrayList<Alumno>(), profesores2);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoOcupadoException.class)
     public void testAC8() {
     	ArrayList<Alumno> alumnos1 = new ArrayList<Alumno>();
     	ArrayList<Alumno> alumnos2 = new ArrayList<Alumno>();
@@ -544,7 +581,7 @@ public class CoberturaTest {
     	controlador.altaCursada("CUR0002", programacion1, "01-2017", "Lun", "12:00", "16:00", alumnos2, new ArrayList<Profesor>());
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = IdEnUsoException.class)
     public void testMC1() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI3432", "Programacion", new ArrayList<Asignatura>());
     	controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "10:00", "14:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -602,7 +639,7 @@ public class CoberturaTest {
     	assertTrue("No se encontro la cursada.", encontrado == cursada);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = CursadaFueraDeSistemaException.class)
     public void testBC1() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Cursada cursada = new Cursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00");
@@ -617,14 +654,14 @@ public class CoberturaTest {
     	assertFalse("La cursada no se dio de baja.", entidades.getCursadas().contains(cursada));
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoNuloException.class)
     public void testACA1() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Cursada cursada = controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     	controlador.altaCursadaAlumno(cursada, null);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoFueraDeSistemaException.class)
     public void testACA2() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Cursada cursada = controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -632,7 +669,7 @@ public class CoberturaTest {
     	controlador.altaCursadaAlumno(cursada, alumno);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoYaInscriptoException.class)
     public void testACA3() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Alumno alumno = controlador.altaAlumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com", new ArrayList<Asignatura>());
@@ -642,7 +679,7 @@ public class CoberturaTest {
     	controlador.altaCursadaAlumno(cursada, alumno);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoInhabilitadoException.class)
     public void testACA4() {
     	ArrayList<Asignatura> a2_correlativas = new ArrayList<Asignatura>();
     	ArrayList<Asignatura> a3_correlativas = new ArrayList<Asignatura>();
@@ -659,7 +696,7 @@ public class CoberturaTest {
     	controlador.altaCursadaAlumno(cursada, alumno);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoOcupadoException.class)
     public void testACA5() {
     	ArrayList<Asignatura> a2_correlativas = new ArrayList<Asignatura>();
     	ArrayList<Asignatura> a3_correlativas = new ArrayList<Asignatura>();
@@ -702,14 +739,14 @@ public class CoberturaTest {
     	assertTrue("El alumno no fue dado de alta a la cursada.", cursada.getAlumnos().contains(alumno));
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorNuloException.class)
     public void testACP1() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Cursada cursada = controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
     	controlador.altaCursadaProfesor(cursada, null);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorFueraDeSistemaException.class)
     public void testACP2() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Cursada cursada = controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", new ArrayList<Alumno>(), new ArrayList<Profesor>());
@@ -717,7 +754,7 @@ public class CoberturaTest {
     	controlador.altaCursadaProfesor(cursada, profesor);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorYaInscriptoException.class)
     public void testACP3() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
@@ -729,7 +766,7 @@ public class CoberturaTest {
     	controlador.altaCursadaProfesor(cursada, profesor);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorInhabilitadoException.class)
     public void testACP4() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Profesor profesor = controlador.altaProfesor("PRO0001", "Leonel Guccione", "Calle 123", "mail@gmail.com", "2235555555", new ArrayList<Asignatura>());
@@ -737,7 +774,7 @@ public class CoberturaTest {
     	controlador.altaCursadaProfesor(cursada, profesor);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorOcupadoException.class)
     public void testACP5() {
     	Asignatura a1 = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	Asignatura a2 = controlador.altaAsignatura("ASI0002", "Algebra A", new ArrayList<Asignatura>());
@@ -763,7 +800,7 @@ public class CoberturaTest {
     	assertTrue("El profesor no fue dado de alta a la cursada.", cursada.getProfesores().contains(profesor));
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = AlumnoNoInscriptoException.class)
     public void testBCA1() {
     	Alumno alumno = controlador.altaAlumno("ALU0001", "Dario Banini", "Calle 123", "mail@gmail.com", new ArrayList<Asignatura>());
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
@@ -782,7 +819,7 @@ public class CoberturaTest {
     	assertFalse("El alumno no fue dado de baja de la cursada.", cursada.getAlumnos().contains(alumno));
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = ProfesorNoInscriptoException.class)
     public void testBCP1() {
     	Asignatura asignatura = controlador.altaAsignatura("ASI0001", "Mate A", new ArrayList<Asignatura>());
     	ArrayList<Asignatura> habilitadas = new ArrayList<Asignatura>();
@@ -803,5 +840,16 @@ public class CoberturaTest {
     	Cursada cursada = controlador.altaCursada("CUR0001", asignatura, "01-2017", "Lun", "14:00", "16:00", new ArrayList<Alumno>(), profesores);
     	controlador.bajaCursadaProfesor(cursada, profesor);
     	assertFalse("El profesor no fue dado de baja de la cursada.", cursada.getProfesores().contains(profesor));
+    }
+    
+    /**************
+     * CONTENEDOR *
+     **************/
+    @Test 
+    public void testContenedor() {
+    	entidades.setAlumnos(new ArrayList<Alumno>());
+    	entidades.setProfesores(new ArrayList<Profesor>());
+    	entidades.setAsignaturas(new ArrayList<Asignatura>());
+    	entidades.setCursadas(new ArrayList<Cursada>());
     }
 }
