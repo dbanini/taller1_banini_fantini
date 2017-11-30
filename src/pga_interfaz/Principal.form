@@ -366,11 +366,8 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JFormattedTextField" name="alumnoLegajoText">
+                <Component class="javax.swing.JTextField" name="alumnoLegajoText">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="&apos;A&apos;L&apos;U####" subtype="-1" type="5"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="ALU0000"/>
                     <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="0" red="0" type="rgb"/>
@@ -932,11 +929,8 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JFormattedTextField" name="profesorLegajoText">
+                <Component class="javax.swing.JTextField" name="profesorLegajoText">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="&apos;P&apos;R&apos;O####" subtype="-1" type="5"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="PRO0000"/>
                     <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="0" red="0" type="rgb"/>
@@ -1239,11 +1233,8 @@
                     <Property name="text" type="java.lang.String" value="Nombre"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="asignaturaIdText">
+                <Component class="javax.swing.JTextField" name="asignaturaIdText">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="&apos;A&apos;S&apos;I####" subtype="-1" type="5"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="ASI0000"/>
                     <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="0" red="0" type="rgb"/>
@@ -1859,11 +1850,8 @@
                     <Property name="text" type="java.lang.String" value="Profesores"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="cursadaIdText">
+                <Component class="javax.swing.JTextField" name="cursadaIdText">
                   <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="&apos;C&apos;U&apos;R####" subtype="-1" type="5"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="CUR0000"/>
                     <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="0" red="0" type="rgb"/>

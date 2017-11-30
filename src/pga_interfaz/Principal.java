@@ -82,7 +82,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
         alumnoAsigBotonesPanel = new javax.swing.JPanel();
         alumnoAgregarAsigBoton = new javax.swing.JButton();
         alumnoQuitarAsigBoton = new javax.swing.JButton();
-        alumnoLegajoText = new javax.swing.JFormattedTextField();
+        alumnoLegajoText = new javax.swing.JTextField();
         alumnosBotonesPanel = new javax.swing.JPanel();
         alumnosNuevoBoton = new javax.swing.JButton();
         alumnosBorrarBoton = new javax.swing.JButton();
@@ -117,7 +117,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
         profesorAsigBotonesPanel = new javax.swing.JPanel();
         profesorAgregarAsigBoton = new javax.swing.JButton();
         profesorQuitarAsigBoton = new javax.swing.JButton();
-        profesorLegajoText = new javax.swing.JFormattedTextField();
+        profesorLegajoText = new javax.swing.JTextField();
         profesorTelefonoText = new javax.swing.JTextField();
         profesorTelefonoLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -134,7 +134,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
         asignaturaIdLabel = new javax.swing.JLabel();
         asignaturaNombreText = new javax.swing.JTextField();
         asignaturaNombreLabel = new javax.swing.JLabel();
-        asignaturaIdText = new javax.swing.JFormattedTextField();
+        asignaturaIdText = new javax.swing.JTextField();
         asignaturasBotonesPanel = new javax.swing.JPanel();
         asignaturasNuevoBoton = new javax.swing.JButton();
         asignaturasBorrarBoton = new javax.swing.JButton();
@@ -169,7 +169,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
         cursadaProfScroll = new javax.swing.JScrollPane();
         cursadaProfesoresTabla = new javax.swing.JTable();
         cursadaProfLabel = new javax.swing.JLabel();
-        cursadaIdText = new javax.swing.JFormattedTextField();
+        cursadaIdText = new javax.swing.JTextField();
         cursadaSeleccionarBoton = new javax.swing.JButton();
         cursadaAsignaturaText = new javax.swing.JTextField();
         cursadasBotonesPanel = new javax.swing.JPanel();
@@ -331,11 +331,6 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                     .addComponent(alumnoQuitarAsigBoton)))
         );
 
-        try {
-            alumnoLegajoText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("'A'L'U####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         alumnoLegajoText.setText("ALU0000");
         alumnoLegajoText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         alumnoLegajoText.setEnabled(false);
@@ -741,11 +736,6 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
                     .addComponent(profesorQuitarAsigBoton)))
         );
 
-        try {
-            profesorLegajoText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("'P'R'O####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         profesorLegajoText.setText("PRO0000");
         profesorLegajoText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         profesorLegajoText.setEnabled(false);
@@ -974,11 +964,6 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
 
         asignaturaNombreLabel.setText("Nombre");
 
-        try {
-            asignaturaIdText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("'A'S'I####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         asignaturaIdText.setText("ASI0000");
         asignaturaIdText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         asignaturaIdText.setEnabled(false);
@@ -1395,11 +1380,6 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
 
         cursadaProfLabel.setText("Profesores");
 
-        try {
-            cursadaIdText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("'C'U'R####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         cursadaIdText.setText("CUR0000");
         cursadaIdText.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         cursadaIdText.setEnabled(false);
@@ -2987,7 +2967,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     private javax.swing.JTextField alumnoDomicilioText;
     private javax.swing.JButton alumnoEditarBoton;
     private javax.swing.JLabel alumnoLegajoLabel;
-    private javax.swing.JFormattedTextField alumnoLegajoText;
+    private javax.swing.JTextField alumnoLegajoText;
     private javax.swing.JLabel alumnoMailLabel;
     private javax.swing.JTextField alumnoMailText;
     private javax.swing.JLabel alumnoNombreLabel;
@@ -3012,7 +2992,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     private javax.swing.JPanel asignaturaDatosPanel;
     private javax.swing.JButton asignaturaEditarBoton;
     private javax.swing.JLabel asignaturaIdLabel;
-    private javax.swing.JFormattedTextField asignaturaIdText;
+    private javax.swing.JTextField asignaturaIdText;
     private javax.swing.JLabel asignaturaNombreLabel;
     private javax.swing.JTextField asignaturaNombreText;
     private javax.swing.JButton asignaturasBorrarBoton;
@@ -3040,7 +3020,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     private javax.swing.JFormattedTextField cursadaHoraInicioText;
     private javax.swing.JLabel cursadaHoraLabel;
     private javax.swing.JLabel cursadaIdLabel;
-    private javax.swing.JFormattedTextField cursadaIdText;
+    private javax.swing.JTextField cursadaIdText;
     private javax.swing.JComboBox<String> cursadaPeriodoACombo;
     private javax.swing.JFormattedTextField cursadaPeriodoBText;
     private javax.swing.JLabel cursadaPeriodoLabel;
@@ -3076,7 +3056,7 @@ public class Principal extends javax.swing.JFrame implements ControladorListener
     private javax.swing.JTextField profesorDomicilioText;
     private javax.swing.JButton profesorEditarBoton;
     private javax.swing.JLabel profesorLegajoLabel;
-    private javax.swing.JFormattedTextField profesorLegajoText;
+    private javax.swing.JTextField profesorLegajoText;
     private javax.swing.JLabel profesorMailLabel;
     private javax.swing.JTextField profesorMailText;
     private javax.swing.JLabel profesorNombreLabel;
